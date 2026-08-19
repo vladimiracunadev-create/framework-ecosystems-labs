@@ -1,0 +1,146 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  # Permite relanzar la validación a mano sin empujar un commit vacío.
+  workflow_dispatch:
+
+# Permiso por defecto mínimo; ningún job de este flujo escribe en el repositorio.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  estructura:
+    name: Estructura, contrato y enlaces
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        # Se prueba en la versión de soporte declarada y en la siguiente: un
+        # cambio de runtime que rompa el repositorio debe verse antes de que
+        # esa versión sea la única disponible.
+        node-version: ["22", "24"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Archivos, catálogo, contrato, numeración y enlaces
+        run: node scripts/validate-repository.mjs
+
+      - name: Pruebas de la referencia sin framework
+        run: node --test labs/01-http-contract/reference-node/server.test.mjs
+
+  fuentes:
+    name: Trazabilidad de las fuentes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      # Sin red a propósito: el resultado no puede depender de que un catálogo
+      # externo esté disponible hoy.
+      - name: Citas, localizadores y contrato de lección
+        run: node scripts/verify-sources.mjs
+
+      - name: El índice bibliográfico está al día
+        run: node scripts/generate-bibliography.mjs --check
+
+      - name: Resumen
+        if: always()
+        run: |
+          {
+            echo "### Fuentes del programa"
+            echo ""
+            echo "| Métrica | Valor |"
+            echo "| --- | ---: |"
+            echo "| Entradas del registro | $(node -p "require('./sources/bibliography.json').entries.length") |"
+            echo "| Libros con ISBN | $(node -p "require('./sources/bibliography.json').entries.filter(e=>e.type==='book').length") |"
+            echo "| Artículos con DOI | $(node -p "require('./sources/bibliography.json').entries.filter(e=>e.type==='paper').length") |"
+            echo "| Módulos | $(find curriculum -maxdepth 1 -name '[0-9][0-9]-*.md' | wc -l) |"
+            echo "| Citas en el currículo | $(grep -roE '\[@[a-z0-9-]+\]' curriculum docs assessments projects | wc -l) |"
+            echo "| Palabras del currículo | $(cat curriculum/*.md | wc -w) |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  sitio:
+    name: Construcción del sitio
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      # El generador comprueba sus propios enlaces internos y las citas rotas.
+      - name: Generar el sitio
+        run: node scripts/generate-site.mjs
+
+      # Un build en verde no prueba que el sitio tenga contenido: se cuenta lo
+      # que quedó dentro y se comprueba que las páginas no salgan vacías.
+      - name: Verificar que el sitio no salió vacío
+        run: |
+          paginas=$(find site -name '*.html' | wc -l)
+          modulos=$(find site/curriculum -name '[0-9][0-9]-*.html' | wc -l)
+          diagramas=$(grep -rl 'class="mermaid"' site --include='*.html' | wc -l)
+          echo "Páginas: $paginas · Módulos: $modulos · Con diagrama: $diagramas"
+          test "$paginas" -ge 45
+          test "$modulos" -eq 13
+          test "$diagramas" -ge 12
+          test -f site/index.html
+          test -f site/fuentes.html
+          test -f site/assets/estilos.css
+          test -f site/datos/indice.json
+          test -f site/sitemap.xml
+          test -f site/.nojekyll
+          # Cada módulo debe llevar contenido real, no solo el armazón.
+          node - <<'JS'
+          const fs = require("node:fs");
+          const flacas = fs
+            .readdirSync("site/curriculum")
+            .filter((f) => /^\d\d-.*\.html$/.test(f))
+            .filter((f) => fs.statSync(`site/curriculum/${f}`).size < 30_000);
+          if (flacas.length) {
+            console.error(`Módulos con contenido insuficiente: ${flacas.join(", ")}`);
+            process.exit(1);
+          }
+          console.log("Los 13 módulos superan el umbral de contenido.");
+          JS
+
+      - name: Comprobar que toda cita quedó enlazada a su fuente
+        run: |
+          rotas=$(grep -ro 'cita-rota' site --include='*.html' | wc -l)
+          echo "Citas sin fuente en el HTML: $rotas"
+          test "$rotas" -eq 0

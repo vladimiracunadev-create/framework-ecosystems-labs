@@ -1,0 +1,65 @@
+name: Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+# Los permisos se declaran por job: el que construye solo lee, y solo el que
+# publica recibe permiso sobre Pages.
+permissions: {}
+
+# Una sola publicación a la vez; los envíos seguidos cancelan el anterior.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Generar el sitio
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      # No se publica nada que no supere antes la validación de fuentes: el
+      # sitio es la cara visible del repositorio y una cita rota ahí es pública.
+      - name: Validar antes de publicar
+        run: |
+          node scripts/validate-repository.mjs
+          node scripts/verify-sources.mjs
+          node scripts/generate-bibliography.mjs --check
+
+      - name: Generar el sitio estático
+        run: node scripts/generate-site.mjs
+
+      - name: Subir artefacto de Pages
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
+        with:
+          path: site
+
+  deploy:
+    name: Publicar
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Desplegar a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5

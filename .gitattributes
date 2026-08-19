@@ -1,0 +1,7 @@
+# Normalización de fin de línea: el repositorio guarda LF y la validación no
+# depende del sistema donde se editó el archivo.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.pdf binary

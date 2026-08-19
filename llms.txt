@@ -1,0 +1,18 @@
+# Framework Ecosystems Labs
+
+Purpose: teach transferable framework engineering through one contract and comparable evidence.
+
+Read first:
+- README.md
+- PROMPT_MAESTRO.md
+- curriculum/README.md
+- docs/TAXONOMY.md
+- contracts/taskflow/openapi.yaml
+- catalog/frameworks.json
+
+Rules:
+- Verify changing facts in official sources.
+- Keep the TaskFlow behavior stable across implementations.
+- Use pnpm only for JavaScript and TypeScript workflows.
+- Do not invent APIs, versions, benchmarks, licenses or support status.
+- A catalog entry is not a recommendation.
