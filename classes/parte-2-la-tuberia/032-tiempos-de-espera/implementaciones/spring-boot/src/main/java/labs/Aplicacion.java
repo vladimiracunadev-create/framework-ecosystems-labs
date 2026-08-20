@@ -2,7 +2,8 @@ package labs;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.async.WebAsyncTask;
 
 @SpringBootApplication
 @RestController
@@ -31,34 +31,40 @@ public class Aplicacion {
     }
 
     @GetMapping("/rapido")
-    public Callable<Map<String, Object>> rapido() {
-        return () -> Map.of("ok", true);
+    public ResponseEntity<Map<String, Object>> rapido() {
+        return ResponseEntity.ok(Map.of("ok", true));
     }
 
     /**
-     * `WebAsyncTask` y no un `Callable` con plazo global.
+     * El plazo se impone con `completeOnTimeout`, no con el mecanismo global de
+     * Spring.
      *
-     * Con el plazo global, la excepcion que Spring lanza al agotarse depende de
-     * la version y de donde se detecte —hay al menos dos clases distintas— y un
-     * `@ExceptionHandler` que no acierte con la correcta acaba devolviendo 500.
-     * El primer intento de esta clase fallaba asi.
+     * La razon salio de dos intentos fallidos en integracion continua. Con el
+     * plazo global —`spring.mvc.async.request-timeout` o `WebAsyncTask`— la
+     * excepcion que Spring lanza al agotarse depende de la version y de donde se
+     * detecte: hay al menos dos clases distintas, y un `@ExceptionHandler` que
+     * no acierte con la correcta acaba devolviendo 500 en lugar de 504.
      *
-     * `onTimeout` elimina la ambiguedad: la respuesta del plazo se declara EN EL
-     * MISMO SITIO que el trabajo, y no depende de que otra pieza traduzca una
-     * excepcion. Es mas verboso y es la unica forma de que el codigo sea el que
-     * quieres.
+     * `completeOnTimeout` elimina la ambiguedad: al vencer el plazo, el futuro
+     * se completa CON EL VALOR que le das. No hay excepcion que traducir ni
+     * pieza intermedia que adivinar.
+     *
+     * Lo que NO hace, y conviene saberlo: el trabajo de fondo sigue corriendo.
+     * Es el mismo comportamiento que Express —dejar de esperar sin cancelar— y
+     * el contrario al de FastAPI.
      */
     @GetMapping("/lento")
-    public WebAsyncTask<ResponseEntity<Map<String, Object>>> lento() {
-        Callable<ResponseEntity<Map<String, Object>>> trabajo = () -> {
-            Thread.sleep(1200);
-            return ResponseEntity.ok(Map.of("ok", true, "tarde", true));
-        };
-
-        WebAsyncTask<ResponseEntity<Map<String, Object>>> tarea =
-                new WebAsyncTask<>(LIMITE_MS, trabajo);
-        tarea.onTimeout(Aplicacion::plazoAgotado);
-        return tarea;
+    public CompletableFuture<ResponseEntity<Map<String, Object>>> lento() {
+        return CompletableFuture
+                .supplyAsync(() -> {
+                    try {
+                        Thread.sleep(1200);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    return ResponseEntity.ok(Map.of("ok", true, "tarde", true));
+                })
+                .completeOnTimeout(plazoAgotado(), LIMITE_MS, TimeUnit.MILLISECONDS);
     }
 
     public static void main(String[] args) {

@@ -1,2 +1,16 @@
-# Raíz propia: sin este archivo, pnpm sube hasta el del repositorio.
+# Raíz propia: sin este archivo, pnpm sube hasta el del repositorio y no
+# instala las dependencias aquí.
 packages: []
+
+# Ninguna dependencia puede ejecutar scripts al instalarse. No es una manía: un
+# script de instalación es código arbitrario de un tercero corriendo con tus
+# permisos, y es la vía por la que se propaga un paquete comprometido.
+onlyBuiltDependencies: []
+
+# Y se declara explícitamente cuál se ignora, para que la decisión quede
+# escrita. `@scarf/scarf` llega con NestJS y su script envía telemetría.
+ignoredBuiltDependencies:
+  - "@scarf/scarf"
+
+allowBuilds:
+  '@scarf/scarf': set this to true or false

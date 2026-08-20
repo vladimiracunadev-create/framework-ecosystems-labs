@@ -1,8 +1,34 @@
 {
   "clase": "042",
   "titulo": "Un esquema, tres usos",
-  "descripcion": "Cambiar el esquema cambia a la vez la validación y la documentación publicada.",
-  "estado": "esqueleto",
+  "descripcion": "Validación, tipos y documentación derivados de una sola declaración.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "una tarea válida se crea con el valor por omisión",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "válida" } },
+      "esperado": { "estado": 201, "json_contiene": { "titulo": "válida", "prioridad": 2 } }
+    },
+    {
+      "nombre": "la misma declaración valida: un título vacío se rechaza",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": { "estado": 422, "json_contiene": { "code": "VALIDACION" } }
+    },
+    {
+      "nombre": "y también el valor fuera de rango",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "vale", "prioridad": 9 } },
+      "esperado": { "estado": 422, "json_contiene": { "code": "VALIDACION" } }
+    },
+    {
+      "nombre": "la misma declaración se publica como documento de la API",
+      "peticion": { "metodo": "GET", "ruta": "/openapi.json" },
+      "esperado": { "estado": 200, "cabeceras": { "content-type": "application/json" } }
+    },
+    {
+      "nombre": "y el límite de longitud llegó al documento sin escribirlo dos veces",
+      "peticion": { "metodo": "GET", "ruta": "/openapi.json" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["maxLength", "120"] }
+    }
+  ]
 }

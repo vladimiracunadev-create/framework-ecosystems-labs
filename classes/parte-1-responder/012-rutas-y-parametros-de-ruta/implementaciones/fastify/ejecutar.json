@@ -11,7 +11,8 @@
   "preparar": [
     "pnpm",
     "install",
-    "--silent"
+    "--silent",
+    "--ignore-scripts"
   ],
   "arrancar": [
     "node",

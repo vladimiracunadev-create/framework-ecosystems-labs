@@ -2,5 +2,7 @@
   "name": "clase-011-express",
   "private": true,
   "type": "module",
-  "dependencies": { "express": "^5.1.0" }
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }

@@ -6,7 +6,10 @@
     "@nestjs/core": "^11.1.6",
     "@nestjs/platform-express": "^11.1.6",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2"
+    "rxjs": "^7.8.2",
+    "@nestjs/swagger": "^11.2.0",
+    "class-validator": "^0.14.2",
+    "class-transformer": "^0.5.1"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

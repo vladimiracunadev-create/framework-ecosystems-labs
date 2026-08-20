@@ -1,11 +1,31 @@
 {
   "framework": "nestjs",
-  "requiere": ["node", "pnpm"],
-  "comprobar": ["pnpm", "--version"],
-  "preparar": [
-    ["pnpm", "install", "--silent"],
-    ["pnpm", "exec", "tsc", "-p", "tsconfig.json"]
+  "requiere": [
+    "node",
+    "pnpm"
   ],
-  "arrancar": ["node", "dist/main.js"],
+  "comprobar": [
+    "pnpm",
+    "--version"
+  ],
+  "preparar": [
+    [
+      "pnpm",
+      "install",
+      "--silent",
+      "--ignore-scripts"
+    ],
+    [
+      "pnpm",
+      "exec",
+      "tsc",
+      "-p",
+      "tsconfig.json"
+    ]
+  ],
+  "arrancar": [
+    "node",
+    "dist/main.js"
+  ],
   "espera_ms": 30000
 }

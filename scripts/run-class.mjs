@@ -269,7 +269,18 @@ async function comprobarCaso(baseUrl, caso) {
     }
   }
 
-  if (e.cuerpo !== undefined) {
+  if (e.cuerpo_contiene !== undefined) {
+    // Comprobación por SUBCADENA. Hace falta cuando dos frameworks producen el
+    // mismo hecho con estructuras distintas: en la clase 042, los cuatro
+    // publican el límite de longitud en su documento de OpenAPI y ninguno lo
+    // anida igual. Lo que el contrato exige es que el límite ESTÉ, no dónde.
+    const texto = await res.text();
+    for (const fragmento of e.cuerpo_contiene) {
+      if (!texto.includes(fragmento)) {
+        fallos.push(`el cuerpo no contiene "${fragmento}"`);
+      }
+    }
+  } else if (e.cuerpo !== undefined) {
     const texto = await res.text();
     if (texto.trim() !== String(e.cuerpo).trim()) {
       fallos.push(`cuerpo "${texto.trim().slice(0, 60)}", esperado "${e.cuerpo}"`);

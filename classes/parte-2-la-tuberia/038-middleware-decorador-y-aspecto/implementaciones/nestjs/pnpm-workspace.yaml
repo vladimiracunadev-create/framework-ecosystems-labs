@@ -1,2 +1,9 @@
-# Raíz propia: sin este archivo, pnpm sube hasta el del repositorio.
+# Raíz propia: sin este archivo, pnpm sube hasta el del repositorio y no
+# instala las dependencias aquí.
 packages: []
+
+# Ninguna dependencia puede ejecutar scripts al instalarse. No es solo para
+# que pnpm no avise: un script de instalación es código arbitrario de un
+# tercero corriendo con tus permisos, y es la vía por la que se propaga un
+# paquete comprometido.
+onlyBuiltDependencies: []

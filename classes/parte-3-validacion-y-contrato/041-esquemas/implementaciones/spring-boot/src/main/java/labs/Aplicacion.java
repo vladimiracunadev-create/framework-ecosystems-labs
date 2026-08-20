@@ -4,8 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -32,12 +30,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class Aplicacion {
 
     /**
-     * `ignoreUnknown = false` es el `additionalProperties: false` de JSON
-     * Schema. Jackson por omision IGNORA los campos que no conoce, asi que un
-     * cliente que escribe mal el nombre de un campo no se entera: el dato se
-     * pierde en silencio.
+     * Jackson por omision IGNORA los campos que no conoce, asi que un cliente
+     * que escribe mal el nombre de un campo no se entera: el dato se pierde en
+     * silencio.
+     *
+     * La anotacion `@JsonIgnoreProperties(ignoreUnknown = false)` no basta sobre
+     * un `record`: hay que activarlo en el deserializador, y eso se hace en
+     * `application.properties` para TODA la aplicacion. Es menos fino que el
+     * `extra="forbid"` de FastAPI, que se declara en el modelo concreto.
      */
-    @JsonIgnoreProperties(ignoreUnknown = false)
     public record Tarea(
             @NotBlank(message = "REQUERIDO") @Size(max = 120, message = "LONGITUD") String titulo,
             @Min(value = 1, message = "VALOR") @Max(value = 3, message = "VALOR") Integer prioridad) {
