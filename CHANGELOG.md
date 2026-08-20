@@ -47,6 +47,19 @@ los frameworks.
   que llevaban ambos. Ahora resuelve el ejecutable y solo usa el intérprete para
   los envoltorios `.cmd` y `.bat` de Windows.
 
+## [0.8.2] — 2026-08-20
+
+Rails cierra el elenco de la clase 011: **las diez implementaciones se verifican
+en integración continua**.
+
+### Corregido
+
+- **Bundler escribía en el directorio de gemas del sistema.** `bundle install`
+  intentaba usar `/var/lib/gems` y fallaba en cualquier máquina donde el usuario
+  no fuese administrador, incluido el ejecutor. La implementación de Rails
+  declara ahora `BUNDLE_PATH` en su propio `.bundle/config`, así que las gemas
+  quedan dentro de la clase.
+
 ## [0.8.1] — 2026-08-20
 
 Correcciones de la primera ejecución real de `classes/` en integración continua.
