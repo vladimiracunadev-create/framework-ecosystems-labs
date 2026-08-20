@@ -47,13 +47,13 @@ sintaxis con familiaridad de semántica es un error caro y frecuente.
 <!-- generado:tabla-ecosistema go -->
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Beego** | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://beego.me/docs/intro/) |
-| **chi** | `routing-library` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://go-chi.io/) |
-| **Echo** | `web-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://echo.labstack.com/docs) |
-| **esbuild** | `build-tool` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://esbuild.github.io/) |
-| **Fiber** | `web-framework` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.gofiber.io/) |
-| **Gin** | `web-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://gin-gonic.com/en/docs/) |
-| **Hugo** | `static-site-generator` | 2013 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://gohugo.io/documentation/) |
+| [**Beego**](../fichas/beego.md) | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://beego.me/docs/intro/) |
+| [**chi**](../fichas/chi.md) | `routing-library` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://go-chi.io/) |
+| [**Echo**](../fichas/echo.md) | `web-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://echo.labstack.com/docs) |
+| [**esbuild**](../fichas/esbuild.md) | `build-tool` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://esbuild.github.io/) |
+| [**Fiber**](../fichas/fiber.md) | `web-framework` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.gofiber.io/) |
+| [**Gin**](../fichas/gin.md) | `web-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://gin-gonic.com/en/docs/) |
+| [**Hugo**](../fichas/hugo.md) | `static-site-generator` | 2013 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://gohugo.io/documentation/) |
 <!-- fin -->
 
 ## Qué aportó cada una

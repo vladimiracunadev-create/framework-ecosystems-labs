@@ -100,11 +100,11 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | **Marko** | `ui-framework` | 2014 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://markojs.com/docs/) |
 | **Mithril** | `ui-framework` | 2014 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://mithril.js.org/) |
 | **NativeScript** | `ui-framework` | 2014 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://docs.nativescript.org/) |
-| **Rollup** | `build-tool` | 2015 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://rollupjs.org/introduction/) |
+| [**Rollup**](fichas/rollup.md) | `build-tool` | 2015 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://rollupjs.org/introduction/) |
 | **Sails.js** | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://sailsjs.com/documentation) |
 | **Socket.IO** | `realtime-library` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://socket.io/docs/v4/) |
 | **TypeORM** | `orm` | 2016 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://typeorm.io/) |
-| **webpack** | `build-tool` | 2012 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://webpack.js.org/concepts/) |
+| [**webpack**](fichas/webpack.md) | `build-tool` | 2012 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://webpack.js.org/concepts/) |
 | **AdonisJS** | `full-stack-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.adonisjs.com/guides/preface/introduction) |
 | [**Alpine.js**](fichas/alpinejs.md) | `dom-library` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://alpinejs.dev/start-here) |
 | [**Angular**](fichas/angular.md) | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://angular.dev/) |
@@ -113,7 +113,7 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | **Deno** | `runtime` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.deno.com/) |
 | **Docusaurus** | `documentation-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docusaurus.io/docs) |
 | [**Electron**](fichas/electron.md) | `desktop-runtime` | 2013 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.electronjs.org/docs/latest/) |
-| **Eleventy** | `static-site-generator` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.11ty.dev/docs/) |
+| [**Eleventy**](fichas/eleventy.md) | `static-site-generator` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.11ty.dev/docs/) |
 | **Fastify** | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://fastify.dev/docs/latest/) |
 | **Turbo (Hotwire)** | `hypermedia-library` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://turbo.hotwired.dev/handbook/introduction) |
 | [**htmx**](fichas/htmx.md) | `hypermedia-library` | 2020 | 🟢 Vigente | 🟢 activo | `BSD-2-Clause` | [oficial](https://htmx.org/docs/) |
@@ -129,7 +129,7 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | [**React Native**](fichas/react-native.md) | `ui-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactnative.dev/docs/getting-started) |
 | **React Router** | `routing-library` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactrouter.com/) |
 | **Remix** | `react-metaframework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://remix.run/docs) |
-| **SolidJS** | `ui-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.solidjs.com/) |
+| [**SolidJS**](fichas/solid.md) | `ui-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.solidjs.com/) |
 | **Stimulus** | `dom-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://stimulus.hotwired.dev/handbook/introduction) |
 | [**Svelte**](fichas/svelte.md) | `ui-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://svelte.dev/docs/svelte) |
 | **SvelteKit** | `svelte-metaframework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://svelte.dev/docs/kit) |
@@ -152,18 +152,18 @@ Contexto y genealogía: [python.md](ecosistemas/python.md).
 
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Tornado** | `web-framework` | 2009 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://www.tornadoweb.org/en/stable/) |
-| **Bottle** | `web-framework` | 2009 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://bottlepy.org/docs/dev/) |
+| [**Tornado**](fichas/tornado.md) | `web-framework` | 2009 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://www.tornadoweb.org/en/stable/) |
+| [**Bottle**](fichas/bottle.md) | `web-framework` | 2009 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://bottlepy.org/docs/dev/) |
 | [**Django**](fichas/django.md) | `web-framework` | 2005 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.djangoproject.com/) |
 | [**Flask**](fichas/flask.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://flask.palletsprojects.com/) |
-| **Kivy** | `ui-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://kivy.org/doc/stable/) |
-| **Pyramid** | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.pylonsproject.org/projects/pyramid/en/latest/) |
-| **Sanic** | `web-framework` | 2016 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://sanic.dev/en/guide/) |
-| **SQLAlchemy** | `orm` | 2006 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://docs.sqlalchemy.org/) |
-| **aiohttp** | `http-toolkit` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://docs.aiohttp.org/en/stable/) |
+| [**Kivy**](fichas/kivy.md) | `ui-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://kivy.org/doc/stable/) |
+| [**Pyramid**](fichas/pyramid.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.pylonsproject.org/projects/pyramid/en/latest/) |
+| [**Sanic**](fichas/sanic.md) | `web-framework` | 2016 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://sanic.dev/en/guide/) |
+| [**SQLAlchemy**](fichas/sqlalchemy.md) | `orm` | 2006 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://docs.sqlalchemy.org/) |
+| [**aiohttp**](fichas/aiohttp.md) | `http-toolkit` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://docs.aiohttp.org/en/stable/) |
 | [**FastAPI**](fichas/fastapi.md) | `web-framework` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://fastapi.tiangolo.com/) |
-| **Starlette** | `asgi-toolkit` | 2018 | 🟢 Vigente | 🟢 activo | `BSD-3-Clause` | [oficial](https://www.starlette.io/) |
-| **Litestar** | `web-framework` | 2021 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://docs.litestar.dev/) |
+| [**Starlette**](fichas/starlette.md) | `asgi-toolkit` | 2018 | 🟢 Vigente | 🟢 activo | `BSD-3-Clause` | [oficial](https://www.starlette.io/) |
+| [**Litestar**](fichas/litestar.md) | `web-framework` | 2021 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://docs.litestar.dev/) |
 
 ### PHP
 
@@ -228,13 +228,13 @@ Contexto y genealogía: [go.md](ecosistemas/go.md).
 
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Beego** | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://beego.me/docs/intro/) |
-| **chi** | `routing-library` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://go-chi.io/) |
-| **Echo** | `web-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://echo.labstack.com/docs) |
-| **esbuild** | `build-tool` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://esbuild.github.io/) |
-| **Fiber** | `web-framework` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.gofiber.io/) |
-| **Gin** | `web-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://gin-gonic.com/en/docs/) |
-| **Hugo** | `static-site-generator` | 2013 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://gohugo.io/documentation/) |
+| [**Beego**](fichas/beego.md) | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://beego.me/docs/intro/) |
+| [**chi**](fichas/chi.md) | `routing-library` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://go-chi.io/) |
+| [**Echo**](fichas/echo.md) | `web-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://echo.labstack.com/docs) |
+| [**esbuild**](fichas/esbuild.md) | `build-tool` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://esbuild.github.io/) |
+| [**Fiber**](fichas/fiber.md) | `web-framework` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.gofiber.io/) |
+| [**Gin**](fichas/gin.md) | `web-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://gin-gonic.com/en/docs/) |
+| [**Hugo**](fichas/hugo.md) | `static-site-generator` | 2013 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://gohugo.io/documentation/) |
 
 ### Rust
 
@@ -242,12 +242,12 @@ Contexto y genealogía: [rust.md](ecosistemas/rust.md).
 
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Actix Web** | `web-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://actix.rs/docs/) |
-| **axum** | `web-framework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.rs/axum/) |
-| **Rocket** | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://rocket.rs/guide/) |
+| [**Actix Web**](fichas/actix-web.md) | `web-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://actix.rs/docs/) |
+| [**axum**](fichas/axum.md) | `web-framework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.rs/axum/) |
+| [**Rocket**](fichas/rocket.md) | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://rocket.rs/guide/) |
 | [**Tauri**](fichas/tauri.md) | `desktop-runtime` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://v2.tauri.app/) |
-| **Yew** | `ui-framework` | 2017 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://yew.rs/docs/getting-started/introduction) |
-| **Leptos** | `ui-framework` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://book.leptos.dev/) |
+| [**Yew**](fichas/yew.md) | `ui-framework` | 2017 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://yew.rs/docs/getting-started/introduction) |
+| [**Leptos**](fichas/leptos.md) | `ui-framework` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://book.leptos.dev/) |
 
 ### Ruby
 
@@ -255,11 +255,11 @@ Contexto y genealogía: [ruby.md](ecosistemas/ruby.md).
 
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Active Record (Rails)** | `orm` | 2004 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.rubyonrails.org/active_record_basics.html) |
-| **Jekyll** | `static-site-generator` | 2008 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://jekyllrb.com/docs/) |
+| [**Active Record (Rails)**](fichas/activerecord.md) | `orm` | 2004 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.rubyonrails.org/active_record_basics.html) |
+| [**Jekyll**](fichas/jekyll.md) | `static-site-generator` | 2008 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://jekyllrb.com/docs/) |
 | [**Ruby on Rails**](fichas/rails.md) | `full-stack-framework` | 2004 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.rubyonrails.org/) |
 | [**Sinatra**](fichas/sinatra.md) | `web-framework` | 2007 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://sinatrarb.com/documentation.html) |
-| **Hanami** | `full-stack-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://guides.hanamirb.org/) |
+| [**Hanami**](fichas/hanami.md) | `full-stack-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://guides.hanamirb.org/) |
 
 ### BEAM — Elixir y Erlang
 

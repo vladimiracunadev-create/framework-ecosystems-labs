@@ -96,11 +96,11 @@ más que la elegancia de la API**.
 | **Marko** | `ui-framework` | 2014 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://markojs.com/docs/) |
 | **Mithril** | `ui-framework` | 2014 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://mithril.js.org/) |
 | **NativeScript** | `ui-framework` | 2014 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://docs.nativescript.org/) |
-| **Rollup** | `build-tool` | 2015 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://rollupjs.org/introduction/) |
+| [**Rollup**](../fichas/rollup.md) | `build-tool` | 2015 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://rollupjs.org/introduction/) |
 | **Sails.js** | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://sailsjs.com/documentation) |
 | **Socket.IO** | `realtime-library` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://socket.io/docs/v4/) |
 | **TypeORM** | `orm` | 2016 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://typeorm.io/) |
-| **webpack** | `build-tool` | 2012 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://webpack.js.org/concepts/) |
+| [**webpack**](../fichas/webpack.md) | `build-tool` | 2012 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://webpack.js.org/concepts/) |
 | **AdonisJS** | `full-stack-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.adonisjs.com/guides/preface/introduction) |
 | [**Alpine.js**](../fichas/alpinejs.md) | `dom-library` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://alpinejs.dev/start-here) |
 | [**Angular**](../fichas/angular.md) | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://angular.dev/) |
@@ -109,7 +109,7 @@ más que la elegancia de la API**.
 | **Deno** | `runtime` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.deno.com/) |
 | **Docusaurus** | `documentation-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docusaurus.io/docs) |
 | [**Electron**](../fichas/electron.md) | `desktop-runtime` | 2013 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.electronjs.org/docs/latest/) |
-| **Eleventy** | `static-site-generator` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.11ty.dev/docs/) |
+| [**Eleventy**](../fichas/eleventy.md) | `static-site-generator` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.11ty.dev/docs/) |
 | **Fastify** | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://fastify.dev/docs/latest/) |
 | **Turbo (Hotwire)** | `hypermedia-library` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://turbo.hotwired.dev/handbook/introduction) |
 | [**htmx**](../fichas/htmx.md) | `hypermedia-library` | 2020 | 🟢 Vigente | 🟢 activo | `BSD-2-Clause` | [oficial](https://htmx.org/docs/) |
@@ -125,7 +125,7 @@ más que la elegancia de la API**.
 | [**React Native**](../fichas/react-native.md) | `ui-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactnative.dev/docs/getting-started) |
 | **React Router** | `routing-library` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactrouter.com/) |
 | **Remix** | `react-metaframework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://remix.run/docs) |
-| **SolidJS** | `ui-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.solidjs.com/) |
+| [**SolidJS**](../fichas/solid.md) | `ui-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.solidjs.com/) |
 | **Stimulus** | `dom-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://stimulus.hotwired.dev/handbook/introduction) |
 | [**Svelte**](../fichas/svelte.md) | `ui-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://svelte.dev/docs/svelte) |
 | **SvelteKit** | `svelte-metaframework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://svelte.dev/docs/kit) |

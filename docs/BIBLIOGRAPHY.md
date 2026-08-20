@@ -2,7 +2,7 @@
 
 Documento generado por `node scripts/generate-bibliography.mjs`. No editar a mano.
 
-Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **205** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
+Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **208** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
 
 Cada entrada declara un localizador resoluble y es citada al menos una vez en el programa;
 `node scripts/verify-sources.mjs` falla si deja de cumplirse cualquiera de las dos condiciones.
@@ -11,7 +11,7 @@ Cada entrada declara un localizador resoluble y es citada al menos una vez en el
 
 | Tipo | Entradas | Verificación |
 | --- | ---: | --- |
-| Libros | 94 | `https://openlibrary.org/isbn/{isbn13}.json` |
+| Libros | 97 | `https://openlibrary.org/isbn/{isbn13}.json` |
 | Artículos | 7 | `https://api.crossref.org/works/{doi}` |
 | Normas y especificaciones | 32 | `GET a la URL declarada` |
 | Documentación oficial y referencias | 72 | `GET a la URL declarada` |
@@ -84,6 +84,14 @@ Bibeault, Bear; Katz, Yehuda, *jQuery in Action*, Manning, 2008, ISBN 9781933988
 - Temas: jquery, dom, navegador
 - Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md)
 
+### `blandy-programming-rust`
+
+Blandy, Jim; Orendorff, Jason; Tindall, Leonora F. S., *Programming Rust: Fast, Safe Systems Development*, 2.ª ed., O'Reilly Media, 2021, ISBN 9781492052593
+
+- Localizador: <https://openlibrary.org/isbn/9781492052593>
+- Temas: rust, sistemas, concurrencia
+- Citada en: [`atlas/fichas/actix-web.md`](../atlas/fichas/actix-web.md), [`atlas/fichas/leptos.md`](../atlas/fichas/leptos.md)
+
 ### `brooks-mythical-man-month`
 
 Brooks, Frederick P., *The Mythical Man-Month: Essays on Software Engineering*, aniversario ed., Addison-Wesley Professional, 1995, ISBN 9780201835953
@@ -140,6 +148,14 @@ Djirdeh, Houssein; Accomazzo, Anthony; Grieco, Sophia, *Fullstack React Native*,
 - Temas: react native, móvil, componentes
 - Citada en: [`atlas/fichas/react-native.md`](../atlas/fichas/react-native.md)
 
+### `donovan-kernighan-go`
+
+Donovan, Alan A. A.; Kernighan, Brian W., *The Go Programming Language*, Addison-Wesley, 2016, ISBN 9780134190440
+
+- Localizador: <https://openlibrary.org/isbn/9780134190440>
+- Temas: go, lenguaje, concurrencia
+- Citada en: [`atlas/fichas/beego.md`](../atlas/fichas/beego.md), [`atlas/fichas/chi.md`](../atlas/fichas/chi.md), [`atlas/fichas/fiber.md`](../atlas/fichas/fiber.md), [`atlas/fichas/gin.md`](../atlas/fichas/gin.md)
+
 ### `ericsson-peak`
 
 Ericsson, Anders; Pool, Robert, *Peak: Secrets from the New Science of Expertise*, Houghton Mifflin Harcourt, 2016, ISBN 9780544456235
@@ -154,7 +170,7 @@ Evans, Eric, *Domain-Driven Design: Tackling Complexity in the Heart of Software
 
 - Localizador: <https://openlibrary.org/isbn/9780321125217>
 - Temas: dominio, modelado, lenguaje ubicuo
-- Citada en: [`atlas/fichas/hibernate.md`](../atlas/fichas/hibernate.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
+- Citada en: [`atlas/fichas/activerecord.md`](../atlas/fichas/activerecord.md), [`atlas/fichas/hibernate.md`](../atlas/fichas/hibernate.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
 ### `fain-moiseev-angular`
 
@@ -210,7 +226,7 @@ Forsgren, Nicole; Humble, Jez; Kim, Gene, *Accelerate: The Science of Lean Softw
 
 - Localizador: <https://openlibrary.org/isbn/9781942788355>
 - Temas: métricas, rendimiento de entrega, evidencia
-- Citada en: [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
+- Citada en: [`atlas/fichas/echo.md`](../atlas/fichas/echo.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
 
 ### `fowler-poeaa`
 
@@ -218,7 +234,7 @@ Fowler, Martin, *Patterns of Enterprise Application Architecture*, Addison-Wesle
 
 - Localizador: <https://openlibrary.org/isbn/9780321127426>
 - Temas: arquitectura, persistencia, dominio
-- Citada en: [`atlas/README.md`](../atlas/README.md), [`atlas/fichas/eloquent.md`](../atlas/fichas/eloquent.md), [`atlas/fichas/hibernate.md`](../atlas/fichas/hibernate.md), [`atlas/fichas/yii.md`](../atlas/fichas/yii.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
+- Citada en: [`atlas/README.md`](../atlas/README.md), [`atlas/fichas/activerecord.md`](../atlas/fichas/activerecord.md), [`atlas/fichas/eloquent.md`](../atlas/fichas/eloquent.md), [`atlas/fichas/hanami.md`](../atlas/fichas/hanami.md), [`atlas/fichas/hibernate.md`](../atlas/fichas/hibernate.md), [`atlas/fichas/sqlalchemy.md`](../atlas/fichas/sqlalchemy.md), [`atlas/fichas/yii.md`](../atlas/fichas/yii.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
 ### `fowler-refactoring`
 
@@ -290,7 +306,7 @@ Gregg, Brendan, *Systems Performance*, 2.ª ed., Pearson, 2020, ISBN 97801368201
 
 - Localizador: <https://openlibrary.org/isbn/9780136820154>
 - Temas: rendimiento, medición, metodología
-- Citada en: [`atlas/fichas/phalcon.md`](../atlas/fichas/phalcon.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
+- Citada en: [`atlas/fichas/actix-web.md`](../atlas/fichas/actix-web.md), [`atlas/fichas/phalcon.md`](../atlas/fichas/phalcon.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
 
 ### `grigorik-hpbn`
 
@@ -306,7 +322,7 @@ Grinberg, Miguel, *Flask Web Development: Developing Web Applications with Pytho
 
 - Localizador: <https://openlibrary.org/isbn/9781491991732>
 - Temas: flask, python, microframework
-- Citada en: [`atlas/fichas/flask.md`](../atlas/fichas/flask.md)
+- Citada en: [`atlas/fichas/bottle.md`](../atlas/fichas/bottle.md), [`atlas/fichas/flask.md`](../atlas/fichas/flask.md)
 
 ### `gross-hypermedia-systems`
 
@@ -404,6 +420,14 @@ Kinney, Steve, *Electron in Action*, Manning Publications, 2018, ISBN 9781617294
 - Temas: electron, escritorio, navegador incrustado
 - Citada en: [`atlas/fichas/electron.md`](../atlas/fichas/electron.md)
 
+### `klabnik-nichols-rust`
+
+Klabnik, Steve; Nichols, Carol, *The Rust Programming Language*, 2.ª ed., No Starch Press, 2023, ISBN 9781718503106
+
+- Localizador: <https://openlibrary.org/isbn/9781718503106>
+- Temas: rust, lenguaje, propiedad
+- Citada en: [`atlas/fichas/axum.md`](../atlas/fichas/axum.md), [`atlas/fichas/rocket.md`](../atlas/fichas/rocket.md)
+
 ### `kleppmann-ddia`
 
 Kleppmann, Martin, *Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems*, O'Reilly Media, 2017, ISBN 9781449373320
@@ -426,7 +450,7 @@ Lubanovic, Bill, *FastAPI: Modern Python Web Development*, O'Reilly Media, 2023,
 
 - Localizador: <https://openlibrary.org/isbn/9781098135508>
 - Temas: fastapi, python, api
-- Citada en: [`atlas/fichas/fastapi.md`](../atlas/fichas/fastapi.md)
+- Citada en: [`atlas/fichas/fastapi.md`](../atlas/fichas/fastapi.md), [`atlas/fichas/litestar.md`](../atlas/fichas/litestar.md), [`atlas/fichas/starlette.md`](../atlas/fichas/starlette.md)
 
 ### `macdonald-wordpress`
 
@@ -514,7 +538,7 @@ Nygard, Michael T., *Release It!: Design and Deploy Production-Ready Software*, 
 
 - Localizador: <https://openlibrary.org/isbn/9781680502398>
 - Temas: estabilidad, operación, fallos
-- Citada en: [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md), [`curriculum/10-modernizacion-y-migracion.md`](../curriculum/10-modernizacion-y-migracion.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
+- Citada en: [`atlas/fichas/aiohttp.md`](../atlas/fichas/aiohttp.md), [`atlas/fichas/axum.md`](../atlas/fichas/axum.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md), [`curriculum/10-modernizacion-y-migracion.md`](../curriculum/10-modernizacion-y-migracion.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
 
 ### `osmani-js-design-patterns`
 
@@ -594,7 +618,7 @@ Ramalho, Luciano, *Fluent Python*, O'Reilly Media, 2021, ISBN 9781492056355
 
 - Localizador: <https://openlibrary.org/isbn/9781492056355>
 - Temas: python, lenguaje, idiomático
-- Citada en: [`atlas/fichas/flask.md`](../atlas/fichas/flask.md)
+- Citada en: [`atlas/fichas/flask.md`](../atlas/fichas/flask.md), [`atlas/fichas/sanic.md`](../atlas/fichas/sanic.md), [`atlas/fichas/tornado.md`](../atlas/fichas/tornado.md)
 
 ### `richards-ford-fundamentals`
 
@@ -650,7 +674,7 @@ Shaughnessy, Pat, *Ruby Under a Microscope*, No Starch Press, 2014, ISBN 9781593
 
 - Localizador: <https://openlibrary.org/isbn/9781593275273>
 - Temas: ruby, runtime, metaprogramación
-- Citada en: [`atlas/fichas/sinatra.md`](../atlas/fichas/sinatra.md)
+- Citada en: [`atlas/fichas/activerecord.md`](../atlas/fichas/activerecord.md), [`atlas/fichas/sinatra.md`](../atlas/fichas/sinatra.md)
 
 ### `shostack-threat-modeling`
 
@@ -730,7 +754,7 @@ Wagner, Jeremy, *Web Performance in Action: Building Fast Web Pages*, Manning Pu
 
 - Localizador: <https://openlibrary.org/isbn/9781638353768>
 - Temas: rendimiento, construcción, red
-- Citada en: [`atlas/fichas/vite.md`](../atlas/fichas/vite.md)
+- Citada en: [`atlas/fichas/esbuild.md`](../atlas/fichas/esbuild.md), [`atlas/fichas/hugo.md`](../atlas/fichas/hugo.md), [`atlas/fichas/vite.md`](../atlas/fichas/vite.md), [`atlas/fichas/webpack.md`](../atlas/fichas/webpack.md)
 
 ### `walls-spring-in-action`
 
@@ -770,7 +794,7 @@ Windmill, Eric, *Flutter in Action*, Manning Publications, 2019, ISBN 9781617296
 
 - Localizador: <https://openlibrary.org/isbn/9781617296147>
 - Temas: flutter, dart, móvil
-- Citada en: [`atlas/fichas/flutter.md`](../atlas/fichas/flutter.md)
+- Citada en: [`atlas/fichas/flutter.md`](../atlas/fichas/flutter.md), [`atlas/fichas/kivy.md`](../atlas/fichas/kivy.md)
 
 ## Artículos
 
@@ -842,7 +866,7 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 
 - Localizador: <https://tc39.es/ecma262/>
 - Temas: javascript, lenguaje, estándar
-- Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md)
+- Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md), [`atlas/fichas/rollup.md`](../atlas/fichas/rollup.md)
 
 ### `rfc9110`
 
@@ -1066,7 +1090,7 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 
 - Localizador: <https://webassembly.org/>
 - Temas: webassembly, runtime, navegador
-- Citada en: [`atlas/ecosistemas/rust.md`](../atlas/ecosistemas/rust.md)
+- Citada en: [`atlas/ecosistemas/rust.md`](../atlas/ecosistemas/rust.md), [`atlas/fichas/yew.md`](../atlas/fichas/yew.md)
 
 ### `whatwg-fetch`
 
@@ -1390,7 +1414,7 @@ Harris, Rich, *Virtual DOM is pure overhead*, Svelte, 2018
 
 - Localizador: <https://jamstack.org/>
 - Temas: estático, despliegue, arquitectura
-- Citada en: [`atlas/fichas/gatsby.md`](../atlas/fichas/gatsby.md), [`atlas/fichas/nextjs.md`](../atlas/fichas/nextjs.md)
+- Citada en: [`atlas/fichas/eleventy.md`](../atlas/fichas/eleventy.md), [`atlas/fichas/gatsby.md`](../atlas/fichas/gatsby.md), [`atlas/fichas/jekyll.md`](../atlas/fichas/jekyll.md), [`atlas/fichas/nextjs.md`](../atlas/fichas/nextjs.md)
 
 ### `inkandswitch-local-first`
 
@@ -1422,7 +1446,7 @@ Kleppmann, Martin; Wiggins, Adam; van Hardenberg, Peter; McGranaghan, Mark, *Loc
 
 - Localizador: <https://spdx.org/licenses/>
 - Temas: licencias, cumplimiento
-- Citada en: [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
+- Citada en: [`atlas/fichas/pyramid.md`](../atlas/fichas/pyramid.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
 
 ### `react-why`
 
@@ -1510,7 +1534,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://opensource.org/licenses>
 - Temas: licencias, gobierno
-- Citada en: [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
+- Citada en: [`atlas/fichas/pyramid.md`](../atlas/fichas/pyramid.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
 
 ### `nodejs-docs`
 
@@ -1574,7 +1598,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://www.postgresql.org/docs/current/>
 - Temas: persistencia, sql, transacciones
-- Citada en: [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
+- Citada en: [`atlas/fichas/sqlalchemy.md`](../atlas/fichas/sqlalchemy.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
 ### `preact-differences`
 
@@ -1598,7 +1622,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://docs.solidjs.com/concepts/intro-to-reactivity>
 - Temas: solid, señales, reactividad
-- Citada en: [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md)
+- Citada en: [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md), [`atlas/fichas/solid.md`](../atlas/fichas/solid.md)
 
 ### `svelte-runes`
 
@@ -1646,7 +1670,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://vite.dev/guide/why>
 - Temas: construcción, módulos, desarrollo
-- Citada en: [`atlas/fichas/vite.md`](../atlas/fichas/vite.md)
+- Citada en: [`atlas/fichas/esbuild.md`](../atlas/fichas/esbuild.md), [`atlas/fichas/vite.md`](../atlas/fichas/vite.md)
 
 ### `vue-reactivity`
 

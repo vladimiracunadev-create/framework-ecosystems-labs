@@ -3113,6 +3113,63 @@
         "python",
         "microframework"
       ]
+    },
+    {
+      "id": "donovan-kernighan-go",
+      "type": "book",
+      "authors": [
+        "Donovan, Alan A. A.",
+        "Kernighan, Brian W."
+      ],
+      "title": "The Go Programming Language",
+      "publisher": "Addison-Wesley",
+      "published": "2016",
+      "isbn13": "9780134190440",
+      "topics": [
+        "go",
+        "lenguaje",
+        "concurrencia"
+      ],
+      "locator": "https://openlibrary.org/isbn/9780134190440"
+    },
+    {
+      "id": "klabnik-nichols-rust",
+      "type": "book",
+      "authors": [
+        "Klabnik, Steve",
+        "Nichols, Carol"
+      ],
+      "title": "The Rust Programming Language",
+      "edition": "2.ª",
+      "publisher": "No Starch Press",
+      "published": "2023",
+      "isbn13": "9781718503106",
+      "topics": [
+        "rust",
+        "lenguaje",
+        "propiedad"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781718503106"
+    },
+    {
+      "id": "blandy-programming-rust",
+      "type": "book",
+      "authors": [
+        "Blandy, Jim",
+        "Orendorff, Jason",
+        "Tindall, Leonora F. S."
+      ],
+      "title": "Programming Rust: Fast, Safe Systems Development",
+      "edition": "2.ª",
+      "publisher": "O'Reilly Media",
+      "published": "2021",
+      "isbn13": "9781492052593",
+      "topics": [
+        "rust",
+        "sistemas",
+        "concurrencia"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781492052593"
     }
   ]
 }

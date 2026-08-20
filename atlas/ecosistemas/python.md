@@ -56,18 +56,18 @@ trabajo propio que no desaparece.
 <!-- generado:tabla-ecosistema python -->
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Tornado** | `web-framework` | 2009 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://www.tornadoweb.org/en/stable/) |
-| **Bottle** | `web-framework` | 2009 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://bottlepy.org/docs/dev/) |
+| [**Tornado**](../fichas/tornado.md) | `web-framework` | 2009 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://www.tornadoweb.org/en/stable/) |
+| [**Bottle**](../fichas/bottle.md) | `web-framework` | 2009 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://bottlepy.org/docs/dev/) |
 | [**Django**](../fichas/django.md) | `web-framework` | 2005 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.djangoproject.com/) |
 | [**Flask**](../fichas/flask.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://flask.palletsprojects.com/) |
-| **Kivy** | `ui-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://kivy.org/doc/stable/) |
-| **Pyramid** | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.pylonsproject.org/projects/pyramid/en/latest/) |
-| **Sanic** | `web-framework` | 2016 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://sanic.dev/en/guide/) |
-| **SQLAlchemy** | `orm` | 2006 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://docs.sqlalchemy.org/) |
-| **aiohttp** | `http-toolkit` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://docs.aiohttp.org/en/stable/) |
+| [**Kivy**](../fichas/kivy.md) | `ui-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://kivy.org/doc/stable/) |
+| [**Pyramid**](../fichas/pyramid.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.pylonsproject.org/projects/pyramid/en/latest/) |
+| [**Sanic**](../fichas/sanic.md) | `web-framework` | 2016 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://sanic.dev/en/guide/) |
+| [**SQLAlchemy**](../fichas/sqlalchemy.md) | `orm` | 2006 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://docs.sqlalchemy.org/) |
+| [**aiohttp**](../fichas/aiohttp.md) | `http-toolkit` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://docs.aiohttp.org/en/stable/) |
 | [**FastAPI**](../fichas/fastapi.md) | `web-framework` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://fastapi.tiangolo.com/) |
-| **Starlette** | `asgi-toolkit` | 2018 | 🟢 Vigente | 🟢 activo | `BSD-3-Clause` | [oficial](https://www.starlette.io/) |
-| **Litestar** | `web-framework` | 2021 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://docs.litestar.dev/) |
+| [**Starlette**](../fichas/starlette.md) | `asgi-toolkit` | 2018 | 🟢 Vigente | 🟢 activo | `BSD-3-Clause` | [oficial](https://www.starlette.io/) |
+| [**Litestar**](../fichas/litestar.md) | `web-framework` | 2021 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://docs.litestar.dev/) |
 <!-- fin -->
 
 ## Qué aportó cada una
