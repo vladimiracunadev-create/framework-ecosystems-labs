@@ -1,7 +1,6 @@
 package dev.learning.taskflow;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -150,14 +149,18 @@ class TaskController {
           null);
     }
 
-    JsonNode entrada;
+    // Se enlaza a `Object` y no a un árbol de Jackson a propósito: `readValue` y
+    // `writeValueAsString` son las dos únicas llamadas cuya firma no cambió entre
+    // Jackson 2 y Jackson 3, y Spring Boot 4 trajo Jackson 3. Apoyarse en la
+    // parte estable de una dependencia es más barato que perseguir sus renombres.
+    Object entrada;
     try {
-      entrada = cuerpo.isBlank() ? mapper.createObjectNode() : mapper.readTree(cuerpo);
+      entrada = cuerpo.isBlank() ? new LinkedHashMap<String, Object>() : mapper.readValue(cuerpo, Object.class);
     } catch (Exception error) {
       return Contrato.problem("MALFORMED_JSON", "/tasks");
     }
 
-    String huella = entrada.toString();
+    String huella = mapper.writeValueAsString(entrada);
     Registro previo = idempotency.get(clave);
     if (previo != null) {
       if (!previo.fingerprint().equals(huella)) {
@@ -177,34 +180,32 @@ class TaskController {
           "VALIDATION_ERROR", "The request body failed validation", "/tasks", errores, null);
     }
 
-    Task task = new Task(
-        "task-" + sequence.getAndIncrement(),
-        entrada.get("title").asText().trim(),
-        false,
-        Instant.now().toString());
+    @SuppressWarnings("unchecked")
+    String titulo = ((Map<String, Object>) entrada).get("title").toString().trim();
+
+    Task task = new Task("task-" + sequence.getAndIncrement(), titulo, false, Instant.now().toString());
     tasks.put(task.id(), task);
     idempotency.put(clave, new Registro(task, huella));
     return ResponseEntity.created(URI.create("/tasks/" + task.id())).body(task);
   }
 
   /** Misma regla que la referencia: el error nombra el campo para que la interfaz pueda señalarlo. */
-  private List<Map<String, String>> validar(JsonNode entrada) {
+  private List<Map<String, String>> validar(Object entrada) {
     List<Map<String, String>> errores = new ArrayList<>();
-    if (entrada == null || !entrada.isObject()) {
+    if (!(entrada instanceof Map<?, ?> objeto)) {
       errores.add(Contrato.campo("", "BODY_NOT_OBJECT", "The body must be a JSON object"));
       return errores;
     }
-    JsonNode title = entrada.get("title");
-    if (title == null || !title.isTextual()) {
+    if (!(objeto.get("title") instanceof String title)) {
       errores.add(Contrato.campo("title", "TITLE_REQUIRED", "title is required and must be a string"));
-    } else {
-      String valor = title.asText().trim();
-      if (valor.isEmpty()) {
-        errores.add(Contrato.campo("title", "TITLE_EMPTY", "title must not be blank"));
-      } else if (valor.length() > Contrato.TITLE_MAX) {
-        errores.add(
-            Contrato.campo("title", "TITLE_TOO_LONG", "title must not exceed " + Contrato.TITLE_MAX + " characters"));
-      }
+      return errores;
+    }
+    String valor = title.trim();
+    if (valor.isEmpty()) {
+      errores.add(Contrato.campo("title", "TITLE_EMPTY", "title must not be blank"));
+    } else if (valor.length() > Contrato.TITLE_MAX) {
+      errores.add(
+          Contrato.campo("title", "TITLE_TOO_LONG", "title must not exceed " + Contrato.TITLE_MAX + " characters"));
     }
     return errores;
   }
