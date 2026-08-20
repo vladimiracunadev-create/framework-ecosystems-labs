@@ -3,7 +3,7 @@
 [![CI](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/ci.yml/badge.svg)](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/ci.yml)
 [![Aceptación](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/acceptance.yml/badge.svg)](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/acceptance.yml)
 [![Pages](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/pages.yml/badge.svg)](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/pages.yml)
-[![Fuentes verificadas](https://img.shields.io/badge/fuentes-97%20verificadas-0b5fd0)](docs/BIBLIOGRAPHY.md)
+[![Fuentes verificadas](https://img.shields.io/badge/fuentes-147%20verificadas-0b5fd0)](docs/BIBLIOGRAPHY.md)
 [![Atlas](https://img.shields.io/badge/atlas-138%20tecnolog%C3%ADas-7b3fe4)](atlas/README.md)
 [![Licencia](https://img.shields.io/badge/licencia-MIT-informational)](LICENSE)
 
@@ -28,12 +28,12 @@ repositorio en rojo.
 
 | | |
 | --- | ---: |
-| Fuentes en el registro | **97** |
-| Libros, con ISBN-13 validado contra [Open Library](https://openlibrary.org/) | **41** |
+| Fuentes en el registro | **147** |
+| Libros, con ISBN-13 validado contra [Open Library](https://openlibrary.org/) | **65** |
 | Artículos, con DOI contrastado en [Crossref](https://www.crossref.org/) | **7** |
-| Normas de IETF, W3C, WHATWG, NIST, OWASP y OpenSSF | **28** |
-| Documentación oficial y referencias de autor | **21** |
-| Fuentes citadas al menos una vez en el texto | **97 / 97** |
+| Normas de IETF, W3C, WHATWG, TC39, NIST, OWASP y OpenSSF | **32** |
+| Documentación oficial, fuentes primarias y referencias de autor | **43** |
+| Fuentes citadas al menos una vez en el texto | **147 / 147** |
 
 ```bash
 node scripts/verify-sources.mjs   # sin red: determinista y reproducible
@@ -122,9 +122,19 @@ veinte años con nombres distintos.
 | [BEAM](atlas/ecosistemas/beam.md), [Apple](atlas/ecosistemas/apple.md), [Dart](atlas/ecosistemas/dart.md), [nativo](atlas/ecosistemas/nativo.md), [plataformas](atlas/ecosistemas/cloud.md) | 8 | Casos donde el runtime decide la arquitectura |
 
 Incluye la **genealogía** —quién viene de quién— y las **cinco eras** del campo,
-de «el servidor lo hace todo» a las islas y el regreso del hipermedia. Con fichas
-a fondo de [jQuery](atlas/fichas/jquery.md), [Laravel](atlas/fichas/laravel.md) y
-[Astro](atlas/fichas/astro.md).
+de «el servidor lo hace todo» a las islas y el regreso del hipermedia.
+
+Y **[14 fichas a fondo](atlas/fichas/README.md)**, cada una con sus fuentes: de
+qué problema nació la tecnología, qué idea aportó, qué dejó abierto y qué lección
+deja para decidir hoy.
+
+| Ficha | Lo que enseña |
+| --- | --- |
+| [Web Forms](atlas/fichas/aspnet-webforms.md) · [Struts](atlas/fichas/struts.md) | Ocultar HTTP tiene techo · una corrección publicada no protege hasta aplicarla |
+| [Rails](atlas/fichas/rails.md) · [Django](atlas/fichas/django.md) · [Laravel](atlas/fichas/laravel.md) | El origen de las convenciones y qué se paga por ellas |
+| [jQuery](atlas/fichas/jquery.md) · [AngularJS](atlas/fichas/angularjs.md) · [React](atlas/fichas/react.md) · [Vue](atlas/fichas/vue.md) | Cómo el estado se mudó al navegador, y a qué precio |
+| [Astro](atlas/fichas/astro.md) · [htmx](atlas/fichas/htmx.md) | El péndulo vuelve, esta vez con teoría |
+| [Spring Boot](atlas/fichas/spring-boot.md) · [Express](atlas/fichas/express.md) · [Phoenix](atlas/fichas/phoenix.md) | Inversión de control, middleware y cuando el runtime decide la arquitectura |
 
 Cada entrada declara clasificación, era, estado, licencia SPDX y documentación
 oficial. `node scripts/refresh-catalog.mjs` contrasta los 138 enlaces y los

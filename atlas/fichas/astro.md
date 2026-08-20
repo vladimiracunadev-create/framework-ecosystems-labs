@@ -53,7 +53,12 @@ medir **con red limitada**: es la única forma de que la diferencia aparezca.
 ## 💡 La arquitectura de islas
 
 La idea central, en una frase: **la página es HTML estático, y la interactividad
-son islas declaradas dentro de ese HTML**.
+son islas declaradas dentro de ese HTML** [@astro-islands].
+
+El término no lo acuñó Astro. Jason Miller lo describió en 2020 como patrón
+arquitectónico general —renderizar la página en servidor y activar solo regiones
+concretas en el cliente— y Astro fue quien lo convirtió en el valor por omisión
+de un framework completo [@jasonformat-islands].
 
 ```astro
 ---
@@ -153,10 +158,19 @@ resuelven lo mismo de otra manera:
 
 Los tres son respuestas de la misma década al mismo exceso. Ninguno es la
 continuación natural del anterior: son ramas paralelas, y por eso el Atlas las
-presenta juntas.
+presenta juntas. Los catálogos de patrones de renderizado del sector recogen las
+tres junto a las estrategias clásicas, lo que ayuda a verlas como opciones de un
+mismo menú y no como generaciones que se sustituyen [@patterns-dev].
 
 ## 🔗 Enlaces
 
 - Documentación oficial: <https://docs.astro.build/>
 - [Ecosistema JavaScript](../ecosistemas/javascript.md) — las cuatro eras y dónde encaja
+- [Ficha de htmx](htmx.md) · [Ficha de React](react.md)
 - [Módulo 04](../../curriculum/04-fullstack-y-renderizado.md) — cinco estrategias de renderizado y cómo medirlas
+
+## Fuentes
+
+- [@astro-islands] *Islands Architecture*, Astro — <https://docs.astro.build/en/concepts/islands/>
+- [@jasonformat-islands] Miller, Jason. *Islands Architecture*, jasonformat.com, 2020 — <https://jasonformat.com/islands-architecture/>
+- [@patterns-dev] *Patterns.dev — Modern Web App Design Patterns* — <https://www.patterns.dev/>

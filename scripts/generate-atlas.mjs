@@ -150,6 +150,64 @@ function indiceCompleto() {
   return { destino, contenido: `${lineas.join("\n").trim()}\n` };
 }
 
+// ------------------------------------------------------------ índice de fichas
+
+/** Las fichas son estudios a fondo; su índice se deriva de los archivos que existen. */
+function indiceDeFichas() {
+  const carpeta = path.join(ATLAS, "fichas");
+  const destino = path.join(carpeta, "README.md");
+  const archivos = fs.existsSync(carpeta)
+    ? fs.readdirSync(carpeta).filter((nombre) => nombre.endsWith(".md") && nombre !== "README.md")
+    : [];
+
+  const fichas = archivos
+    .map((nombre) => {
+      const id = nombre.replace(/\.md$/, "");
+      const entrada = catalogo.entries.find((entry) => entry.id === id);
+      const titulo = /^#\s+(.*)$/m.exec(fs.readFileSync(path.join(carpeta, nombre), "utf8"))?.[1] ?? id;
+      return { id, nombre, titulo: titulo.trim(), entrada };
+    })
+    .filter((ficha) => ficha.entrada)
+    .sort((a, b) => Number(a.entrada.first_release ?? 0) - Number(b.entrada.first_release ?? 0));
+
+  const lineas = [
+    "# Fichas del Atlas",
+    "",
+    "> [⬅️ Atlas](../README.md) · [🗂️ Índice completo](../frameworks.md)",
+    "",
+    "Documento generado por `node scripts/generate-atlas.mjs`. No editar a mano.",
+    "",
+    "Una ficha es un **estudio a fondo**: de qué problema nació la tecnología, qué",
+    "idea aportó, qué dejó abierto y qué lección deja para decidir hoy. Cada",
+    "afirmación se apoya en un libro, una norma o una fuente primaria del propio",
+    "proyecto, igual que el resto del programa.",
+    "",
+    `**${fichas.length} fichas** de las ${catalogo.entries.length} tecnologías del catálogo.`,
+    "Las demás tienen su contexto en la página de su [ecosistema](../ecosistemas/).",
+    "",
+    "| Ficha | Desde | Ecosistema | Clasificación | Qué enseña |",
+    "| --- | ---: | --- | --- | --- |",
+  ];
+  for (const ficha of fichas) {
+    const meta = FAMILIAS[ficha.entrada.family];
+    lineas.push(
+      `| [${ficha.entrada.name}](${ficha.nombre}) | ${ficha.entrada.first_release ?? "—"} | ` +
+        `[${meta.titulo}](../ecosistemas/${meta.archivo}) | \`${ficha.entrada.kind}\` | ${ficha.entrada.note} |`,
+    );
+  }
+  lineas.push("");
+  lineas.push("## Orden de lectura sugerido");
+  lineas.push("");
+  lineas.push("Las fichas se pueden leer sueltas, pero en este orden cuentan una historia:");
+  lineas.push("");
+  lineas.push("1. **Cómo era antes** — Web Forms y Struts: el servidor lo hacía todo, con sus costes.");
+  lineas.push("2. **La convención** — Rails y sus herederos, Django y Laravel.");
+  lineas.push("3. **El navegador toma el mando** — jQuery, AngularJS, React, Vue.");
+  lineas.push("4. **La corrección** — Astro y htmx: el péndulo vuelve, con teoría detrás.");
+  lineas.push("5. **Los que no encajan en esa línea** — Spring Boot, Express, Phoenix.");
+  return { destino, contenido: `${lineas.join("\n").trim()}\n` };
+}
+
 // -------------------------------------------------- bloques dentro de páginas
 
 const MARCA = /<!-- generado:([a-z-]+) ([a-z-]+) -->\n([\s\S]*?)<!-- fin -->/g;
@@ -171,14 +229,16 @@ function rellenarBloques(archivo) {
 const problemas = [];
 let escritos = 0;
 
-const { destino, contenido } = indiceCompleto();
-if (soloVerificar) {
-  const actual = fs.existsSync(destino) ? fs.readFileSync(destino, "utf8").replace(/\r\n/g, "\n") : "";
-  if (actual !== contenido) problemas.push("atlas/frameworks.md no coincide con el catálogo");
-} else {
-  fs.mkdirSync(path.dirname(destino), { recursive: true });
-  fs.writeFileSync(destino, contenido, "utf8");
-  escritos += 1;
+for (const { destino, contenido } of [indiceCompleto(), indiceDeFichas()]) {
+  const relativo = path.relative(root, destino).replace(/\\/g, "/");
+  if (soloVerificar) {
+    const actual = fs.existsSync(destino) ? fs.readFileSync(destino, "utf8").replace(/\r\n/g, "\n") : "";
+    if (actual !== contenido) problemas.push(`${relativo} no coincide con el catálogo`);
+  } else {
+    fs.mkdirSync(path.dirname(destino), { recursive: true });
+    fs.writeFileSync(destino, contenido, "utf8");
+    escritos += 1;
+  }
 }
 
 const paginas = fs.existsSync(path.join(ATLAS, "ecosistemas"))

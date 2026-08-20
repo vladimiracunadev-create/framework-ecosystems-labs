@@ -36,7 +36,7 @@ percentiles, repeticiones— no es evidencia, es una anécdota con cifras.
 
 ## Rust en el navegador
 
-**Yew** y **Leptos** llevan a WebAssembly los dos modelos de interfaz que
+**Yew** y **Leptos** llevan a WebAssembly [@webassembly-org] los dos modelos de interfaz que
 dominan JavaScript: componentes al estilo React el primero, reactividad de grano
 fino el segundo. Verlos aquí demuestra que esas arquitecturas **no son propias de
 JavaScript**: son ideas independientes del lenguaje, que es justo lo que enseña
@@ -57,6 +57,10 @@ paquete JavaScript equivalente, y el coste de cruzar la frontera hacia el DOM.
 | **Yew** | `ui-framework` | 2017 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://yew.rs/docs/getting-started/introduction) |
 | **Leptos** | `ui-framework` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://book.leptos.dev/) |
 <!-- fin -->
+
+## Fuentes
+
+- [@webassembly-org] *WebAssembly*, W3C — <https://webassembly.org/>
 
 ## Qué aportó cada una
 

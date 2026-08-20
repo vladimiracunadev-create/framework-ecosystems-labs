@@ -63,7 +63,7 @@ es de calidad sino de qué quieres controlar.
 <!-- generado:tabla-ecosistema dotnet -->
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **ASP.NET Web Forms** | `component-framework` | 2002 | 🌱 Pionero | ⚪ histórico | `NOASSERTION` | [oficial](https://learn.microsoft.com/aspnet/web-forms/) |
+| [**ASP.NET Web Forms**](../fichas/aspnet-webforms.md) | `component-framework` | 2002 | 🌱 Pionero | ⚪ histórico | `NOASSERTION` | [oficial](https://learn.microsoft.com/aspnet/web-forms/) |
 | **ASP.NET MVC** | `web-framework` | 2009 | 🏛️ Clásico | ⚪ histórico | `Apache-2.0` | [oficial](https://learn.microsoft.com/aspnet/mvc/) |
 | **WPF** | `ui-framework` | 2006 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://learn.microsoft.com/dotnet/desktop/wpf/) |
 | **Xamarin** | `ui-framework` | 2011 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://learn.microsoft.com/xamarin/) |

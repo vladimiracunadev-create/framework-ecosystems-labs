@@ -67,7 +67,7 @@ dos riesgos puedes asumir en tu producto y durante cuántos años.
 <!-- generado:tabla-ecosistema jvm -->
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Apache Struts** | `web-framework` | 2000 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://struts.apache.org/) |
+| [**Apache Struts**](../fichas/struts.md) | `web-framework` | 2000 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://struts.apache.org/) |
 | **Dropwizard** | `application-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://www.dropwizard.io/en/stable/) |
 | **Grails** | `full-stack-framework` | 2006 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://docs.grails.org/latest/guide/index.html) |
 | **Hibernate ORM** | `orm` | 2001 | 🏛️ Clásico | 🟢 activo | `LGPL-2.1-or-later` | [oficial](https://hibernate.org/orm/documentation/) |
@@ -79,7 +79,7 @@ dos riesgos puedes asumir en tu producto y durante cuántos años.
 | **Ktor** | `web-framework` | 2018 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://ktor.io/docs/) |
 | **Micronaut** | `application-framework` | 2018 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://docs.micronaut.io/latest/guide/) |
 | **Quarkus** | `application-framework` | 2019 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://quarkus.io/guides/) |
-| **Spring Boot** | `application-framework` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://spring.io/projects/spring-boot) |
+| [**Spring Boot**](../fichas/spring-boot.md) | `application-framework` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://spring.io/projects/spring-boot) |
 | **Compose Multiplatform** | `ui-toolkit` | 2021 | 🌊 Emergente | 🟢 activo | `Apache-2.0` | [oficial](https://www.jetbrains.com/compose-multiplatform/) |
 <!-- fin -->
 

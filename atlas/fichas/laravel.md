@@ -44,8 +44,13 @@ lo que Rails llevaba siete años ofreciendo: **que empezar un proyecto fuera
 agradable**.
 
 Laravel no inventó ningún concepto nuevo. Tomó las ideas de Rails, se apoyó en la
-infraestructura de Symfony —de la que usa componentes hasta hoy— y puso todo el
-esfuerzo en la superficie: nombres, mensajes de error, generadores, documentación.
+infraestructura de Symfony —de la que usa componentes hasta hoy
+[@symfony-components]— y puso todo el esfuerzo en la superficie: nombres,
+mensajes de error, generadores, documentación [@stauffer-laravel].
+
+Ese momento coincidió además con la modernización del propio lenguaje: espacios
+de nombres, un gestor de dependencias y los estándares de interoperabilidad
+cambiaron lo que era posible construir en PHP [@lockhart-modern-php].
 
 ## 💡 Lo que trae en la caja
 
@@ -103,8 +108,10 @@ No se ve en desarrollo con diez filas. Se detecta **contando consultas por caso
 de uso en una prueba**, que es el diagnóstico que enseña el módulo 06.
 
 **4. La cadencia anual de versiones mayores.** Mantenerse al día es trabajo
-continuo; quedarse atrás acumula una migración grande. Es una decisión que hay
-que puntuar en la matriz, no descubrir después.
+continuo; quedarse atrás acumula una migración grande. La política de soporte
+está publicada con fechas, que es lo mínimo exigible y más de lo que ofrecen
+muchos proyectos [@laravel-releases]: puntúala en la matriz, no la descubras
+después.
 
 ## 🏢 El ecosistema comercial y la estrategia de salida
 
@@ -133,8 +140,10 @@ el dominio empieza a importar el framework.
 - **Instalador y entorno local** propios, que redujeron mucho la fricción inicial.
 - **Colas, eventos y difusión** en tiempo real integrados.
 - **Herramienta de asistencia a la actualización** entre versiones mayores.
-- Adopción de los **estándares PSR** que permiten intercambiar piezas con otros
-  frameworks PHP.
+- Adopción de los **estándares PSR** de la PHP-FIG, que permiten intercambiar
+  middleware, contenedores y registros entre frameworks PHP rivales
+  [@php-fig-psr]. Es un nivel de interoperabilidad acordada que casi ningún otro
+  ecosistema del Atlas tiene.
 
 ## 🎓 Las tres lecciones
 
@@ -156,4 +165,13 @@ segundo año, que es cuando el coste de corregirlos es máximo.
 
 - Documentación oficial: <https://laravel.com/docs>
 - [Ecosistema PHP](../ecosistemas/php.md) — dónde encaja y de quién hereda
+- [Ficha de Rails](rails.md) — el origen de sus convenciones
 - [Módulo 06](../../curriculum/06-persistencia-y-dominio.md) — registro activo frente a mapeador de datos
+
+## Fuentes
+
+- [@stauffer-laravel] Stauffer, Matt. *Laravel: Up & Running: A Framework for Building Modern PHP Apps*, 2.ª ed. O'Reilly Media, 2019. ISBN 9781492041214 — <https://openlibrary.org/isbn/9781492041214>
+- [@lockhart-modern-php] Lockhart, Josh. *Modern PHP: New Features and Good Practices*. O'Reilly Media, 2015. ISBN 9781491905180 — <https://openlibrary.org/isbn/9781491905180>
+- [@php-fig-psr] *PSR — PHP Standards Recommendations*, PHP-FIG — <https://www.php-fig.org/psr/>
+- [@symfony-components] *Symfony Components*, Symfony — <https://symfony.com/components>
+- [@laravel-releases] *Laravel Release Notes and Support Policy*, Laravel — <https://laravel.com/docs/releases>

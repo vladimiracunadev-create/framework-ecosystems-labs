@@ -52,7 +52,8 @@ navegadores distintos**, y no en detalles menores:
 Escribir una página interactiva significaba escribir **dos o tres versiones de
 cada operación**, con ramas por navegador esparcidas por todo el código. No era
 un problema de arquitectura: era un problema de compatibilidad, y consumía la
-mayor parte del tiempo.
+mayor parte del tiempo. El manual de referencia del ecosistema dedicaba capítulos
+enteros a catalogar esas diferencias [@flanagan-javascript-definitive].
 
 ## 💡 Lo que jQuery hizo
 
@@ -94,6 +95,10 @@ $("#boton").on("click", function (evento) {
 });
 ```
 
+El libro de referencia de la época enseñaba jQuery precisamente por ahí: no como
+una API que memorizar, sino como una forma distinta de pensar el documento
+[@bibeault-jquery-in-action].
+
 ### 4. Hacer las peticiones asíncronas usables
 
 `$.ajax` popularizó el término AJAX más que ninguna otra herramienta. La API
@@ -116,6 +121,12 @@ Esta es la parte de la historia que casi nunca se cuenta:
 
 **Cuando alguien dice «ya no necesitas jQuery», está describiendo el éxito de
 jQuery.** La biblioteca dejó de ser necesaria porque su propuesta ganó.
+
+Dos de esas absorciones están hoy en normas vivas: el modelo de objetos del
+documento y sus eventos [@whatwg-dom], y los métodos de iteración y las promesas
+que entraron en la especificación del lenguaje [@tc39-ecma262]. Aprender la
+plataforma hoy —el documento, los eventos, `fetch`— es aprender lo que jQuery
+normalizó primero [@haverbeke-eloquent-javascript].
 
 ## ⚖️ Lo que jQuery no resolvió
 
@@ -151,9 +162,13 @@ No es una foto fija:
 - **Licencia única MIT**, tras años de licencia dual.
 - **jQuery 3** eliminó API obsoletas y adoptó promesas conformes al estándar.
 - **Módulos** para importar solo lo que se usa, en vez del archivo completo.
-- **Gobierno de fundación** (OpenJS), no de una persona.
+- **Gobierno de fundación**: el proyecto se aloja en la OpenJS Foundation, no
+  depende de una persona ni de una empresa [@openjsf-projects].
 - Sigue recibiendo **correcciones de seguridad**, que es lo que importa cuando
-  una tecnología está presente en tantísimo código en producción.
+  una tecnología está presente en tantísimo código en producción. Los informes
+  anuales sobre el estado de la web siguen registrando su presencia año tras año
+  [@web-almanac], y eso convierte cada aviso de seguridad suyo en un asunto de
+  alcance amplio.
 
 ## 🎓 Las tres lecciones
 
@@ -177,4 +192,16 @@ biblioteca en lugar de a un sistema.
 
 - Documentación oficial: <https://api.jquery.com/>
 - [Ecosistema JavaScript](../ecosistemas/javascript.md) — dónde encaja en la línea del tiempo
+- [Ficha de React](react.md) — quien resolvió lo que jQuery dejó abierto
+- [Ficha de htmx](htmx.md) — el mismo modelo de trabajo, veinte años después
 - [Módulo 03](../../curriculum/03-frontend-componentes-y-estado.md) — el problema que jQuery dejó abierto
+
+## Fuentes
+
+- [@bibeault-jquery-in-action] Bibeault, Bear; Katz, Yehuda. *jQuery in Action*. Manning, 2008. ISBN 9781933988351 — <https://openlibrary.org/isbn/9781933988351>
+- [@flanagan-javascript-definitive] Flanagan, David. *JavaScript: The Definitive Guide*, 7.ª ed. O'Reilly Media, 2020. ISBN 9781491952023 — <https://openlibrary.org/isbn/9781491952023>
+- [@haverbeke-eloquent-javascript] Haverbeke, Marijn. *Eloquent JavaScript*, 3.ª ed. No Starch Press, 2018. ISBN 9781593279509 — <https://openlibrary.org/isbn/9781593279509>
+- [@whatwg-dom] *DOM Standard*, WHATWG — <https://dom.spec.whatwg.org/>
+- [@tc39-ecma262] *ECMAScript Language Specification*, Ecma International — TC39 — <https://tc39.es/ecma262/>
+- [@openjsf-projects] *OpenJS Foundation Projects*, OpenJS Foundation — <https://openjsf.org/projects>
+- [@web-almanac] *Web Almanac*, HTTP Archive — <https://almanac.httparchive.org/>

@@ -3,6 +3,34 @@
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el
 versionado es [semántico](https://semver.org/lang/es/).
 
+## [0.5.0] — 2026-08-20
+
+Las fichas del Atlas: catorce estudios a fondo, cada afirmación con su fuente.
+
+### Añadido
+
+- **50 fuentes nuevas** verificadas, hasta 147 en total: 24 libros más con ISBN-13
+  contrastado en Open Library —desde *jQuery in Action* y *Learning React* hasta
+  *Hypermedia Systems*, *Programming Phoenix* y *Spring in Action*— y 26 fuentes
+  primarias: la tesis de Fielding sobre REST, *The Rails Doctrine*, el ensayo de
+  Rich Harris sobre el árbol virtual, los ensayos de htmx, la especificación del
+  DOM, la de ECMAScript, los boletines de seguridad de Struts, el registro de
+  CVE-2017-5638 y el catálogo de vulnerabilidades explotadas de CISA.
+- **11 fichas nuevas**: React, AngularJS, Vue, Rails, Django, Spring Boot,
+  Struts, ASP.NET Web Forms, Express, htmx y Phoenix. Cada una explica de qué
+  problema nació la tecnología, qué idea aportó, qué dejó abierto y qué lección
+  deja para decidir hoy.
+- `atlas/fichas/README.md` generado, con orden de lectura sugerido: cómo era
+  antes, la convención, el navegador toma el mando, la corrección, y los que no
+  encajan en esa línea.
+
+### Cambiado
+
+- Las fichas de jQuery, Laravel y Astro pasan a apoyarse en fuentes citadas:
+  *jQuery in Action*, la norma del DOM, *Modern PHP*, los estándares PSR, el
+  artículo original de Jason Miller sobre arquitectura de islas y otras.
+- El sitio publica 79 páginas (antes 67).
+
 ## [0.4.0] — 2026-08-20
 
 Segunda capa del programa: el **Atlas**. El núcleo demuestra un contrato en cinco

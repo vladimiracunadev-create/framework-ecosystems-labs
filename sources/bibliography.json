@@ -9,104 +9,2253 @@
     "reference": "GET a la URL declarada"
   },
   "entries": [
-    {"id":"fowler-poeaa","type":"book","authors":["Fowler, Martin"],"title":"Patterns of Enterprise Application Architecture","publisher":"Addison-Wesley","published":"2002","isbn13":"9780321127426","locator":"https://openlibrary.org/isbn/9780321127426","topics":["arquitectura","persistencia","dominio"]},
-    {"id":"hunt-thomas-pragmatic","type":"book","authors":["Hunt, Andrew","Thomas, David"],"title":"The Pragmatic Programmer: Your Journey to Mastery","edition":"20.º aniversario","publisher":"Addison-Wesley","published":"2019","isbn13":"9780135957059","locator":"https://openlibrary.org/isbn/9780135957059","topics":["oficio","diseño","criterio"]},
-    {"id":"richardson-amundsen-restful","type":"book","authors":["Richardson, Leonard","Amundsen, Mike","Ruby, Sam"],"title":"RESTful Web APIs: Services for a Changing World","publisher":"O'Reilly Media","published":"2013","isbn13":"9781449358068","locator":"https://openlibrary.org/isbn/9781449358068","topics":["http","api","hipermedia"]},
-    {"id":"grigorik-hpbn","type":"book","authors":["Grigorik, Ilya"],"title":"High Performance Browser Networking","publisher":"O'Reilly Media","published":"2013","isbn13":"9781449344764","locator":"https://openlibrary.org/isbn/9781449344764","topics":["http","red","rendimiento"]},
-    {"id":"martin-clean-architecture","type":"book","authors":["Martin, Robert C."],"title":"Clean Architecture: A Craftsman's Guide to Software Structure and Design","publisher":"Pearson","published":"2017","isbn13":"9780134494166","locator":"https://openlibrary.org/isbn/9780134494166","topics":["arquitectura","límites","dependencias"]},
-    {"id":"gof-design-patterns","type":"book","authors":["Gamma, Erich","Helm, Richard","Johnson, Ralph","Vlissides, John"],"title":"Design Patterns: Elements of Reusable Object-Oriented Software","publisher":"Addison-Wesley Professional","published":"1994","isbn13":"9780201633610","locator":"https://openlibrary.org/isbn/9780201633610","topics":["patrones","composición","extensibilidad"]},
-    {"id":"seemann-deursen-di","type":"book","authors":["Seemann, Mark","van Deursen, Steven"],"title":"Dependency Injection Principles, Practices, and Patterns","publisher":"Manning Publications","published":"2019","isbn13":"9781617294730","locator":"https://openlibrary.org/isbn/9781617294730","topics":["inversión de control","inyección","ciclo de vida"]},
-    {"id":"osmani-js-design-patterns","type":"book","authors":["Osmani, Addy"],"title":"Learning JavaScript Design Patterns: A JavaScript and React Developer's Guide","edition":"2.ª","publisher":"O'Reilly Media","published":"2023","isbn13":"9781098139872","locator":"https://openlibrary.org/isbn/9781098139872","topics":["frontend","patrones","javascript"]},
-    {"id":"pickering-inclusive-components","type":"book","authors":["Pickering, Heydon"],"title":"Inclusive Components","publisher":"Smashing Magazine","published":"2019","isbn13":"9783945749821","locator":"https://openlibrary.org/isbn/9783945749821","topics":["accesibilidad","componentes","frontend"]},
-    {"id":"newman-building-microservices","type":"book","authors":["Newman, Sam"],"title":"Building Microservices: Designing Fine-Grained Systems","edition":"2.ª","publisher":"O'Reilly Media","published":"2020","isbn13":"9781492034025","locator":"https://openlibrary.org/isbn/9781492034025","topics":["backend","distribución","límites de servicio"]},
-    {"id":"kleppmann-ddia","type":"book","authors":["Kleppmann, Martin"],"title":"Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems","publisher":"O'Reilly Media","published":"2017","isbn13":"9781449373320","locator":"https://openlibrary.org/isbn/9781449373320","topics":["persistencia","consistencia","datos"]},
-    {"id":"evans-ddd","type":"book","authors":["Evans, Eric"],"title":"Domain-Driven Design: Tackling Complexity in the Heart of Software","publisher":"Addison-Wesley","published":"2003","isbn13":"9780321125217","locator":"https://openlibrary.org/isbn/9780321125217","topics":["dominio","modelado","lenguaje ubicuo"]},
-    {"id":"vernon-iddd","type":"book","authors":["Vernon, Vaughn"],"title":"Implementing Domain-Driven Design","publisher":"Addison-Wesley Professional","published":"2012","isbn13":"9780321834577","locator":"https://openlibrary.org/isbn/9780321834577","topics":["dominio","contextos","integración"]},
-    {"id":"khononov-learning-ddd","type":"book","authors":["Khononov, Vlad"],"title":"Learning Domain-Driven Design: Aligning Software Architecture and Business Strategy","publisher":"O'Reilly Media","published":"2021","isbn13":"9781098100131","locator":"https://openlibrary.org/isbn/9781098100131","topics":["dominio","contextos","arquitectura"]},
-    {"id":"ambler-sadalage-refactoring-databases","type":"book","authors":["Ambler, Scott W.","Sadalage, Pramod J."],"title":"Refactoring Databases: Evolutionary Database Design","publisher":"Addison-Wesley","published":"2006","isbn13":"9780321293534","locator":"https://openlibrary.org/isbn/9780321293534","topics":["migraciones","esquema","evolución"]},
-    {"id":"shostack-threat-modeling","type":"book","authors":["Shostack, Adam"],"title":"Threat Modeling: Designing for Security","publisher":"Wiley","published":"2014","isbn13":"9781118809990","locator":"https://openlibrary.org/isbn/9781118809990","topics":["seguridad","amenazas","diseño"]},
-    {"id":"hoffman-web-application-security","type":"book","authors":["Hoffman, Andrew"],"title":"Web Application Security: Exploitation and Countermeasures for Modern Web Applications","publisher":"O'Reilly Media","published":"2020","isbn13":"9781492053118","locator":"https://openlibrary.org/isbn/9781492053118","topics":["seguridad","web","contramedidas"]},
-    {"id":"adkins-building-secure-reliable","type":"book","authors":["Adkins, Heather","Beyer, Betsy","Blankinship, Paul","Lewandowski, Piotr","Oprea, Ana","Stubblefield, Adam"],"title":"Building Secure and Reliable Systems: Best Practices for Designing, Implementing, and Maintaining Systems","publisher":"O'Reilly Media","published":"2020","isbn13":"9781492083122","locator":"https://openlibrary.org/isbn/9781492083122","topics":["seguridad","fiabilidad","operación"]},
-    {"id":"beck-tdd","type":"book","authors":["Beck, Kent"],"title":"Test-Driven Development: By Example","publisher":"Addison-Wesley","published":"2002","isbn13":"9780321146533","locator":"https://openlibrary.org/isbn/9780321146533","topics":["pruebas","diseño","ritmo"]},
-    {"id":"meszaros-xunit","type":"book","authors":["Meszaros, Gerard"],"title":"xUnit Test Patterns: Refactoring Test Code","publisher":"Addison-Wesley Professional","published":"2007","isbn13":"9780131495050","locator":"https://openlibrary.org/isbn/9780131495050","topics":["pruebas","dobles","mantenimiento"]},
-    {"id":"cohn-succeeding-agile","type":"book","authors":["Cohn, Mike"],"title":"Succeeding with Agile: Software Development Using Scrum","publisher":"Addison-Wesley","published":"2009","isbn13":"9780321579362","locator":"https://openlibrary.org/isbn/9780321579362","topics":["pirámide de pruebas","proceso","equipos"]},
-    {"id":"humble-farley-continuous-delivery","type":"book","authors":["Humble, Jez","Farley, David"],"title":"Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation","publisher":"Addison-Wesley Professional","published":"2010","isbn13":"9780321601919","locator":"https://openlibrary.org/isbn/9780321601919","topics":["entrega","canalización","despliegue"]},
-    {"id":"forsgren-accelerate","type":"book","authors":["Forsgren, Nicole","Humble, Jez","Kim, Gene"],"title":"Accelerate: The Science of Lean Software and DevOps","publisher":"IT Revolution Press","published":"2018","isbn13":"9781942788355","locator":"https://openlibrary.org/isbn/9781942788355","topics":["métricas","rendimiento de entrega","evidencia"]},
-    {"id":"beyer-sre","type":"book","authors":["Beyer, Betsy","Jones, Chris","Petoff, Jennifer","Murphy, Niall Richard"],"title":"Site Reliability Engineering: How Google Runs Production Systems","publisher":"O'Reilly Media","published":"2016","isbn13":"9781491929124","locator":"https://openlibrary.org/isbn/9781491929124","topics":["operación","SLO","fiabilidad"]},
-    {"id":"gregg-systems-performance","type":"book","authors":["Gregg, Brendan"],"title":"Systems Performance","edition":"2.ª","publisher":"Pearson","published":"2020","isbn13":"9780136820154","locator":"https://openlibrary.org/isbn/9780136820154","topics":["rendimiento","medición","metodología"]},
-    {"id":"majors-observability","type":"book","authors":["Majors, Charity","Fong-Jones, Liz","Miranda, George"],"title":"Observability Engineering: Achieving Production Excellence","publisher":"O'Reilly Media","published":"2022","isbn13":"9781492076445","locator":"https://openlibrary.org/isbn/9781492076445","topics":["observabilidad","telemetría","diagnóstico"]},
-    {"id":"feathers-legacy-code","type":"book","authors":["Feathers, Michael C."],"title":"Working Effectively with Legacy Code","publisher":"Prentice Hall","published":"2004","isbn13":"9780131177055","locator":"https://openlibrary.org/isbn/9780131177055","topics":["legado","costuras","refactorización"]},
-    {"id":"fowler-refactoring","type":"book","authors":["Fowler, Martin"],"title":"Refactoring: Improving the Design of Existing Code","edition":"2.ª","publisher":"Addison-Wesley","published":"2018","isbn13":"9780134757599","locator":"https://openlibrary.org/isbn/9780134757599","topics":["refactorización","diseño","evolución"]},
-    {"id":"hohpe-woolf-eip","type":"book","authors":["Hohpe, Gregor","Woolf, Bobby"],"title":"Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions","publisher":"Addison-Wesley","published":"2003","isbn13":"9780321200686","locator":"https://openlibrary.org/isbn/9780321200686","topics":["integración","mensajería","eventos"]},
-    {"id":"ford-evolutionary-architectures","type":"book","authors":["Ford, Neal","Parsons, Rebecca","Kua, Patrick","Sadalage, Pramod"],"title":"Building Evolutionary Architectures: Automated Software Governance","edition":"2.ª","publisher":"O'Reilly Media","published":"2023","isbn13":"9781492097549","locator":"https://openlibrary.org/isbn/9781492097549","topics":["evolución","funciones de aptitud","gobierno"]},
-    {"id":"nygard-release-it","type":"book","authors":["Nygard, Michael T."],"title":"Release It!: Design and Deploy Production-Ready Software","edition":"2.ª","publisher":"Pragmatic Bookshelf","published":"2018","isbn13":"9781680502398","locator":"https://openlibrary.org/isbn/9781680502398","topics":["estabilidad","operación","fallos"]},
-    {"id":"bass-software-architecture-practice","type":"book","authors":["Bass, Len","Clements, Paul","Kazman, Rick"],"title":"Software Architecture in Practice","edition":"4.ª","publisher":"Pearson Education","published":"2021","isbn13":"9780136886099","locator":"https://openlibrary.org/isbn/9780136886099","topics":["arquitectura","atributos de calidad","tácticas"]},
-    {"id":"richards-ford-fundamentals","type":"book","authors":["Richards, Mark","Ford, Neal"],"title":"Fundamentals of Software Architecture: An Engineering Approach","publisher":"O'Reilly Media","published":"2020","isbn13":"9781492043454","locator":"https://openlibrary.org/isbn/9781492043454","topics":["arquitectura","compromisos","estilos"]},
-    {"id":"geewax-api-design-patterns","type":"book","authors":["Geewax, JJ"],"title":"API Design Patterns","publisher":"Manning Publications","published":"2021","isbn13":"9781617295850","locator":"https://openlibrary.org/isbn/9781617295850","topics":["api","contratos","compatibilidad"]},
-    {"id":"kalbag-accessibility-for-everyone","type":"book","authors":["Kalbag, Laura"],"title":"Accessibility for Everyone","publisher":"A Book Apart","published":"2017","isbn13":"9781937557614","locator":"https://openlibrary.org/isbn/9781937557614","topics":["accesibilidad","inclusión","frontend"]},
-    {"id":"norman-design-everyday-things","type":"book","authors":["Norman, Donald A."],"title":"The Design of Everyday Things","edition":"revisada y ampliada","publisher":"Basic Books","published":"2013","isbn13":"9780465050659","locator":"https://openlibrary.org/isbn/9780465050659","topics":["diseño","affordances","errores humanos"]},
-    {"id":"brown-make-it-stick","type":"book","authors":["Brown, Peter C.","Roediger, Henry L.","McDaniel, Mark A."],"title":"Make It Stick: The Science of Successful Learning","publisher":"Belknap Press of Harvard University Press","published":"2014","isbn13":"9780674729018","locator":"https://openlibrary.org/isbn/9780674729018","topics":["pedagogía","recuperación","intercalado"]},
-    {"id":"sweller-cognitive-load-theory","type":"book","authors":["Sweller, John","Ayres, Paul","Kalyuga, Slava"],"title":"Cognitive Load Theory","publisher":"Springer","published":"2011","isbn13":"9781441981257","locator":"https://openlibrary.org/isbn/9781441981257","topics":["pedagogía","carga cognitiva","ejemplos resueltos"]},
-    {"id":"anderson-krathwohl-taxonomy","type":"book","authors":["Anderson, Lorin W.","Krathwohl, David R."],"title":"A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives","publisher":"Longman","published":"2001","isbn13":"9780321084057","locator":"https://openlibrary.org/isbn/9780321084057","topics":["pedagogía","objetivos","evaluación"]},
-    {"id":"wiggins-mctighe-ubd","type":"book","authors":["Wiggins, Grant","McTighe, Jay"],"title":"Understanding by Design","edition":"2.ª ampliada","publisher":"Association for Supervision and Curriculum Development","published":"2005","isbn13":"9781416600350","locator":"https://openlibrary.org/isbn/9781416600350","topics":["pedagogía","diseño inverso","evidencia de aprendizaje"]},
-    {"id":"ericsson-peak","type":"book","authors":["Ericsson, Anders","Pool, Robert"],"title":"Peak: Secrets from the New Science of Expertise","publisher":"Houghton Mifflin Harcourt","published":"2016","isbn13":"9780544456235","locator":"https://openlibrary.org/isbn/9780544456235","topics":["pedagogía","práctica deliberada","retroalimentación"]},
-
-    {"id":"merrill-first-principles","type":"paper","authors":["Merrill, M. David"],"title":"First principles of instruction","container":"Educational Technology Research and Development","volume":"50","pages":"43-59","published":"2002","doi":"10.1007/BF02505024","locator":"https://doi.org/10.1007/BF02505024","topics":["pedagogía","secuencia","transferencia"]},
-    {"id":"sweller-1988-cognitive-load","type":"paper","authors":["Sweller, John"],"title":"Cognitive Load During Problem Solving: Effects on Learning","container":"Cognitive Science","volume":"12","pages":"257-285","published":"1988","doi":"10.1207/s15516709cog1202_4","locator":"https://doi.org/10.1207/s15516709cog1202_4","topics":["pedagogía","carga cognitiva"]},
-    {"id":"roediger-karpicke-test-enhanced","type":"paper","authors":["Roediger, Henry L.","Karpicke, Jeffrey D."],"title":"Test-Enhanced Learning","container":"Psychological Science","volume":"17","pages":"249-255","published":"2006","doi":"10.1111/j.1467-9280.2006.01693.x","locator":"https://doi.org/10.1111/j.1467-9280.2006.01693.x","topics":["pedagogía","recuperación","retención"]},
-    {"id":"dunlosky-effective-techniques","type":"paper","authors":["Dunlosky, John","Rawson, Katherine A.","Marsh, Elizabeth J.","Nathan, Mitchell J.","Willingham, Daniel T."],"title":"Improving Students' Learning With Effective Learning Techniques","container":"Psychological Science in the Public Interest","volume":"14","pages":"4-58","published":"2013","doi":"10.1177/1529100612453266","locator":"https://doi.org/10.1177/1529100612453266","topics":["pedagogía","práctica distribuida","autoexplicación"]},
-    {"id":"biggs-constructive-alignment","type":"paper","authors":["Biggs, John"],"title":"Enhancing teaching through constructive alignment","container":"Higher Education","volume":"32","pages":"347-364","published":"1996","doi":"10.1007/BF00138871","locator":"https://doi.org/10.1007/BF00138871","topics":["pedagogía","alineamiento","evaluación"]},
-    {"id":"evans-assessment-feedback","type":"paper","authors":["Evans, Carol"],"title":"Making Sense of Assessment Feedback in Higher Education","container":"Review of Educational Research","volume":"83","pages":"70-120","published":"2013","doi":"10.3102/0034654312474350","locator":"https://doi.org/10.3102/0034654312474350","topics":["pedagogía","retroalimentación","evaluación"]},
-    {"id":"vanlehn-tutoring","type":"paper","authors":["VanLehn, Kurt"],"title":"The Relative Effectiveness of Human Tutoring, Intelligent Tutoring Systems, and Other Tutoring Systems","container":"Educational Psychologist","volume":"46","pages":"197-221","published":"2011","doi":"10.1080/00461520.2011.611369","locator":"https://doi.org/10.1080/00461520.2011.611369","topics":["pedagogía","tutoría","andamiaje"]},
-
-    {"id":"rfc9110","type":"standard","publisher":"IETF","title":"RFC 9110 — HTTP Semantics","published":"2022","locator":"https://www.rfc-editor.org/rfc/rfc9110","topics":["http","métodos","códigos"]},
-    {"id":"rfc9111","type":"standard","publisher":"IETF","title":"RFC 9111 — HTTP Caching","published":"2022","locator":"https://www.rfc-editor.org/rfc/rfc9111","topics":["http","caché","rendimiento"]},
-    {"id":"rfc9112","type":"standard","publisher":"IETF","title":"RFC 9112 — HTTP/1.1","published":"2022","locator":"https://www.rfc-editor.org/rfc/rfc9112","topics":["http","transporte"]},
-    {"id":"rfc9113","type":"standard","publisher":"IETF","title":"RFC 9113 — HTTP/2","published":"2022","locator":"https://www.rfc-editor.org/rfc/rfc9113","topics":["http","multiplexación"]},
-    {"id":"rfc9114","type":"standard","publisher":"IETF","title":"RFC 9114 — HTTP/3","published":"2022","locator":"https://www.rfc-editor.org/rfc/rfc9114","topics":["http","quic"]},
-    {"id":"rfc9457","type":"standard","publisher":"IETF","title":"RFC 9457 — Problem Details for HTTP APIs","published":"2023","locator":"https://www.rfc-editor.org/rfc/rfc9457","topics":["api","errores","contrato"]},
-    {"id":"rfc6749","type":"standard","publisher":"IETF","title":"RFC 6749 — The OAuth 2.0 Authorization Framework","published":"2012","locator":"https://www.rfc-editor.org/rfc/rfc6749","topics":["identidad","autorización"]},
-    {"id":"rfc9700","type":"standard","publisher":"IETF","title":"RFC 9700 — Best Current Practice for OAuth 2.0 Security","published":"2025","locator":"https://www.rfc-editor.org/rfc/rfc9700","topics":["identidad","seguridad","oauth"]},
-    {"id":"rfc7519","type":"standard","publisher":"IETF","title":"RFC 7519 — JSON Web Token (JWT)","published":"2015","locator":"https://www.rfc-editor.org/rfc/rfc7519","topics":["identidad","tokens"]},
-    {"id":"rfc8259","type":"standard","publisher":"IETF","title":"RFC 8259 — The JavaScript Object Notation (JSON) Data Interchange Format","published":"2017","locator":"https://www.rfc-editor.org/rfc/rfc8259","topics":["formato","serialización"]},
-    {"id":"rfc6902","type":"standard","publisher":"IETF","title":"RFC 6902 — JavaScript Object Notation (JSON) Patch","published":"2013","locator":"https://www.rfc-editor.org/rfc/rfc6902","topics":["api","actualización parcial"]},
-    {"id":"rfc5789","type":"standard","publisher":"IETF","title":"RFC 5789 — PATCH Method for HTTP","published":"2010","locator":"https://www.rfc-editor.org/rfc/rfc5789","topics":["http","métodos"]},
-    {"id":"rfc6265","type":"standard","publisher":"IETF","title":"RFC 6265 — HTTP State Management Mechanism","published":"2011","locator":"https://www.rfc-editor.org/rfc/rfc6265","topics":["http","sesiones","cookies"]},
-    {"id":"rfc8446","type":"standard","publisher":"IETF","title":"RFC 8446 — The Transport Layer Security (TLS) Protocol Version 1.3","published":"2018","locator":"https://www.rfc-editor.org/rfc/rfc8446","topics":["seguridad","transporte"]},
-    {"id":"openapi-spec","type":"standard","publisher":"OpenAPI Initiative","title":"OpenAPI Specification","locator":"https://spec.openapis.org/oas/latest.html","topics":["contrato","api","documentación"]},
-    {"id":"json-schema","type":"standard","publisher":"JSON Schema","title":"JSON Schema Specification","locator":"https://json-schema.org/specification","topics":["validación","contrato"]},
-    {"id":"whatwg-fetch","type":"standard","publisher":"WHATWG","title":"Fetch Standard","locator":"https://fetch.spec.whatwg.org/","topics":["frontend","http","CORS"]},
-    {"id":"whatwg-html","type":"standard","publisher":"WHATWG","title":"HTML Standard","locator":"https://html.spec.whatwg.org/multipage/","topics":["frontend","semántica","formularios"]},
-    {"id":"w3c-wcag22","type":"standard","publisher":"W3C","title":"Web Content Accessibility Guidelines (WCAG) 2.2","published":"2023","locator":"https://www.w3.org/TR/WCAG22/","topics":["accesibilidad","criterios"]},
-    {"id":"w3c-aria-apg","type":"standard","publisher":"W3C","title":"ARIA Authoring Practices Guide","locator":"https://www.w3.org/WAI/ARIA/apg/","topics":["accesibilidad","patrones","componentes"]},
-    {"id":"w3c-service-worker","type":"standard","publisher":"W3C","title":"Service Workers","locator":"https://w3c.github.io/ServiceWorker/","topics":["offline","pwa","caché"]},
-    {"id":"owasp-asvs","type":"standard","publisher":"OWASP","title":"Application Security Verification Standard","locator":"https://owasp.org/www-project-application-security-verification-standard/","topics":["seguridad","verificación","requisitos"]},
-    {"id":"owasp-top10","type":"standard","publisher":"OWASP","title":"OWASP Top 10","locator":"https://owasp.org/www-project-top-ten/","topics":["seguridad","riesgos"]},
-    {"id":"owasp-cheatsheets","type":"standard","publisher":"OWASP","title":"OWASP Cheat Sheet Series","locator":"https://cheatsheetseries.owasp.org/","topics":["seguridad","controles","implementación"]},
-    {"id":"nist-800-63b","type":"standard","publisher":"NIST","title":"SP 800-63B — Digital Identity Guidelines: Authentication and Lifecycle Management","locator":"https://pages.nist.gov/800-63-3/sp800-63b.html","topics":["identidad","contraseñas","autenticación"]},
-    {"id":"nist-ssdf","type":"standard","publisher":"NIST","title":"SP 800-218 — Secure Software Development Framework (SSDF)","published":"2022","locator":"https://csrc.nist.gov/pubs/sp/800/218/final","topics":["cadena de suministro","proceso seguro"]},
-    {"id":"slsa","type":"standard","publisher":"OpenSSF","title":"SLSA — Supply-chain Levels for Software Artifacts","locator":"https://slsa.dev/spec/v1.0/","topics":["cadena de suministro","procedencia"]},
-    {"id":"semver","type":"standard","publisher":"Semantic Versioning","title":"Semantic Versioning 2.0.0","locator":"https://semver.org/","topics":["versionado","compatibilidad"]},
-    {"id":"spdx-licenses","type":"reference","publisher":"Linux Foundation","title":"SPDX License List","locator":"https://spdx.org/licenses/","topics":["licencias","cumplimiento"]},
-    {"id":"osi-licenses","type":"reference","publisher":"Open Source Initiative","title":"OSI Approved Licenses","locator":"https://opensource.org/licenses","topics":["licencias","gobierno"]},
-    {"id":"twelve-factor","type":"reference","publisher":"Heroku","title":"The Twelve-Factor App","locator":"https://12factor.net/","topics":["configuración","despliegue","paridad de entornos"]},
-    {"id":"opentelemetry-docs","type":"reference","publisher":"OpenTelemetry / CNCF","title":"OpenTelemetry Documentation","locator":"https://opentelemetry.io/docs/","topics":["observabilidad","trazas","métricas"]},
-    {"id":"mdn-web-docs","type":"reference","publisher":"Mozilla","title":"MDN Web Docs","locator":"https://developer.mozilla.org/en-US/docs/Web","topics":["frontend","referencia","navegador"]},
-    {"id":"webdev-rendering","type":"reference","publisher":"Google — web.dev","title":"Rendering on the Web","locator":"https://web.dev/articles/rendering-on-the-web","topics":["renderizado","csr","ssr","ssg"]},
-    {"id":"webdev-vitals","type":"reference","publisher":"Google — web.dev","title":"Web Vitals","locator":"https://web.dev/articles/vitals","topics":["rendimiento","métricas de usuario"]},
-    {"id":"webdev-offline-cookbook","type":"reference","publisher":"Google — web.dev","title":"The Offline Cookbook","locator":"https://web.dev/articles/offline-cookbook","topics":["offline","estrategias de caché"]},
-    {"id":"fowler-injection","type":"reference","publisher":"martinfowler.com","authors":["Fowler, Martin"],"title":"Inversion of Control Containers and the Dependency Injection pattern","published":"2004","locator":"https://martinfowler.com/articles/injection.html","topics":["inversión de control","inyección"]},
-    {"id":"fowler-strangler-fig","type":"reference","publisher":"martinfowler.com","authors":["Fowler, Martin"],"title":"Strangler Fig Application","published":"2004","locator":"https://martinfowler.com/bliki/StranglerFigApplication.html","topics":["migración","legado","incremental"]},
-    {"id":"fowler-test-pyramid","type":"reference","publisher":"martinfowler.com","authors":["Fowler, Martin"],"title":"Test Pyramid","published":"2012","locator":"https://martinfowler.com/bliki/TestPyramid.html","topics":["pruebas","estrategia"]},
-    {"id":"fowler-cqrs","type":"reference","publisher":"martinfowler.com","authors":["Fowler, Martin"],"title":"CQRS","published":"2011","locator":"https://martinfowler.com/bliki/CQRS.html","topics":["dominio","lectura y escritura"]},
-    {"id":"fowler-microservice-tradeoffs","type":"reference","publisher":"martinfowler.com","authors":["Fowler, Martin"],"title":"Microservice Trade-Offs","published":"2015","locator":"https://martinfowler.com/articles/microservice-trade-offs.html","topics":["compromisos","distribución"]},
-    {"id":"adr-github","type":"reference","publisher":"ADR community","title":"Architectural Decision Records","locator":"https://adr.github.io/","topics":["decisiones","documentación"]},
-    {"id":"inkandswitch-local-first","type":"reference","publisher":"Ink & Switch","authors":["Kleppmann, Martin","Wiggins, Adam","van Hardenberg, Peter","McGranaghan, Mark"],"title":"Local-first software: You own your data, in spite of the cloud","published":"2019","locator":"https://www.inkandswitch.com/local-first/","topics":["offline","sincronización","propiedad de datos"]},
-    {"id":"dora-research","type":"reference","publisher":"Google Cloud — DORA","title":"DORA Research Program","locator":"https://dora.dev/research/","topics":["métricas","entrega","evidencia"]},
-    {"id":"google-sre-books","type":"reference","publisher":"Google","title":"Google SRE Books","locator":"https://sre.google/books/","topics":["operación","SLO","incidentes"]},
-    {"id":"google-eng-practices","type":"reference","publisher":"Google","title":"Google Engineering Practices Documentation","locator":"https://google.github.io/eng-practices/","topics":["revisión de código","proceso"]},
-    {"id":"nodejs-docs","type":"reference","publisher":"OpenJS Foundation","title":"Node.js API Documentation (v22 LTS)","locator":"https://nodejs.org/docs/latest-v22.x/api/","topics":["runtime","http","pruebas"]},
-    {"id":"postgresql-docs","type":"reference","publisher":"PostgreSQL Global Development Group","title":"PostgreSQL Documentation","locator":"https://www.postgresql.org/docs/current/","topics":["persistencia","sql","transacciones"]},
-    {"id":"kubernetes-docs","type":"reference","publisher":"CNCF","title":"Kubernetes Documentation","locator":"https://kubernetes.io/docs/home/","topics":["despliegue","operación"]}
+    {
+      "id": "fowler-poeaa",
+      "type": "book",
+      "authors": [
+        "Fowler, Martin"
+      ],
+      "title": "Patterns of Enterprise Application Architecture",
+      "publisher": "Addison-Wesley",
+      "published": "2002",
+      "isbn13": "9780321127426",
+      "locator": "https://openlibrary.org/isbn/9780321127426",
+      "topics": [
+        "arquitectura",
+        "persistencia",
+        "dominio"
+      ]
+    },
+    {
+      "id": "hunt-thomas-pragmatic",
+      "type": "book",
+      "authors": [
+        "Hunt, Andrew",
+        "Thomas, David"
+      ],
+      "title": "The Pragmatic Programmer: Your Journey to Mastery",
+      "edition": "20.º aniversario",
+      "publisher": "Addison-Wesley",
+      "published": "2019",
+      "isbn13": "9780135957059",
+      "locator": "https://openlibrary.org/isbn/9780135957059",
+      "topics": [
+        "oficio",
+        "diseño",
+        "criterio"
+      ]
+    },
+    {
+      "id": "richardson-amundsen-restful",
+      "type": "book",
+      "authors": [
+        "Richardson, Leonard",
+        "Amundsen, Mike",
+        "Ruby, Sam"
+      ],
+      "title": "RESTful Web APIs: Services for a Changing World",
+      "publisher": "O'Reilly Media",
+      "published": "2013",
+      "isbn13": "9781449358068",
+      "locator": "https://openlibrary.org/isbn/9781449358068",
+      "topics": [
+        "http",
+        "api",
+        "hipermedia"
+      ]
+    },
+    {
+      "id": "grigorik-hpbn",
+      "type": "book",
+      "authors": [
+        "Grigorik, Ilya"
+      ],
+      "title": "High Performance Browser Networking",
+      "publisher": "O'Reilly Media",
+      "published": "2013",
+      "isbn13": "9781449344764",
+      "locator": "https://openlibrary.org/isbn/9781449344764",
+      "topics": [
+        "http",
+        "red",
+        "rendimiento"
+      ]
+    },
+    {
+      "id": "martin-clean-architecture",
+      "type": "book",
+      "authors": [
+        "Martin, Robert C."
+      ],
+      "title": "Clean Architecture: A Craftsman's Guide to Software Structure and Design",
+      "publisher": "Pearson",
+      "published": "2017",
+      "isbn13": "9780134494166",
+      "locator": "https://openlibrary.org/isbn/9780134494166",
+      "topics": [
+        "arquitectura",
+        "límites",
+        "dependencias"
+      ]
+    },
+    {
+      "id": "gof-design-patterns",
+      "type": "book",
+      "authors": [
+        "Gamma, Erich",
+        "Helm, Richard",
+        "Johnson, Ralph",
+        "Vlissides, John"
+      ],
+      "title": "Design Patterns: Elements of Reusable Object-Oriented Software",
+      "publisher": "Addison-Wesley Professional",
+      "published": "1994",
+      "isbn13": "9780201633610",
+      "locator": "https://openlibrary.org/isbn/9780201633610",
+      "topics": [
+        "patrones",
+        "composición",
+        "extensibilidad"
+      ]
+    },
+    {
+      "id": "seemann-deursen-di",
+      "type": "book",
+      "authors": [
+        "Seemann, Mark",
+        "van Deursen, Steven"
+      ],
+      "title": "Dependency Injection Principles, Practices, and Patterns",
+      "publisher": "Manning Publications",
+      "published": "2019",
+      "isbn13": "9781617294730",
+      "locator": "https://openlibrary.org/isbn/9781617294730",
+      "topics": [
+        "inversión de control",
+        "inyección",
+        "ciclo de vida"
+      ]
+    },
+    {
+      "id": "osmani-js-design-patterns",
+      "type": "book",
+      "authors": [
+        "Osmani, Addy"
+      ],
+      "title": "Learning JavaScript Design Patterns: A JavaScript and React Developer's Guide",
+      "edition": "2.ª",
+      "publisher": "O'Reilly Media",
+      "published": "2023",
+      "isbn13": "9781098139872",
+      "locator": "https://openlibrary.org/isbn/9781098139872",
+      "topics": [
+        "frontend",
+        "patrones",
+        "javascript"
+      ]
+    },
+    {
+      "id": "pickering-inclusive-components",
+      "type": "book",
+      "authors": [
+        "Pickering, Heydon"
+      ],
+      "title": "Inclusive Components",
+      "publisher": "Smashing Magazine",
+      "published": "2019",
+      "isbn13": "9783945749821",
+      "locator": "https://openlibrary.org/isbn/9783945749821",
+      "topics": [
+        "accesibilidad",
+        "componentes",
+        "frontend"
+      ]
+    },
+    {
+      "id": "newman-building-microservices",
+      "type": "book",
+      "authors": [
+        "Newman, Sam"
+      ],
+      "title": "Building Microservices: Designing Fine-Grained Systems",
+      "edition": "2.ª",
+      "publisher": "O'Reilly Media",
+      "published": "2020",
+      "isbn13": "9781492034025",
+      "locator": "https://openlibrary.org/isbn/9781492034025",
+      "topics": [
+        "backend",
+        "distribución",
+        "límites de servicio"
+      ]
+    },
+    {
+      "id": "kleppmann-ddia",
+      "type": "book",
+      "authors": [
+        "Kleppmann, Martin"
+      ],
+      "title": "Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems",
+      "publisher": "O'Reilly Media",
+      "published": "2017",
+      "isbn13": "9781449373320",
+      "locator": "https://openlibrary.org/isbn/9781449373320",
+      "topics": [
+        "persistencia",
+        "consistencia",
+        "datos"
+      ]
+    },
+    {
+      "id": "evans-ddd",
+      "type": "book",
+      "authors": [
+        "Evans, Eric"
+      ],
+      "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
+      "publisher": "Addison-Wesley",
+      "published": "2003",
+      "isbn13": "9780321125217",
+      "locator": "https://openlibrary.org/isbn/9780321125217",
+      "topics": [
+        "dominio",
+        "modelado",
+        "lenguaje ubicuo"
+      ]
+    },
+    {
+      "id": "vernon-iddd",
+      "type": "book",
+      "authors": [
+        "Vernon, Vaughn"
+      ],
+      "title": "Implementing Domain-Driven Design",
+      "publisher": "Addison-Wesley Professional",
+      "published": "2012",
+      "isbn13": "9780321834577",
+      "locator": "https://openlibrary.org/isbn/9780321834577",
+      "topics": [
+        "dominio",
+        "contextos",
+        "integración"
+      ]
+    },
+    {
+      "id": "khononov-learning-ddd",
+      "type": "book",
+      "authors": [
+        "Khononov, Vlad"
+      ],
+      "title": "Learning Domain-Driven Design: Aligning Software Architecture and Business Strategy",
+      "publisher": "O'Reilly Media",
+      "published": "2021",
+      "isbn13": "9781098100131",
+      "locator": "https://openlibrary.org/isbn/9781098100131",
+      "topics": [
+        "dominio",
+        "contextos",
+        "arquitectura"
+      ]
+    },
+    {
+      "id": "ambler-sadalage-refactoring-databases",
+      "type": "book",
+      "authors": [
+        "Ambler, Scott W.",
+        "Sadalage, Pramod J."
+      ],
+      "title": "Refactoring Databases: Evolutionary Database Design",
+      "publisher": "Addison-Wesley",
+      "published": "2006",
+      "isbn13": "9780321293534",
+      "locator": "https://openlibrary.org/isbn/9780321293534",
+      "topics": [
+        "migraciones",
+        "esquema",
+        "evolución"
+      ]
+    },
+    {
+      "id": "shostack-threat-modeling",
+      "type": "book",
+      "authors": [
+        "Shostack, Adam"
+      ],
+      "title": "Threat Modeling: Designing for Security",
+      "publisher": "Wiley",
+      "published": "2014",
+      "isbn13": "9781118809990",
+      "locator": "https://openlibrary.org/isbn/9781118809990",
+      "topics": [
+        "seguridad",
+        "amenazas",
+        "diseño"
+      ]
+    },
+    {
+      "id": "hoffman-web-application-security",
+      "type": "book",
+      "authors": [
+        "Hoffman, Andrew"
+      ],
+      "title": "Web Application Security: Exploitation and Countermeasures for Modern Web Applications",
+      "publisher": "O'Reilly Media",
+      "published": "2020",
+      "isbn13": "9781492053118",
+      "locator": "https://openlibrary.org/isbn/9781492053118",
+      "topics": [
+        "seguridad",
+        "web",
+        "contramedidas"
+      ]
+    },
+    {
+      "id": "adkins-building-secure-reliable",
+      "type": "book",
+      "authors": [
+        "Adkins, Heather",
+        "Beyer, Betsy",
+        "Blankinship, Paul",
+        "Lewandowski, Piotr",
+        "Oprea, Ana",
+        "Stubblefield, Adam"
+      ],
+      "title": "Building Secure and Reliable Systems: Best Practices for Designing, Implementing, and Maintaining Systems",
+      "publisher": "O'Reilly Media",
+      "published": "2020",
+      "isbn13": "9781492083122",
+      "locator": "https://openlibrary.org/isbn/9781492083122",
+      "topics": [
+        "seguridad",
+        "fiabilidad",
+        "operación"
+      ]
+    },
+    {
+      "id": "beck-tdd",
+      "type": "book",
+      "authors": [
+        "Beck, Kent"
+      ],
+      "title": "Test-Driven Development: By Example",
+      "publisher": "Addison-Wesley",
+      "published": "2002",
+      "isbn13": "9780321146533",
+      "locator": "https://openlibrary.org/isbn/9780321146533",
+      "topics": [
+        "pruebas",
+        "diseño",
+        "ritmo"
+      ]
+    },
+    {
+      "id": "meszaros-xunit",
+      "type": "book",
+      "authors": [
+        "Meszaros, Gerard"
+      ],
+      "title": "xUnit Test Patterns: Refactoring Test Code",
+      "publisher": "Addison-Wesley Professional",
+      "published": "2007",
+      "isbn13": "9780131495050",
+      "locator": "https://openlibrary.org/isbn/9780131495050",
+      "topics": [
+        "pruebas",
+        "dobles",
+        "mantenimiento"
+      ]
+    },
+    {
+      "id": "cohn-succeeding-agile",
+      "type": "book",
+      "authors": [
+        "Cohn, Mike"
+      ],
+      "title": "Succeeding with Agile: Software Development Using Scrum",
+      "publisher": "Addison-Wesley",
+      "published": "2009",
+      "isbn13": "9780321579362",
+      "locator": "https://openlibrary.org/isbn/9780321579362",
+      "topics": [
+        "pirámide de pruebas",
+        "proceso",
+        "equipos"
+      ]
+    },
+    {
+      "id": "humble-farley-continuous-delivery",
+      "type": "book",
+      "authors": [
+        "Humble, Jez",
+        "Farley, David"
+      ],
+      "title": "Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation",
+      "publisher": "Addison-Wesley Professional",
+      "published": "2010",
+      "isbn13": "9780321601919",
+      "locator": "https://openlibrary.org/isbn/9780321601919",
+      "topics": [
+        "entrega",
+        "canalización",
+        "despliegue"
+      ]
+    },
+    {
+      "id": "forsgren-accelerate",
+      "type": "book",
+      "authors": [
+        "Forsgren, Nicole",
+        "Humble, Jez",
+        "Kim, Gene"
+      ],
+      "title": "Accelerate: The Science of Lean Software and DevOps",
+      "publisher": "IT Revolution Press",
+      "published": "2018",
+      "isbn13": "9781942788355",
+      "locator": "https://openlibrary.org/isbn/9781942788355",
+      "topics": [
+        "métricas",
+        "rendimiento de entrega",
+        "evidencia"
+      ]
+    },
+    {
+      "id": "beyer-sre",
+      "type": "book",
+      "authors": [
+        "Beyer, Betsy",
+        "Jones, Chris",
+        "Petoff, Jennifer",
+        "Murphy, Niall Richard"
+      ],
+      "title": "Site Reliability Engineering: How Google Runs Production Systems",
+      "publisher": "O'Reilly Media",
+      "published": "2016",
+      "isbn13": "9781491929124",
+      "locator": "https://openlibrary.org/isbn/9781491929124",
+      "topics": [
+        "operación",
+        "SLO",
+        "fiabilidad"
+      ]
+    },
+    {
+      "id": "gregg-systems-performance",
+      "type": "book",
+      "authors": [
+        "Gregg, Brendan"
+      ],
+      "title": "Systems Performance",
+      "edition": "2.ª",
+      "publisher": "Pearson",
+      "published": "2020",
+      "isbn13": "9780136820154",
+      "locator": "https://openlibrary.org/isbn/9780136820154",
+      "topics": [
+        "rendimiento",
+        "medición",
+        "metodología"
+      ]
+    },
+    {
+      "id": "majors-observability",
+      "type": "book",
+      "authors": [
+        "Majors, Charity",
+        "Fong-Jones, Liz",
+        "Miranda, George"
+      ],
+      "title": "Observability Engineering: Achieving Production Excellence",
+      "publisher": "O'Reilly Media",
+      "published": "2022",
+      "isbn13": "9781492076445",
+      "locator": "https://openlibrary.org/isbn/9781492076445",
+      "topics": [
+        "observabilidad",
+        "telemetría",
+        "diagnóstico"
+      ]
+    },
+    {
+      "id": "feathers-legacy-code",
+      "type": "book",
+      "authors": [
+        "Feathers, Michael C."
+      ],
+      "title": "Working Effectively with Legacy Code",
+      "publisher": "Prentice Hall",
+      "published": "2004",
+      "isbn13": "9780131177055",
+      "locator": "https://openlibrary.org/isbn/9780131177055",
+      "topics": [
+        "legado",
+        "costuras",
+        "refactorización"
+      ]
+    },
+    {
+      "id": "fowler-refactoring",
+      "type": "book",
+      "authors": [
+        "Fowler, Martin"
+      ],
+      "title": "Refactoring: Improving the Design of Existing Code",
+      "edition": "2.ª",
+      "publisher": "Addison-Wesley",
+      "published": "2018",
+      "isbn13": "9780134757599",
+      "locator": "https://openlibrary.org/isbn/9780134757599",
+      "topics": [
+        "refactorización",
+        "diseño",
+        "evolución"
+      ]
+    },
+    {
+      "id": "hohpe-woolf-eip",
+      "type": "book",
+      "authors": [
+        "Hohpe, Gregor",
+        "Woolf, Bobby"
+      ],
+      "title": "Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions",
+      "publisher": "Addison-Wesley",
+      "published": "2003",
+      "isbn13": "9780321200686",
+      "locator": "https://openlibrary.org/isbn/9780321200686",
+      "topics": [
+        "integración",
+        "mensajería",
+        "eventos"
+      ]
+    },
+    {
+      "id": "ford-evolutionary-architectures",
+      "type": "book",
+      "authors": [
+        "Ford, Neal",
+        "Parsons, Rebecca",
+        "Kua, Patrick",
+        "Sadalage, Pramod"
+      ],
+      "title": "Building Evolutionary Architectures: Automated Software Governance",
+      "edition": "2.ª",
+      "publisher": "O'Reilly Media",
+      "published": "2023",
+      "isbn13": "9781492097549",
+      "locator": "https://openlibrary.org/isbn/9781492097549",
+      "topics": [
+        "evolución",
+        "funciones de aptitud",
+        "gobierno"
+      ]
+    },
+    {
+      "id": "nygard-release-it",
+      "type": "book",
+      "authors": [
+        "Nygard, Michael T."
+      ],
+      "title": "Release It!: Design and Deploy Production-Ready Software",
+      "edition": "2.ª",
+      "publisher": "Pragmatic Bookshelf",
+      "published": "2018",
+      "isbn13": "9781680502398",
+      "locator": "https://openlibrary.org/isbn/9781680502398",
+      "topics": [
+        "estabilidad",
+        "operación",
+        "fallos"
+      ]
+    },
+    {
+      "id": "bass-software-architecture-practice",
+      "type": "book",
+      "authors": [
+        "Bass, Len",
+        "Clements, Paul",
+        "Kazman, Rick"
+      ],
+      "title": "Software Architecture in Practice",
+      "edition": "4.ª",
+      "publisher": "Pearson Education",
+      "published": "2021",
+      "isbn13": "9780136886099",
+      "locator": "https://openlibrary.org/isbn/9780136886099",
+      "topics": [
+        "arquitectura",
+        "atributos de calidad",
+        "tácticas"
+      ]
+    },
+    {
+      "id": "richards-ford-fundamentals",
+      "type": "book",
+      "authors": [
+        "Richards, Mark",
+        "Ford, Neal"
+      ],
+      "title": "Fundamentals of Software Architecture: An Engineering Approach",
+      "publisher": "O'Reilly Media",
+      "published": "2020",
+      "isbn13": "9781492043454",
+      "locator": "https://openlibrary.org/isbn/9781492043454",
+      "topics": [
+        "arquitectura",
+        "compromisos",
+        "estilos"
+      ]
+    },
+    {
+      "id": "geewax-api-design-patterns",
+      "type": "book",
+      "authors": [
+        "Geewax, JJ"
+      ],
+      "title": "API Design Patterns",
+      "publisher": "Manning Publications",
+      "published": "2021",
+      "isbn13": "9781617295850",
+      "locator": "https://openlibrary.org/isbn/9781617295850",
+      "topics": [
+        "api",
+        "contratos",
+        "compatibilidad"
+      ]
+    },
+    {
+      "id": "kalbag-accessibility-for-everyone",
+      "type": "book",
+      "authors": [
+        "Kalbag, Laura"
+      ],
+      "title": "Accessibility for Everyone",
+      "publisher": "A Book Apart",
+      "published": "2017",
+      "isbn13": "9781937557614",
+      "locator": "https://openlibrary.org/isbn/9781937557614",
+      "topics": [
+        "accesibilidad",
+        "inclusión",
+        "frontend"
+      ]
+    },
+    {
+      "id": "norman-design-everyday-things",
+      "type": "book",
+      "authors": [
+        "Norman, Donald A."
+      ],
+      "title": "The Design of Everyday Things",
+      "edition": "revisada y ampliada",
+      "publisher": "Basic Books",
+      "published": "2013",
+      "isbn13": "9780465050659",
+      "locator": "https://openlibrary.org/isbn/9780465050659",
+      "topics": [
+        "diseño",
+        "affordances",
+        "errores humanos"
+      ]
+    },
+    {
+      "id": "brown-make-it-stick",
+      "type": "book",
+      "authors": [
+        "Brown, Peter C.",
+        "Roediger, Henry L.",
+        "McDaniel, Mark A."
+      ],
+      "title": "Make It Stick: The Science of Successful Learning",
+      "publisher": "Belknap Press of Harvard University Press",
+      "published": "2014",
+      "isbn13": "9780674729018",
+      "locator": "https://openlibrary.org/isbn/9780674729018",
+      "topics": [
+        "pedagogía",
+        "recuperación",
+        "intercalado"
+      ]
+    },
+    {
+      "id": "sweller-cognitive-load-theory",
+      "type": "book",
+      "authors": [
+        "Sweller, John",
+        "Ayres, Paul",
+        "Kalyuga, Slava"
+      ],
+      "title": "Cognitive Load Theory",
+      "publisher": "Springer",
+      "published": "2011",
+      "isbn13": "9781441981257",
+      "locator": "https://openlibrary.org/isbn/9781441981257",
+      "topics": [
+        "pedagogía",
+        "carga cognitiva",
+        "ejemplos resueltos"
+      ]
+    },
+    {
+      "id": "anderson-krathwohl-taxonomy",
+      "type": "book",
+      "authors": [
+        "Anderson, Lorin W.",
+        "Krathwohl, David R."
+      ],
+      "title": "A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives",
+      "publisher": "Longman",
+      "published": "2001",
+      "isbn13": "9780321084057",
+      "locator": "https://openlibrary.org/isbn/9780321084057",
+      "topics": [
+        "pedagogía",
+        "objetivos",
+        "evaluación"
+      ]
+    },
+    {
+      "id": "wiggins-mctighe-ubd",
+      "type": "book",
+      "authors": [
+        "Wiggins, Grant",
+        "McTighe, Jay"
+      ],
+      "title": "Understanding by Design",
+      "edition": "2.ª ampliada",
+      "publisher": "Association for Supervision and Curriculum Development",
+      "published": "2005",
+      "isbn13": "9781416600350",
+      "locator": "https://openlibrary.org/isbn/9781416600350",
+      "topics": [
+        "pedagogía",
+        "diseño inverso",
+        "evidencia de aprendizaje"
+      ]
+    },
+    {
+      "id": "ericsson-peak",
+      "type": "book",
+      "authors": [
+        "Ericsson, Anders",
+        "Pool, Robert"
+      ],
+      "title": "Peak: Secrets from the New Science of Expertise",
+      "publisher": "Houghton Mifflin Harcourt",
+      "published": "2016",
+      "isbn13": "9780544456235",
+      "locator": "https://openlibrary.org/isbn/9780544456235",
+      "topics": [
+        "pedagogía",
+        "práctica deliberada",
+        "retroalimentación"
+      ]
+    },
+    {
+      "id": "merrill-first-principles",
+      "type": "paper",
+      "authors": [
+        "Merrill, M. David"
+      ],
+      "title": "First principles of instruction",
+      "container": "Educational Technology Research and Development",
+      "volume": "50",
+      "pages": "43-59",
+      "published": "2002",
+      "doi": "10.1007/BF02505024",
+      "locator": "https://doi.org/10.1007/BF02505024",
+      "topics": [
+        "pedagogía",
+        "secuencia",
+        "transferencia"
+      ]
+    },
+    {
+      "id": "sweller-1988-cognitive-load",
+      "type": "paper",
+      "authors": [
+        "Sweller, John"
+      ],
+      "title": "Cognitive Load During Problem Solving: Effects on Learning",
+      "container": "Cognitive Science",
+      "volume": "12",
+      "pages": "257-285",
+      "published": "1988",
+      "doi": "10.1207/s15516709cog1202_4",
+      "locator": "https://doi.org/10.1207/s15516709cog1202_4",
+      "topics": [
+        "pedagogía",
+        "carga cognitiva"
+      ]
+    },
+    {
+      "id": "roediger-karpicke-test-enhanced",
+      "type": "paper",
+      "authors": [
+        "Roediger, Henry L.",
+        "Karpicke, Jeffrey D."
+      ],
+      "title": "Test-Enhanced Learning",
+      "container": "Psychological Science",
+      "volume": "17",
+      "pages": "249-255",
+      "published": "2006",
+      "doi": "10.1111/j.1467-9280.2006.01693.x",
+      "locator": "https://doi.org/10.1111/j.1467-9280.2006.01693.x",
+      "topics": [
+        "pedagogía",
+        "recuperación",
+        "retención"
+      ]
+    },
+    {
+      "id": "dunlosky-effective-techniques",
+      "type": "paper",
+      "authors": [
+        "Dunlosky, John",
+        "Rawson, Katherine A.",
+        "Marsh, Elizabeth J.",
+        "Nathan, Mitchell J.",
+        "Willingham, Daniel T."
+      ],
+      "title": "Improving Students' Learning With Effective Learning Techniques",
+      "container": "Psychological Science in the Public Interest",
+      "volume": "14",
+      "pages": "4-58",
+      "published": "2013",
+      "doi": "10.1177/1529100612453266",
+      "locator": "https://doi.org/10.1177/1529100612453266",
+      "topics": [
+        "pedagogía",
+        "práctica distribuida",
+        "autoexplicación"
+      ]
+    },
+    {
+      "id": "biggs-constructive-alignment",
+      "type": "paper",
+      "authors": [
+        "Biggs, John"
+      ],
+      "title": "Enhancing teaching through constructive alignment",
+      "container": "Higher Education",
+      "volume": "32",
+      "pages": "347-364",
+      "published": "1996",
+      "doi": "10.1007/BF00138871",
+      "locator": "https://doi.org/10.1007/BF00138871",
+      "topics": [
+        "pedagogía",
+        "alineamiento",
+        "evaluación"
+      ]
+    },
+    {
+      "id": "evans-assessment-feedback",
+      "type": "paper",
+      "authors": [
+        "Evans, Carol"
+      ],
+      "title": "Making Sense of Assessment Feedback in Higher Education",
+      "container": "Review of Educational Research",
+      "volume": "83",
+      "pages": "70-120",
+      "published": "2013",
+      "doi": "10.3102/0034654312474350",
+      "locator": "https://doi.org/10.3102/0034654312474350",
+      "topics": [
+        "pedagogía",
+        "retroalimentación",
+        "evaluación"
+      ]
+    },
+    {
+      "id": "vanlehn-tutoring",
+      "type": "paper",
+      "authors": [
+        "VanLehn, Kurt"
+      ],
+      "title": "The Relative Effectiveness of Human Tutoring, Intelligent Tutoring Systems, and Other Tutoring Systems",
+      "container": "Educational Psychologist",
+      "volume": "46",
+      "pages": "197-221",
+      "published": "2011",
+      "doi": "10.1080/00461520.2011.611369",
+      "locator": "https://doi.org/10.1080/00461520.2011.611369",
+      "topics": [
+        "pedagogía",
+        "tutoría",
+        "andamiaje"
+      ]
+    },
+    {
+      "id": "rfc9110",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 9110 — HTTP Semantics",
+      "published": "2022",
+      "locator": "https://www.rfc-editor.org/rfc/rfc9110",
+      "topics": [
+        "http",
+        "métodos",
+        "códigos"
+      ]
+    },
+    {
+      "id": "rfc9111",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 9111 — HTTP Caching",
+      "published": "2022",
+      "locator": "https://www.rfc-editor.org/rfc/rfc9111",
+      "topics": [
+        "http",
+        "caché",
+        "rendimiento"
+      ]
+    },
+    {
+      "id": "rfc9112",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 9112 — HTTP/1.1",
+      "published": "2022",
+      "locator": "https://www.rfc-editor.org/rfc/rfc9112",
+      "topics": [
+        "http",
+        "transporte"
+      ]
+    },
+    {
+      "id": "rfc9113",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 9113 — HTTP/2",
+      "published": "2022",
+      "locator": "https://www.rfc-editor.org/rfc/rfc9113",
+      "topics": [
+        "http",
+        "multiplexación"
+      ]
+    },
+    {
+      "id": "rfc9114",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 9114 — HTTP/3",
+      "published": "2022",
+      "locator": "https://www.rfc-editor.org/rfc/rfc9114",
+      "topics": [
+        "http",
+        "quic"
+      ]
+    },
+    {
+      "id": "rfc9457",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 9457 — Problem Details for HTTP APIs",
+      "published": "2023",
+      "locator": "https://www.rfc-editor.org/rfc/rfc9457",
+      "topics": [
+        "api",
+        "errores",
+        "contrato"
+      ]
+    },
+    {
+      "id": "rfc6749",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 6749 — The OAuth 2.0 Authorization Framework",
+      "published": "2012",
+      "locator": "https://www.rfc-editor.org/rfc/rfc6749",
+      "topics": [
+        "identidad",
+        "autorización"
+      ]
+    },
+    {
+      "id": "rfc9700",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 9700 — Best Current Practice for OAuth 2.0 Security",
+      "published": "2025",
+      "locator": "https://www.rfc-editor.org/rfc/rfc9700",
+      "topics": [
+        "identidad",
+        "seguridad",
+        "oauth"
+      ]
+    },
+    {
+      "id": "rfc7519",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 7519 — JSON Web Token (JWT)",
+      "published": "2015",
+      "locator": "https://www.rfc-editor.org/rfc/rfc7519",
+      "topics": [
+        "identidad",
+        "tokens"
+      ]
+    },
+    {
+      "id": "rfc8259",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 8259 — The JavaScript Object Notation (JSON) Data Interchange Format",
+      "published": "2017",
+      "locator": "https://www.rfc-editor.org/rfc/rfc8259",
+      "topics": [
+        "formato",
+        "serialización"
+      ]
+    },
+    {
+      "id": "rfc6902",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 6902 — JavaScript Object Notation (JSON) Patch",
+      "published": "2013",
+      "locator": "https://www.rfc-editor.org/rfc/rfc6902",
+      "topics": [
+        "api",
+        "actualización parcial"
+      ]
+    },
+    {
+      "id": "rfc5789",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 5789 — PATCH Method for HTTP",
+      "published": "2010",
+      "locator": "https://www.rfc-editor.org/rfc/rfc5789",
+      "topics": [
+        "http",
+        "métodos"
+      ]
+    },
+    {
+      "id": "rfc6265",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 6265 — HTTP State Management Mechanism",
+      "published": "2011",
+      "locator": "https://www.rfc-editor.org/rfc/rfc6265",
+      "topics": [
+        "http",
+        "sesiones",
+        "cookies"
+      ]
+    },
+    {
+      "id": "rfc8446",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 8446 — The Transport Layer Security (TLS) Protocol Version 1.3",
+      "published": "2018",
+      "locator": "https://www.rfc-editor.org/rfc/rfc8446",
+      "topics": [
+        "seguridad",
+        "transporte"
+      ]
+    },
+    {
+      "id": "openapi-spec",
+      "type": "standard",
+      "publisher": "OpenAPI Initiative",
+      "title": "OpenAPI Specification",
+      "locator": "https://spec.openapis.org/oas/latest.html",
+      "topics": [
+        "contrato",
+        "api",
+        "documentación"
+      ]
+    },
+    {
+      "id": "json-schema",
+      "type": "standard",
+      "publisher": "JSON Schema",
+      "title": "JSON Schema Specification",
+      "locator": "https://json-schema.org/specification",
+      "topics": [
+        "validación",
+        "contrato"
+      ]
+    },
+    {
+      "id": "whatwg-fetch",
+      "type": "standard",
+      "publisher": "WHATWG",
+      "title": "Fetch Standard",
+      "locator": "https://fetch.spec.whatwg.org/",
+      "topics": [
+        "frontend",
+        "http",
+        "CORS"
+      ]
+    },
+    {
+      "id": "whatwg-html",
+      "type": "standard",
+      "publisher": "WHATWG",
+      "title": "HTML Standard",
+      "locator": "https://html.spec.whatwg.org/multipage/",
+      "topics": [
+        "frontend",
+        "semántica",
+        "formularios"
+      ]
+    },
+    {
+      "id": "w3c-wcag22",
+      "type": "standard",
+      "publisher": "W3C",
+      "title": "Web Content Accessibility Guidelines (WCAG) 2.2",
+      "published": "2023",
+      "locator": "https://www.w3.org/TR/WCAG22/",
+      "topics": [
+        "accesibilidad",
+        "criterios"
+      ]
+    },
+    {
+      "id": "w3c-aria-apg",
+      "type": "standard",
+      "publisher": "W3C",
+      "title": "ARIA Authoring Practices Guide",
+      "locator": "https://www.w3.org/WAI/ARIA/apg/",
+      "topics": [
+        "accesibilidad",
+        "patrones",
+        "componentes"
+      ]
+    },
+    {
+      "id": "w3c-service-worker",
+      "type": "standard",
+      "publisher": "W3C",
+      "title": "Service Workers",
+      "locator": "https://w3c.github.io/ServiceWorker/",
+      "topics": [
+        "offline",
+        "pwa",
+        "caché"
+      ]
+    },
+    {
+      "id": "owasp-asvs",
+      "type": "standard",
+      "publisher": "OWASP",
+      "title": "Application Security Verification Standard",
+      "locator": "https://owasp.org/www-project-application-security-verification-standard/",
+      "topics": [
+        "seguridad",
+        "verificación",
+        "requisitos"
+      ]
+    },
+    {
+      "id": "owasp-top10",
+      "type": "standard",
+      "publisher": "OWASP",
+      "title": "OWASP Top 10",
+      "locator": "https://owasp.org/www-project-top-ten/",
+      "topics": [
+        "seguridad",
+        "riesgos"
+      ]
+    },
+    {
+      "id": "owasp-cheatsheets",
+      "type": "standard",
+      "publisher": "OWASP",
+      "title": "OWASP Cheat Sheet Series",
+      "locator": "https://cheatsheetseries.owasp.org/",
+      "topics": [
+        "seguridad",
+        "controles",
+        "implementación"
+      ]
+    },
+    {
+      "id": "nist-800-63b",
+      "type": "standard",
+      "publisher": "NIST",
+      "title": "SP 800-63B — Digital Identity Guidelines: Authentication and Lifecycle Management",
+      "locator": "https://pages.nist.gov/800-63-3/sp800-63b.html",
+      "topics": [
+        "identidad",
+        "contraseñas",
+        "autenticación"
+      ]
+    },
+    {
+      "id": "nist-ssdf",
+      "type": "standard",
+      "publisher": "NIST",
+      "title": "SP 800-218 — Secure Software Development Framework (SSDF)",
+      "published": "2022",
+      "locator": "https://csrc.nist.gov/pubs/sp/800/218/final",
+      "topics": [
+        "cadena de suministro",
+        "proceso seguro"
+      ]
+    },
+    {
+      "id": "slsa",
+      "type": "standard",
+      "publisher": "OpenSSF",
+      "title": "SLSA — Supply-chain Levels for Software Artifacts",
+      "locator": "https://slsa.dev/spec/v1.0/",
+      "topics": [
+        "cadena de suministro",
+        "procedencia"
+      ]
+    },
+    {
+      "id": "semver",
+      "type": "standard",
+      "publisher": "Semantic Versioning",
+      "title": "Semantic Versioning 2.0.0",
+      "locator": "https://semver.org/",
+      "topics": [
+        "versionado",
+        "compatibilidad"
+      ]
+    },
+    {
+      "id": "spdx-licenses",
+      "type": "reference",
+      "publisher": "Linux Foundation",
+      "title": "SPDX License List",
+      "locator": "https://spdx.org/licenses/",
+      "topics": [
+        "licencias",
+        "cumplimiento"
+      ]
+    },
+    {
+      "id": "osi-licenses",
+      "type": "reference",
+      "publisher": "Open Source Initiative",
+      "title": "OSI Approved Licenses",
+      "locator": "https://opensource.org/licenses",
+      "topics": [
+        "licencias",
+        "gobierno"
+      ]
+    },
+    {
+      "id": "twelve-factor",
+      "type": "reference",
+      "publisher": "Heroku",
+      "title": "The Twelve-Factor App",
+      "locator": "https://12factor.net/",
+      "topics": [
+        "configuración",
+        "despliegue",
+        "paridad de entornos"
+      ]
+    },
+    {
+      "id": "opentelemetry-docs",
+      "type": "reference",
+      "publisher": "OpenTelemetry / CNCF",
+      "title": "OpenTelemetry Documentation",
+      "locator": "https://opentelemetry.io/docs/",
+      "topics": [
+        "observabilidad",
+        "trazas",
+        "métricas"
+      ]
+    },
+    {
+      "id": "mdn-web-docs",
+      "type": "reference",
+      "publisher": "Mozilla",
+      "title": "MDN Web Docs",
+      "locator": "https://developer.mozilla.org/en-US/docs/Web",
+      "topics": [
+        "frontend",
+        "referencia",
+        "navegador"
+      ]
+    },
+    {
+      "id": "webdev-rendering",
+      "type": "reference",
+      "publisher": "Google — web.dev",
+      "title": "Rendering on the Web",
+      "locator": "https://web.dev/articles/rendering-on-the-web",
+      "topics": [
+        "renderizado",
+        "csr",
+        "ssr",
+        "ssg"
+      ]
+    },
+    {
+      "id": "webdev-vitals",
+      "type": "reference",
+      "publisher": "Google — web.dev",
+      "title": "Web Vitals",
+      "locator": "https://web.dev/articles/vitals",
+      "topics": [
+        "rendimiento",
+        "métricas de usuario"
+      ]
+    },
+    {
+      "id": "webdev-offline-cookbook",
+      "type": "reference",
+      "publisher": "Google — web.dev",
+      "title": "The Offline Cookbook",
+      "locator": "https://web.dev/articles/offline-cookbook",
+      "topics": [
+        "offline",
+        "estrategias de caché"
+      ]
+    },
+    {
+      "id": "fowler-injection",
+      "type": "reference",
+      "publisher": "martinfowler.com",
+      "authors": [
+        "Fowler, Martin"
+      ],
+      "title": "Inversion of Control Containers and the Dependency Injection pattern",
+      "published": "2004",
+      "locator": "https://martinfowler.com/articles/injection.html",
+      "topics": [
+        "inversión de control",
+        "inyección"
+      ]
+    },
+    {
+      "id": "fowler-strangler-fig",
+      "type": "reference",
+      "publisher": "martinfowler.com",
+      "authors": [
+        "Fowler, Martin"
+      ],
+      "title": "Strangler Fig Application",
+      "published": "2004",
+      "locator": "https://martinfowler.com/bliki/StranglerFigApplication.html",
+      "topics": [
+        "migración",
+        "legado",
+        "incremental"
+      ]
+    },
+    {
+      "id": "fowler-test-pyramid",
+      "type": "reference",
+      "publisher": "martinfowler.com",
+      "authors": [
+        "Fowler, Martin"
+      ],
+      "title": "Test Pyramid",
+      "published": "2012",
+      "locator": "https://martinfowler.com/bliki/TestPyramid.html",
+      "topics": [
+        "pruebas",
+        "estrategia"
+      ]
+    },
+    {
+      "id": "fowler-cqrs",
+      "type": "reference",
+      "publisher": "martinfowler.com",
+      "authors": [
+        "Fowler, Martin"
+      ],
+      "title": "CQRS",
+      "published": "2011",
+      "locator": "https://martinfowler.com/bliki/CQRS.html",
+      "topics": [
+        "dominio",
+        "lectura y escritura"
+      ]
+    },
+    {
+      "id": "fowler-microservice-tradeoffs",
+      "type": "reference",
+      "publisher": "martinfowler.com",
+      "authors": [
+        "Fowler, Martin"
+      ],
+      "title": "Microservice Trade-Offs",
+      "published": "2015",
+      "locator": "https://martinfowler.com/articles/microservice-trade-offs.html",
+      "topics": [
+        "compromisos",
+        "distribución"
+      ]
+    },
+    {
+      "id": "adr-github",
+      "type": "reference",
+      "publisher": "ADR community",
+      "title": "Architectural Decision Records",
+      "locator": "https://adr.github.io/",
+      "topics": [
+        "decisiones",
+        "documentación"
+      ]
+    },
+    {
+      "id": "inkandswitch-local-first",
+      "type": "reference",
+      "publisher": "Ink & Switch",
+      "authors": [
+        "Kleppmann, Martin",
+        "Wiggins, Adam",
+        "van Hardenberg, Peter",
+        "McGranaghan, Mark"
+      ],
+      "title": "Local-first software: You own your data, in spite of the cloud",
+      "published": "2019",
+      "locator": "https://www.inkandswitch.com/local-first/",
+      "topics": [
+        "offline",
+        "sincronización",
+        "propiedad de datos"
+      ]
+    },
+    {
+      "id": "dora-research",
+      "type": "reference",
+      "publisher": "Google Cloud — DORA",
+      "title": "DORA Research Program",
+      "locator": "https://dora.dev/research/",
+      "topics": [
+        "métricas",
+        "entrega",
+        "evidencia"
+      ]
+    },
+    {
+      "id": "google-sre-books",
+      "type": "reference",
+      "publisher": "Google",
+      "title": "Google SRE Books",
+      "locator": "https://sre.google/books/",
+      "topics": [
+        "operación",
+        "SLO",
+        "incidentes"
+      ]
+    },
+    {
+      "id": "google-eng-practices",
+      "type": "reference",
+      "publisher": "Google",
+      "title": "Google Engineering Practices Documentation",
+      "locator": "https://google.github.io/eng-practices/",
+      "topics": [
+        "revisión de código",
+        "proceso"
+      ]
+    },
+    {
+      "id": "nodejs-docs",
+      "type": "reference",
+      "publisher": "OpenJS Foundation",
+      "title": "Node.js API Documentation (v22 LTS)",
+      "locator": "https://nodejs.org/docs/latest-v22.x/api/",
+      "topics": [
+        "runtime",
+        "http",
+        "pruebas"
+      ]
+    },
+    {
+      "id": "postgresql-docs",
+      "type": "reference",
+      "publisher": "PostgreSQL Global Development Group",
+      "title": "PostgreSQL Documentation",
+      "locator": "https://www.postgresql.org/docs/current/",
+      "topics": [
+        "persistencia",
+        "sql",
+        "transacciones"
+      ]
+    },
+    {
+      "id": "kubernetes-docs",
+      "type": "reference",
+      "publisher": "CNCF",
+      "title": "Kubernetes Documentation",
+      "locator": "https://kubernetes.io/docs/home/",
+      "topics": [
+        "despliegue",
+        "operación"
+      ]
+    },
+    {
+      "id": "banks-porcello-learning-react",
+      "type": "book",
+      "authors": [
+        "Banks, Alex",
+        "Porcello, Eve"
+      ],
+      "title": "Learning React: Modern Patterns for Developing React Apps",
+      "edition": "2.ª",
+      "publisher": "O'Reilly Media",
+      "published": "2020",
+      "isbn13": "9781492051725",
+      "topics": [
+        "react",
+        "frontend",
+        "componentes"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781492051725"
+    },
+    {
+      "id": "fain-moiseev-angular",
+      "type": "book",
+      "authors": [
+        "Fain, Yakov",
+        "Moiseev, Anton"
+      ],
+      "title": "Angular Development with TypeScript",
+      "edition": "2.ª",
+      "publisher": "Manning Publications",
+      "published": "2018",
+      "isbn13": "9781617295348",
+      "topics": [
+        "angular",
+        "typescript",
+        "inyección"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781617295348"
+    },
+    {
+      "id": "macrae-vue-up-and-running",
+      "type": "book",
+      "authors": [
+        "Macrae, Callum"
+      ],
+      "title": "Vue.js: Up and Running: Building Accessible and Performant Web Apps",
+      "publisher": "O'Reilly Media",
+      "published": "2018",
+      "isbn13": "9781491997246",
+      "topics": [
+        "vue",
+        "frontend",
+        "accesibilidad"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781491997246"
+    },
+    {
+      "id": "bibeault-jquery-in-action",
+      "type": "book",
+      "authors": [
+        "Bibeault, Bear",
+        "Katz, Yehuda"
+      ],
+      "title": "jQuery in Action",
+      "publisher": "Manning",
+      "published": "2008",
+      "isbn13": "9781933988351",
+      "topics": [
+        "jquery",
+        "dom",
+        "navegador"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781933988351"
+    },
+    {
+      "id": "osmani-backbone",
+      "type": "book",
+      "authors": [
+        "Osmani, Addy"
+      ],
+      "title": "Developing Backbone.js Applications",
+      "publisher": "O'Reilly Media",
+      "published": "2012",
+      "isbn13": "9781449328252",
+      "topics": [
+        "backbone",
+        "mvc",
+        "frontend"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781449328252"
+    },
+    {
+      "id": "ruby-thomas-agile-rails",
+      "type": "book",
+      "authors": [
+        "Ruby, Sam",
+        "Thomas, Dave"
+      ],
+      "title": "Agile Web Development with Rails 7",
+      "publisher": "Pragmatic Bookshelf",
+      "published": "2022",
+      "isbn13": "9781680509298",
+      "topics": [
+        "rails",
+        "convenciones",
+        "full stack"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781680509298"
+    },
+    {
+      "id": "fernandez-rails-way",
+      "type": "book",
+      "authors": [
+        "Fernandez, Obie"
+      ],
+      "title": "The Rails Way",
+      "publisher": "Addison-Wesley Professional",
+      "published": "2007",
+      "isbn13": "9780321445612",
+      "topics": [
+        "rails",
+        "convenciones",
+        "registro activo"
+      ],
+      "locator": "https://openlibrary.org/isbn/9780321445612"
+    },
+    {
+      "id": "greenfeld-two-scoops-django",
+      "type": "book",
+      "authors": [
+        "Roy Greenfeld, Daniel",
+        "Roy Greenfeld, Audrey"
+      ],
+      "title": "Two Scoops of Django: Best Practices for Django",
+      "publisher": "Two Scoops Press",
+      "published": "2013",
+      "isbn13": "9781481879705",
+      "topics": [
+        "django",
+        "buenas prácticas",
+        "estructura"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781481879705"
+    },
+    {
+      "id": "vincent-django-professionals",
+      "type": "book",
+      "authors": [
+        "Vincent, William S."
+      ],
+      "title": "Django for Professionals: Production Websites with Python & Django",
+      "publisher": "Independently published",
+      "published": "2019",
+      "isbn13": "9781081582166",
+      "topics": [
+        "django",
+        "despliegue",
+        "producción"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781081582166"
+    },
+    {
+      "id": "percival-tdd-python",
+      "type": "book",
+      "authors": [
+        "Percival, Harry J. W."
+      ],
+      "title": "Test-Driven Development with Python: Obey the Testing Goat",
+      "edition": "2.ª",
+      "publisher": "O'Reilly Media",
+      "published": "2017",
+      "isbn13": "9781491958704",
+      "topics": [
+        "pruebas",
+        "django",
+        "tdd"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781491958704"
+    },
+    {
+      "id": "stauffer-laravel",
+      "type": "book",
+      "authors": [
+        "Stauffer, Matt"
+      ],
+      "title": "Laravel: Up & Running: A Framework for Building Modern PHP Apps",
+      "edition": "2.ª",
+      "publisher": "O'Reilly Media",
+      "published": "2019",
+      "isbn13": "9781492041214",
+      "topics": [
+        "laravel",
+        "php",
+        "full stack"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781492041214"
+    },
+    {
+      "id": "lockhart-modern-php",
+      "type": "book",
+      "authors": [
+        "Lockhart, Josh"
+      ],
+      "title": "Modern PHP: New Features and Good Practices",
+      "publisher": "O'Reilly Media",
+      "published": "2015",
+      "isbn13": "9781491905180",
+      "topics": [
+        "php",
+        "estándares",
+        "interoperabilidad"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781491905180"
+    },
+    {
+      "id": "walls-spring-in-action",
+      "type": "book",
+      "authors": [
+        "Walls, Craig"
+      ],
+      "title": "Spring in Action",
+      "edition": "6.ª",
+      "publisher": "Manning Publications",
+      "published": "2022",
+      "isbn13": "9781617297571",
+      "topics": [
+        "spring",
+        "inyección",
+        "jvm"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781617297571"
+    },
+    {
+      "id": "freeman-pro-aspnet-core",
+      "type": "book",
+      "authors": [
+        "Freeman, Adam"
+      ],
+      "title": "Pro ASP.NET Core 7",
+      "publisher": "Manning Publications",
+      "published": "2023",
+      "isbn13": "9781633437821",
+      "topics": [
+        "aspnet",
+        ".net",
+        "middleware"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781633437821"
+    },
+    {
+      "id": "casciaro-node-patterns",
+      "type": "book",
+      "authors": [
+        "Casciaro, Mario",
+        "Mammino, Luciano"
+      ],
+      "title": "Node.js Design Patterns",
+      "edition": "3.ª",
+      "publisher": "Packt Publishing",
+      "published": "2020",
+      "isbn13": "9781839214110",
+      "topics": [
+        "node",
+        "patrones",
+        "asincronía"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781839214110"
+    },
+    {
+      "id": "mccord-tate-programming-phoenix",
+      "type": "book",
+      "authors": [
+        "McCord, Chris",
+        "Tate, Bruce",
+        "Valim, José"
+      ],
+      "title": "Programming Phoenix",
+      "publisher": "Pragmatic Bookshelf",
+      "published": "2016",
+      "isbn13": "9781680501452",
+      "topics": [
+        "phoenix",
+        "elixir",
+        "tiempo real"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781680501452"
+    },
+    {
+      "id": "thomas-programming-elixir",
+      "type": "book",
+      "authors": [
+        "Thomas, Dave"
+      ],
+      "title": "Programming Elixir",
+      "publisher": "Pragmatic Bookshelf",
+      "published": "2014",
+      "isbn13": "9781937785581",
+      "topics": [
+        "elixir",
+        "concurrencia",
+        "beam"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781937785581"
+    },
+    {
+      "id": "gross-hypermedia-systems",
+      "type": "book",
+      "authors": [
+        "Gross, Carson",
+        "Stepinski, Adam",
+        "Akşimşek, Deniz"
+      ],
+      "title": "Hypermedia Systems",
+      "publisher": "Big Sky Software",
+      "published": "2024",
+      "isbn13": "9798990991804",
+      "topics": [
+        "hipermedia",
+        "htmx",
+        "rest"
+      ],
+      "locator": "https://openlibrary.org/isbn/9798990991804"
+    },
+    {
+      "id": "flanagan-javascript-definitive",
+      "type": "book",
+      "authors": [
+        "Flanagan, David"
+      ],
+      "title": "JavaScript: The Definitive Guide",
+      "edition": "7.ª",
+      "publisher": "O'Reilly Media",
+      "published": "2020",
+      "isbn13": "9781491952023",
+      "topics": [
+        "javascript",
+        "lenguaje",
+        "referencia"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781491952023"
+    },
+    {
+      "id": "haverbeke-eloquent-javascript",
+      "type": "book",
+      "authors": [
+        "Haverbeke, Marijn"
+      ],
+      "title": "Eloquent JavaScript: A Modern Introduction to Programming",
+      "edition": "3.ª",
+      "publisher": "No Starch Press",
+      "published": "2018",
+      "isbn13": "9781593279509",
+      "topics": [
+        "javascript",
+        "dom",
+        "fundamentos"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781593279509"
+    },
+    {
+      "id": "jin-sahni-designing-web-apis",
+      "type": "book",
+      "authors": [
+        "Jin, Brenda",
+        "Sahni, Saurabh",
+        "Shevat, Amir"
+      ],
+      "title": "Designing Web APIs: Building APIs That Developers Love",
+      "publisher": "O'Reilly Media",
+      "published": "2018",
+      "isbn13": "9781492026921",
+      "topics": [
+        "api",
+        "contrato",
+        "diseño"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781492026921"
+    },
+    {
+      "id": "freeman-pryce-goos",
+      "type": "book",
+      "authors": [
+        "Freeman, Steve",
+        "Pryce, Nat"
+      ],
+      "title": "Growing Object-Oriented Software, Guided by Tests",
+      "publisher": "Addison-Wesley",
+      "published": "2010",
+      "isbn13": "9780321503626",
+      "topics": [
+        "pruebas",
+        "diseño",
+        "dobles"
+      ],
+      "locator": "https://openlibrary.org/isbn/9780321503626"
+    },
+    {
+      "id": "ousterhout-philosophy",
+      "type": "book",
+      "authors": [
+        "Ousterhout, John K."
+      ],
+      "title": "A Philosophy of Software Design",
+      "edition": "2.ª",
+      "publisher": "Yaknyam Press",
+      "published": "2021",
+      "isbn13": "9781732102217",
+      "topics": [
+        "diseño",
+        "complejidad",
+        "abstracción"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781732102217"
+    },
+    {
+      "id": "brooks-mythical-man-month",
+      "type": "book",
+      "authors": [
+        "Brooks, Frederick P."
+      ],
+      "title": "The Mythical Man-Month: Essays on Software Engineering",
+      "edition": "aniversario",
+      "publisher": "Addison-Wesley Professional",
+      "published": "1995",
+      "isbn13": "9780201835953",
+      "topics": [
+        "complejidad",
+        "segundo sistema",
+        "equipos"
+      ],
+      "locator": "https://openlibrary.org/isbn/9780201835953"
+    },
+    {
+      "id": "fielding-rest-dissertation",
+      "type": "reference",
+      "publisher": "University of California, Irvine",
+      "authors": [
+        "Fielding, Roy T."
+      ],
+      "title": "Architectural Styles and the Design of Network-based Software Architectures",
+      "published": "2000",
+      "locator": "https://ics.uci.edu/~fielding/pubs/dissertation/top.htm",
+      "topics": [
+        "rest",
+        "hipermedia",
+        "arquitectura"
+      ]
+    },
+    {
+      "id": "react-why",
+      "type": "reference",
+      "publisher": "Meta — React",
+      "title": "Why did we build React?",
+      "published": "2013",
+      "locator": "https://legacy.reactjs.org/blog/2013/06/05/why-react.html",
+      "topics": [
+        "react",
+        "motivación",
+        "estado"
+      ]
+    },
+    {
+      "id": "react-server-components",
+      "type": "reference",
+      "publisher": "Meta — React",
+      "title": "React Server Components",
+      "locator": "https://react.dev/reference/rsc/server-components",
+      "topics": [
+        "react",
+        "servidor",
+        "renderizado"
+      ]
+    },
+    {
+      "id": "rails-doctrine",
+      "type": "reference",
+      "publisher": "Ruby on Rails",
+      "authors": [
+        "Hansson, David Heinemeier"
+      ],
+      "title": "The Rails Doctrine",
+      "locator": "https://rubyonrails.org/doctrine",
+      "topics": [
+        "rails",
+        "convenciones",
+        "filosofía"
+      ]
+    },
+    {
+      "id": "htmx-essays",
+      "type": "reference",
+      "publisher": "htmx",
+      "authors": [
+        "Gross, Carson"
+      ],
+      "title": "htmx Essays",
+      "locator": "https://htmx.org/essays/",
+      "topics": [
+        "hipermedia",
+        "htmx",
+        "arquitectura"
+      ]
+    },
+    {
+      "id": "astro-islands",
+      "type": "reference",
+      "publisher": "Astro",
+      "title": "Islands Architecture",
+      "locator": "https://docs.astro.build/en/concepts/islands/",
+      "topics": [
+        "islas",
+        "renderizado",
+        "hidratación"
+      ]
+    },
+    {
+      "id": "jasonformat-islands",
+      "type": "reference",
+      "publisher": "jasonformat.com",
+      "authors": [
+        "Miller, Jason"
+      ],
+      "title": "Islands Architecture",
+      "published": "2020",
+      "locator": "https://jasonformat.com/islands-architecture/",
+      "topics": [
+        "islas",
+        "hidratación",
+        "rendimiento"
+      ]
+    },
+    {
+      "id": "patterns-dev",
+      "type": "reference",
+      "publisher": "patterns.dev",
+      "title": "Patterns.dev — Modern Web App Design Patterns",
+      "locator": "https://www.patterns.dev/",
+      "topics": [
+        "patrones",
+        "renderizado",
+        "frontend"
+      ]
+    },
+    {
+      "id": "angularjs-eol",
+      "type": "reference",
+      "publisher": "Google — AngularJS",
+      "title": "AngularJS Version Support Status",
+      "locator": "https://docs.angularjs.org/misc/version-support-status",
+      "topics": [
+        "fin de soporte",
+        "migración",
+        "ciclo de vida"
+      ]
+    },
+    {
+      "id": "endoflife-date",
+      "type": "reference",
+      "publisher": "endoflife.date",
+      "title": "endoflife.date — Release and support calendars",
+      "locator": "https://endoflife.date/",
+      "topics": [
+        "soporte",
+        "versiones",
+        "ciclo de vida"
+      ]
+    },
+    {
+      "id": "cve-2017-5638",
+      "type": "reference",
+      "publisher": "NIST — National Vulnerability Database",
+      "title": "CVE-2017-5638 — Apache Struts remote code execution",
+      "published": "2017",
+      "locator": "https://nvd.nist.gov/vuln/detail/CVE-2017-5638",
+      "topics": [
+        "vulnerabilidad",
+        "struts",
+        "cadena de suministro"
+      ]
+    },
+    {
+      "id": "struts-security",
+      "type": "reference",
+      "publisher": "Apache Software Foundation",
+      "title": "Apache Struts Security Bulletins",
+      "locator": "https://struts.apache.org/security/",
+      "topics": [
+        "seguridad",
+        "struts",
+        "actualización"
+      ]
+    },
+    {
+      "id": "cisa-kev",
+      "type": "reference",
+      "publisher": "CISA",
+      "title": "Known Exploited Vulnerabilities Catalog",
+      "locator": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "topics": [
+        "seguridad",
+        "explotación activa",
+        "priorización"
+      ]
+    },
+    {
+      "id": "blazor-webforms",
+      "type": "reference",
+      "publisher": "Microsoft",
+      "title": "Blazor for ASP.NET Web Forms Developers",
+      "locator": "https://learn.microsoft.com/dotnet/architecture/blazor-for-web-forms-developers/",
+      "topics": [
+        "migración",
+        "web forms",
+        "blazor"
+      ]
+    },
+    {
+      "id": "tc39-ecma262",
+      "type": "standard",
+      "publisher": "Ecma International — TC39",
+      "title": "ECMAScript Language Specification",
+      "locator": "https://tc39.es/ecma262/",
+      "topics": [
+        "javascript",
+        "lenguaje",
+        "estándar"
+      ]
+    },
+    {
+      "id": "whatwg-dom",
+      "type": "standard",
+      "publisher": "WHATWG",
+      "title": "DOM Standard",
+      "locator": "https://dom.spec.whatwg.org/",
+      "topics": [
+        "dom",
+        "eventos",
+        "navegador"
+      ]
+    },
+    {
+      "id": "webassembly-org",
+      "type": "standard",
+      "publisher": "W3C — WebAssembly",
+      "title": "WebAssembly",
+      "locator": "https://webassembly.org/",
+      "topics": [
+        "webassembly",
+        "runtime",
+        "navegador"
+      ]
+    },
+    {
+      "id": "php-fig-psr",
+      "type": "standard",
+      "publisher": "PHP-FIG",
+      "title": "PSR — PHP Standards Recommendations",
+      "locator": "https://www.php-fig.org/psr/",
+      "topics": [
+        "php",
+        "interoperabilidad",
+        "middleware"
+      ]
+    },
+    {
+      "id": "symfony-components",
+      "type": "reference",
+      "publisher": "Symfony",
+      "title": "Symfony Components",
+      "locator": "https://symfony.com/components",
+      "topics": [
+        "php",
+        "componentes",
+        "reutilización"
+      ]
+    },
+    {
+      "id": "vue-reactivity",
+      "type": "reference",
+      "publisher": "Vue",
+      "title": "Reactivity in Depth",
+      "locator": "https://vuejs.org/guide/extras/reactivity-in-depth.html",
+      "topics": [
+        "vue",
+        "reactividad",
+        "señales"
+      ]
+    },
+    {
+      "id": "svelte-vdom-essay",
+      "type": "reference",
+      "publisher": "Svelte",
+      "authors": [
+        "Harris, Rich"
+      ],
+      "title": "Virtual DOM is pure overhead",
+      "published": "2018",
+      "locator": "https://svelte.dev/blog/virtual-dom-is-pure-overhead",
+      "topics": [
+        "svelte",
+        "árbol virtual",
+        "compilación"
+      ]
+    },
+    {
+      "id": "openjsf-projects",
+      "type": "reference",
+      "publisher": "OpenJS Foundation",
+      "title": "OpenJS Foundation Projects",
+      "locator": "https://openjsf.org/projects",
+      "topics": [
+        "gobierno",
+        "fundación",
+        "javascript"
+      ]
+    },
+    {
+      "id": "ember-rfcs",
+      "type": "reference",
+      "publisher": "Ember.js",
+      "title": "Ember RFCs",
+      "locator": "https://rfcs.emberjs.com/",
+      "topics": [
+        "gobierno",
+        "proceso",
+        "cambios"
+      ]
+    },
+    {
+      "id": "laravel-releases",
+      "type": "reference",
+      "publisher": "Laravel",
+      "title": "Laravel Release Notes and Support Policy",
+      "locator": "https://laravel.com/docs/releases",
+      "topics": [
+        "versiones",
+        "soporte",
+        "laravel"
+      ]
+    },
+    {
+      "id": "django-releases",
+      "type": "reference",
+      "publisher": "Django Software Foundation",
+      "title": "Django Release Notes",
+      "locator": "https://docs.djangoproject.com/en/stable/releases/",
+      "topics": [
+        "versiones",
+        "soporte",
+        "django"
+      ]
+    },
+    {
+      "id": "web-almanac",
+      "type": "reference",
+      "publisher": "HTTP Archive",
+      "title": "Web Almanac",
+      "locator": "https://almanac.httparchive.org/",
+      "topics": [
+        "datos",
+        "adopción",
+        "web"
+      ]
+    }
   ]
 }

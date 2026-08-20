@@ -88,10 +88,10 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | **Knockout** | `mvvm-library` | 2010 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://knockoutjs.com/documentation/introduction.html) |
 | **MooTools** | `dom-library` | 2006 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://mootools.net/) |
 | **Prototype** | `dom-library` | 2005 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://github.com/prototypejs/prototype) |
-| **AngularJS** | `web-framework` | 2010 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://docs.angularjs.org/guide) |
+| [**AngularJS**](fichas/angularjs.md) | `web-framework` | 2010 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://docs.angularjs.org/guide) |
 | **Aurelia** | `web-framework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://docs.aurelia.io/) |
 | **Ember.js** | `web-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.emberjs.com/release/) |
-| **Express** | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://expressjs.com/) |
+| [**Express**](fichas/express.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://expressjs.com/) |
 | **Ext JS** | `ui-toolkit` | 2007 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.sencha.com/extjs/) |
 | **Gatsby** | `react-metaframework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://www.gatsbyjs.com/docs/) |
 | **hapi** | `web-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://hapi.dev/) |
@@ -116,7 +116,7 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | **Eleventy** | `static-site-generator` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.11ty.dev/docs/) |
 | **Fastify** | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://fastify.dev/docs/latest/) |
 | **Turbo (Hotwire)** | `hypermedia-library` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://turbo.hotwired.dev/handbook/introduction) |
-| **htmx** | `hypermedia-library` | 2020 | 🟢 Vigente | 🟢 activo | `BSD-2-Clause` | [oficial](https://htmx.org/docs/) |
+| [**htmx**](fichas/htmx.md) | `hypermedia-library` | 2020 | 🟢 Vigente | 🟢 activo | `BSD-2-Clause` | [oficial](https://htmx.org/docs/) |
 | **Lit** | `web-components-library` | 2021 | 🟢 Vigente | 🟢 activo | `BSD-3-Clause` | [oficial](https://lit.dev/docs/) |
 | **NestJS** | `application-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.nestjs.com/) |
 | **Next.js** | `react-metaframework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nextjs.org/docs) |
@@ -125,7 +125,7 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | **Nuxt** | `vue-metaframework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nuxt.com/docs) |
 | **Preact** | `ui-library` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://preactjs.com/guide/v10/getting-started/) |
 | **Prisma ORM** | `orm` | 2021 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://www.prisma.io/docs) |
-| **React** | `ui-library` | 2013 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://react.dev/) |
+| [**React**](fichas/react.md) | `ui-library` | 2013 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://react.dev/) |
 | **React Native** | `ui-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactnative.dev/docs/getting-started) |
 | **React Router** | `routing-library` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactrouter.com/) |
 | **Remix** | `react-metaframework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://remix.run/docs) |
@@ -136,7 +136,7 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | **tRPC** | `rpc-library` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://trpc.io/docs) |
 | **Vite** | `build-tool` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vite.dev/guide/) |
 | **VitePress** | `documentation-framework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vitepress.dev/) |
-| **Vue** | `web-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vuejs.org/guide/) |
+| [**Vue**](fichas/vue.md) | `web-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vuejs.org/guide/) |
 | **Analog** | `angular-metaframework` | 2023 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://analogjs.org/docs) |
 | **Bun** | `runtime` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://bun.com/docs) |
 | **Drizzle ORM** | `orm` | 2022 | 🌊 Emergente | 🟢 activo | `Apache-2.0` | [oficial](https://orm.drizzle.team/docs/overview) |
@@ -154,7 +154,7 @@ Contexto y genealogía: [python.md](ecosistemas/python.md).
 | --- | --- | ---: | --- | --- | --- | --- |
 | **Tornado** | `web-framework` | 2009 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://www.tornadoweb.org/en/stable/) |
 | **Bottle** | `web-framework` | 2009 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://bottlepy.org/docs/dev/) |
-| **Django** | `web-framework` | 2005 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.djangoproject.com/) |
+| [**Django**](fichas/django.md) | `web-framework` | 2005 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.djangoproject.com/) |
 | **Flask** | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://flask.palletsprojects.com/) |
 | **Kivy** | `ui-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://kivy.org/doc/stable/) |
 | **Pyramid** | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.pylonsproject.org/projects/pyramid/en/latest/) |
@@ -190,7 +190,7 @@ Contexto y genealogía: [jvm.md](ecosistemas/jvm.md).
 
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Apache Struts** | `web-framework` | 2000 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://struts.apache.org/) |
+| [**Apache Struts**](fichas/struts.md) | `web-framework` | 2000 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://struts.apache.org/) |
 | **Dropwizard** | `application-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://www.dropwizard.io/en/stable/) |
 | **Grails** | `full-stack-framework` | 2006 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://docs.grails.org/latest/guide/index.html) |
 | **Hibernate ORM** | `orm` | 2001 | 🏛️ Clásico | 🟢 activo | `LGPL-2.1-or-later` | [oficial](https://hibernate.org/orm/documentation/) |
@@ -202,7 +202,7 @@ Contexto y genealogía: [jvm.md](ecosistemas/jvm.md).
 | **Ktor** | `web-framework` | 2018 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://ktor.io/docs/) |
 | **Micronaut** | `application-framework` | 2018 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://docs.micronaut.io/latest/guide/) |
 | **Quarkus** | `application-framework` | 2019 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://quarkus.io/guides/) |
-| **Spring Boot** | `application-framework` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://spring.io/projects/spring-boot) |
+| [**Spring Boot**](fichas/spring-boot.md) | `application-framework` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://spring.io/projects/spring-boot) |
 | **Compose Multiplatform** | `ui-toolkit` | 2021 | 🌊 Emergente | 🟢 activo | `Apache-2.0` | [oficial](https://www.jetbrains.com/compose-multiplatform/) |
 
 ### .NET y C#
@@ -211,7 +211,7 @@ Contexto y genealogía: [dotnet.md](ecosistemas/dotnet.md).
 
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **ASP.NET Web Forms** | `component-framework` | 2002 | 🌱 Pionero | ⚪ histórico | `NOASSERTION` | [oficial](https://learn.microsoft.com/aspnet/web-forms/) |
+| [**ASP.NET Web Forms**](fichas/aspnet-webforms.md) | `component-framework` | 2002 | 🌱 Pionero | ⚪ histórico | `NOASSERTION` | [oficial](https://learn.microsoft.com/aspnet/web-forms/) |
 | **ASP.NET MVC** | `web-framework` | 2009 | 🏛️ Clásico | ⚪ histórico | `Apache-2.0` | [oficial](https://learn.microsoft.com/aspnet/mvc/) |
 | **WPF** | `ui-framework` | 2006 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://learn.microsoft.com/dotnet/desktop/wpf/) |
 | **Xamarin** | `ui-framework` | 2011 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://learn.microsoft.com/xamarin/) |
@@ -257,7 +257,7 @@ Contexto y genealogía: [ruby.md](ecosistemas/ruby.md).
 | --- | --- | ---: | --- | --- | --- | --- |
 | **Active Record (Rails)** | `orm` | 2004 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.rubyonrails.org/active_record_basics.html) |
 | **Jekyll** | `static-site-generator` | 2008 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://jekyllrb.com/docs/) |
-| **Ruby on Rails** | `full-stack-framework` | 2004 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.rubyonrails.org/) |
+| [**Ruby on Rails**](fichas/rails.md) | `full-stack-framework` | 2004 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.rubyonrails.org/) |
 | **Sinatra** | `web-framework` | 2007 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://sinatrarb.com/documentation.html) |
 | **Hanami** | `full-stack-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://guides.hanamirb.org/) |
 
@@ -267,7 +267,7 @@ Contexto y genealogía: [beam.md](ecosistemas/beam.md).
 
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Phoenix** | `full-stack-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://hexdocs.pm/phoenix/overview.html) |
+| [**Phoenix**](fichas/phoenix.md) | `full-stack-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://hexdocs.pm/phoenix/overview.html) |
 | **Phoenix LiveView** | `realtime-ui-framework` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://hexdocs.pm/phoenix_live_view/) |
 
 ### Dart
