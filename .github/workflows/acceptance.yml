@@ -172,7 +172,7 @@ jobs:
       # El ejecutor trae Ruby pero no siempre Bundler, y sin él la
       # implementación de Rails se omite en lugar de verificarse.
       - name: Bundler para las clases de Ruby
-        run: gem install bundler --no-document
+        run: sudo gem install bundler --no-document
 
       - name: El árbol de clases coincide con el manifiesto
         run: node scripts/generate-classes.mjs --check
