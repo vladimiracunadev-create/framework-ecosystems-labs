@@ -3,6 +3,30 @@
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el
 versionado es [semántico](https://semver.org/lang/es/).
 
+## [0.6.0] — 2026-08-20
+
+Segunda oleada de fichas: de 14 a 38, con 58 fuentes nuevas verificadas.
+
+### Añadido
+
+- **24 fichas**: Angular, Backbone, Knockout, Svelte, Next.js, Preact, Qwik,
+  Alpine.js, Ember, Lit, Gatsby, NestJS, Node.js, Vite, Flask, FastAPI, Symfony,
+  WordPress, Sinatra, Flutter, React Native, Electron, Tauri y Kubernetes.
+- **58 fuentes nuevas**, hasta 205: 29 libros con ISBN-13 contrastado en Open
+  Library —*Angular in Action*, *Svelte and Sapper in Action*, *Real-World
+  Next.js*, *FastAPI*, *React Native in Action*, *Electron in Action*,
+  *Symfony 5: The Fast Track*, *Flutter in Action*, *Kubernetes: Up and
+  Running*, *Clean Code*, *Team Topologies*, entre otras— y 29 fuentes
+  primarias: *Why Vite*, *Introducing runes*, las señales de Angular, la
+  reanudación de Qwik, la arquitectura de Flutter y la de React Native, la guía
+  de seguridad de Electron, el modelo de permisos de Tauri, la licencia de
+  WordPress, los módulos de Node.js, las propuestas públicas de Ember y las
+  decisiones de diseño de Flask.
+
+### Cambiado
+
+- El sitio publica 103 páginas (antes 79).
+
 ## [0.5.0] — 2026-08-20
 
 Las fichas del Atlas: catorce estudios a fondo, cada afirmación con su fuente.

@@ -2256,6 +2256,863 @@
         "adopción",
         "web"
       ]
+    },
+    {
+      "id": "wilken-angular-in-action",
+      "type": "book",
+      "authors": [
+        "Wilken, Jeremy"
+      ],
+      "title": "Angular in Action",
+      "publisher": "Manning Publications",
+      "published": "2018",
+      "isbn13": "9781617293313",
+      "locator": "https://openlibrary.org/isbn/9781617293313",
+      "topics": [
+        "angular",
+        "typescript",
+        "frontend"
+      ]
+    },
+    {
+      "id": "volkmann-svelte",
+      "type": "book",
+      "authors": [
+        "Volkmann, Mark"
+      ],
+      "title": "Svelte and Sapper in Action",
+      "publisher": "Manning Publications",
+      "published": "2020",
+      "isbn13": "9781617297946",
+      "locator": "https://openlibrary.org/isbn/9781617297946",
+      "topics": [
+        "svelte",
+        "compilación",
+        "frontend"
+      ]
+    },
+    {
+      "id": "riva-nextjs",
+      "type": "book",
+      "authors": [
+        "Riva, Michele"
+      ],
+      "title": "Real-World Next.js",
+      "publisher": "Packt Publishing",
+      "published": "2022",
+      "isbn13": "9781801073493",
+      "locator": "https://openlibrary.org/isbn/9781801073493",
+      "topics": [
+        "nextjs",
+        "renderizado",
+        "react"
+      ]
+    },
+    {
+      "id": "lubanovic-fastapi",
+      "type": "book",
+      "authors": [
+        "Lubanovic, Bill"
+      ],
+      "title": "FastAPI: Modern Python Web Development",
+      "publisher": "O'Reilly Media",
+      "published": "2023",
+      "isbn13": "9781098135508",
+      "locator": "https://openlibrary.org/isbn/9781098135508",
+      "topics": [
+        "fastapi",
+        "python",
+        "api"
+      ]
+    },
+    {
+      "id": "dabit-react-native",
+      "type": "book",
+      "authors": [
+        "Dabit, Nader"
+      ],
+      "title": "React Native in Action",
+      "publisher": "Manning Publications",
+      "published": "2019",
+      "isbn13": "9781617294051",
+      "locator": "https://openlibrary.org/isbn/9781617294051",
+      "topics": [
+        "react native",
+        "móvil",
+        "puente"
+      ]
+    },
+    {
+      "id": "djirdeh-fullstack-react-native",
+      "type": "book",
+      "authors": [
+        "Djirdeh, Houssein",
+        "Accomazzo, Anthony",
+        "Grieco, Sophia"
+      ],
+      "title": "Fullstack React Native",
+      "publisher": "Independently published",
+      "published": "2019",
+      "isbn13": "9781728995557",
+      "locator": "https://openlibrary.org/isbn/9781728995557",
+      "topics": [
+        "react native",
+        "móvil",
+        "componentes"
+      ]
+    },
+    {
+      "id": "kinney-electron",
+      "type": "book",
+      "authors": [
+        "Kinney, Steve"
+      ],
+      "title": "Electron in Action",
+      "publisher": "Manning Publications",
+      "published": "2018",
+      "isbn13": "9781617294143",
+      "locator": "https://openlibrary.org/isbn/9781617294143",
+      "topics": [
+        "electron",
+        "escritorio",
+        "navegador incrustado"
+      ]
+    },
+    {
+      "id": "macdonald-wordpress",
+      "type": "book",
+      "authors": [
+        "MacDonald, Matthew"
+      ],
+      "title": "WordPress: The Missing Manual",
+      "publisher": "O'Reilly Media",
+      "published": "2014",
+      "isbn13": "9781449341879",
+      "locator": "https://openlibrary.org/isbn/9781449341879",
+      "topics": [
+        "wordpress",
+        "cms",
+        "contenido"
+      ]
+    },
+    {
+      "id": "williams-wordpress-plugins",
+      "type": "book",
+      "authors": [
+        "Williams, Brad",
+        "Richard, Ozh",
+        "Tadlock, Justin"
+      ],
+      "title": "Professional WordPress Plugin Development",
+      "publisher": "Wiley",
+      "published": "2011",
+      "isbn13": "9780470916223",
+      "locator": "https://openlibrary.org/isbn/9780470916223",
+      "topics": [
+        "wordpress",
+        "extensión",
+        "licencias"
+      ]
+    },
+    {
+      "id": "harris-sinatra",
+      "type": "book",
+      "authors": [
+        "Harris, Alan",
+        "Haase, Konstantin"
+      ],
+      "title": "Sinatra: Up and Running",
+      "publisher": "O'Reilly Media",
+      "published": "2011",
+      "isbn13": "9781449323981",
+      "locator": "https://openlibrary.org/isbn/9781449323981",
+      "topics": [
+        "sinatra",
+        "ruby",
+        "microframework"
+      ]
+    },
+    {
+      "id": "powers-learning-node",
+      "type": "book",
+      "authors": [
+        "Powers, Shelley"
+      ],
+      "title": "Learning Node",
+      "publisher": "O'Reilly Media",
+      "published": "2012",
+      "isbn13": "9781449326166",
+      "locator": "https://openlibrary.org/isbn/9781449326166",
+      "topics": [
+        "node",
+        "runtime",
+        "asincronía"
+      ]
+    },
+    {
+      "id": "potencier-symfony",
+      "type": "book",
+      "authors": [
+        "Potencier, Fabien"
+      ],
+      "title": "Symfony 5: The Fast Track",
+      "publisher": "Symfony SAS",
+      "published": "2019",
+      "isbn13": "9782918390374",
+      "locator": "https://openlibrary.org/isbn/9782918390374",
+      "topics": [
+        "symfony",
+        "php",
+        "componentes"
+      ]
+    },
+    {
+      "id": "windmill-flutter",
+      "type": "book",
+      "authors": [
+        "Windmill, Eric"
+      ],
+      "title": "Flutter in Action",
+      "publisher": "Manning Publications",
+      "published": "2019",
+      "isbn13": "9781617296147",
+      "locator": "https://openlibrary.org/isbn/9781617296147",
+      "topics": [
+        "flutter",
+        "dart",
+        "móvil"
+      ]
+    },
+    {
+      "id": "hightower-kubernetes",
+      "type": "book",
+      "authors": [
+        "Hightower, Kelsey",
+        "Burns, Brendan",
+        "Beda, Joe"
+      ],
+      "title": "Kubernetes: Up and Running",
+      "publisher": "O'Reilly Media",
+      "published": "2017",
+      "isbn13": "9781491935675",
+      "locator": "https://openlibrary.org/isbn/9781491935675",
+      "topics": [
+        "kubernetes",
+        "despliegue",
+        "operación"
+      ]
+    },
+    {
+      "id": "burns-designing-distributed",
+      "type": "book",
+      "authors": [
+        "Burns, Brendan"
+      ],
+      "title": "Designing Distributed Systems: Patterns and Paradigms for Scalable, Reliable Services",
+      "publisher": "O'Reilly Media",
+      "published": "2018",
+      "isbn13": "9781491983645",
+      "locator": "https://openlibrary.org/isbn/9781491983645",
+      "topics": [
+        "patrones",
+        "distribución",
+        "contenedores"
+      ]
+    },
+    {
+      "id": "murphy-sre-workbook",
+      "type": "book",
+      "authors": [
+        "Murphy, Niall Richard",
+        "Rensin, David K.",
+        "Kawahara, Kent",
+        "Thorne, Stephen"
+      ],
+      "title": "The Site Reliability Workbook: Practical Ways to Implement SRE",
+      "publisher": "O'Reilly Media",
+      "published": "2018",
+      "isbn13": "9781492029502",
+      "locator": "https://openlibrary.org/isbn/9781492029502",
+      "topics": [
+        "operación",
+        "SLO",
+        "práctica"
+      ]
+    },
+    {
+      "id": "farrell-web-components",
+      "type": "book",
+      "authors": [
+        "Farrell, Ben"
+      ],
+      "title": "Web Components in Action",
+      "publisher": "Manning",
+      "published": "2019",
+      "isbn13": "9781617295775",
+      "locator": "https://openlibrary.org/isbn/9781617295775",
+      "topics": [
+        "componentes web",
+        "estándar",
+        "navegador"
+      ]
+    },
+    {
+      "id": "geers-micro-frontends",
+      "type": "book",
+      "authors": [
+        "Geers, Michael"
+      ],
+      "title": "Micro Frontends in Action",
+      "publisher": "Manning",
+      "published": "2020",
+      "isbn13": "9781617296871",
+      "locator": "https://openlibrary.org/isbn/9781617296871",
+      "topics": [
+        "frontend",
+        "integración",
+        "equipos"
+      ]
+    },
+    {
+      "id": "wagner-web-performance",
+      "type": "book",
+      "authors": [
+        "Wagner, Jeremy"
+      ],
+      "title": "Web Performance in Action: Building Fast Web Pages",
+      "publisher": "Manning Publications",
+      "published": "2016",
+      "isbn13": "9781638353768",
+      "locator": "https://openlibrary.org/isbn/9781638353768",
+      "topics": [
+        "rendimiento",
+        "construcción",
+        "red"
+      ]
+    },
+    {
+      "id": "poulton-docker",
+      "type": "book",
+      "authors": [
+        "Poulton, Nigel"
+      ],
+      "title": "Docker Deep Dive",
+      "publisher": "Packt Publishing",
+      "published": "2020",
+      "isbn13": "9781800565135",
+      "locator": "https://openlibrary.org/isbn/9781800565135",
+      "topics": [
+        "contenedores",
+        "imágenes",
+        "despliegue"
+      ]
+    },
+    {
+      "id": "ramalho-fluent-python",
+      "type": "book",
+      "authors": [
+        "Ramalho, Luciano"
+      ],
+      "title": "Fluent Python",
+      "publisher": "O'Reilly Media",
+      "published": "2021",
+      "isbn13": "9781492056355",
+      "locator": "https://openlibrary.org/isbn/9781492056355",
+      "topics": [
+        "python",
+        "lenguaje",
+        "idiomático"
+      ]
+    },
+    {
+      "id": "porcello-graphql",
+      "type": "book",
+      "authors": [
+        "Porcello, Eve",
+        "Banks, Alex"
+      ],
+      "title": "Learning GraphQL: Declarative Data Fetching for Modern Web Apps",
+      "publisher": "O'Reilly Media",
+      "published": "2018",
+      "isbn13": "9781492030713",
+      "locator": "https://openlibrary.org/isbn/9781492030713",
+      "topics": [
+        "graphql",
+        "datos",
+        "api"
+      ]
+    },
+    {
+      "id": "martin-clean-code",
+      "type": "book",
+      "authors": [
+        "Martin, Robert C."
+      ],
+      "title": "Clean Code: A Handbook of Agile Software Craftsmanship",
+      "publisher": "Prentice Hall",
+      "published": "2008",
+      "isbn13": "9780132350884",
+      "locator": "https://openlibrary.org/isbn/9780132350884",
+      "topics": [
+        "diseño",
+        "legibilidad",
+        "oficio"
+      ]
+    },
+    {
+      "id": "freeman-head-first-patterns",
+      "type": "book",
+      "authors": [
+        "Freeman, Eric",
+        "Robson, Elisabeth",
+        "Bates, Bert",
+        "Sierra, Kathy"
+      ],
+      "title": "Head First Design Patterns",
+      "publisher": "O'Reilly",
+      "published": "2004",
+      "isbn13": "9780596007126",
+      "locator": "https://openlibrary.org/isbn/9780596007126",
+      "topics": [
+        "patrones",
+        "composición",
+        "didáctica"
+      ]
+    },
+    {
+      "id": "shaughnessy-ruby-microscope",
+      "type": "book",
+      "authors": [
+        "Shaughnessy, Pat"
+      ],
+      "title": "Ruby Under a Microscope",
+      "publisher": "No Starch Press",
+      "published": "2014",
+      "isbn13": "9781593275273",
+      "locator": "https://openlibrary.org/isbn/9781593275273",
+      "topics": [
+        "ruby",
+        "runtime",
+        "metaprogramación"
+      ]
+    },
+    {
+      "id": "frost-atomic-design",
+      "type": "book",
+      "authors": [
+        "Frost, Brad"
+      ],
+      "title": "Atomic Design",
+      "publisher": "Brad Frost",
+      "published": "2016",
+      "isbn13": "9780998296609",
+      "locator": "https://openlibrary.org/isbn/9780998296609",
+      "topics": [
+        "componentes",
+        "sistema de diseño",
+        "interfaz"
+      ]
+    },
+    {
+      "id": "silver-form-design-patterns",
+      "type": "book",
+      "authors": [
+        "Silver, Adam"
+      ],
+      "title": "Form Design Patterns",
+      "publisher": "Smashing Media",
+      "published": "2018",
+      "isbn13": "9783945749739",
+      "locator": "https://openlibrary.org/isbn/9783945749739",
+      "topics": [
+        "formularios",
+        "accesibilidad",
+        "interfaz"
+      ]
+    },
+    {
+      "id": "skelton-team-topologies",
+      "type": "book",
+      "authors": [
+        "Skelton, Matthew",
+        "Pais, Manuel"
+      ],
+      "title": "Team Topologies: Organizing Business and Technology Teams for Fast Flow",
+      "publisher": "IT Revolution Press",
+      "published": "2019",
+      "isbn13": "9781942788812",
+      "locator": "https://openlibrary.org/isbn/9781942788812",
+      "topics": [
+        "equipos",
+        "arquitectura",
+        "conway"
+      ]
+    },
+    {
+      "id": "vite-why",
+      "type": "reference",
+      "publisher": "Vite",
+      "title": "Why Vite",
+      "locator": "https://vite.dev/guide/why",
+      "topics": [
+        "construcción",
+        "módulos",
+        "desarrollo"
+      ]
+    },
+    {
+      "id": "nextjs-app-router",
+      "type": "reference",
+      "publisher": "Vercel — Next.js",
+      "title": "Next.js App Router",
+      "locator": "https://nextjs.org/docs/app",
+      "topics": [
+        "nextjs",
+        "renderizado",
+        "enrutado"
+      ]
+    },
+    {
+      "id": "svelte-runes",
+      "type": "reference",
+      "publisher": "Svelte",
+      "title": "Introducing runes",
+      "locator": "https://svelte.dev/blog/runes",
+      "topics": [
+        "svelte",
+        "señales",
+        "reactividad"
+      ]
+    },
+    {
+      "id": "angular-signals",
+      "type": "reference",
+      "publisher": "Google — Angular",
+      "title": "Angular Signals",
+      "locator": "https://angular.dev/guide/signals",
+      "topics": [
+        "angular",
+        "señales",
+        "reactividad"
+      ]
+    },
+    {
+      "id": "solid-reactivity",
+      "type": "reference",
+      "publisher": "SolidJS",
+      "title": "Intro to Reactivity",
+      "locator": "https://docs.solidjs.com/concepts/intro-to-reactivity",
+      "topics": [
+        "solid",
+        "señales",
+        "reactividad"
+      ]
+    },
+    {
+      "id": "qwik-resumability",
+      "type": "reference",
+      "publisher": "Qwik",
+      "title": "Resumable",
+      "locator": "https://qwik.dev/docs/concepts/resumable/",
+      "topics": [
+        "qwik",
+        "hidratación",
+        "reanudación"
+      ]
+    },
+    {
+      "id": "flutter-architecture",
+      "type": "reference",
+      "publisher": "Google — Flutter",
+      "title": "Flutter Architectural Overview",
+      "locator": "https://docs.flutter.dev/resources/architectural-overview",
+      "topics": [
+        "flutter",
+        "motor gráfico",
+        "widgets"
+      ]
+    },
+    {
+      "id": "react-native-architecture",
+      "type": "reference",
+      "publisher": "Meta — React Native",
+      "title": "React Native Architecture Overview",
+      "locator": "https://reactnative.dev/architecture/overview",
+      "topics": [
+        "react native",
+        "puente",
+        "móvil"
+      ]
+    },
+    {
+      "id": "electron-security",
+      "type": "reference",
+      "publisher": "OpenJS Foundation — Electron",
+      "title": "Electron Security",
+      "locator": "https://www.electronjs.org/docs/latest/tutorial/security",
+      "topics": [
+        "electron",
+        "seguridad",
+        "escritorio"
+      ]
+    },
+    {
+      "id": "tauri-security",
+      "type": "reference",
+      "publisher": "Tauri",
+      "title": "Tauri Security",
+      "locator": "https://v2.tauri.app/security/",
+      "topics": [
+        "tauri",
+        "seguridad",
+        "escritorio"
+      ]
+    },
+    {
+      "id": "wordpress-license",
+      "type": "reference",
+      "publisher": "WordPress",
+      "title": "WordPress License (GPL)",
+      "locator": "https://wordpress.org/about/license/",
+      "topics": [
+        "licencia",
+        "copyleft",
+        "cms"
+      ]
+    },
+    {
+      "id": "nodejs-esm",
+      "type": "reference",
+      "publisher": "OpenJS Foundation — Node.js",
+      "title": "Node.js ECMAScript Modules",
+      "locator": "https://nodejs.org/api/esm.html",
+      "topics": [
+        "node",
+        "módulos",
+        "compatibilidad"
+      ]
+    },
+    {
+      "id": "graphql-spec",
+      "type": "reference",
+      "publisher": "GraphQL Foundation",
+      "title": "GraphQL Specification",
+      "locator": "https://spec.graphql.org/",
+      "topics": [
+        "graphql",
+        "contrato",
+        "datos"
+      ]
+    },
+    {
+      "id": "jamstack",
+      "type": "reference",
+      "publisher": "Jamstack",
+      "title": "Jamstack",
+      "locator": "https://jamstack.org/",
+      "topics": [
+        "estático",
+        "despliegue",
+        "arquitectura"
+      ]
+    },
+    {
+      "id": "micro-frontends-org",
+      "type": "reference",
+      "publisher": "micro-frontends.org",
+      "title": "Micro Frontends",
+      "locator": "https://micro-frontends.org/",
+      "topics": [
+        "frontend",
+        "integración",
+        "equipos"
+      ]
+    },
+    {
+      "id": "web-baseline",
+      "type": "reference",
+      "publisher": "Google — web.dev",
+      "title": "Baseline",
+      "locator": "https://web.dev/baseline",
+      "topics": [
+        "compatibilidad",
+        "navegador",
+        "adopción"
+      ]
+    },
+    {
+      "id": "mdn-progressive-enhancement",
+      "type": "reference",
+      "publisher": "Mozilla",
+      "title": "Progressive Enhancement",
+      "locator": "https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement",
+      "topics": [
+        "accesibilidad",
+        "robustez",
+        "frontend"
+      ]
+    },
+    {
+      "id": "wcag-quickref",
+      "type": "reference",
+      "publisher": "W3C",
+      "title": "How to Meet WCAG (Quick Reference)",
+      "locator": "https://www.w3.org/WAI/WCAG22/quickref/",
+      "topics": [
+        "accesibilidad",
+        "criterios",
+        "verificación"
+      ]
+    },
+    {
+      "id": "symfony-best-practices",
+      "type": "reference",
+      "publisher": "Symfony",
+      "title": "Symfony Best Practices",
+      "locator": "https://symfony.com/doc/current/best_practices.html",
+      "topics": [
+        "php",
+        "estructura",
+        "convenciones"
+      ]
+    },
+    {
+      "id": "flask-design",
+      "type": "reference",
+      "publisher": "Pallets Projects — Flask",
+      "title": "Design Decisions in Flask",
+      "locator": "https://flask.palletsprojects.com/en/stable/design/",
+      "topics": [
+        "flask",
+        "microframework",
+        "diseño"
+      ]
+    },
+    {
+      "id": "fastapi-features",
+      "type": "reference",
+      "publisher": "FastAPI",
+      "title": "FastAPI Features",
+      "locator": "https://fastapi.tiangolo.com/features/",
+      "topics": [
+        "fastapi",
+        "tipos",
+        "openapi"
+      ]
+    },
+    {
+      "id": "ember-octane",
+      "type": "reference",
+      "publisher": "Ember.js",
+      "title": "Ember Octane",
+      "locator": "https://emberjs.com/editions/octane/",
+      "topics": [
+        "ember",
+        "migración",
+        "ediciones"
+      ]
+    },
+    {
+      "id": "backbone-why",
+      "type": "reference",
+      "publisher": "Backbone.js",
+      "title": "Why Backbone?",
+      "locator": "https://backbonejs.org/#FAQ-why-backbone",
+      "topics": [
+        "backbone",
+        "mvc",
+        "estado"
+      ]
+    },
+    {
+      "id": "knockout-observables",
+      "type": "reference",
+      "publisher": "Knockout",
+      "title": "Observables",
+      "locator": "https://knockoutjs.com/documentation/observables.html",
+      "topics": [
+        "knockout",
+        "observables",
+        "señales"
+      ]
+    },
+    {
+      "id": "preact-differences",
+      "type": "reference",
+      "publisher": "Preact",
+      "title": "Differences to React",
+      "locator": "https://preactjs.com/guide/v10/differences-to-react/",
+      "topics": [
+        "preact",
+        "tamaño",
+        "compatibilidad"
+      ]
+    },
+    {
+      "id": "alpine-state",
+      "type": "reference",
+      "publisher": "Alpine.js",
+      "title": "Alpine State",
+      "locator": "https://alpinejs.dev/essentials/state",
+      "topics": [
+        "alpine",
+        "estado",
+        "atributos"
+      ]
+    },
+    {
+      "id": "mdn-web-components",
+      "type": "reference",
+      "publisher": "Mozilla",
+      "title": "Web Components",
+      "locator": "https://developer.mozilla.org/en-US/docs/Web/API/Web_components",
+      "topics": [
+        "componentes web",
+        "estándar",
+        "navegador"
+      ]
+    },
+    {
+      "id": "deno-v1",
+      "type": "reference",
+      "publisher": "Deno",
+      "title": "Deno 1.0",
+      "locator": "https://deno.com/blog/v1",
+      "topics": [
+        "deno",
+        "runtime",
+        "permisos"
+      ]
+    },
+    {
+      "id": "bun-nodejs-apis",
+      "type": "reference",
+      "publisher": "Bun",
+      "title": "Node.js API compatibility",
+      "locator": "https://bun.com/docs/runtime/nodejs-apis",
+      "topics": [
+        "bun",
+        "compatibilidad",
+        "runtime"
+      ]
+    },
+    {
+      "id": "grinberg-flask",
+      "type": "book",
+      "authors": [
+        "Grinberg, Miguel"
+      ],
+      "title": "Flask Web Development: Developing Web Applications with Python",
+      "edition": "2.ª",
+      "publisher": "O'Reilly Media",
+      "published": "2018",
+      "isbn13": "9781491991732",
+      "locator": "https://openlibrary.org/isbn/9781491991732",
+      "topics": [
+        "flask",
+        "python",
+        "microframework"
+      ]
     }
   ]
 }

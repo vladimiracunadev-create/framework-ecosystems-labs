@@ -38,7 +38,7 @@ las virtudes de su lenguaje**, y por eso los ecosistemas no convergen.
 | [Nativo (C/C++)](ecosistemas/nativo.md) | 2 | Los frameworks de interfaz más longevos que siguen en uso |
 | [Plataformas](ecosistemas/cloud.md) | 1 | No son frameworks; condicionan a todos |
 
-👉 **[Índice completo con las 138 tecnologías](frameworks.md)** · **[14 fichas a fondo](fichas/README.md)**
+👉 **[Índice completo con las 138 tecnologías](frameworks.md)** · **[38 fichas a fondo](fichas/README.md)**
 
 ## 🕰️ Las cinco eras
 
@@ -146,7 +146,7 @@ Tres lecturas que este grafo hace evidentes:
 | --- | --- |
 | Ubicar una tecnología concreta | [Índice completo](frameworks.md) |
 | Entender por qué un ecosistema es como es | La página de su [ecosistema](ecosistemas/) |
-| Estudiar un caso a fondo | Las [**14 fichas**](fichas/README.md) |
+| Estudiar un caso a fondo | Las [**38 fichas**](fichas/README.md) |
 | Clasificar correctamente antes de comparar | [`docs/TAXONOMY.md`](../docs/TAXONOMY.md) y el [módulo 00](../curriculum/00-taxonomia-y-diagnostico.md) |
 | Elegir para un producto real | El [módulo 11](../curriculum/11-seleccion-y-sostenibilidad.md) |
 

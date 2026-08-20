@@ -64,8 +64,8 @@ nunca aparece en las comparativas.
 | **Laminas** | `application-framework` | 2019 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.laminas.dev/) |
 | **Phalcon** | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.phalcon.io/latest/) |
 | **Slim** | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://www.slimframework.com/docs/v4/) |
-| **Symfony** | `web-framework` | 2005 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://symfony.com/doc/current/) |
-| **WordPress** | `cms` | 2003 | 🏛️ Clásico | 🟢 activo | `GPL-2.0-or-later` | [oficial](https://developer.wordpress.org/) |
+| [**Symfony**](../fichas/symfony.md) | `web-framework` | 2005 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://symfony.com/doc/current/) |
+| [**WordPress**](../fichas/wordpress.md) | `cms` | 2003 | 🏛️ Clásico | 🟢 activo | `GPL-2.0-or-later` | [oficial](https://developer.wordpress.org/) |
 | **Yii** | `full-stack-framework` | 2008 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://www.yiiframework.com/doc/guide/2.0/en) |
 | **Zend Framework** | `application-framework` | 2006 | 🏛️ Clásico | ⚪ histórico | `BSD-3-Clause` | [oficial](https://docs.laminas.dev/migration/) |
 | **Eloquent (Laravel)** | `orm` | 2011 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://laravel.com/docs/eloquent) |

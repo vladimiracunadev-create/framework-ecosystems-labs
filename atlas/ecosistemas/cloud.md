@@ -60,7 +60,7 @@ frameworks recoge, pero que determinan si el producto es operable.
 <!-- generado:tabla-ecosistema cloud -->
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Kubernetes** | `platform` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://kubernetes.io/docs/home/) |
+| [**Kubernetes**](../fichas/kubernetes.md) | `platform` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://kubernetes.io/docs/home/) |
 <!-- fin -->
 
 ## Qué aporta

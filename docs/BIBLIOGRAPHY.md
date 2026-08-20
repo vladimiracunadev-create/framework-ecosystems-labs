@@ -2,7 +2,7 @@
 
 Documento generado por `node scripts/generate-bibliography.mjs`. No editar a mano.
 
-Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **147** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
+Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **205** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
 
 Cada entrada declara un localizador resoluble y es citada al menos una vez en el programa;
 `node scripts/verify-sources.mjs` falla si deja de cumplirse cualquiera de las dos condiciones.
@@ -11,10 +11,10 @@ Cada entrada declara un localizador resoluble y es citada al menos una vez en el
 
 | Tipo | Entradas | Verificación |
 | --- | ---: | --- |
-| Libros | 65 | `https://openlibrary.org/isbn/{isbn13}.json` |
+| Libros | 94 | `https://openlibrary.org/isbn/{isbn13}.json` |
 | Artículos | 7 | `https://api.crossref.org/works/{doi}` |
 | Normas y especificaciones | 32 | `GET a la URL declarada` |
-| Documentación oficial y referencias | 43 | `GET a la URL declarada` |
+| Documentación oficial y referencias | 72 | `GET a la URL declarada` |
 
 ## Libros
 
@@ -100,6 +100,14 @@ Brown, Peter C.; Roediger, Henry L.; McDaniel, Mark A., *Make It Stick: The Scie
 - Temas: pedagogía, recuperación, intercalado
 - Citada en: [`assessments/diagnostic.md`](../assessments/diagnostic.md), [`docs/LEARNING-MODEL.md`](../docs/LEARNING-MODEL.md)
 
+### `burns-designing-distributed`
+
+Burns, Brendan, *Designing Distributed Systems: Patterns and Paradigms for Scalable, Reliable Services*, O'Reilly Media, 2018, ISBN 9781491983645
+
+- Localizador: <https://openlibrary.org/isbn/9781491983645>
+- Temas: patrones, distribución, contenedores
+- Citada en: [`atlas/fichas/kubernetes.md`](../atlas/fichas/kubernetes.md)
+
 ### `casciaro-node-patterns`
 
 Casciaro, Mario; Mammino, Luciano, *Node.js Design Patterns*, 3.ª ed., Packt Publishing, 2020, ISBN 9781839214110
@@ -115,6 +123,22 @@ Cohn, Mike, *Succeeding with Agile: Software Development Using Scrum*, Addison-W
 - Localizador: <https://openlibrary.org/isbn/9780321579362>
 - Temas: pirámide de pruebas, proceso, equipos
 - Citada en: [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
+
+### `dabit-react-native`
+
+Dabit, Nader, *React Native in Action*, Manning Publications, 2019, ISBN 9781617294051
+
+- Localizador: <https://openlibrary.org/isbn/9781617294051>
+- Temas: react native, móvil, puente
+- Citada en: [`atlas/fichas/react-native.md`](../atlas/fichas/react-native.md)
+
+### `djirdeh-fullstack-react-native`
+
+Djirdeh, Houssein; Accomazzo, Anthony; Grieco, Sophia, *Fullstack React Native*, Independently published, 2019, ISBN 9781728995557
+
+- Localizador: <https://openlibrary.org/isbn/9781728995557>
+- Temas: react native, móvil, componentes
+- Citada en: [`atlas/fichas/react-native.md`](../atlas/fichas/react-native.md)
 
 ### `ericsson-peak`
 
@@ -139,6 +163,14 @@ Fain, Yakov; Moiseev, Anton, *Angular Development with TypeScript*, 2.ª ed., Ma
 - Localizador: <https://openlibrary.org/isbn/9781617295348>
 - Temas: angular, typescript, inyección
 - Citada en: [`atlas/fichas/angularjs.md`](../atlas/fichas/angularjs.md)
+
+### `farrell-web-components`
+
+Farrell, Ben, *Web Components in Action*, Manning, 2019, ISBN 9781617295775
+
+- Localizador: <https://openlibrary.org/isbn/9781617295775>
+- Temas: componentes web, estándar, navegador
+- Citada en: [`atlas/fichas/lit.md`](../atlas/fichas/lit.md)
 
 ### `feathers-legacy-code`
 
@@ -204,6 +236,14 @@ Freeman, Adam, *Pro ASP.NET Core 7*, Manning Publications, 2023, ISBN 9781633437
 - Temas: aspnet, .net, middleware
 - Citada en: [`atlas/fichas/aspnet-webforms.md`](../atlas/fichas/aspnet-webforms.md)
 
+### `freeman-head-first-patterns`
+
+Freeman, Eric; Robson, Elisabeth; Bates, Bert; Sierra, Kathy, *Head First Design Patterns*, O'Reilly, 2004, ISBN 9780596007126
+
+- Localizador: <https://openlibrary.org/isbn/9780596007126>
+- Temas: patrones, composición, didáctica
+- Citada en: [`atlas/fichas/nestjs.md`](../atlas/fichas/nestjs.md)
+
 ### `freeman-pryce-goos`
 
 Freeman, Steve; Pryce, Nat, *Growing Object-Oriented Software, Guided by Tests*, Addison-Wesley, 2010, ISBN 9780321503626
@@ -212,6 +252,14 @@ Freeman, Steve; Pryce, Nat, *Growing Object-Oriented Software, Guided by Tests*,
 - Temas: pruebas, diseño, dobles
 - Citada en: [`atlas/fichas/spring-boot.md`](../atlas/fichas/spring-boot.md)
 
+### `frost-atomic-design`
+
+Frost, Brad, *Atomic Design*, Brad Frost, 2016, ISBN 9780998296609
+
+- Localizador: <https://openlibrary.org/isbn/9780998296609>
+- Temas: componentes, sistema de diseño, interfaz
+- Citada en: [`atlas/fichas/lit.md`](../atlas/fichas/lit.md)
+
 ### `gof-design-patterns`
 
 Gamma, Erich; Helm, Richard; Johnson, Ralph; Vlissides, John, *Design Patterns: Elements of Reusable Object-Oriented Software*, Addison-Wesley Professional, 1994, ISBN 9780201633610
@@ -219,6 +267,14 @@ Gamma, Erich; Helm, Richard; Johnson, Ralph; Vlissides, John, *Design Patterns: 
 - Localizador: <https://openlibrary.org/isbn/9780201633610>
 - Temas: patrones, composición, extensibilidad
 - Citada en: [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
+
+### `geers-micro-frontends`
+
+Geers, Michael, *Micro Frontends in Action*, Manning, 2020, ISBN 9781617296871
+
+- Localizador: <https://openlibrary.org/isbn/9781617296871>
+- Temas: frontend, integración, equipos
+- Citada en: [`atlas/fichas/nextjs.md`](../atlas/fichas/nextjs.md)
 
 ### `geewax-api-design-patterns`
 
@@ -244,6 +300,14 @@ Grigorik, Ilya, *High Performance Browser Networking*, O'Reilly Media, 2013, ISB
 - Temas: http, red, rendimiento
 - Citada en: [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md), [`curriculum/04-fullstack-y-renderizado.md`](../curriculum/04-fullstack-y-renderizado.md)
 
+### `grinberg-flask`
+
+Grinberg, Miguel, *Flask Web Development: Developing Web Applications with Python*, 2.ª ed., O'Reilly Media, 2018, ISBN 9781491991732
+
+- Localizador: <https://openlibrary.org/isbn/9781491991732>
+- Temas: flask, python, microframework
+- Citada en: [`atlas/fichas/flask.md`](../atlas/fichas/flask.md)
+
 ### `gross-hypermedia-systems`
 
 Gross, Carson; Stepinski, Adam; Akşimşek, Deniz, *Hypermedia Systems*, Big Sky Software, 2024, ISBN 9798990991804
@@ -252,6 +316,14 @@ Gross, Carson; Stepinski, Adam; Akşimşek, Deniz, *Hypermedia Systems*, Big Sky
 - Temas: hipermedia, htmx, rest
 - Citada en: [`atlas/fichas/htmx.md`](../atlas/fichas/htmx.md)
 
+### `harris-sinatra`
+
+Harris, Alan; Haase, Konstantin, *Sinatra: Up and Running*, O'Reilly Media, 2011, ISBN 9781449323981
+
+- Localizador: <https://openlibrary.org/isbn/9781449323981>
+- Temas: sinatra, ruby, microframework
+- Citada en: [`atlas/fichas/sinatra.md`](../atlas/fichas/sinatra.md)
+
 ### `haverbeke-eloquent-javascript`
 
 Haverbeke, Marijn, *Eloquent JavaScript: A Modern Introduction to Programming*, 3.ª ed., No Starch Press, 2018, ISBN 9781593279509
@@ -259,6 +331,14 @@ Haverbeke, Marijn, *Eloquent JavaScript: A Modern Introduction to Programming*, 
 - Localizador: <https://openlibrary.org/isbn/9781593279509>
 - Temas: javascript, dom, fundamentos
 - Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md)
+
+### `hightower-kubernetes`
+
+Hightower, Kelsey; Burns, Brendan; Beda, Joe, *Kubernetes: Up and Running*, O'Reilly Media, 2017, ISBN 9781491935675
+
+- Localizador: <https://openlibrary.org/isbn/9781491935675>
+- Temas: kubernetes, despliegue, operación
+- Citada en: [`atlas/fichas/kubernetes.md`](../atlas/fichas/kubernetes.md)
 
 ### `hoffman-web-application-security`
 
@@ -316,6 +396,14 @@ Khononov, Vlad, *Learning Domain-Driven Design: Aligning Software Architecture a
 - Temas: dominio, contextos, arquitectura
 - Citada en: [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
+### `kinney-electron`
+
+Kinney, Steve, *Electron in Action*, Manning Publications, 2018, ISBN 9781617294143
+
+- Localizador: <https://openlibrary.org/isbn/9781617294143>
+- Temas: electron, escritorio, navegador incrustado
+- Citada en: [`atlas/fichas/electron.md`](../atlas/fichas/electron.md)
+
 ### `kleppmann-ddia`
 
 Kleppmann, Martin, *Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems*, O'Reilly Media, 2017, ISBN 9781449373320
@@ -331,6 +419,22 @@ Lockhart, Josh, *Modern PHP: New Features and Good Practices*, O'Reilly Media, 2
 - Localizador: <https://openlibrary.org/isbn/9781491905180>
 - Temas: php, estándares, interoperabilidad
 - Citada en: [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md)
+
+### `lubanovic-fastapi`
+
+Lubanovic, Bill, *FastAPI: Modern Python Web Development*, O'Reilly Media, 2023, ISBN 9781098135508
+
+- Localizador: <https://openlibrary.org/isbn/9781098135508>
+- Temas: fastapi, python, api
+- Citada en: [`atlas/fichas/fastapi.md`](../atlas/fichas/fastapi.md)
+
+### `macdonald-wordpress`
+
+MacDonald, Matthew, *WordPress: The Missing Manual*, O'Reilly Media, 2014, ISBN 9781449341879
+
+- Localizador: <https://openlibrary.org/isbn/9781449341879>
+- Temas: wordpress, cms, contenido
+- Citada en: [`atlas/fichas/wordpress.md`](../atlas/fichas/wordpress.md)
 
 ### `macrae-vue-up-and-running`
 
@@ -356,6 +460,14 @@ Martin, Robert C., *Clean Architecture: A Craftsman's Guide to Software Structur
 - Temas: arquitectura, límites, dependencias
 - Citada en: [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
 
+### `martin-clean-code`
+
+Martin, Robert C., *Clean Code: A Handbook of Agile Software Craftsmanship*, Prentice Hall, 2008, ISBN 9780132350884
+
+- Localizador: <https://openlibrary.org/isbn/9780132350884>
+- Temas: diseño, legibilidad, oficio
+- Citada en: [`atlas/fichas/nestjs.md`](../atlas/fichas/nestjs.md)
+
 ### `mccord-tate-programming-phoenix`
 
 McCord, Chris; Tate, Bruce; Valim, José, *Programming Phoenix*, Pragmatic Bookshelf, 2016, ISBN 9781680501452
@@ -371,6 +483,14 @@ Meszaros, Gerard, *xUnit Test Patterns: Refactoring Test Code*, Addison-Wesley P
 - Localizador: <https://openlibrary.org/isbn/9780131495050>
 - Temas: pruebas, dobles, mantenimiento
 - Citada en: [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
+
+### `murphy-sre-workbook`
+
+Murphy, Niall Richard; Rensin, David K.; Kawahara, Kent; Thorne, Stephen, *The Site Reliability Workbook: Practical Ways to Implement SRE*, O'Reilly Media, 2018, ISBN 9781492029502
+
+- Localizador: <https://openlibrary.org/isbn/9781492029502>
+- Temas: operación, SLO, práctica
+- Citada en: [`atlas/fichas/kubernetes.md`](../atlas/fichas/kubernetes.md)
 
 ### `newman-building-microservices`
 
@@ -410,7 +530,7 @@ Osmani, Addy, *Developing Backbone.js Applications*, O'Reilly Media, 2012, ISBN 
 
 - Localizador: <https://openlibrary.org/isbn/9781449328252>
 - Temas: backbone, mvc, frontend
-- Citada en: [`atlas/fichas/react.md`](../atlas/fichas/react.md)
+- Citada en: [`atlas/fichas/backbone.md`](../atlas/fichas/backbone.md), [`atlas/fichas/react.md`](../atlas/fichas/react.md)
 
 ### `ousterhout-philosophy`
 
@@ -436,6 +556,46 @@ Pickering, Heydon, *Inclusive Components*, Smashing Magazine, 2019, ISBN 9783945
 - Temas: accesibilidad, componentes, frontend
 - Citada en: [`curriculum/03-frontend-componentes-y-estado.md`](../curriculum/03-frontend-componentes-y-estado.md)
 
+### `porcello-graphql`
+
+Porcello, Eve; Banks, Alex, *Learning GraphQL: Declarative Data Fetching for Modern Web Apps*, O'Reilly Media, 2018, ISBN 9781492030713
+
+- Localizador: <https://openlibrary.org/isbn/9781492030713>
+- Temas: graphql, datos, api
+- Citada en: [`atlas/fichas/gatsby.md`](../atlas/fichas/gatsby.md)
+
+### `potencier-symfony`
+
+Potencier, Fabien, *Symfony 5: The Fast Track*, Symfony SAS, 2019, ISBN 9782918390374
+
+- Localizador: <https://openlibrary.org/isbn/9782918390374>
+- Temas: symfony, php, componentes
+- Citada en: [`atlas/fichas/symfony.md`](../atlas/fichas/symfony.md)
+
+### `poulton-docker`
+
+Poulton, Nigel, *Docker Deep Dive*, Packt Publishing, 2020, ISBN 9781800565135
+
+- Localizador: <https://openlibrary.org/isbn/9781800565135>
+- Temas: contenedores, imágenes, despliegue
+- Citada en: [`atlas/fichas/kubernetes.md`](../atlas/fichas/kubernetes.md)
+
+### `powers-learning-node`
+
+Powers, Shelley, *Learning Node*, O'Reilly Media, 2012, ISBN 9781449326166
+
+- Localizador: <https://openlibrary.org/isbn/9781449326166>
+- Temas: node, runtime, asincronía
+- Citada en: [`atlas/fichas/nodejs.md`](../atlas/fichas/nodejs.md)
+
+### `ramalho-fluent-python`
+
+Ramalho, Luciano, *Fluent Python*, O'Reilly Media, 2021, ISBN 9781492056355
+
+- Localizador: <https://openlibrary.org/isbn/9781492056355>
+- Temas: python, lenguaje, idiomático
+- Citada en: [`atlas/fichas/flask.md`](../atlas/fichas/flask.md)
+
 ### `richards-ford-fundamentals`
 
 Richards, Mark; Ford, Neal, *Fundamentals of Software Architecture: An Engineering Approach*, O'Reilly Media, 2020, ISBN 9781492043454
@@ -451,6 +611,14 @@ Richardson, Leonard; Amundsen, Mike; Ruby, Sam, *RESTful Web APIs: Services for 
 - Localizador: <https://openlibrary.org/isbn/9781449358068>
 - Temas: http, api, hipermedia
 - Citada en: [`atlas/fichas/htmx.md`](../atlas/fichas/htmx.md), [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md), [`curriculum/05-backend-y-api.md`](../curriculum/05-backend-y-api.md)
+
+### `riva-nextjs`
+
+Riva, Michele, *Real-World Next.js*, Packt Publishing, 2022, ISBN 9781801073493
+
+- Localizador: <https://openlibrary.org/isbn/9781801073493>
+- Temas: nextjs, renderizado, react
+- Citada en: [`atlas/fichas/nextjs.md`](../atlas/fichas/nextjs.md)
 
 ### `greenfeld-two-scoops-django`
 
@@ -476,6 +644,14 @@ Seemann, Mark; van Deursen, Steven, *Dependency Injection Principles, Practices,
 - Temas: inversión de control, inyección, ciclo de vida
 - Citada en: [`atlas/fichas/spring-boot.md`](../atlas/fichas/spring-boot.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
 
+### `shaughnessy-ruby-microscope`
+
+Shaughnessy, Pat, *Ruby Under a Microscope*, No Starch Press, 2014, ISBN 9781593275273
+
+- Localizador: <https://openlibrary.org/isbn/9781593275273>
+- Temas: ruby, runtime, metaprogramación
+- Citada en: [`atlas/fichas/sinatra.md`](../atlas/fichas/sinatra.md)
+
 ### `shostack-threat-modeling`
 
 Shostack, Adam, *Threat Modeling: Designing for Security*, Wiley, 2014, ISBN 9781118809990
@@ -483,6 +659,22 @@ Shostack, Adam, *Threat Modeling: Designing for Security*, Wiley, 2014, ISBN 978
 - Localizador: <https://openlibrary.org/isbn/9781118809990>
 - Temas: seguridad, amenazas, diseño
 - Citada en: [`curriculum/07-identidad-y-seguridad.md`](../curriculum/07-identidad-y-seguridad.md)
+
+### `silver-form-design-patterns`
+
+Silver, Adam, *Form Design Patterns*, Smashing Media, 2018, ISBN 9783945749739
+
+- Localizador: <https://openlibrary.org/isbn/9783945749739>
+- Temas: formularios, accesibilidad, interfaz
+- Citada en: [`atlas/fichas/alpinejs.md`](../atlas/fichas/alpinejs.md)
+
+### `skelton-team-topologies`
+
+Skelton, Matthew; Pais, Manuel, *Team Topologies: Organizing Business and Technology Teams for Fast Flow*, IT Revolution Press, 2019, ISBN 9781942788812
+
+- Localizador: <https://openlibrary.org/isbn/9781942788812>
+- Temas: equipos, arquitectura, conway
+- Citada en: [`atlas/fichas/kubernetes.md`](../atlas/fichas/kubernetes.md), [`atlas/fichas/nextjs.md`](../atlas/fichas/nextjs.md)
 
 ### `stauffer-laravel`
 
@@ -524,6 +716,22 @@ Vincent, William S., *Django for Professionals: Production Websites with Python 
 - Temas: django, despliegue, producción
 - Citada en: [`atlas/fichas/django.md`](../atlas/fichas/django.md)
 
+### `volkmann-svelte`
+
+Volkmann, Mark, *Svelte and Sapper in Action*, Manning Publications, 2020, ISBN 9781617297946
+
+- Localizador: <https://openlibrary.org/isbn/9781617297946>
+- Temas: svelte, compilación, frontend
+- Citada en: [`atlas/fichas/svelte.md`](../atlas/fichas/svelte.md)
+
+### `wagner-web-performance`
+
+Wagner, Jeremy, *Web Performance in Action: Building Fast Web Pages*, Manning Publications, 2016, ISBN 9781638353768
+
+- Localizador: <https://openlibrary.org/isbn/9781638353768>
+- Temas: rendimiento, construcción, red
+- Citada en: [`atlas/fichas/vite.md`](../atlas/fichas/vite.md)
+
 ### `walls-spring-in-action`
 
 Walls, Craig, *Spring in Action*, 6.ª ed., Manning Publications, 2022, ISBN 9781617297571
@@ -539,6 +747,30 @@ Wiggins, Grant; McTighe, Jay, *Understanding by Design*, 2.ª ampliada ed., Asso
 - Localizador: <https://openlibrary.org/isbn/9781416600350>
 - Temas: pedagogía, diseño inverso, evidencia de aprendizaje
 - Citada en: [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md), [`docs/LEARNING-MODEL.md`](../docs/LEARNING-MODEL.md)
+
+### `wilken-angular-in-action`
+
+Wilken, Jeremy, *Angular in Action*, Manning Publications, 2018, ISBN 9781617293313
+
+- Localizador: <https://openlibrary.org/isbn/9781617293313>
+- Temas: angular, typescript, frontend
+- Citada en: [`atlas/fichas/angular.md`](../atlas/fichas/angular.md)
+
+### `williams-wordpress-plugins`
+
+Williams, Brad; Richard, Ozh; Tadlock, Justin, *Professional WordPress Plugin Development*, Wiley, 2011, ISBN 9780470916223
+
+- Localizador: <https://openlibrary.org/isbn/9780470916223>
+- Temas: wordpress, extensión, licencias
+- Citada en: [`atlas/fichas/wordpress.md`](../atlas/fichas/wordpress.md)
+
+### `windmill-flutter`
+
+Windmill, Eric, *Flutter in Action*, Manning Publications, 2019, ISBN 9781617296147
+
+- Localizador: <https://openlibrary.org/isbn/9781617296147>
+- Temas: flutter, dart, móvil
+- Citada en: [`atlas/fichas/flutter.md`](../atlas/fichas/flutter.md)
 
 ## Artículos
 
@@ -872,6 +1104,14 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 - Temas: decisiones, documentación
 - Citada en: [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
 
+### `alpine-state`
+
+*Alpine State*, Alpine.js
+
+- Localizador: <https://alpinejs.dev/essentials/state>
+- Temas: alpine, estado, atributos
+- Citada en: [`atlas/fichas/alpinejs.md`](../atlas/fichas/alpinejs.md)
+
 ### `struts-security`
 
 *Apache Struts Security Bulletins*, Apache Software Foundation
@@ -887,6 +1127,22 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 - Localizador: <https://docs.astro.build/en/concepts/islands/>
 - Temas: islas, renderizado, hidratación
 - Citada en: [`atlas/fichas/astro.md`](../atlas/fichas/astro.md)
+
+### `backbone-why`
+
+*Why Backbone?*, Backbone.js
+
+- Localizador: <https://backbonejs.org/#FAQ-why-backbone>
+- Temas: backbone, mvc, estado
+- Citada en: [`atlas/fichas/backbone.md`](../atlas/fichas/backbone.md)
+
+### `bun-nodejs-apis`
+
+*Node.js API compatibility*, Bun
+
+- Localizador: <https://bun.com/docs/runtime/nodejs-apis>
+- Temas: bun, compatibilidad, runtime
+- Citada en: [`atlas/fichas/nodejs.md`](../atlas/fichas/nodejs.md)
 
 ### `cisa-kev`
 
@@ -904,6 +1160,14 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 - Temas: despliegue, operación
 - Citada en: [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
 
+### `deno-v1`
+
+*Deno 1.0*, Deno
+
+- Localizador: <https://deno.com/blog/v1>
+- Temas: deno, runtime, permisos
+- Citada en: [`atlas/fichas/nodejs.md`](../atlas/fichas/nodejs.md)
+
 ### `django-releases`
 
 *Django Release Notes*, Django Software Foundation
@@ -918,7 +1182,15 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 
 - Localizador: <https://rfcs.emberjs.com/>
 - Temas: gobierno, proceso, cambios
-- Citada en: [`atlas/fichas/angularjs.md`](../atlas/fichas/angularjs.md)
+- Citada en: [`atlas/fichas/angularjs.md`](../atlas/fichas/angularjs.md), [`atlas/fichas/ember.md`](../atlas/fichas/ember.md)
+
+### `ember-octane`
+
+*Ember Octane*, Ember.js
+
+- Localizador: <https://emberjs.com/editions/octane/>
+- Temas: ember, migración, ediciones
+- Citada en: [`atlas/fichas/ember.md`](../atlas/fichas/ember.md)
 
 ### `endoflife-date`
 
@@ -927,6 +1199,14 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 - Localizador: <https://endoflife.date/>
 - Temas: soporte, versiones, ciclo de vida
 - Citada en: [`atlas/fichas/angularjs.md`](../atlas/fichas/angularjs.md)
+
+### `fastapi-features`
+
+*FastAPI Features*, FastAPI
+
+- Localizador: <https://fastapi.tiangolo.com/features/>
+- Temas: fastapi, tipos, openapi
+- Citada en: [`atlas/fichas/fastapi.md`](../atlas/fichas/fastapi.md)
 
 ### `fielding-rest-dissertation`
 
@@ -992,6 +1272,14 @@ Fowler, Martin, *Microservice Trade-Offs*, martinfowler.com, 2015
 - Temas: revisión de código, proceso
 - Citada en: [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
 
+### `angular-signals`
+
+*Angular Signals*, Google — Angular
+
+- Localizador: <https://angular.dev/guide/signals>
+- Temas: angular, señales, reactividad
+- Citada en: [`atlas/fichas/angular.md`](../atlas/fichas/angular.md), [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md)
+
 ### `angularjs-eol`
 
 *AngularJS Version Support Status*, Google — AngularJS
@@ -999,6 +1287,14 @@ Fowler, Martin, *Microservice Trade-Offs*, martinfowler.com, 2015
 - Localizador: <https://docs.angularjs.org/misc/version-support-status>
 - Temas: fin de soporte, migración, ciclo de vida
 - Citada en: [`atlas/fichas/angularjs.md`](../atlas/fichas/angularjs.md)
+
+### `flutter-architecture`
+
+*Flutter Architectural Overview*, Google — Flutter
+
+- Localizador: <https://docs.flutter.dev/resources/architectural-overview>
+- Temas: flutter, motor gráfico, widgets
+- Citada en: [`atlas/fichas/flutter.md`](../atlas/fichas/flutter.md)
 
 ### `webdev-rendering`
 
@@ -1024,6 +1320,14 @@ Fowler, Martin, *Microservice Trade-Offs*, martinfowler.com, 2015
 - Temas: offline, estrategias de caché
 - Citada en: [`curriculum/09-movil-escritorio-y-offline.md`](../curriculum/09-movil-escritorio-y-offline.md)
 
+### `web-baseline`
+
+*Baseline*, Google — web.dev
+
+- Localizador: <https://web.dev/baseline>
+- Temas: compatibilidad, navegador, adopción
+- Citada en: [`atlas/fichas/tauri.md`](../atlas/fichas/tauri.md)
+
 ### `dora-research`
 
 *DORA Research Program*, Google Cloud — DORA
@@ -1031,6 +1335,14 @@ Fowler, Martin, *Microservice Trade-Offs*, martinfowler.com, 2015
 - Localizador: <https://dora.dev/research/>
 - Temas: métricas, entrega, evidencia
 - Citada en: [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
+
+### `graphql-spec`
+
+*GraphQL Specification*, GraphQL Foundation
+
+- Localizador: <https://spec.graphql.org/>
+- Temas: graphql, contrato, datos
+- Citada en: [`atlas/fichas/gatsby.md`](../atlas/fichas/gatsby.md)
 
 ### `htmx-essays`
 
@@ -1054,7 +1366,7 @@ Harris, Rich, *Virtual DOM is pure overhead*, Svelte, 2018
 
 - Localizador: <https://svelte.dev/blog/virtual-dom-is-pure-overhead>
 - Temas: svelte, árbol virtual, compilación
-- Citada en: [`atlas/fichas/react.md`](../atlas/fichas/react.md)
+- Citada en: [`atlas/fichas/react.md`](../atlas/fichas/react.md), [`atlas/fichas/svelte.md`](../atlas/fichas/svelte.md)
 
 ### `twelve-factor`
 
@@ -1072,6 +1384,14 @@ Harris, Rich, *Virtual DOM is pure overhead*, Svelte, 2018
 - Temas: datos, adopción, web
 - Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md)
 
+### `jamstack`
+
+*Jamstack*, Jamstack
+
+- Localizador: <https://jamstack.org/>
+- Temas: estático, despliegue, arquitectura
+- Citada en: [`atlas/fichas/gatsby.md`](../atlas/fichas/gatsby.md), [`atlas/fichas/nextjs.md`](../atlas/fichas/nextjs.md)
+
 ### `inkandswitch-local-first`
 
 Kleppmann, Martin; Wiggins, Adam; van Hardenberg, Peter; McGranaghan, Mark, *Local-first software: You own your data, in spite of the cloud*, Ink & Switch, 2019
@@ -1079,6 +1399,14 @@ Kleppmann, Martin; Wiggins, Adam; van Hardenberg, Peter; McGranaghan, Mark, *Loc
 - Localizador: <https://www.inkandswitch.com/local-first/>
 - Temas: offline, sincronización, propiedad de datos
 - Citada en: [`curriculum/09-movil-escritorio-y-offline.md`](../curriculum/09-movil-escritorio-y-offline.md)
+
+### `knockout-observables`
+
+*Observables*, Knockout
+
+- Localizador: <https://knockoutjs.com/documentation/observables.html>
+- Temas: knockout, observables, señales
+- Citada en: [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md)
 
 ### `laravel-releases`
 
@@ -1112,6 +1440,22 @@ Kleppmann, Martin; Wiggins, Adam; van Hardenberg, Peter; McGranaghan, Mark, *Loc
 - Temas: react, servidor, renderizado
 - Citada en: [`atlas/fichas/react.md`](../atlas/fichas/react.md)
 
+### `react-native-architecture`
+
+*React Native Architecture Overview*, Meta — React Native
+
+- Localizador: <https://reactnative.dev/architecture/overview>
+- Temas: react native, puente, móvil
+- Citada en: [`atlas/fichas/react-native.md`](../atlas/fichas/react-native.md)
+
+### `micro-frontends-org`
+
+*Micro Frontends*, micro-frontends.org
+
+- Localizador: <https://micro-frontends.org/>
+- Temas: frontend, integración, equipos
+- Citada en: [`atlas/fichas/nextjs.md`](../atlas/fichas/nextjs.md)
+
 ### `blazor-webforms`
 
 *Blazor for ASP.NET Web Forms Developers*, Microsoft
@@ -1135,6 +1479,22 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Localizador: <https://developer.mozilla.org/en-US/docs/Web>
 - Temas: frontend, referencia, navegador
 - Citada en: [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md), [`curriculum/03-frontend-componentes-y-estado.md`](../curriculum/03-frontend-componentes-y-estado.md), [`curriculum/04-fullstack-y-renderizado.md`](../curriculum/04-fullstack-y-renderizado.md), [`curriculum/09-movil-escritorio-y-offline.md`](../curriculum/09-movil-escritorio-y-offline.md)
+
+### `mdn-progressive-enhancement`
+
+*Progressive Enhancement*, Mozilla
+
+- Localizador: <https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement>
+- Temas: accesibilidad, robustez, frontend
+- Citada en: [`atlas/fichas/alpinejs.md`](../atlas/fichas/alpinejs.md)
+
+### `mdn-web-components`
+
+*Web Components*, Mozilla
+
+- Localizador: <https://developer.mozilla.org/en-US/docs/Web/API/Web_components>
+- Temas: componentes web, estándar, navegador
+- Citada en: [`atlas/fichas/lit.md`](../atlas/fichas/lit.md)
 
 ### `cve-2017-5638`
 
@@ -1168,6 +1528,22 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Temas: gobierno, fundación, javascript
 - Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md)
 
+### `electron-security`
+
+*Electron Security*, OpenJS Foundation — Electron
+
+- Localizador: <https://www.electronjs.org/docs/latest/tutorial/security>
+- Temas: electron, seguridad, escritorio
+- Citada en: [`atlas/fichas/electron.md`](../atlas/fichas/electron.md)
+
+### `nodejs-esm`
+
+*Node.js ECMAScript Modules*, OpenJS Foundation — Node.js
+
+- Localizador: <https://nodejs.org/api/esm.html>
+- Temas: node, módulos, compatibilidad
+- Citada en: [`atlas/fichas/nodejs.md`](../atlas/fichas/nodejs.md)
+
 ### `opentelemetry-docs`
 
 *OpenTelemetry Documentation*, OpenTelemetry / CNCF
@@ -1175,6 +1551,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Localizador: <https://opentelemetry.io/docs/>
 - Temas: observabilidad, trazas, métricas
 - Citada en: [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
+
+### `flask-design`
+
+*Design Decisions in Flask*, Pallets Projects — Flask
+
+- Localizador: <https://flask.palletsprojects.com/en/stable/design/>
+- Temas: flask, microframework, diseño
+- Citada en: [`atlas/fichas/flask.md`](../atlas/fichas/flask.md)
 
 ### `patterns-dev`
 
@@ -1192,13 +1576,77 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Temas: persistencia, sql, transacciones
 - Citada en: [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
+### `preact-differences`
+
+*Differences to React*, Preact
+
+- Localizador: <https://preactjs.com/guide/v10/differences-to-react/>
+- Temas: preact, tamaño, compatibilidad
+- Citada en: [`atlas/fichas/preact.md`](../atlas/fichas/preact.md)
+
+### `qwik-resumability`
+
+*Resumable*, Qwik
+
+- Localizador: <https://qwik.dev/docs/concepts/resumable/>
+- Temas: qwik, hidratación, reanudación
+- Citada en: [`atlas/fichas/qwik.md`](../atlas/fichas/qwik.md)
+
+### `solid-reactivity`
+
+*Intro to Reactivity*, SolidJS
+
+- Localizador: <https://docs.solidjs.com/concepts/intro-to-reactivity>
+- Temas: solid, señales, reactividad
+- Citada en: [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md)
+
+### `svelte-runes`
+
+*Introducing runes*, Svelte
+
+- Localizador: <https://svelte.dev/blog/runes>
+- Temas: svelte, señales, reactividad
+- Citada en: [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md), [`atlas/fichas/svelte.md`](../atlas/fichas/svelte.md)
+
 ### `symfony-components`
 
 *Symfony Components*, Symfony
 
 - Localizador: <https://symfony.com/components>
 - Temas: php, componentes, reutilización
-- Citada en: [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md)
+- Citada en: [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md), [`atlas/fichas/symfony.md`](../atlas/fichas/symfony.md)
+
+### `symfony-best-practices`
+
+*Symfony Best Practices*, Symfony
+
+- Localizador: <https://symfony.com/doc/current/best_practices.html>
+- Temas: php, estructura, convenciones
+- Citada en: [`atlas/fichas/symfony.md`](../atlas/fichas/symfony.md)
+
+### `tauri-security`
+
+*Tauri Security*, Tauri
+
+- Localizador: <https://v2.tauri.app/security/>
+- Temas: tauri, seguridad, escritorio
+- Citada en: [`atlas/fichas/tauri.md`](../atlas/fichas/tauri.md)
+
+### `nextjs-app-router`
+
+*Next.js App Router*, Vercel — Next.js
+
+- Localizador: <https://nextjs.org/docs/app>
+- Temas: nextjs, renderizado, enrutado
+- Citada en: [`atlas/fichas/nextjs.md`](../atlas/fichas/nextjs.md)
+
+### `vite-why`
+
+*Why Vite*, Vite
+
+- Localizador: <https://vite.dev/guide/why>
+- Temas: construcción, módulos, desarrollo
+- Citada en: [`atlas/fichas/vite.md`](../atlas/fichas/vite.md)
 
 ### `vue-reactivity`
 
@@ -1207,3 +1655,19 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Localizador: <https://vuejs.org/guide/extras/reactivity-in-depth.html>
 - Temas: vue, reactividad, señales
 - Citada en: [`atlas/fichas/vue.md`](../atlas/fichas/vue.md)
+
+### `wcag-quickref`
+
+*How to Meet WCAG (Quick Reference)*, W3C
+
+- Localizador: <https://www.w3.org/WAI/WCAG22/quickref/>
+- Temas: accesibilidad, criterios, verificación
+- Citada en: [`atlas/fichas/alpinejs.md`](../atlas/fichas/alpinejs.md)
+
+### `wordpress-license`
+
+*WordPress License (GPL)*, WordPress
+
+- Localizador: <https://wordpress.org/about/license/>
+- Temas: licencia, copyleft, cms
+- Citada en: [`atlas/fichas/wordpress.md`](../atlas/fichas/wordpress.md)

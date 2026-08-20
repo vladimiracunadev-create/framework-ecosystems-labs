@@ -77,19 +77,19 @@ más que la elegancia de la API**.
 <!-- generado:tabla-ecosistema javascript -->
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Backbone.js** | `mv-library` | 2010 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://backbonejs.org/) |
+| [**Backbone.js**](../fichas/backbone.md) | `mv-library` | 2010 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://backbonejs.org/) |
 | **Apache Cordova** | `runtime-bridge` | 2009 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://cordova.apache.org/docs/en/latest/) |
 | **Dojo Toolkit** | `ui-toolkit` | 2004 | 🌱 Pionero | 🟡 mantenimiento | `BSD-3-Clause` | [oficial](https://dojotoolkit.org/documentation/) |
 | [**jQuery**](../fichas/jquery.md) | `dom-library` | 2006 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://api.jquery.com/) |
-| **Knockout** | `mvvm-library` | 2010 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://knockoutjs.com/documentation/introduction.html) |
+| [**Knockout**](../fichas/knockout.md) | `mvvm-library` | 2010 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://knockoutjs.com/documentation/introduction.html) |
 | **MooTools** | `dom-library` | 2006 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://mootools.net/) |
 | **Prototype** | `dom-library` | 2005 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://github.com/prototypejs/prototype) |
 | [**AngularJS**](../fichas/angularjs.md) | `web-framework` | 2010 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://docs.angularjs.org/guide) |
 | **Aurelia** | `web-framework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://docs.aurelia.io/) |
-| **Ember.js** | `web-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.emberjs.com/release/) |
+| [**Ember.js**](../fichas/ember.md) | `web-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.emberjs.com/release/) |
 | [**Express**](../fichas/express.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://expressjs.com/) |
 | **Ext JS** | `ui-toolkit` | 2007 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.sencha.com/extjs/) |
-| **Gatsby** | `react-metaframework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://www.gatsbyjs.com/docs/) |
+| [**Gatsby**](../fichas/gatsby.md) | `react-metaframework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://www.gatsbyjs.com/docs/) |
 | **hapi** | `web-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://hapi.dev/) |
 | **Ionic** | `ui-toolkit` | 2013 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://ionicframework.com/docs) |
 | **Koa** | `web-framework` | 2013 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://koajs.com/) |
@@ -102,35 +102,35 @@ más que la elegancia de la API**.
 | **TypeORM** | `orm` | 2016 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://typeorm.io/) |
 | **webpack** | `build-tool` | 2012 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://webpack.js.org/concepts/) |
 | **AdonisJS** | `full-stack-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.adonisjs.com/guides/preface/introduction) |
-| **Alpine.js** | `dom-library` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://alpinejs.dev/start-here) |
-| **Angular** | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://angular.dev/) |
+| [**Alpine.js**](../fichas/alpinejs.md) | `dom-library` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://alpinejs.dev/start-here) |
+| [**Angular**](../fichas/angular.md) | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://angular.dev/) |
 | [**Astro**](../fichas/astro.md) | `web-metaframework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.astro.build/) |
 | **Capacitor** | `runtime-bridge` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://capacitorjs.com/docs) |
 | **Deno** | `runtime` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.deno.com/) |
 | **Docusaurus** | `documentation-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docusaurus.io/docs) |
-| **Electron** | `desktop-runtime` | 2013 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.electronjs.org/docs/latest/) |
+| [**Electron**](../fichas/electron.md) | `desktop-runtime` | 2013 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.electronjs.org/docs/latest/) |
 | **Eleventy** | `static-site-generator` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.11ty.dev/docs/) |
 | **Fastify** | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://fastify.dev/docs/latest/) |
 | **Turbo (Hotwire)** | `hypermedia-library` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://turbo.hotwired.dev/handbook/introduction) |
 | [**htmx**](../fichas/htmx.md) | `hypermedia-library` | 2020 | 🟢 Vigente | 🟢 activo | `BSD-2-Clause` | [oficial](https://htmx.org/docs/) |
-| **Lit** | `web-components-library` | 2021 | 🟢 Vigente | 🟢 activo | `BSD-3-Clause` | [oficial](https://lit.dev/docs/) |
-| **NestJS** | `application-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.nestjs.com/) |
-| **Next.js** | `react-metaframework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nextjs.org/docs) |
+| [**Lit**](../fichas/lit.md) | `web-components-library` | 2021 | 🟢 Vigente | 🟢 activo | `BSD-3-Clause` | [oficial](https://lit.dev/docs/) |
+| [**NestJS**](../fichas/nestjs.md) | `application-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.nestjs.com/) |
+| [**Next.js**](../fichas/nextjs.md) | `react-metaframework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nextjs.org/docs) |
 | **Nitro** | `server-toolkit` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nitro.build/guide) |
-| **Node.js** | `runtime` | 2009 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nodejs.org/docs/latest-v22.x/api/) |
+| [**Node.js**](../fichas/nodejs.md) | `runtime` | 2009 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nodejs.org/docs/latest-v22.x/api/) |
 | **Nuxt** | `vue-metaframework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nuxt.com/docs) |
-| **Preact** | `ui-library` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://preactjs.com/guide/v10/getting-started/) |
+| [**Preact**](../fichas/preact.md) | `ui-library` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://preactjs.com/guide/v10/getting-started/) |
 | **Prisma ORM** | `orm` | 2021 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://www.prisma.io/docs) |
 | [**React**](../fichas/react.md) | `ui-library` | 2013 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://react.dev/) |
-| **React Native** | `ui-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactnative.dev/docs/getting-started) |
+| [**React Native**](../fichas/react-native.md) | `ui-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactnative.dev/docs/getting-started) |
 | **React Router** | `routing-library` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactrouter.com/) |
 | **Remix** | `react-metaframework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://remix.run/docs) |
 | **SolidJS** | `ui-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.solidjs.com/) |
 | **Stimulus** | `dom-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://stimulus.hotwired.dev/handbook/introduction) |
-| **Svelte** | `ui-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://svelte.dev/docs/svelte) |
+| [**Svelte**](../fichas/svelte.md) | `ui-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://svelte.dev/docs/svelte) |
 | **SvelteKit** | `svelte-metaframework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://svelte.dev/docs/kit) |
 | **tRPC** | `rpc-library` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://trpc.io/docs) |
-| **Vite** | `build-tool` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vite.dev/guide/) |
+| [**Vite**](../fichas/vite.md) | `build-tool` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vite.dev/guide/) |
 | **VitePress** | `documentation-framework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vitepress.dev/) |
 | [**Vue**](../fichas/vue.md) | `web-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vuejs.org/guide/) |
 | **Analog** | `angular-metaframework` | 2023 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://analogjs.org/docs) |
@@ -138,7 +138,7 @@ más que la elegancia de la API**.
 | **Drizzle ORM** | `orm` | 2022 | 🌊 Emergente | 🟢 activo | `Apache-2.0` | [oficial](https://orm.drizzle.team/docs/overview) |
 | **Elysia** | `web-framework` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://elysiajs.com/) |
 | **Hono** | `web-framework` | 2021 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://hono.dev/docs/) |
-| **Qwik** | `ui-framework` | 2021 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://qwik.dev/docs/) |
+| [**Qwik**](../fichas/qwik.md) | `ui-framework` | 2021 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://qwik.dev/docs/) |
 | **RedwoodJS** | `full-stack-framework` | 2020 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://redwoodjs.com/docs) |
 | **SolidStart** | `solid-metaframework` | 2024 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://docs.solidjs.com/solid-start) |
 <!-- fin -->

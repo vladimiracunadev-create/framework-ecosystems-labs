@@ -53,7 +53,7 @@ paquete JavaScript equivalente, y el coste de cruzar la frontera hacia el DOM.
 | **Actix Web** | `web-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://actix.rs/docs/) |
 | **axum** | `web-framework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.rs/axum/) |
 | **Rocket** | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://rocket.rs/guide/) |
-| **Tauri** | `desktop-runtime` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://v2.tauri.app/) |
+| [**Tauri**](../fichas/tauri.md) | `desktop-runtime` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://v2.tauri.app/) |
 | **Yew** | `ui-framework` | 2017 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://yew.rs/docs/getting-started/introduction) |
 | **Leptos** | `ui-framework` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://book.leptos.dev/) |
 <!-- fin -->

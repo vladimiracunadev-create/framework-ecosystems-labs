@@ -42,7 +42,7 @@ otra columna.
 <!-- generado:tabla-ecosistema dart -->
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **Flutter** | `ui-sdk` | 2017 | 🟢 Vigente | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.flutter.dev/) |
+| [**Flutter**](../fichas/flutter.md) | `ui-sdk` | 2017 | 🟢 Vigente | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.flutter.dev/) |
 <!-- fin -->
 
 ## Qué aportó

@@ -49,7 +49,7 @@ verdad una aplicación de página única?
 | **Active Record (Rails)** | `orm` | 2004 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.rubyonrails.org/active_record_basics.html) |
 | **Jekyll** | `static-site-generator` | 2008 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://jekyllrb.com/docs/) |
 | [**Ruby on Rails**](../fichas/rails.md) | `full-stack-framework` | 2004 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.rubyonrails.org/) |
-| **Sinatra** | `web-framework` | 2007 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://sinatrarb.com/documentation.html) |
+| [**Sinatra**](../fichas/sinatra.md) | `web-framework` | 2007 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://sinatrarb.com/documentation.html) |
 | **Hanami** | `full-stack-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://guides.hanamirb.org/) |
 <!-- fin -->
 
