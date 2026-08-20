@@ -1,8 +1,34 @@
 {
   "clase": "028",
   "titulo": "Terminación temprana",
-  "descripcion": "Sin cabecera de autorización responde 401 emitido por la capa, no por la ruta.",
-  "estado": "esqueleto",
+  "descripcion": "Cortar la cadena sin llegar al manejador, y demostrar que el manejador no se ejecutó.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "sin autorización responde 401",
+      "peticion": { "metodo": "GET", "ruta": "/privado" },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "el 401 lo emite la capa: el manejador no se ejecutó",
+      "peticion": { "metodo": "GET", "ruta": "/privado" },
+      "esperado": { "estado": 401, "json": { "error": "no autorizado", "manejador": 0 } }
+    },
+    {
+      "nombre": "el 401 indica cómo autenticarse",
+      "peticion": { "metodo": "GET", "ruta": "/privado" },
+      "esperado": { "estado": 401, "cabeceras": { "www-authenticate": "Bearer" } }
+    },
+    {
+      "nombre": "con autorización válida la cadena continúa",
+      "peticion": { "metodo": "GET", "ruta": "/privado", "cabeceras": { "authorization": "Bearer valido" } },
+      "esperado": { "estado": 200, "json": { "ok": true, "manejador": 1 } }
+    },
+    {
+      "nombre": "la ruta pública no pasa por la comprobación",
+      "peticion": { "metodo": "GET", "ruta": "/publico" },
+      "esperado": { "estado": 200, "json": { "ok": true, "publico": true } }
+    }
+  ]
 }

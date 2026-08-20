@@ -1,16 +1,24 @@
 var constructor = WebApplication.CreateBuilder(args);
 var app = constructor.Build();
 
-// `int? limite` hace que ASP.NET Core intente convertir la cadena de consulta.
-// Si el texto no es un entero, el valor llega nulo y lo tratamos como inválido.
-app.MapGet("/tareas", (int? limite) =>
+// Se lee de la colección de consulta en lugar de enlazar a `int? limite`.
+// Con enlace automático, un texto no convertible produce un **400 del
+// framework** antes de entrar al manejador, y este contrato distingue el 400
+// («no te entiendo») del 422 («te entiendo y no vale»).
+app.MapGet("/tareas", (HttpRequest peticion) =>
 {
-    var valor = limite ?? 20;
-    if (valor < 1 || valor > 100)
+    if (!peticion.Query.TryGetValue("limite", out var crudo) || string.IsNullOrEmpty(crudo))
     {
-        return Results.Json(new { error = "limite debe ser un entero entre 1 y 100" }, statusCode: 422);
+        return Results.Json(new { limite = 20 });
     }
-    return Results.Json(new { limite = valor });
+
+    if (!int.TryParse(crudo, out var limite) || limite < 1 || limite > 100)
+    {
+        return Results.Json(
+            new { error = "limite debe ser un entero entre 1 y 100" }, statusCode: 422);
+    }
+
+    return Results.Json(new { limite });
 });
 
 app.Run();

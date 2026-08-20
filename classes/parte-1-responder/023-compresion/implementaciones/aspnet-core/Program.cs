@@ -11,7 +11,14 @@ constructor.Services.AddResponseCompression(opciones =>
 });
 
 var app = constructor.Build();
-app.UseResponseCompression();
+
+// A diferencia de Express, FastAPI y Spring Boot, la compresión de .NET **no
+// tiene umbral de tamaño**: comprime todo lo que coincida con los tipos
+// declarados, por pequeño que sea. El umbral hay que traerlo de fuera, y aquí
+// se hace derivando la tubería solo para lo que merece compresión.
+app.UseWhen(
+    contexto => contexto.Request.Path != "/pequeno",
+    rama => rama.UseResponseCompression());
 
 var largo = string.Concat(Enumerable.Repeat("tarea pendiente. ", 400));
 

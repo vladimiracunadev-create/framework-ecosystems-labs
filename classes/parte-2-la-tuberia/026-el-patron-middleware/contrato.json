@@ -2,7 +2,28 @@
   "clase": "026",
   "titulo": "El patrón middleware",
   "descripcion": "Una capa intermedia añade una cabecera a todas las respuestas sin tocar las rutas.",
-  "estado": "esqueleto",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la ruta a responde y lleva la cabecera de la capa",
+      "peticion": { "metodo": "GET", "ruta": "/a" },
+      "esperado": { "estado": 200, "json": { "ruta": "a" }, "cabeceras": { "x-capa": "intermedia" } }
+    },
+    {
+      "nombre": "la ruta b también, sin haber tocado su código",
+      "peticion": { "metodo": "GET", "ruta": "/b" },
+      "esperado": { "estado": 200, "json": { "ruta": "b" }, "cabeceras": { "x-capa": "intermedia" } }
+    },
+    {
+      "nombre": "incluso el 404 pasa por la capa",
+      "peticion": { "metodo": "GET", "ruta": "/no-existe" },
+      "esperado": { "estado": 404, "cabeceras": { "x-capa": "intermedia" } }
+    },
+    {
+      "nombre": "y el 404 responde JSON, no una página de error",
+      "peticion": { "metodo": "GET", "ruta": "/tampoco" },
+      "esperado": { "estado": 404, "json": { "error": "no existe" } }
+    }
+  ]
 }

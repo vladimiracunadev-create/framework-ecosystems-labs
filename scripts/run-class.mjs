@@ -99,10 +99,34 @@ async function esperarPuerto(puerto, limiteMs) {
   return false;
 }
 
+/**
+ * Mata el proceso y TODOS sus descendientes.
+ *
+ * Matar solo al proceso lanzado no basta: `go run`, `mvn` y `dotnet run`
+ * compilan y luego ejecutan el binario resultante como hijo. Al morir el padre,
+ * el binario sigue vivo y con el puerto ocupado — y la clase siguiente acaba
+ * probando el servidor de la anterior sin que nada avise. Es exactamente lo que
+ * pasó con Gin en la primera ejecución completa en integración continua.
+ *
+ * En Windows lo resuelve `taskkill /t`; en POSIX hace falta que el hijo tenga
+ * su propio grupo de procesos (`detached: true`) para poder matar el grupo
+ * entero con un pid negativo.
+ */
 function matarArbol(hijo) {
   if (!hijo || hijo.exitCode !== null) return;
-  if (esWindows) spawnSync("taskkill", ["/pid", String(hijo.pid), "/t", "/f"], { stdio: "ignore" });
-  else hijo.kill("SIGTERM");
+  if (esWindows) {
+    spawnSync("taskkill", ["/pid", String(hijo.pid), "/t", "/f"], { stdio: "ignore" });
+    return;
+  }
+  try {
+    process.kill(-hijo.pid, "SIGTERM");
+  } catch {
+    try {
+      hijo.kill("SIGKILL");
+    } catch {
+      // El proceso ya había muerto.
+    }
+  }
 }
 
 // ------------------------------------------------------------ comprobación
@@ -230,6 +254,23 @@ async function comprobarCaso(baseUrl, caso) {
     if (!igualEnProfundidad(cuerpo, e.json)) {
       fallos.push(`json ${JSON.stringify(cuerpo)}, esperado ${JSON.stringify(e.json)}`);
     }
+  } else if (e.json_contiene !== undefined) {
+    // Comparación PARCIAL. Hace falta cuando parte de la respuesta no es
+    // determinista —un identificador generado, un instante— y exigir el objeto
+    // completo obligaría a predecir lo impredecible.
+    let cuerpo;
+    try {
+      cuerpo = await res.json();
+    } catch {
+      return { ok: false, motivo: "la respuesta no es JSON válido" };
+    }
+    for (const [clave, valor] of Object.entries(e.json_contiene)) {
+      if (!igualEnProfundidad(cuerpo?.[clave], valor)) {
+        fallos.push(
+          `json.${clave} = ${JSON.stringify(cuerpo?.[clave])}, esperado ${JSON.stringify(valor)}`,
+        );
+      }
+    }
   }
 
   return fallos.length ? { ok: false, motivo: fallos.join("; ") } : { ok: true };
@@ -293,9 +334,21 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
   const arrancar = cfg.arrancar.map((a) =>
     String(a).replaceAll("${PUERTO}", String(puerto)).replaceAll("${PORT}", String(puerto)),
   );
+  // Si el puerto ya está ocupado, arrancar aquí probaría el servidor de otro
+  // — un falso verde o un falso rojo, según lo que hubiera al otro lado.
+  if (await puertoAbierto(puerto)) {
+    return {
+      framework,
+      estado: "error",
+      detalle: `el puerto ${puerto} ya estaba ocupado: se habría probado otro servidor`,
+    };
+  }
+
   const c = preparar(arrancar[0], arrancar.slice(1));
   const hijo = spawn(c.comando, c.argumentos, {
     cwd: dir, env, ...c.opciones, stdio: ["ignore", "pipe", "pipe"],
+    // Grupo de procesos propio, para poder matar al hijo y a sus descendientes.
+    detached: !esWindows,
   });
   let salida = "";
   hijo.stdout.on("data", (d) => (salida += d));
@@ -318,7 +371,11 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
       : { framework, estado: "ok", detalle: `${contrato.casos.length} casos` };
   } finally {
     matarArbol(hijo);
-    await esperar(200);
+    // No basta con pedir la muerte: hay que esperar a que el puerto se libere,
+    // o la siguiente implementación se encuentra el puerto ocupado.
+    for (let i = 0; i < 25 && (await puertoAbierto(puerto)); i++) {
+      await esperar(200);
+    }
   }
 }
 

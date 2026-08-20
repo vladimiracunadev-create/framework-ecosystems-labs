@@ -67,11 +67,27 @@ que la página los lea.
 | `OPTIONS` con origen permitido | `200` o `204` |
 | igual | `access-control-allow-origin: https://permitido.example` |
 | `GET` con origen permitido | `200` + la misma cabecera |
-| `GET` con origen **no** permitido | `200` **sin** la cabecera |
+| `GET` con origen **no** permitido | `200` o `403`, y **sin** la cabecera |
 
-El último caso es el más instructivo: **la respuesta es 200 igualmente**. El
-servidor sirve los datos; simplemente no autoriza al navegador a dejar que esa
-página los lea. Confirma que CORS no es control de acceso.
+El último caso es el más instructivo, y destapó una divergencia real entre los
+cuatro:
+
+**Express, FastAPI y ASP.NET Core responden 200 y sirven los datos**, sin la
+cabecera de autorización. Es la lectura literal de la especificación: el permiso
+lo concede el servidor y lo hace cumplir el navegador, así que un origen no
+autorizado recibe la respuesta y su navegador le impide leerla.
+
+**Spring Boot responde 403 y no sirve nada.** Su filtro de CORS rechaza la
+petición directamente.
+
+Las dos posturas son defendibles. La de Spring añade una barrera para clientes
+que sí respetan la cabecera `Origin`; la de los otros tres es más fiel al modelo,
+porque un atacante con `curl` simplemente no envía `Origin` y obtiene los datos
+en ambos casos.
+
+Por eso el contrato exige **la propiedad de seguridad** —que el origen no
+autorizado no reciba la cabecera— y admite los dos códigos. Exigir 200 habría
+medido la implementación de Express, no el contrato.
 
 ## 🔍 Lo que esta clase destapó
 
@@ -133,6 +149,10 @@ tentación de poner un comodín global.
 | Spring Boot | filtro por patrón, o anotación | **sí** | dos configuraciones que se contradicen |
 | Express | opciones de la biblioteca | por montaje | `origin: true` refleja cualquier origen |
 | FastAPI | capa global | no cómodamente | `allow_origins=["*"]` |
+
+Y una diferencia de comportamiento, no de configuración: ante un origen no
+permitido, **Spring Boot responde 403** mientras los otros tres responden 200 sin
+la cabecera.
 
 Los dos primeros permiten reglas distintas por ruta, que es lo que hace falta
 cuando parte de la API es pública y parte no. Sin esa separación, la tentación es

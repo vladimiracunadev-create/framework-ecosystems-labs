@@ -1,0 +1,25 @@
+{
+  "framework": "laravel",
+  "requiere": [
+    "php",
+    "composer"
+  ],
+  "comprobar": [
+    "composer",
+    "--version"
+  ],
+  "preparar": [
+    "composer",
+    "install",
+    "--no-interaction",
+    "--quiet"
+  ],
+  "arrancar": [
+    "php",
+    "-S",
+    "127.0.0.1:${PUERTO}",
+    "-t",
+    "public"
+  ],
+  "espera_ms": 30000
+}

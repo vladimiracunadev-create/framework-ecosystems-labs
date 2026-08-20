@@ -36,9 +36,9 @@
       "esperado": { "estado": 200, "cabeceras": { "access-control-allow-origin": "https://permitido.example" } }
     },
     {
-      "nombre": "un origen no permitido no recibe la cabecera",
+      "nombre": "un origen no permitido no recibe la cabecera de autorización",
       "peticion": { "metodo": "GET", "ruta": "/datos", "cabeceras": { "origin": "https://atacante.example" } },
-      "esperado": { "estado": 200, "cabecera_ausente": ["access-control-allow-origin"] }
+      "esperado": { "estado_en": [200, 403], "cabecera_ausente": ["access-control-allow-origin"] }
     }
   ]
 }

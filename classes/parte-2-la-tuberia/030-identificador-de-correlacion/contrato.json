@@ -2,7 +2,23 @@
   "clase": "030",
   "titulo": "Identificador de correlación",
   "descripcion": "Se respeta el identificador entrante o se genera uno, y se devuelve siempre.",
-  "estado": "esqueleto",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "respeta el identificador que envía el cliente",
+      "peticion": { "metodo": "GET", "ruta": "/eco", "cabeceras": { "x-request-id": "abc-123" } },
+      "esperado": { "estado": 200, "json": { "correlacion": "abc-123", "generado": false } }
+    },
+    {
+      "nombre": "lo devuelve en la respuesta para que el cliente lo vea",
+      "peticion": { "metodo": "GET", "ruta": "/eco", "cabeceras": { "x-request-id": "abc-123" } },
+      "esperado": { "estado": 200, "cabeceras": { "x-request-id": "abc-123" } }
+    },
+    {
+      "nombre": "sin identificador entrante, genera uno",
+      "peticion": { "metodo": "GET", "ruta": "/eco" },
+      "esperado": { "estado": 200, "json_contiene": { "generado": true } }
+    }
+  ]
 }

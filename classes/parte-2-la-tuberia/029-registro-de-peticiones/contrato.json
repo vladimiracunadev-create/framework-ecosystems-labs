@@ -1,8 +1,32 @@
 {
   "clase": "029",
   "titulo": "Registro de peticiones",
-  "descripcion": "Cada respuesta deja una línea con método, ruta, estado y duración.",
-  "estado": "esqueleto",
+  "descripcion": "Una línea por petición con método, ruta, estado y duración medida.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "una petición correcta",
+      "peticion": { "metodo": "GET", "ruta": "/ok" },
+      "esperado": { "estado": 200, "json": { "ok": true } }
+    },
+    {
+      "nombre": "una petición que falla",
+      "peticion": { "metodo": "GET", "ruta": "/falla" },
+      "esperado": { "estado": 500 }
+    },
+    {
+      "nombre": "el registro tiene una línea por petición, con su estado real",
+      "peticion": { "metodo": "GET", "ruta": "/registro" },
+      "esperado": {
+        "estado": 200,
+        "json": {
+          "registro": [
+            { "metodo": "GET", "ruta": "/ok", "estado": 200, "medido": true },
+            { "metodo": "GET", "ruta": "/falla", "estado": 500, "medido": true }
+          ]
+        }
+      }
+    }
+  ]
 }

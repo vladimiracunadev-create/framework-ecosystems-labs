@@ -1,8 +1,25 @@
 {
   "clase": "027",
   "titulo": "El orden importa",
-  "descripcion": "Tres capas registran su entrada y su salida en el orden exacto esperado.",
-  "estado": "esqueleto",
+  "descripcion": "Tres capas registran su entrada: se recorren de fuera adentro y el manejador es el último.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "las capas entran en orden y el manejador va al final",
+      "peticion": { "metodo": "GET", "ruta": "/traza" },
+      "esperado": {
+        "estado": 200,
+        "json": { "traza": ["entra:uno", "entra:dos", "entra:tres", "manejador"] }
+      }
+    },
+    {
+      "nombre": "la traza no se acumula entre peticiones: es estado por petición",
+      "peticion": { "metodo": "GET", "ruta": "/traza" },
+      "esperado": {
+        "estado": 200,
+        "json": { "traza": ["entra:uno", "entra:dos", "entra:tres", "manejador"] }
+      }
+    }
+  ]
 }

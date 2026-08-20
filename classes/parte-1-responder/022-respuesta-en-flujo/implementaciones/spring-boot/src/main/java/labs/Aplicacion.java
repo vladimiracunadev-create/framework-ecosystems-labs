@@ -19,6 +19,11 @@ public class Aplicacion {
     // sin él, un flujo largo retendría un hilo del grupo durante todo el envío.
     @GetMapping(value = "/flujo", produces = MediaType.TEXT_PLAIN_VALUE)
     public StreamingResponseBody flujo(HttpServletResponse respuesta) {
+        // `produces` en la anotación declara qué puede producir el método,
+        // pero con `StreamingResponseBody` no llega a fijar la cabecera: el
+        // cuerpo se escribe directamente en el flujo de salida. Hay que
+        // ponerla a mano.
+        respuesta.setContentType("text/plain");
         respuesta.setHeader("Cache-Control", "no-store");
         return salida -> {
             for (String trozo : new String[] { "uno\n", "dos\n", "tres\n" }) {
