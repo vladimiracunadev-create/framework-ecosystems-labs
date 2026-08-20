@@ -1,0 +1,8 @@
+{
+  "clase": "014",
+  "titulo": "Verbos HTTP y su semántica",
+  "descripcion": "GET es seguro y PUT idempotente: dos llamadas iguales dejan el mismo estado.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

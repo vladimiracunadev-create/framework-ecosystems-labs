@@ -1,0 +1,5 @@
+/vendor/
+/storage/framework/views/*
+/storage/framework/cache/*
+/storage/logs/*
+/bootstrap/cache/*

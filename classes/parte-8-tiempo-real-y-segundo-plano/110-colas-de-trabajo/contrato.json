@@ -1,0 +1,8 @@
+{
+  "clase": "110",
+  "titulo": "Colas de trabajo",
+  "descripcion": "La petición responde de inmediato y el trabajo se completa después.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

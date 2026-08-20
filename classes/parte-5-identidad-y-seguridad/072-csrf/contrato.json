@@ -1,0 +1,8 @@
+{
+  "clase": "072",
+  "titulo": "CSRF",
+  "descripcion": "Envío sin testigo responde 403; con testigo válido responde 200.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

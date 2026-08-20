@@ -1,0 +1,8 @@
+{
+  "clase": "002",
+  "titulo": "Inversión de control, en concreto",
+  "descripcion": "Registrar un manejador y no llamarlo nunca: el framework lo llama.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

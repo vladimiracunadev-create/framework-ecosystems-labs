@@ -1,0 +1,8 @@
+{
+  "clase": "118",
+  "titulo": "Funcionar sin conexión",
+  "descripcion": "Las operaciones se encolan sin red y se aplican al recuperarla.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

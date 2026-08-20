@@ -1,0 +1,161 @@
+#!/usr/bin/env node
+/**
+ * Verificador estructural del árbol de clases.
+ *
+ * Comprueba lo que el generador no puede garantizar por sí solo: que cada clase
+ * declarada existe, que su elenco apunta a tecnologías reales del catálogo, y
+ * —sobre todo— que una clase marcada como **construida** cumple de verdad su
+ * contrato: casos ejecutables, implementaciones presentes, secciones
+ * obligatorias y fuentes citadas.
+ *
+ * La distinción entre esqueleto y construida es la que hace honesto el
+ * recuento. Sin ella, marcar una clase como hecha sería una afirmación sin
+ * respaldo.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
+
+const root = path.resolve(import.meta.dirname, "..");
+const CLASSES = path.join(root, "classes");
+
+const manifest = JSON.parse(fs.readFileSync(path.join(CLASSES, "_manifest.json"), "utf8"));
+const catalogo = JSON.parse(fs.readFileSync(path.join(root, "catalog/frameworks.json"), "utf8"));
+const idsCatalogo = new Set((catalogo.entries ?? catalogo).map((e) => e.id));
+const bibliografia = JSON.parse(fs.readFileSync(path.join(root, "sources/bibliography.json"), "utf8"));
+const idsFuentes = new Set(bibliografia.entries.map((e) => e.id));
+
+const SECCIONES_CONSTRUIDA = [
+  "Objetivo",
+  "La situación",
+  "El contrato",
+  "Las implementaciones",
+  "Comparación",
+  "Verificación",
+  "Errores frecuentes",
+  "Reto de transferencia",
+  "Fuentes",
+];
+
+const MIN_IMPLEMENTACIONES = 2;
+const MIN_CASOS = 2;
+
+const problemas = [];
+const fallar = (donde, mensaje) => problemas.push(`${donde}: ${mensaje}`);
+
+const numerosVistos = new Set();
+const slugsVistos = new Set();
+let construidas = 0;
+let esqueletos = 0;
+let implementaciones = 0;
+let casos = 0;
+
+for (const parte of manifest.partes) {
+  const dirParte = path.join(CLASSES, parte.slug);
+  if (!fs.existsSync(dirParte)) {
+    fallar(parte.slug, "la parte no existe en el disco");
+    continue;
+  }
+
+  for (const clase of parte.clases) {
+    const rel = `classes/${parte.slug}/${clase.slug}`;
+    const dir = path.join(dirParte, clase.slug);
+
+    if (numerosVistos.has(clase.n)) fallar(rel, `número de clase duplicado: ${clase.n}`);
+    numerosVistos.add(clase.n);
+    if (slugsVistos.has(clase.slug)) fallar(rel, "slug duplicado");
+    slugsVistos.add(clase.slug);
+
+    if (!manifest.pistas[clase.pista]) fallar(rel, `pista desconocida: ${clase.pista}`);
+    if (!clase.elenco?.length) fallar(rel, "elenco vacío");
+    for (const id of clase.elenco ?? []) {
+      if (!idsCatalogo.has(id)) fallar(rel, `elenco con una tecnología ausente del catálogo: ${id}`);
+    }
+
+    if (!fs.existsSync(dir)) {
+      fallar(rel, "la carpeta de la clase no existe");
+      continue;
+    }
+    for (const archivo of ["README.md", "contrato.json", "porque-si-porque-no.md"]) {
+      if (!fs.existsSync(path.join(dir, archivo))) fallar(rel, `falta ${archivo}`);
+    }
+
+    const rutaContrato = path.join(dir, "contrato.json");
+    if (!fs.existsSync(rutaContrato)) continue;
+
+    let contrato;
+    try {
+      contrato = JSON.parse(fs.readFileSync(rutaContrato, "utf8"));
+    } catch (error) {
+      fallar(`${rel}/contrato.json`, `no es JSON válido: ${error.message}`);
+      continue;
+    }
+
+    if (contrato.clase !== String(clase.n).padStart(3, "0")) {
+      fallar(`${rel}/contrato.json`, `el campo clase dice "${contrato.clase}" y debería decir "${String(clase.n).padStart(3, "0")}"`);
+    }
+
+    if (clase.estado !== "construida") {
+      esqueletos++;
+      continue;
+    }
+
+    // -------------------------------------------------- exigencias de una clase construida
+    construidas++;
+
+    if ((contrato.casos?.length ?? 0) < MIN_CASOS) {
+      fallar(`${rel}/contrato.json`, `una clase construida necesita al menos ${MIN_CASOS} casos, tiene ${contrato.casos?.length ?? 0}`);
+    }
+    casos += contrato.casos?.length ?? 0;
+
+    for (const caso of contrato.casos ?? []) {
+      if (!caso.nombre) fallar(`${rel}/contrato.json`, "un caso sin nombre");
+      if (!caso.esperado) fallar(`${rel}/contrato.json`, `el caso "${caso.nombre}" no declara qué espera`);
+    }
+
+    const dirImpl = path.join(dir, "implementaciones");
+    const presentes = fs.existsSync(dirImpl)
+      ? fs.readdirSync(dirImpl, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)
+      : [];
+
+    if (presentes.length < MIN_IMPLEMENTACIONES) {
+      fallar(rel, `una clase construida necesita al menos ${MIN_IMPLEMENTACIONES} implementaciones, tiene ${presentes.length}`);
+    }
+    for (const nombre of presentes) {
+      if (!clase.elenco.includes(nombre)) {
+        fallar(rel, `la implementación "${nombre}" no está en el elenco declarado`);
+      }
+      if (contrato.tipo === "http" && !fs.existsSync(path.join(dirImpl, nombre, "ejecutar.json"))) {
+        fallar(`${rel}/implementaciones/${nombre}`, "falta ejecutar.json: el verificador no sabría arrancarla");
+      }
+      implementaciones++;
+    }
+
+    const readme = fs.readFileSync(path.join(dir, "README.md"), "utf8");
+    for (const seccion of SECCIONES_CONSTRUIDA) {
+      if (!readme.includes(seccion)) fallar(`${rel}/README.md`, `falta la sección "${seccion}"`);
+    }
+    if (readme.includes("Clase en esqueleto")) {
+      fallar(`${rel}/README.md`, "sigue marcada como esqueleto pero el manifiesto la da por construida");
+    }
+
+    // Trazabilidad: toda cita debe resolver contra la bibliografía verificada.
+    const citas = [...readme.matchAll(/\[@([a-z0-9-]+)\]/g)].map((m) => m[1]);
+    if (citas.length === 0) fallar(`${rel}/README.md`, "una clase construida sin ninguna fuente citada");
+    for (const cita of new Set(citas)) {
+      if (!idsFuentes.has(cita)) fallar(`${rel}/README.md`, `cita a una fuente inexistente: [@${cita}]`);
+    }
+  }
+}
+
+if (problemas.length) {
+  console.error(`CLASSES_FAILED: ${problemas.length} incumplimientos`);
+  for (const p of problemas) console.error(`  - ${p}`);
+  process.exit(1);
+}
+
+console.log(
+  `CLASSES_OK: ${construidas + esqueletos} clases en ${manifest.partes.length} partes\n` +
+    `  · ${construidas} construidas (${implementaciones} implementaciones, ${casos} casos verificables)\n` +
+    `  · ${esqueletos} en esqueleto, con contrato y elenco ya fijados`,
+);

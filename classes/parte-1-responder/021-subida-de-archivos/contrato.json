@@ -1,0 +1,8 @@
+{
+  "clase": "021",
+  "titulo": "Subida de archivos",
+  "descripcion": "POST multipart devuelve el tamaño recibido; excedido el límite responde 413.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

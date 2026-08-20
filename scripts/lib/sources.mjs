@@ -16,7 +16,15 @@ export function readJson(relative) {
  * de lo que parece: los laboratorios instalan dependencias en su propia carpeta
  * y sus archivos Markdown aparecerían como documentos del programa.
  */
-const IGNORADOS = new Set(["node_modules", ".git", "site", "dist", "build", "coverage", "target", "bin", "obj", "__pycache__", ".venv"]);
+/**
+ * Directorios que no son contenido del repositorio: los trae un gestor de
+ * paquetes o los produce una compilación. Su documentación es de otros y no
+ * debe entrar en la verificación de enlaces ni en la de fuentes.
+ */
+const IGNORADOS = new Set([
+  "node_modules", ".git", "site", "dist", "build", "coverage",
+  "target", "bin", "obj", "__pycache__", ".venv", "vendor",
+]);
 
 export function walk(directory, filter = () => true) {
   const base = path.isAbsolute(directory) ? directory : path.join(root, directory);

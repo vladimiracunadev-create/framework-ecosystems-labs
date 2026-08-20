@@ -1,0 +1,8 @@
+{
+  "clase": "017",
+  "titulo": "Cuerpo JSON: recibir y devolver",
+  "descripcion": "POST con JSON válido crea el recurso; cuerpo mal formado responde 400.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

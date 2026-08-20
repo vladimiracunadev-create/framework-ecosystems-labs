@@ -1,0 +1,8 @@
+{
+  "clase": "101",
+  "titulo": "Metadatos y descubribilidad",
+  "descripcion": "Cada ruta emite su título y sus metadatos en el HTML inicial.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

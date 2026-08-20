@@ -17,3 +17,16 @@ labs/*/node_modules/
 labs/04-spring-boot/target/
 labs/05-aspnet-core/bin/
 labs/05-aspnet-core/obj/
+
+# Dependencias descargadas por las clases. El código de cada implementación se
+# versiona; lo que su gestor de paquetes trae, no.
+classes/**/vendor/
+classes/**/node_modules/
+classes/**/target/
+classes/**/bin/
+classes/**/obj/
+classes/**/storage/framework/
+classes/**/storage/logs/
+classes/**/bootstrap/cache/
+classes/**/__pycache__/
+classes/**/.venv/

@@ -1,0 +1,8 @@
+{
+  "clase": "042",
+  "titulo": "Un esquema, tres usos",
+  "descripcion": "Cambiar el esquema cambia a la vez la validación y la documentación publicada.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

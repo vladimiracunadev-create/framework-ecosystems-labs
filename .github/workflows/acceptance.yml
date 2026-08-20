@@ -124,9 +124,76 @@ jobs:
       - name: Pruebas de aceptación
         run: node scripts/run-acceptance.mjs aspnet --prepare
 
+  clases:
+    name: Equivalencia entre frameworks (clases)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      - name: Habilitar pnpm
+        run: corepack enable
+
+      - name: Preparar Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Preparar Java
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Preparar .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: "10.0.x"
+
+      # Cuantas más cadenas de herramientas haya, menos implementaciones se
+      # omiten. El verificador declara siempre cuáles ejecutó y cuáles no: aquí
+      # se ejecutan las de Node, Python, JVM, .NET, PHP, Ruby y Go que trae el
+      # ejecutor de GitHub, y se omiten las que no.
+      - name: Dependencias de Python de las clases
+        run: |
+          python -m pip install --quiet --upgrade pip
+          python -m pip install --quiet fastapi uvicorn flask django
+
+      - name: El árbol de clases coincide con el manifiesto
+        run: node scripts/generate-classes.mjs --check
+
+      - name: Las clases construidas cumplen su contrato
+        run: node scripts/verify-classes.mjs
+
+      - name: Ejecutar todas las clases contra su contrato
+        run: node scripts/run-class.mjs --todas | tee /tmp/clases.txt
+
+      - name: Resumen
+        if: always()
+        run: |
+          {
+            echo "### Equivalencia entre frameworks"
+            echo ""
+            echo '```text'
+            tail -n 40 /tmp/clases.txt || echo "sin salida"
+            echo '```'
+            echo ""
+            echo "Una implementación **omitida** no es un fallo: es una cadena de herramientas ausente en el ejecutor, declarada en lugar de escondida."
+          } >> "$GITHUB_STEP_SUMMARY"
+
   resumen:
     name: Resumen del contrato
-    needs: [javascript, python, jvm, dotnet]
+    needs: [javascript, python, jvm, dotnet, clases]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -144,12 +211,13 @@ jobs:
             echo "| FastAPI | ${{ needs.python.result }} |"
             echo "| Spring Boot | ${{ needs.jvm.result }} |"
             echo "| ASP.NET Core | ${{ needs.dotnet.result }} |"
+            echo "| Clases (equivalencia entre frameworks) | ${{ needs.clases.result }} |"
             echo ""
             echo "Las desviaciones declaradas están en \`contracts/taskflow/ACCEPTANCE.md\`."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Fallar si alguna implementación incumple
-        if: needs.javascript.result != 'success' || needs.python.result != 'success' || needs.jvm.result != 'success' || needs.dotnet.result != 'success'
+        if: needs.javascript.result != 'success' || needs.python.result != 'success' || needs.jvm.result != 'success' || needs.dotnet.result != 'success' || needs.clases.result != 'success'
         run: |
           echo "Al menos una implementación no cumple el contrato canónico."
           exit 1

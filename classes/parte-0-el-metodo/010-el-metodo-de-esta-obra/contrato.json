@@ -1,0 +1,8 @@
+{
+  "clase": "010",
+  "titulo": "El método de esta obra",
+  "descripcion": "Recorrer una clase completa y reproducir su verificación en local.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "060",
+  "titulo": "Cuándo salir del ORM",
+  "descripcion": "Un informe agregado escrito en SQL dentro del mismo proyecto.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "019",
+  "titulo": "Redirecciones",
+  "descripcion": "301, 302 y 307 sobre la misma ruta: qué conserva cada uno.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

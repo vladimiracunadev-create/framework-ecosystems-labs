@@ -1,0 +1,8 @@
+{
+  "clase": "102",
+  "titulo": "Presupuesto de JavaScript",
+  "descripcion": "La compilación falla si el paquete supera el presupuesto declarado.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

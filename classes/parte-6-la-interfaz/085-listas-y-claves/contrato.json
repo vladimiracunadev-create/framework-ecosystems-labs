@@ -1,0 +1,8 @@
+{
+  "clase": "085",
+  "titulo": "Listas y claves",
+  "descripcion": "Reordenar la lista conserva el estado de cada elemento.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

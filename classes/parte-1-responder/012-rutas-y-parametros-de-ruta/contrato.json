@@ -1,0 +1,8 @@
+{
+  "clase": "012",
+  "titulo": "Rutas y parámetros de ruta",
+  "descripcion": "GET /tareas/42 responde 200 con el identificador extraído.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

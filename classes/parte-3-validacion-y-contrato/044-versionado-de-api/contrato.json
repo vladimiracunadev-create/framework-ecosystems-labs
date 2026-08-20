@@ -1,0 +1,8 @@
+{
+  "clase": "044",
+  "titulo": "Versionado de API",
+  "descripcion": "Dos versiones vivas del mismo recurso, cada una con su contrato.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

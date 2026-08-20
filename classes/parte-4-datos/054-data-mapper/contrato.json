@@ -1,0 +1,8 @@
+{
+  "clase": "054",
+  "titulo": "Data Mapper",
+  "descripcion": "El mismo alta y consulta con un repositorio que traduce objeto y tabla.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

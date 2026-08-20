@@ -1,0 +1,8 @@
+{
+  "clase": "113",
+  "titulo": "Eventos de dominio",
+  "descripcion": "Un alta emite un evento y dos consumidores independientes reaccionan.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

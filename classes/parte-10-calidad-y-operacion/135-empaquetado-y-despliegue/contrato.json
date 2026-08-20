@@ -1,0 +1,8 @@
+{
+  "clase": "135",
+  "titulo": "Empaquetado y despliegue",
+  "descripcion": "La misma entrada produce el mismo artefacto, verificado por resumen.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

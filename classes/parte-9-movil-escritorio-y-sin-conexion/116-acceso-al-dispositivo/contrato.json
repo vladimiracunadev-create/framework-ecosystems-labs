@@ -1,0 +1,8 @@
+{
+  "clase": "116",
+  "titulo": "Acceso al dispositivo",
+  "descripcion": "Lectura de una capacidad del dispositivo con permiso concedido y denegado.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

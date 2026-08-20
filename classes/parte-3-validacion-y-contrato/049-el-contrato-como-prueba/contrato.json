@@ -1,0 +1,8 @@
+{
+  "clase": "049",
+  "titulo": "El contrato como prueba",
+  "descripcion": "Las mismas pruebas HTTP pasan contra cinco servidores distintos.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

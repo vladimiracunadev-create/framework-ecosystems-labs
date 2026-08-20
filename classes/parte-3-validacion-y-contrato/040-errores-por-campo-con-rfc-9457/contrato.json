@@ -1,0 +1,8 @@
+{
+  "clase": "040",
+  "titulo": "Errores por campo con RFC 9457",
+  "descripcion": "422 en application/problem+json con un array de errores por campo.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

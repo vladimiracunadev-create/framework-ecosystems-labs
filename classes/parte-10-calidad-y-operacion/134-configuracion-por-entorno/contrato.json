@@ -1,0 +1,8 @@
+{
+  "clase": "134",
+  "titulo": "Configuración por entorno",
+  "descripcion": "La misma imagen arranca en dos entornos con configuración distinta.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

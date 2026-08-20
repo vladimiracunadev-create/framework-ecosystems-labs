@@ -1,0 +1,8 @@
+{
+  "clase": "015",
+  "titulo": "Códigos de estado",
+  "descripcion": "201 con Location al crear, 204 sin cuerpo al borrar, 404 al no encontrar.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "091",
+  "titulo": "Accesibilidad del componente",
+  "descripcion": "Un desplegable navegable con teclado y con los roles correctos.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

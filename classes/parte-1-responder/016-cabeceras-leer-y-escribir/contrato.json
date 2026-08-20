@@ -1,0 +1,8 @@
+{
+  "clase": "016",
+  "titulo": "Cabeceras: leer y escribir",
+  "descripcion": "Eco de una cabecera de petición y emisión de una cabecera de respuesta.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

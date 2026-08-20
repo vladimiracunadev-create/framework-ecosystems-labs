@@ -1,0 +1,2708 @@
+{
+  "program": "Framework Ecosystems Labs — Clases",
+  "tagline": "Aprende el problema una vez. Reconoce cómo lo resuelve cada framework, y por qué sí o por qué no.",
+  "metodo": "Cada clase plantea UNA situación, la fija en un contrato verificable y la resuelve en todos los frameworks de su elenco. El código es real y ejecutable; el verificador ejecuta los que encuentre instalados y declara los que omitió.",
+  "pistas": {
+    "backend": {
+      "titulo": "Backend y API",
+      "descripcion": "El servidor: recibir una petición, decidir, responder.",
+      "elenco": [
+        "express",
+        "fastify",
+        "nestjs",
+        "hono",
+        "fastapi",
+        "django",
+        "flask",
+        "spring-boot",
+        "aspnet-core",
+        "laravel",
+        "rails",
+        "gin",
+        "axum",
+        "phoenix"
+      ]
+    },
+    "frontend": {
+      "titulo": "Interfaz y estado",
+      "descripcion": "El navegador: pintar, reaccionar al usuario, mantener estado.",
+      "elenco": [
+        "react",
+        "vue",
+        "angular",
+        "svelte",
+        "solid",
+        "lit",
+        "alpinejs",
+        "htmx",
+        "qwik",
+        "preact"
+      ]
+    },
+    "fullstack": {
+      "titulo": "Full-stack y renderizado",
+      "descripcion": "Los dos lados a la vez: dónde se genera el HTML y quién carga los datos.",
+      "elenco": [
+        "nextjs",
+        "nuxt",
+        "sveltekit",
+        "remix",
+        "astro",
+        "solidstart",
+        "analog",
+        "phoenix-liveview"
+      ]
+    },
+    "datos": {
+      "titulo": "Persistencia",
+      "descripcion": "Hablar con la base de datos sin que el dominio se contamine.",
+      "elenco": [
+        "prisma",
+        "drizzle",
+        "typeorm",
+        "sqlalchemy",
+        "eloquent",
+        "activerecord",
+        "hibernate",
+        "entity-framework-core",
+        "dapper"
+      ]
+    },
+    "movil": {
+      "titulo": "Móvil y escritorio",
+      "descripcion": "Salir del navegador: una base de código, varias plataformas.",
+      "elenco": [
+        "react-native",
+        "flutter",
+        "ionic",
+        "capacitor",
+        "dotnet-maui",
+        "swiftui",
+        "electron",
+        "tauri",
+        "compose-multiplatform"
+      ]
+    },
+    "plataforma": {
+      "titulo": "Plataforma y operación",
+      "descripcion": "Lo que no es un framework y aun así decide tu arquitectura.",
+      "elenco": [
+        "nodejs",
+        "deno",
+        "bun",
+        "vite",
+        "webpack",
+        "kubernetes"
+      ]
+    }
+  },
+  "partes": [
+    {
+      "idx": 0,
+      "titulo": "El método: qué es un framework y cómo se compara",
+      "subtitulo": "Antes de escribir una línea: qué hace un framework que una biblioteca no hace, y cómo se compara sin caer en la guerra de religiones.",
+      "slug": "parte-0-el-metodo",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Qué hace un framework que una biblioteca no hace",
+          "slug": "001-que-hace-un-framework-que-una-biblioteca-no-hace",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Distinguir biblioteca de framework por quién llama a quién.",
+          "contrato": "El mismo saludo HTTP escrito con una biblioteca y con un framework: quién controla el bucle.",
+          "elenco": [
+            "nodejs",
+            "express",
+            "flask",
+            "spring-boot"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 2,
+          "titulo": "Inversión de control, en concreto",
+          "slug": "002-inversion-de-control-en-concreto",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Ver la inversión de control en el código, no en el diagrama.",
+          "contrato": "Registrar un manejador y no llamarlo nunca: el framework lo llama.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 3,
+          "titulo": "El contrato como unidad de comparación",
+          "slug": "003-el-contrato-como-unidad-de-comparacion",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Entender por qué comparar frameworks exige fijar antes el comportamiento.",
+          "contrato": "Un contrato HTTP mínimo que cualquier framework debe cumplir, idéntico para todos.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core",
+            "laravel"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 4,
+          "titulo": "Taxonomía: qué compite de verdad con qué",
+          "slug": "004-taxonomia-que-compite-de-verdad-con-que",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Clasificar antes de comparar, para no comparar cosas de categorías distintas.",
+          "contrato": "Situar cinco piezas del catálogo en su categoría y justificar contra qué compite cada una.",
+          "elenco": [
+            "express",
+            "nestjs",
+            "react",
+            "nextjs",
+            "prisma"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 5,
+          "titulo": "Idiomático frente a traducido",
+          "slug": "005-idiomatico-frente-a-traducido",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Reconocer cuándo un código es el de otro framework disfrazado.",
+          "contrato": "La misma ruta escrita de forma idiomática y de forma traducida literalmente; qué se pierde.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "rails"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 6,
+          "titulo": "Coste total: aprender, mantener, contratar, salir",
+          "slug": "006-coste-total-aprender-mantener-contratar-salir",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Poner número a lo que un framework cuesta más allá del código.",
+          "contrato": "Rellenar la matriz de coste total para dos frameworks del mismo nicho.",
+          "elenco": [
+            "express",
+            "nestjs"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 7,
+          "titulo": "Cómo se mide (y cómo se miente) el rendimiento",
+          "slug": "007-como-se-mide-y-como-se-miente-el-rendimiento",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Leer una comparativa de rendimiento sin creérsela.",
+          "contrato": "La misma medición hecha bien y hecha mal sobre dos implementaciones del contrato.",
+          "elenco": [
+            "express",
+            "fastify",
+            "gin",
+            "axum"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 8,
+          "titulo": "Leer la documentación oficial y el código fuente",
+          "slug": "008-leer-la-documentacion-oficial-y-el-codigo-fuente",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Encontrar la respuesta en la fuente primaria antes que en un tutorial.",
+          "contrato": "Responder tres preguntas sobre un framework citando solo su documentación y su código.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 9,
+          "titulo": "El elenco: por qué no todos resuelven todo",
+          "slug": "009-el-elenco-por-que-no-todos-resuelven-todo",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Aceptar que los frameworks no son intercambiables como los lenguajes.",
+          "contrato": "Clasificar diez problemas y decir qué elenco puede resolverlos y cuál no.",
+          "elenco": [
+            "express",
+            "react",
+            "prisma",
+            "flutter"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 10,
+          "titulo": "El método de esta obra",
+          "slug": "010-el-metodo-de-esta-obra",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Saber leer una clase: contrato, implementaciones, comparación y decisión.",
+          "contrato": "Recorrer una clase completa y reproducir su verificación en local.",
+          "elenco": [
+            "express",
+            "fastapi"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 10,
+      "inicio": 1,
+      "fin": 10
+    },
+    {
+      "idx": 1,
+      "titulo": "Responder: lo primero que hace cualquier framework",
+      "subtitulo": "De levantar un proceso que escucha en un puerto a servir una respuesta correcta. El terreno común de todos los frameworks de servidor.",
+      "slug": "parte-1-responder",
+      "clases": [
+        {
+          "n": 11,
+          "titulo": "Levantar un servidor y responder",
+          "slug": "011-levantar-un-servidor-y-responder",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Arrancar un proceso que escucha y devuelve una respuesta.",
+          "contrato": "GET / responde 200 con cuerpo `hola` y content-type text/plain.",
+          "elenco": [
+            "express",
+            "fastify",
+            "fastapi",
+            "flask",
+            "django",
+            "spring-boot",
+            "aspnet-core",
+            "laravel",
+            "rails",
+            "gin"
+          ],
+          "estado": "construida"
+        },
+        {
+          "n": 12,
+          "titulo": "Rutas y parámetros de ruta",
+          "slug": "012-rutas-y-parametros-de-ruta",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Extraer del camino la parte variable.",
+          "contrato": "GET /tareas/42 responde 200 con el identificador extraído.",
+          "elenco": [
+            "express",
+            "fastify",
+            "fastapi",
+            "flask",
+            "django",
+            "spring-boot",
+            "aspnet-core",
+            "laravel",
+            "rails",
+            "gin"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 13,
+          "titulo": "Parámetros de consulta",
+          "slug": "013-parametros-de-consulta",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Leer la cadena de consulta y aplicar valores por omisión.",
+          "contrato": "GET /tareas?limite=5 usa 5; sin parámetro usa el valor por omisión 20.",
+          "elenco": [
+            "express",
+            "fastify",
+            "fastapi",
+            "flask",
+            "django",
+            "spring-boot",
+            "aspnet-core",
+            "laravel",
+            "rails",
+            "gin"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 14,
+          "titulo": "Verbos HTTP y su semántica",
+          "slug": "014-verbos-http-y-su-semantica",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Elegir el método correcto y respetar lo que promete.",
+          "contrato": "GET es seguro y PUT idempotente: dos llamadas iguales dejan el mismo estado.",
+          "elenco": [
+            "express",
+            "fastify",
+            "fastapi",
+            "flask",
+            "django",
+            "spring-boot",
+            "aspnet-core",
+            "laravel",
+            "rails",
+            "gin"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 15,
+          "titulo": "Códigos de estado",
+          "slug": "015-codigos-de-estado",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Devolver el código que describe lo ocurrido, no siempre 200.",
+          "contrato": "201 con Location al crear, 204 sin cuerpo al borrar, 404 al no encontrar.",
+          "elenco": [
+            "express",
+            "fastify",
+            "fastapi",
+            "flask",
+            "django",
+            "spring-boot",
+            "aspnet-core",
+            "laravel",
+            "rails",
+            "gin"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 16,
+          "titulo": "Cabeceras: leer y escribir",
+          "slug": "016-cabeceras-leer-y-escribir",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Usar las cabeceras como parte del contrato, no como decoración.",
+          "contrato": "Eco de una cabecera de petición y emisión de una cabecera de respuesta.",
+          "elenco": [
+            "express",
+            "fastify",
+            "fastapi",
+            "flask",
+            "django",
+            "spring-boot",
+            "aspnet-core",
+            "laravel",
+            "rails",
+            "gin"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 17,
+          "titulo": "Cuerpo JSON: recibir y devolver",
+          "slug": "017-cuerpo-json-recibir-y-devolver",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Deserializar la entrada y serializar la salida sin sorpresas.",
+          "contrato": "POST con JSON válido crea el recurso; cuerpo mal formado responde 400.",
+          "elenco": [
+            "express",
+            "fastify",
+            "fastapi",
+            "flask",
+            "django",
+            "spring-boot",
+            "aspnet-core",
+            "laravel",
+            "rails",
+            "gin"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 18,
+          "titulo": "Negociación de contenido",
+          "slug": "018-negociacion-de-contenido",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Servir la representación que el cliente pide.",
+          "contrato": "Accept application/json devuelve JSON, text/html devuelve HTML, otro devuelve 406.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 19,
+          "titulo": "Redirecciones",
+          "slug": "019-redirecciones",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Distinguir permanente de temporal y saber cuándo cambia el método.",
+          "contrato": "301, 302 y 307 sobre la misma ruta: qué conserva cada uno.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 20,
+          "titulo": "Servir archivos estáticos",
+          "slug": "020-servir-archivos-estaticos",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Entregar un archivo del disco con el tipo y la caché correctos.",
+          "contrato": "GET de un archivo estático responde 200 con content-type y cabecera de caché.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 21,
+          "titulo": "Subida de archivos",
+          "slug": "021-subida-de-archivos",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Recibir multipart sin cargarlo entero en memoria.",
+          "contrato": "POST multipart devuelve el tamaño recibido; excedido el límite responde 413.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 22,
+          "titulo": "Respuesta en flujo",
+          "slug": "022-respuesta-en-flujo",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Enviar la respuesta a trozos, sin construirla entera antes.",
+          "contrato": "La respuesta llega en tres trozos separados en el tiempo.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 23,
+          "titulo": "Compresión",
+          "slug": "023-compresion",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Comprimir cuando compensa, y no cuando no.",
+          "contrato": "Accept-Encoding gzip devuelve respuesta comprimida y cabecera Vary correcta.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 24,
+          "titulo": "CORS",
+          "slug": "024-cors",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Entender la comprobación previa antes de configurarla.",
+          "contrato": "La petición previa OPTIONS responde 204 con las cabeceras exactas; un origen no permitido no las recibe.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 25,
+          "titulo": "Qué hace tu framework con el socket",
+          "slug": "025-que-hace-tu-framework-con-el-socket",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Ver la capa que hay debajo del framework: servidor, adaptador y protocolo.",
+          "contrato": "La misma respuesta servida sin framework y con framework, midiendo qué añade cada capa.",
+          "elenco": [
+            "nodejs",
+            "express",
+            "fastapi",
+            "spring-boot",
+            "gin"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 15,
+      "inicio": 11,
+      "fin": 25
+    },
+    {
+      "idx": 2,
+      "titulo": "La tubería: middleware, filtros e interceptores",
+      "subtitulo": "Todo lo que ocurre entre que llega la petición y se ejecuta tu código. El mismo patrón con cinco nombres distintos.",
+      "slug": "parte-2-la-tuberia",
+      "clases": [
+        {
+          "n": 26,
+          "titulo": "El patrón middleware",
+          "slug": "026-el-patron-middleware",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Reconocer la cadena de responsabilidad detrás de cinco nombres distintos.",
+          "contrato": "Una capa intermedia añade una cabecera a todas las respuestas sin tocar las rutas.",
+          "elenco": [
+            "express",
+            "fastify",
+            "fastapi",
+            "flask",
+            "django",
+            "spring-boot",
+            "aspnet-core",
+            "laravel",
+            "rails",
+            "gin"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 27,
+          "titulo": "El orden importa",
+          "slug": "027-el-orden-importa",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Predecir el efecto del orden de registro.",
+          "contrato": "Tres capas registran su entrada y su salida en el orden exacto esperado.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 28,
+          "titulo": "Terminación temprana",
+          "slug": "028-terminacion-temprana",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Cortar la cadena sin llegar al manejador.",
+          "contrato": "Sin cabecera de autorización responde 401 emitido por la capa, no por la ruta.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 29,
+          "titulo": "Registro de peticiones",
+          "slug": "029-registro-de-peticiones",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Emitir una línea por petición con lo que sirve para diagnosticar.",
+          "contrato": "Cada respuesta deja una línea con método, ruta, estado y duración.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 30,
+          "titulo": "Identificador de correlación",
+          "slug": "030-identificador-de-correlacion",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Seguir una petición a través de varios servicios.",
+          "contrato": "Se respeta el identificador entrante o se genera uno, y se devuelve siempre.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 31,
+          "titulo": "Manejo centralizado de errores",
+          "slug": "031-manejo-centralizado-de-errores",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Convertir cualquier excepción en una respuesta del contrato.",
+          "contrato": "Una excepción no controlada responde 500 en problem+json, sin filtrar la traza.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 32,
+          "titulo": "Tiempos de espera",
+          "slug": "032-tiempos-de-espera",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "No dejar que una petición lenta retenga un recurso para siempre.",
+          "contrato": "Un manejador que tarda más del límite responde 504 y libera el recurso.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 33,
+          "titulo": "Límite de tamaño del cuerpo",
+          "slug": "033-limite-de-tamano-del-cuerpo",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Rechazar lo excesivo antes de leerlo entero.",
+          "contrato": "Un cuerpo mayor que el límite responde 413 con la conexión drenada y cerrada bien.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 34,
+          "titulo": "Limitación de tasa",
+          "slug": "034-limitacion-de-tasa",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Proteger el servicio del uso excesivo, legítimo o no.",
+          "contrato": "Superado el cupo responde 429 con Retry-After; el cupo se repone con el tiempo.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 35,
+          "titulo": "Cabeceras de seguridad",
+          "slug": "035-cabeceras-de-seguridad",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Aplicar las defensas que el navegador respeta si se las pides.",
+          "contrato": "La respuesta incluye el conjunto mínimo de cabeceras de seguridad verificado.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 36,
+          "titulo": "Inyección de dependencias",
+          "slug": "036-inyeccion-de-dependencias",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Recibir las colaboraciones en lugar de construirlas.",
+          "contrato": "El mismo manejador funciona con una dependencia real y con una falsa, sin tocar su código.",
+          "elenco": [
+            "nestjs",
+            "spring-boot",
+            "aspnet-core",
+            "fastapi",
+            "laravel"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 37,
+          "titulo": "Ciclo de vida de los objetos",
+          "slug": "037-ciclo-de-vida-de-los-objetos",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Elegir entre única instancia, por petición o por uso, y ver la diferencia.",
+          "contrato": "Un contador por ámbito revela cuántas instancias se crearon en cada caso.",
+          "elenco": [
+            "nestjs",
+            "spring-boot",
+            "aspnet-core",
+            "laravel"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 38,
+          "titulo": "Middleware, decorador y aspecto",
+          "slug": "038-middleware-decorador-y-aspecto",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Distinguir tres formas de envolver comportamiento y cuándo usar cada una.",
+          "contrato": "El mismo registro de auditoría implementado de las tres formas.",
+          "elenco": [
+            "nestjs",
+            "spring-boot",
+            "aspnet-core",
+            "fastapi"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 13,
+      "inicio": 26,
+      "fin": 38
+    },
+    {
+      "idx": 3,
+      "titulo": "Validación y contrato",
+      "subtitulo": "Desde comprobar un campo hasta publicar una API que no rompe a quien la consume.",
+      "slug": "parte-3-validacion-y-contrato",
+      "clases": [
+        {
+          "n": 39,
+          "titulo": "Validar la entrada",
+          "slug": "039-validar-la-entrada",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Rechazar lo inválido antes de que llegue a la lógica.",
+          "contrato": "Título vacío responde 422, título de 200 caracteres responde 422, válido responde 201.",
+          "elenco": [
+            "express",
+            "fastify",
+            "fastapi",
+            "flask",
+            "django",
+            "spring-boot",
+            "aspnet-core",
+            "laravel",
+            "rails",
+            "gin"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 40,
+          "titulo": "Errores por campo con RFC 9457",
+          "slug": "040-errores-por-campo-con-rfc-9457",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Decir exactamente qué campo falló y por qué, en formato estándar.",
+          "contrato": "422 en application/problem+json con un array de errores por campo.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 41,
+          "titulo": "Esquemas",
+          "slug": "041-esquemas",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Declarar la forma de los datos en lugar de comprobarla a mano.",
+          "contrato": "El mismo contrato expresado como esquema y verificado contra los mismos casos.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 42,
+          "titulo": "Un esquema, tres usos",
+          "slug": "042-un-esquema-tres-usos",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Derivar validación, tipos y documentación de una sola declaración.",
+          "contrato": "Cambiar el esquema cambia a la vez la validación y la documentación publicada.",
+          "elenco": [
+            "fastapi",
+            "nestjs",
+            "spring-boot",
+            "aspnet-core",
+            "elysia"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 43,
+          "titulo": "Documentación generada",
+          "slug": "043-documentacion-generada",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Publicar una descripción de la API que no puede mentir.",
+          "contrato": "La documentación generada coincide con el comportamiento verificado.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 44,
+          "titulo": "Versionado de API",
+          "slug": "044-versionado-de-api",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Evolucionar sin romper a quien ya te consume.",
+          "contrato": "Dos versiones vivas del mismo recurso, cada una con su contrato.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 45,
+          "titulo": "Paginación",
+          "slug": "045-paginacion",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Devolver muchos elementos sin devolverlos todos.",
+          "contrato": "Paginación por desplazamiento y por cursor sobre el mismo conjunto de datos.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 46,
+          "titulo": "Filtrado y ordenación",
+          "slug": "046-filtrado-y-ordenacion",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Aceptar criterios del cliente sin abrir un agujero.",
+          "contrato": "Filtro y orden por campos de una lista blanca; un campo desconocido responde 422.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 47,
+          "titulo": "Idempotencia",
+          "slug": "047-idempotencia",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Hacer que reintentar no duplique.",
+          "contrato": "Dos POST con la misma clave de idempotencia crean un solo recurso.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 48,
+          "titulo": "ETags y caché condicional",
+          "slug": "048-etags-y-cache-condicional",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Ahorrar ancho de banda y evitar sobrescrituras ciegas.",
+          "contrato": "If-None-Match responde 304; If-Match desactualizado responde 412.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 49,
+          "titulo": "El contrato como prueba",
+          "slug": "049-el-contrato-como-prueba",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Ejecutar la misma batería contra cualquier implementación.",
+          "contrato": "Las mismas pruebas HTTP pasan contra cinco servidores distintos.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 50,
+          "titulo": "Qué rompe a quién",
+          "slug": "050-que-rompe-a-quien",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Clasificar un cambio como compatible o incompatible antes de publicarlo.",
+          "contrato": "Seis cambios sobre el contrato, clasificados y verificados con el cliente antiguo.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 12,
+      "inicio": 39,
+      "fin": 50
+    },
+    {
+      "idx": 4,
+      "titulo": "Datos: del SQL a mano al dominio limpio",
+      "subtitulo": "Cómo habla cada framework con la base de datos, qué te ahorra y qué te oculta hasta que duele.",
+      "slug": "parte-4-datos",
+      "clases": [
+        {
+          "n": 51,
+          "titulo": "Conectar a una base de datos",
+          "slug": "051-conectar-a-una-base-de-datos",
+          "nivel": "introductorio",
+          "pista": "datos",
+          "objetivo": "Abrir una conexión y cerrarla bien.",
+          "contrato": "Una consulta trivial devuelve el resultado esperado y libera la conexión.",
+          "elenco": [
+            "prisma",
+            "drizzle",
+            "sqlalchemy",
+            "eloquent",
+            "activerecord",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 52,
+          "titulo": "SQL a mano",
+          "slug": "052-sql-a-mano",
+          "nivel": "introductorio",
+          "pista": "datos",
+          "objetivo": "Escribir la consulta y leer el resultado sin capa intermedia.",
+          "contrato": "Insertar y leer una tarea con SQL parametrizado.",
+          "elenco": [
+            "dapper",
+            "sqlalchemy",
+            "drizzle",
+            "activerecord"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 53,
+          "titulo": "Active Record",
+          "slug": "053-active-record",
+          "nivel": "intermedio",
+          "pista": "datos",
+          "objetivo": "Dejar que el objeto sepa guardarse.",
+          "contrato": "El mismo alta y consulta con el objeto como puerta a la tabla.",
+          "elenco": [
+            "activerecord",
+            "eloquent",
+            "django",
+            "typeorm"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 54,
+          "titulo": "Data Mapper",
+          "slug": "054-data-mapper",
+          "nivel": "intermedio",
+          "pista": "datos",
+          "objetivo": "Separar el dominio del almacenamiento.",
+          "contrato": "El mismo alta y consulta con un repositorio que traduce objeto y tabla.",
+          "elenco": [
+            "hibernate",
+            "sqlalchemy",
+            "entity-framework-core",
+            "typeorm"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 55,
+          "titulo": "Relaciones",
+          "slug": "055-relaciones",
+          "nivel": "intermedio",
+          "pista": "datos",
+          "objetivo": "Modelar uno a muchos y recorrerlo en los dos sentidos.",
+          "contrato": "Una tarea con etiquetas: alta, lectura y borrado en cascada declarado.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 56,
+          "titulo": "El problema N+1",
+          "slug": "056-el-problema-n-1",
+          "nivel": "avanzado",
+          "pista": "datos",
+          "objetivo": "Reconocer la consulta que se multiplica y corregirla.",
+          "contrato": "La misma lectura con y sin carga anticipada, contando las consultas emitidas.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 57,
+          "titulo": "Transacciones",
+          "slug": "057-transacciones",
+          "nivel": "intermedio",
+          "pista": "datos",
+          "objetivo": "Agrupar operaciones para que ocurran todas o ninguna.",
+          "contrato": "Un fallo a mitad deja la base exactamente como estaba.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 58,
+          "titulo": "Migraciones",
+          "slug": "058-migraciones",
+          "nivel": "intermedio",
+          "pista": "datos",
+          "objetivo": "Cambiar el esquema con historia y sin pérdida.",
+          "contrato": "Añadir una columna, aplicar y revertir, con el estado verificado en cada paso.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 59,
+          "titulo": "Semillas y datos de prueba",
+          "slug": "059-semillas-y-datos-de-prueba",
+          "nivel": "introductorio",
+          "pista": "datos",
+          "objetivo": "Partir siempre del mismo estado conocido.",
+          "contrato": "El mismo conjunto de datos cargado de forma reproducible.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 60,
+          "titulo": "Cuándo salir del ORM",
+          "slug": "060-cuando-salir-del-orm",
+          "nivel": "avanzado",
+          "pista": "datos",
+          "objetivo": "Reconocer la consulta que el mapeador no debe generar.",
+          "contrato": "Un informe agregado escrito en SQL dentro del mismo proyecto.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 61,
+          "titulo": "Grupo de conexiones",
+          "slug": "061-grupo-de-conexiones",
+          "nivel": "avanzado",
+          "pista": "datos",
+          "objetivo": "Entender el recurso escaso que hay detrás de cada consulta.",
+          "contrato": "Con el grupo agotado, la petición espera o falla de forma declarada.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 62,
+          "titulo": "Caché de lectura",
+          "slug": "062-cache-de-lectura",
+          "nivel": "avanzado",
+          "pista": "datos",
+          "objetivo": "Evitar la consulta repetida y aceptar el coste de la invalidación.",
+          "contrato": "Segunda lectura servida de caché; tras la escritura, la caché ya no miente.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 63,
+          "titulo": "Bases no relacionales",
+          "slug": "063-bases-no-relacionales",
+          "nivel": "intermedio",
+          "pista": "datos",
+          "objetivo": "Modelar el mismo caso sin tablas y ver qué cambia.",
+          "contrato": "La misma tarea guardada como documento, con sus compromisos declarados.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 64,
+          "titulo": "Repositorio y dominio",
+          "slug": "064-repositorio-y-dominio",
+          "nivel": "avanzado",
+          "pista": "datos",
+          "objetivo": "Escribir reglas de negocio que no saben que hay base de datos.",
+          "contrato": "Las mismas reglas probadas sin base de datos y luego integradas con ella.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 65,
+          "titulo": "Probar sin base de datos",
+          "slug": "065-probar-sin-base-de-datos",
+          "nivel": "avanzado",
+          "pista": "datos",
+          "objetivo": "Elegir entre doble, base en memoria y base real, sabiendo qué prueba cada uno.",
+          "contrato": "La misma prueba con las tres estrategias y lo que detecta cada una.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 15,
+      "inicio": 51,
+      "fin": 65
+    },
+    {
+      "idx": 5,
+      "titulo": "Identidad y seguridad",
+      "subtitulo": "Quién eres, qué puedes hacer, y las defensas que el framework trae o no trae puestas.",
+      "slug": "parte-5-identidad-y-seguridad",
+      "clases": [
+        {
+          "n": 66,
+          "titulo": "Sesión con cookie",
+          "slug": "066-sesion-con-cookie",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Recordar al usuario entre peticiones sin exponerlo.",
+          "contrato": "Inicio de sesión, cookie con los atributos correctos, y cierre que la invalida.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 67,
+          "titulo": "Token de acceso",
+          "slug": "067-token-de-acceso",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Firmar y verificar una credencial sin estado en el servidor.",
+          "contrato": "Token válido responde 200, alterado responde 401, caducado responde 401.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 68,
+          "titulo": "Contraseñas bien guardadas",
+          "slug": "068-contrasenas-bien-guardadas",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Almacenar de forma que un volcado no las revele.",
+          "contrato": "La misma contraseña produce resúmenes distintos y verifica correctamente.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 69,
+          "titulo": "OAuth 2.0 y OpenID Connect",
+          "slug": "069-oauth-2-0-y-openid-connect",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Delegar la identidad sin manejar credenciales ajenas.",
+          "contrato": "El flujo de código de autorización con PKCE, paso a paso.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 70,
+          "titulo": "Autorización por rol",
+          "slug": "070-autorizacion-por-rol",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Separar quién eres de qué puedes hacer.",
+          "contrato": "El mismo recurso permitido a un rol y denegado a otro con 403.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 71,
+          "titulo": "Autorización por recurso",
+          "slug": "071-autorizacion-por-recurso",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Comprobar la propiedad del dato, no solo el rol.",
+          "contrato": "Un usuario no puede leer la tarea de otro aunque tenga el rol.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 72,
+          "titulo": "CSRF",
+          "slug": "072-csrf",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Entender el ataque antes de activar la defensa.",
+          "contrato": "Envío sin testigo responde 403; con testigo válido responde 200.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 73,
+          "titulo": "XSS y escapado",
+          "slug": "073-xss-y-escapado",
+          "nivel": "intermedio",
+          "pista": "frontend",
+          "objetivo": "Ver qué escapa el framework por omisión y qué no.",
+          "contrato": "El mismo texto peligroso renderizado seguro y, deliberadamente, inseguro.",
+          "elenco": [
+            "react",
+            "vue",
+            "angular",
+            "svelte",
+            "solid",
+            "lit",
+            "alpinejs",
+            "htmx"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 74,
+          "titulo": "Inyección SQL",
+          "slug": "074-inyeccion-sql",
+          "nivel": "intermedio",
+          "pista": "datos",
+          "objetivo": "Comprobar que la consulta parametrizada lo es de verdad.",
+          "contrato": "La entrada maliciosa se guarda como texto, no se ejecuta.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 75,
+          "titulo": "Secretos y configuración",
+          "slug": "075-secretos-y-configuracion",
+          "nivel": "intermedio",
+          "pista": "plataforma",
+          "objetivo": "Sacar del código lo que no puede estar en el repositorio.",
+          "contrato": "La aplicación arranca con la configuración del entorno y falla claro si falta.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 76,
+          "titulo": "Auditoría",
+          "slug": "076-auditoria",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Dejar rastro de quién hizo qué, utilizable después.",
+          "contrato": "Cada cambio deja un registro con actor, acción, recurso e instante.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 77,
+          "titulo": "Política de seguridad de contenido",
+          "slug": "077-politica-de-seguridad-de-contenido",
+          "nivel": "avanzado",
+          "pista": "frontend",
+          "objetivo": "Limitar lo que el navegador acepta ejecutar.",
+          "contrato": "Con la política activa, un script en línea no se ejecuta.",
+          "elenco": [
+            "react",
+            "vue",
+            "svelte",
+            "solid"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 78,
+          "titulo": "Dependencias vulnerables",
+          "slug": "078-dependencias-vulnerables",
+          "nivel": "intermedio",
+          "pista": "plataforma",
+          "objetivo": "Saber qué arrastras y cuándo te expone.",
+          "contrato": "El árbol de dependencias auditado y una vulnerabilidad conocida localizada.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 13,
+      "inicio": 66,
+      "fin": 78
+    },
+    {
+      "idx": 6,
+      "titulo": "La interfaz: del HTML del servidor al componente",
+      "subtitulo": "Cómo se pinta una pantalla y dónde vive el estado. Aquí el elenco cambia por completo.",
+      "slug": "parte-6-la-interfaz",
+      "clases": [
+        {
+          "n": 79,
+          "titulo": "Plantillas en el servidor",
+          "slug": "079-plantillas-en-el-servidor",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Generar HTML donde están los datos.",
+          "contrato": "La misma lista renderizada en el servidor, con escapado por omisión.",
+          "elenco": [
+            "django",
+            "flask",
+            "laravel",
+            "rails",
+            "spring-boot",
+            "express"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 80,
+          "titulo": "Formularios que funcionan sin JavaScript",
+          "slug": "080-formularios-que-funcionan-sin-javascript",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Construir sobre lo que el navegador ya sabe hacer.",
+          "contrato": "Alta de una tarea con un formulario HTML puro y redirección posterior.",
+          "elenco": [
+            "django",
+            "laravel",
+            "rails",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 81,
+          "titulo": "Mejora progresiva",
+          "slug": "081-mejora-progresiva",
+          "nivel": "intermedio",
+          "pista": "frontend",
+          "objetivo": "Añadir comportamiento sin romper el caso base.",
+          "contrato": "El mismo formulario funciona sin JavaScript y mejor con él.",
+          "elenco": [
+            "htmx",
+            "alpinejs",
+            "svelte",
+            "react"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 82,
+          "titulo": "El primer componente",
+          "slug": "082-el-primer-componente",
+          "nivel": "introductorio",
+          "pista": "frontend",
+          "objetivo": "Encapsular marcado y comportamiento en una unidad reutilizable.",
+          "contrato": "Un componente que recibe un texto y lo muestra.",
+          "elenco": [
+            "react",
+            "vue",
+            "angular",
+            "svelte",
+            "solid",
+            "lit",
+            "alpinejs",
+            "htmx"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 83,
+          "titulo": "Propiedades y eventos",
+          "slug": "083-propiedades-y-eventos",
+          "nivel": "introductorio",
+          "pista": "frontend",
+          "objetivo": "Comunicar hacia abajo con datos y hacia arriba con eventos.",
+          "contrato": "El hijo emite y el padre reacciona, sin conocerse por dentro.",
+          "elenco": [
+            "react",
+            "vue",
+            "angular",
+            "svelte",
+            "solid",
+            "lit",
+            "alpinejs",
+            "htmx"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 84,
+          "titulo": "Estado local",
+          "slug": "084-estado-local",
+          "nivel": "introductorio",
+          "pista": "frontend",
+          "objetivo": "Guardar y actualizar un valor que pertenece a un componente.",
+          "contrato": "Un contador que incrementa y respeta un máximo.",
+          "elenco": [
+            "react",
+            "vue",
+            "angular",
+            "svelte",
+            "solid",
+            "lit",
+            "alpinejs",
+            "htmx"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 85,
+          "titulo": "Listas y claves",
+          "slug": "085-listas-y-claves",
+          "nivel": "intermedio",
+          "pista": "frontend",
+          "objetivo": "Renderizar una colección y entender por qué la identidad importa.",
+          "contrato": "Reordenar la lista conserva el estado de cada elemento.",
+          "elenco": [
+            "react",
+            "vue",
+            "svelte",
+            "solid"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 86,
+          "titulo": "Formularios controlados",
+          "slug": "086-formularios-controlados",
+          "nivel": "intermedio",
+          "pista": "frontend",
+          "objetivo": "Decidir si la fuente de verdad es el DOM o el estado.",
+          "contrato": "El mismo formulario controlado y no controlado, con validación en vivo.",
+          "elenco": [
+            "react",
+            "vue",
+            "svelte",
+            "solid"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 87,
+          "titulo": "Efectos y ciclo de vida",
+          "slug": "087-efectos-y-ciclo-de-vida",
+          "nivel": "intermedio",
+          "pista": "frontend",
+          "objetivo": "Ejecutar trabajo fuera del renderizado y limpiarlo después.",
+          "contrato": "Una suscripción que se establece al montar y se cancela al desmontar.",
+          "elenco": [
+            "react",
+            "vue",
+            "svelte",
+            "solid"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 88,
+          "titulo": "Estado compartido",
+          "slug": "088-estado-compartido",
+          "nivel": "intermedio",
+          "pista": "frontend",
+          "objetivo": "Sacar el estado del componente sin recurrir a variables globales.",
+          "contrato": "Dos componentes hermanos leen y escriben el mismo valor.",
+          "elenco": [
+            "react",
+            "vue",
+            "svelte",
+            "solid"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 89,
+          "titulo": "Estado del servidor en el cliente",
+          "slug": "089-estado-del-servidor-en-el-cliente",
+          "nivel": "avanzado",
+          "pista": "frontend",
+          "objetivo": "Distinguir el estado propio del que es copia de otro sitio.",
+          "contrato": "Carga, error, revalidación y caché de un recurso remoto.",
+          "elenco": [
+            "react",
+            "vue",
+            "svelte",
+            "solid"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 90,
+          "titulo": "Enrutado en el cliente",
+          "slug": "090-enrutado-en-el-cliente",
+          "nivel": "intermedio",
+          "pista": "frontend",
+          "objetivo": "Cambiar de vista sin recargar y sin romper el navegador.",
+          "contrato": "Navegación, atrás y enlace directo funcionan igual.",
+          "elenco": [
+            "react",
+            "vue",
+            "angular",
+            "svelte"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 91,
+          "titulo": "Accesibilidad del componente",
+          "slug": "091-accesibilidad-del-componente",
+          "nivel": "intermedio",
+          "pista": "frontend",
+          "objetivo": "Construir un control que funcione con teclado y lector de pantalla.",
+          "contrato": "Un desplegable navegable con teclado y con los roles correctos.",
+          "elenco": [
+            "react",
+            "vue",
+            "svelte",
+            "solid"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 92,
+          "titulo": "Los tres modelos de reactividad",
+          "slug": "092-los-tres-modelos-de-reactividad",
+          "nivel": "avanzado",
+          "pista": "frontend",
+          "objetivo": "Explicar por qué el mismo cambio actualiza cosas distintas en cada framework.",
+          "contrato": "El mismo cambio de estado, contando cuánto se vuelve a ejecutar en cada modelo.",
+          "elenco": [
+            "react",
+            "vue",
+            "angular",
+            "svelte",
+            "solid",
+            "lit",
+            "alpinejs",
+            "htmx"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 14,
+      "inicio": 79,
+      "fin": 92
+    },
+    {
+      "idx": 7,
+      "titulo": "Renderizado y full-stack",
+      "subtitulo": "Dónde se genera el HTML, cuándo, y quién carga los datos. La decisión que más afecta a lo que siente el usuario.",
+      "slug": "parte-7-renderizado-y-fullstack",
+      "clases": [
+        {
+          "n": 93,
+          "titulo": "Las cuatro estrategias de renderizado",
+          "slug": "093-las-cuatro-estrategias-de-renderizado",
+          "nivel": "intermedio",
+          "pista": "fullstack",
+          "objetivo": "Situar cliente, servidor, estático y revalidación en un mismo eje.",
+          "contrato": "La misma pantalla servida con las cuatro estrategias y medida en cada una.",
+          "elenco": [
+            "nextjs",
+            "nuxt",
+            "sveltekit",
+            "remix",
+            "astro"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 94,
+          "titulo": "Hidratación",
+          "slug": "094-hidratacion",
+          "nivel": "avanzado",
+          "pista": "fullstack",
+          "objetivo": "Entender el coste de revivir en el cliente lo que llegó pintado.",
+          "contrato": "El HTML llega utilizable y el JavaScript posterior lo activa.",
+          "elenco": [
+            "nextjs",
+            "nuxt",
+            "sveltekit",
+            "remix",
+            "astro"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 95,
+          "titulo": "Islas",
+          "slug": "095-islas",
+          "nivel": "avanzado",
+          "pista": "fullstack",
+          "objetivo": "Enviar JavaScript solo donde hace falta.",
+          "contrato": "Una página estática con dos zonas interactivas y el resto sin JavaScript.",
+          "elenco": [
+            "astro",
+            "nextjs",
+            "nuxt"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 96,
+          "titulo": "Componentes de servidor",
+          "slug": "096-componentes-de-servidor",
+          "nivel": "avanzado",
+          "pista": "fullstack",
+          "objetivo": "Ejecutar componentes donde están los datos y enviar el resultado.",
+          "contrato": "Un componente que consulta la base y nunca llega al navegador.",
+          "elenco": [
+            "nextjs",
+            "remix"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 97,
+          "titulo": "Carga de datos junto a la ruta",
+          "slug": "097-carga-de-datos-junto-a-la-ruta",
+          "nivel": "intermedio",
+          "pista": "fullstack",
+          "objetivo": "Empezar a cargar al navegar, no al montar.",
+          "contrato": "Los datos empiezan a cargarse antes de que el componente exista.",
+          "elenco": [
+            "nextjs",
+            "nuxt",
+            "sveltekit",
+            "remix",
+            "astro"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 98,
+          "titulo": "Acciones de formulario",
+          "slug": "098-acciones-de-formulario",
+          "nivel": "intermedio",
+          "pista": "fullstack",
+          "objetivo": "Escribir en el servidor desde un formulario que funciona sin JavaScript.",
+          "contrato": "El alta funciona con JavaScript desactivado y mejora con él.",
+          "elenco": [
+            "nextjs",
+            "nuxt",
+            "sveltekit",
+            "remix",
+            "astro"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 99,
+          "titulo": "La cascada de peticiones",
+          "slug": "099-la-cascada-de-peticiones",
+          "nivel": "avanzado",
+          "pista": "fullstack",
+          "objetivo": "Detectar y romper la cadena de esperas encadenadas.",
+          "contrato": "La misma pantalla con peticiones en cascada y en paralelo, medida.",
+          "elenco": [
+            "nextjs",
+            "nuxt",
+            "sveltekit",
+            "remix",
+            "astro"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 100,
+          "titulo": "HTML en flujo",
+          "slug": "100-html-en-flujo",
+          "nivel": "avanzado",
+          "pista": "fullstack",
+          "objetivo": "Enviar la parte lista sin esperar a la lenta.",
+          "contrato": "La cabecera llega antes de que la lista termine de cargarse.",
+          "elenco": [
+            "nextjs",
+            "remix",
+            "sveltekit"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 101,
+          "titulo": "Metadatos y descubribilidad",
+          "slug": "101-metadatos-y-descubribilidad",
+          "nivel": "intermedio",
+          "pista": "fullstack",
+          "objetivo": "Emitir en el servidor lo que los buscadores y las redes leen.",
+          "contrato": "Cada ruta emite su título y sus metadatos en el HTML inicial.",
+          "elenco": [
+            "nextjs",
+            "nuxt",
+            "sveltekit",
+            "remix",
+            "astro"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 102,
+          "titulo": "Presupuesto de JavaScript",
+          "slug": "102-presupuesto-de-javascript",
+          "nivel": "avanzado",
+          "pista": "fullstack",
+          "objetivo": "Poner un límite y hacerlo fallar cuando se supera.",
+          "contrato": "La compilación falla si el paquete supera el presupuesto declarado.",
+          "elenco": [
+            "nextjs",
+            "nuxt",
+            "sveltekit",
+            "remix",
+            "astro"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 103,
+          "titulo": "Hipermedia como alternativa",
+          "slug": "103-hipermedia-como-alternativa",
+          "nivel": "avanzado",
+          "pista": "fullstack",
+          "objetivo": "Resolver el mismo caso enviando HTML en lugar de estado.",
+          "contrato": "La misma interacción con fragmentos de HTML del servidor.",
+          "elenco": [
+            "htmx",
+            "hotwire-turbo",
+            "phoenix-liveview"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 104,
+          "titulo": "Elegir estrategia por pantalla",
+          "slug": "104-elegir-estrategia-por-pantalla",
+          "nivel": "avanzado",
+          "pista": "fullstack",
+          "objetivo": "Aplicar criterio por vista en lugar de una regla para toda la aplicación.",
+          "contrato": "Tres pantallas del mismo producto con tres estrategias justificadas.",
+          "elenco": [
+            "nextjs",
+            "nuxt",
+            "sveltekit",
+            "remix",
+            "astro"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 12,
+      "inicio": 93,
+      "fin": 104
+    },
+    {
+      "idx": 8,
+      "titulo": "Tiempo real y trabajo en segundo plano",
+      "subtitulo": "Cuando la respuesta no cabe en el ciclo petición-respuesta: empujar cambios y hacer trabajo fuera de la petición.",
+      "slug": "parte-8-tiempo-real-y-segundo-plano",
+      "clases": [
+        {
+          "n": 105,
+          "titulo": "Sondeo",
+          "slug": "105-sondeo",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Resolver el caso simple preguntando cada cierto tiempo.",
+          "contrato": "El cliente pregunta cada intervalo y detecta el cambio; se mide el coste.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 106,
+          "titulo": "Eventos enviados por el servidor",
+          "slug": "106-eventos-enviados-por-el-servidor",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Empujar en una sola dirección con HTTP normal.",
+          "contrato": "Un flujo de eventos recibido por el cliente, con reconexión automática.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 107,
+          "titulo": "WebSocket",
+          "slug": "107-websocket",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Abrir un canal bidireccional y usarlo bien.",
+          "contrato": "Mensajes en ambos sentidos sobre la misma conexión.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "phoenix",
+            "socketio"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 108,
+          "titulo": "Reconexión y mensajes perdidos",
+          "slug": "108-reconexion-y-mensajes-perdidos",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Sobrevivir a un corte sin perder ni duplicar.",
+          "contrato": "Tras un corte, el cliente reconecta con espera creciente y recupera lo perdido.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "phoenix",
+            "socketio"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 109,
+          "titulo": "Estado de conexión con varias instancias",
+          "slug": "109-estado-de-conexion-con-varias-instancias",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Difundir a todos los usuarios cuando el servidor no es uno solo.",
+          "contrato": "Un mensaje enviado a una instancia llega a los conectados a la otra.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "phoenix",
+            "socketio"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 110,
+          "titulo": "Colas de trabajo",
+          "slug": "110-colas-de-trabajo",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Sacar de la petición lo que no tiene que ocurrir ahora.",
+          "contrato": "La petición responde de inmediato y el trabajo se completa después.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 111,
+          "titulo": "Tareas programadas",
+          "slug": "111-tareas-programadas",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Ejecutar trabajo por tiempo, sin que se duplique entre instancias.",
+          "contrato": "La tarea se ejecuta una sola vez aunque haya varias instancias.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 112,
+          "titulo": "Reintentos e idempotencia",
+          "slug": "112-reintentos-e-idempotencia",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Reintentar sin causar daño.",
+          "contrato": "El mismo trabajo procesado tres veces produce un solo efecto.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 113,
+          "titulo": "Eventos de dominio",
+          "slug": "113-eventos-de-dominio",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Desacoplar lo que ocurrió de quién reacciona.",
+          "contrato": "Un alta emite un evento y dos consumidores independientes reaccionan.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 9,
+      "inicio": 105,
+      "fin": 113
+    },
+    {
+      "idx": 9,
+      "titulo": "Móvil, escritorio y sin conexión",
+      "subtitulo": "Salir del navegador: una base de código, varias plataformas, y la red que deja de estar garantizada.",
+      "slug": "parte-9-movil-escritorio-y-sin-conexion",
+      "clases": [
+        {
+          "n": 114,
+          "titulo": "La misma pantalla en móvil",
+          "slug": "114-la-misma-pantalla-en-movil",
+          "nivel": "intermedio",
+          "pista": "movil",
+          "objetivo": "Construir una lista con detalle en cada aproximación multiplataforma.",
+          "contrato": "La misma lista y su detalle, navegable, en cada framework del elenco.",
+          "elenco": [
+            "react-native",
+            "flutter",
+            "ionic",
+            "dotnet-maui",
+            "swiftui"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 115,
+          "titulo": "Dibujar propio o usar lo nativo",
+          "slug": "115-dibujar-propio-o-usar-lo-nativo",
+          "nivel": "avanzado",
+          "pista": "movil",
+          "objetivo": "Entender qué se gana y qué se pierde con cada decisión de renderizado.",
+          "contrato": "El mismo control comparado en aspecto, comportamiento y accesibilidad.",
+          "elenco": [
+            "react-native",
+            "flutter",
+            "ionic",
+            "dotnet-maui",
+            "swiftui"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 116,
+          "titulo": "Acceso al dispositivo",
+          "slug": "116-acceso-al-dispositivo",
+          "nivel": "intermedio",
+          "pista": "movil",
+          "objetivo": "Pedir un permiso y usar una capacidad del sistema.",
+          "contrato": "Lectura de una capacidad del dispositivo con permiso concedido y denegado.",
+          "elenco": [
+            "react-native",
+            "flutter",
+            "capacitor",
+            "dotnet-maui"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 117,
+          "titulo": "Almacenamiento local",
+          "slug": "117-almacenamiento-local",
+          "nivel": "intermedio",
+          "pista": "movil",
+          "objetivo": "Guardar datos en el dispositivo y recuperarlos tras reiniciar.",
+          "contrato": "Los datos sobreviven al cierre completo de la aplicación.",
+          "elenco": [
+            "react-native",
+            "flutter",
+            "capacitor",
+            "electron",
+            "tauri"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 118,
+          "titulo": "Funcionar sin conexión",
+          "slug": "118-funcionar-sin-conexion",
+          "nivel": "avanzado",
+          "pista": "movil",
+          "objetivo": "Seguir siendo útil cuando no hay red.",
+          "contrato": "Las operaciones se encolan sin red y se aplican al recuperarla.",
+          "elenco": [
+            "react-native",
+            "flutter",
+            "capacitor",
+            "sveltekit"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 119,
+          "titulo": "Sincronización y conflictos",
+          "slug": "119-sincronizacion-y-conflictos",
+          "nivel": "avanzado",
+          "pista": "movil",
+          "objetivo": "Resolver dos cambios sobre el mismo dato.",
+          "contrato": "Dos ediciones concurrentes se resuelven con una política declarada.",
+          "elenco": [
+            "react-native",
+            "flutter",
+            "capacitor"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 120,
+          "titulo": "Escritorio: incrustar el motor o heredarlo",
+          "slug": "120-escritorio-incrustar-el-motor-o-heredarlo",
+          "nivel": "intermedio",
+          "pista": "movil",
+          "objetivo": "Comparar el coste de llevar el navegador contra usar el del sistema.",
+          "contrato": "La misma aplicación empaquetada con ambas estrategias, medida en tamaño y memoria.",
+          "elenco": [
+            "electron",
+            "tauri",
+            "avalonia",
+            "wpf",
+            "qt"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 121,
+          "titulo": "Notificaciones",
+          "slug": "121-notificaciones",
+          "nivel": "intermedio",
+          "pista": "movil",
+          "objetivo": "Avisar al usuario cuando la aplicación no está delante.",
+          "contrato": "Una notificación local mostrada y atendida al pulsarla.",
+          "elenco": [
+            "react-native",
+            "flutter",
+            "capacitor",
+            "electron"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 122,
+          "titulo": "Distribución y actualización",
+          "slug": "122-distribucion-y-actualizacion",
+          "nivel": "avanzado",
+          "pista": "movil",
+          "objetivo": "Entender por qué actualizar no es desplegar.",
+          "contrato": "El mismo cambio publicado, con el ciclo de revisión y adopción declarado.",
+          "elenco": [
+            "react-native",
+            "flutter",
+            "ionic",
+            "dotnet-maui",
+            "swiftui"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 123,
+          "titulo": "Una base de código, cuántas plataformas",
+          "slug": "123-una-base-de-codigo-cuantas-plataformas",
+          "nivel": "avanzado",
+          "pista": "movil",
+          "objetivo": "Decidir qué se comparte y qué no.",
+          "contrato": "Reparto explícito entre lógica compartida e interfaz por plataforma.",
+          "elenco": [
+            "flutter",
+            "react-native",
+            "compose-multiplatform",
+            "dotnet-maui"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 10,
+      "inicio": 114,
+      "fin": 123
+    },
+    {
+      "idx": 10,
+      "titulo": "Calidad, rendimiento y operación",
+      "subtitulo": "Lo que separa un proyecto que funciona en tu máquina de uno que funciona en producción.",
+      "slug": "parte-10-calidad-y-operacion",
+      "clases": [
+        {
+          "n": 124,
+          "titulo": "La primera prueba",
+          "slug": "124-la-primera-prueba",
+          "nivel": "introductorio",
+          "pista": "backend",
+          "objetivo": "Escribir una prueba que falle por la razón correcta.",
+          "contrato": "Una prueba roja que se vuelve verde con el cambio mínimo.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 125,
+          "titulo": "La pirámide de pruebas",
+          "slug": "125-la-piramide-de-pruebas",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Repartir el esfuerzo entre niveles según lo que cada uno detecta.",
+          "contrato": "El mismo comportamiento probado en tres niveles, con su coste y su alcance.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 126,
+          "titulo": "Dobles de prueba",
+          "slug": "126-dobles-de-prueba",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Elegir entre falso, sustituto y simulacro sabiendo qué acopla cada uno.",
+          "contrato": "La misma prueba con tres dobles distintos y lo que cada uno permite refactorizar.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 127,
+          "titulo": "Integración con base real",
+          "slug": "127-integracion-con-base-real",
+          "nivel": "intermedio",
+          "pista": "datos",
+          "objetivo": "Probar contra el motor de verdad sin depender de una máquina concreta.",
+          "contrato": "La misma prueba contra una base efímera, reproducible en cualquier equipo.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 128,
+          "titulo": "Pruebas de extremo a extremo",
+          "slug": "128-pruebas-de-extremo-a-extremo",
+          "nivel": "avanzado",
+          "pista": "frontend",
+          "objetivo": "Probar el recorrido completo sin que sea inestable.",
+          "contrato": "Un recorrido de alta y consulta, estable en diez ejecuciones seguidas.",
+          "elenco": [
+            "react",
+            "vue",
+            "svelte",
+            "solid"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 129,
+          "titulo": "Pruebas de contrato",
+          "slug": "129-pruebas-de-contrato",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Verificar que cliente y servidor siguen entendiéndose.",
+          "contrato": "El mismo contrato verificado desde ambos lados, por separado.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 130,
+          "titulo": "Registro estructurado",
+          "slug": "130-registro-estructurado",
+          "nivel": "intermedio",
+          "pista": "plataforma",
+          "objetivo": "Emitir registros que una máquina pueda consultar.",
+          "contrato": "Cada línea es un objeto con campos estables y nivel correcto.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 131,
+          "titulo": "Métricas",
+          "slug": "131-metricas",
+          "nivel": "intermedio",
+          "pista": "plataforma",
+          "objetivo": "Medir lo que importa: tasa, error y latencia.",
+          "contrato": "Un punto de métricas expone contadores e histogramas del servicio.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 132,
+          "titulo": "Trazas",
+          "slug": "132-trazas",
+          "nivel": "avanzado",
+          "pista": "plataforma",
+          "objetivo": "Seguir una petición a través de varios procesos.",
+          "contrato": "Una traza con varios tramos correlacionados entre dos servicios.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 133,
+          "titulo": "Salud y preparación",
+          "slug": "133-salud-y-preparacion",
+          "nivel": "intermedio",
+          "pista": "plataforma",
+          "objetivo": "Distinguir estar vivo de estar listo para recibir tráfico.",
+          "contrato": "Dos puntos distintos con semántica distinta y verificada.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 134,
+          "titulo": "Configuración por entorno",
+          "slug": "134-configuracion-por-entorno",
+          "nivel": "intermedio",
+          "pista": "plataforma",
+          "objetivo": "Un artefacto, varios entornos.",
+          "contrato": "La misma imagen arranca en dos entornos con configuración distinta.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 135,
+          "titulo": "Empaquetado y despliegue",
+          "slug": "135-empaquetado-y-despliegue",
+          "nivel": "intermedio",
+          "pista": "plataforma",
+          "objetivo": "Producir un artefacto reproducible.",
+          "contrato": "La misma entrada produce el mismo artefacto, verificado por resumen.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 136,
+          "titulo": "Arranque en frío",
+          "slug": "136-arranque-en-frio",
+          "nivel": "avanzado",
+          "pista": "plataforma",
+          "objetivo": "Medir lo que tarda en estar listo y por qué.",
+          "contrato": "El tiempo hasta la primera respuesta, medido en cada framework.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "quarkus",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 137,
+          "titulo": "Medir antes de optimizar",
+          "slug": "137-medir-antes-de-optimizar",
+          "nivel": "avanzado",
+          "pista": "plataforma",
+          "objetivo": "Encontrar el cuello real en lugar del sospechoso habitual.",
+          "contrato": "Una mejora guiada por medición, con el antes y el después.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 14,
+      "inicio": 124,
+      "fin": 137
+    },
+    {
+      "idx": 11,
+      "titulo": "Legado, migración y decisión",
+      "subtitulo": "El trabajo que de verdad se hace: entender lo que ya existe, cambiarlo sin apagarlo y decidir con criterio.",
+      "slug": "parte-11-legado-migracion-y-decision",
+      "clases": [
+        {
+          "n": 138,
+          "titulo": "Leer un sistema que no escribiste",
+          "slug": "138-leer-un-sistema-que-no-escribiste",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Orientarse en un código ajeno sin cambiarlo todavía.",
+          "contrato": "Mapa de puntos de entrada, dependencias y datos de un proyecto dado.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 139,
+          "titulo": "Caracterizar con pruebas",
+          "slug": "139-caracterizar-con-pruebas",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Fijar el comportamiento actual antes de tocarlo.",
+          "contrato": "Pruebas que capturan lo que hace hoy, incluidos sus defectos.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 140,
+          "titulo": "La higuera estranguladora",
+          "slug": "140-la-higuera-estranguladora",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Sustituir por partes con el sistema en marcha.",
+          "contrato": "Una ruta atendida por el sistema nuevo y el resto por el antiguo, sin corte.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 141,
+          "titulo": "Dos frameworks conviviendo",
+          "slug": "141-dos-frameworks-conviviendo",
+          "nivel": "avanzado",
+          "pista": "frontend",
+          "objetivo": "Montar lo nuevo dentro de lo viejo sin reescribir.",
+          "contrato": "Un componente moderno funcionando dentro de una página heredada.",
+          "elenco": [
+            "react",
+            "vue",
+            "svelte",
+            "lit"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 142,
+          "titulo": "Micro-frontends",
+          "slug": "142-micro-frontends",
+          "nivel": "avanzado",
+          "pista": "frontend",
+          "objetivo": "Repartir una interfaz entre equipos, con sus costes.",
+          "contrato": "Dos fragmentos desplegados por separado componiendo una pantalla.",
+          "elenco": [
+            "react",
+            "vue",
+            "angular",
+            "lit"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 143,
+          "titulo": "Migrar datos sin parar",
+          "slug": "143-migrar-datos-sin-parar",
+          "nivel": "avanzado",
+          "pista": "datos",
+          "objetivo": "Cambiar el esquema con la aplicación en producción.",
+          "contrato": "Migración por fases: escribir en ambos, leer del nuevo, retirar el antiguo.",
+          "elenco": [
+            "prisma",
+            "sqlalchemy",
+            "hibernate",
+            "entity-framework-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 144,
+          "titulo": "Un caso real de migración",
+          "slug": "144-un-caso-real-de-migracion",
+          "nivel": "avanzado",
+          "pista": "backend",
+          "objetivo": "Recorrer una migración completa con sus decisiones documentadas.",
+          "contrato": "El mismo servicio migrado, con el contrato intacto en todo momento.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 145,
+          "titulo": "Cuándo no migrar",
+          "slug": "145-cuando-no-migrar",
+          "nivel": "intermedio",
+          "pista": "backend",
+          "objetivo": "Reconocer cuándo la reescritura es el error.",
+          "contrato": "Análisis de coste y riesgo con la decisión de no migrar justificada.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 146,
+          "titulo": "Fin de vida y soporte",
+          "slug": "146-fin-de-vida-y-soporte",
+          "nivel": "intermedio",
+          "pista": "plataforma",
+          "objetivo": "Leer las señales de que una pieza va a dejar de sostenerse.",
+          "contrato": "Diagnóstico de soporte de tres dependencias con su fuente.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 147,
+          "titulo": "Elegir framework para un producto",
+          "slug": "147-elegir-framework-para-un-producto",
+          "nivel": "avanzado",
+          "pista": "plataforma",
+          "objetivo": "Decidir con criterio explícito y dejarlo escrito.",
+          "contrato": "Una decisión registrada con alternativas, criterios y consecuencias.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 148,
+          "titulo": "Cómo se abandona un framework",
+          "slug": "148-como-se-abandona-un-framework",
+          "nivel": "avanzado",
+          "pista": "plataforma",
+          "objetivo": "Diseñar la salida antes de necesitarla.",
+          "contrato": "Los puntos de acoplamiento identificados y aislados tras una frontera.",
+          "elenco": [
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "estado": "esqueleto"
+        },
+        {
+          "n": 149,
+          "titulo": "Proyecto integrador",
+          "slug": "149-proyecto-integrador",
+          "nivel": "avanzado",
+          "pista": "fullstack",
+          "objetivo": "Construir y defender un producto completo con las decisiones justificadas.",
+          "contrato": "El contrato completo cumplido en dos ecosistemas distintos, con su defensa escrita.",
+          "elenco": [
+            "nextjs",
+            "spring-boot",
+            "fastapi",
+            "react"
+          ],
+          "estado": "esqueleto"
+        }
+      ],
+      "count": 12,
+      "inicio": 138,
+      "fin": 149
+    }
+  ],
+  "total_clases": 149,
+  "total_partes": 12
+}

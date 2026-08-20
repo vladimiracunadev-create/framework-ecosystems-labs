@@ -1,0 +1,8 @@
+{
+  "clase": "007",
+  "titulo": "Cómo se mide (y cómo se miente) el rendimiento",
+  "descripcion": "La misma medición hecha bien y hecha mal sobre dos implementaciones del contrato.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "069",
+  "titulo": "OAuth 2.0 y OpenID Connect",
+  "descripcion": "El flujo de código de autorización con PKCE, paso a paso.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

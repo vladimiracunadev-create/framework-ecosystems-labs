@@ -1,0 +1,8 @@
+{
+  "clase": "132",
+  "titulo": "Trazas",
+  "descripcion": "Una traza con varios tramos correlacionados entre dos servicios.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "034",
+  "titulo": "Limitación de tasa",
+  "descripcion": "Superado el cupo responde 429 con Retry-After; el cupo se repone con el tiempo.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

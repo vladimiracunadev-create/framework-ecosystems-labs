@@ -1,0 +1,8 @@
+{
+  "clase": "003",
+  "titulo": "El contrato como unidad de comparación",
+  "descripcion": "Un contrato HTTP mínimo que cualquier framework debe cumplir, idéntico para todos.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

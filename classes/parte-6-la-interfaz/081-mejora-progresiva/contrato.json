@@ -1,0 +1,8 @@
+{
+  "clase": "081",
+  "titulo": "Mejora progresiva",
+  "descripcion": "El mismo formulario funciona sin JavaScript y mejor con él.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

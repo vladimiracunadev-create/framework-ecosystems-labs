@@ -1,0 +1,8 @@
+{
+  "clase": "107",
+  "titulo": "WebSocket",
+  "descripcion": "Mensajes en ambos sentidos sobre la misma conexión.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

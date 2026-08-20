@@ -1,0 +1,8 @@
+{
+  "clase": "033",
+  "titulo": "Límite de tamaño del cuerpo",
+  "descripcion": "Un cuerpo mayor que el límite responde 413 con la conexión drenada y cerrada bien.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

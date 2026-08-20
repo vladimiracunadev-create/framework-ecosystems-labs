@@ -1,0 +1,8 @@
+{
+  "clase": "128",
+  "titulo": "Pruebas de extremo a extremo",
+  "descripcion": "Un recorrido de alta y consulta, estable en diez ejecuciones seguidas.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

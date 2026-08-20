@@ -1,0 +1,8 @@
+{
+  "clase": "119",
+  "titulo": "Sincronización y conflictos",
+  "descripcion": "Dos ediciones concurrentes se resuelven con una política declarada.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

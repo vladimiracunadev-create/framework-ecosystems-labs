@@ -1,0 +1,8 @@
+{
+  "clase": "030",
+  "titulo": "Identificador de correlación",
+  "descripcion": "Se respeta el identificador entrante o se genera uno, y se devuelve siempre.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

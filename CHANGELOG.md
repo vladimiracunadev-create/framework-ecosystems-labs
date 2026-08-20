@@ -3,6 +3,50 @@
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el
 versionado es [semántico](https://semver.org/lang/es/).
 
+## [0.8.0] — 2026-08-20
+
+Nace `classes/`: el mismo problema resuelto **en todos los frameworks a la vez**,
+con contrato ejecutable. Es la estructura del repositorio políglota trasladada a
+los frameworks.
+
+### Añadido
+
+- **149 clases en 12 partes**, de levantar un servidor a migrar sin parar y saber
+  salir de un framework. Cada clase declara objetivo, situación, contrato
+  verificable y **elenco** —los frameworks para los que ese problema tiene
+  sentido—. 53 tecnologías del catálogo aparecen en algún elenco.
+- **`classes/_manifest.json`** como fuente única del árbol de clases.
+- **`scripts/generate-classes.mjs`** — genera índices y siembra el esqueleto de
+  cada clase; `--check` falla si el árbol se desvía del manifiesto. Nunca
+  sobrescribe prosa escrita a mano.
+- **`scripts/verify-classes.mjs`** — una clase marcada como construida tiene que
+  cumplirlo: casos ejecutables, implementaciones presentes con su receta,
+  secciones obligatorias y fuentes que resuelven contra la bibliografía.
+- **`scripts/run-class.mjs`** — arranca cada implementación, la somete al
+  contrato y **declara cuáles omitió** por falta de cadena de herramientas. Un
+  verde nunca significa «todo pasó»: significa «esto pasó, esto se omitió».
+- **Clase 011 construida** con **diez implementaciones reales** —Express,
+  Fastify, FastAPI, Flask, Django, Spring Boot, ASP.NET Core, Laravel, Rails y
+  Gin— y cuatro casos verificables.
+- **Trabajo de equivalencia en integración continua**: nuevo trabajo `clases` en
+  el flujo de aceptación con Node, Python, JVM y .NET instalados.
+
+### Cambiado
+
+- `verify-sources.mjs` verifica también `classes/`: una clase no puede citar una
+  fuente que no exista.
+- El sitio publica **514 páginas** (antes 203); las clases tienen su grupo en el
+  índice.
+- Los directorios de dependencias (`vendor/`, `target/`, `bin/`, `obj/`) quedan
+  fuera de la validación de enlaces y del control de versiones.
+
+### Corregido
+
+- El lanzador de procesos ya no delega en el intérprete de comandos: `shell:true`
+  concatenaba los argumentos sin escaparlos y partía por espacios y comas los
+  que llevaban ambos. Ahora resuelve el ejecutable y solo usa el intérprete para
+  los envoltorios `.cmd` y `.bat` de Windows.
+
 ## [0.7.0] — 2026-08-20
 
 El Atlas queda completo: **una ficha por cada una de las 138 tecnologías** del

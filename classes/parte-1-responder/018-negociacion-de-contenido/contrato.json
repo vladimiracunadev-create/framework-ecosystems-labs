@@ -1,0 +1,8 @@
+{
+  "clase": "018",
+  "titulo": "Negociación de contenido",
+  "descripcion": "Accept application/json devuelve JSON, text/html devuelve HTML, otro devuelve 406.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

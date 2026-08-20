@@ -1,0 +1,8 @@
+{
+  "clase": "068",
+  "titulo": "Contraseñas bien guardadas",
+  "descripcion": "La misma contraseña produce resúmenes distintos y verifica correctamente.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "136",
+  "titulo": "Arranque en frío",
+  "descripcion": "El tiempo hasta la primera respuesta, medido en cada framework.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

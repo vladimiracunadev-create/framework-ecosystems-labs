@@ -1,0 +1,8 @@
+{
+  "clase": "057",
+  "titulo": "Transacciones",
+  "descripcion": "Un fallo a mitad deja la base exactamente como estaba.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

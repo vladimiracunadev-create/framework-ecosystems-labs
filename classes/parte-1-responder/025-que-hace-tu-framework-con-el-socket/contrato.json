@@ -1,0 +1,8 @@
+{
+  "clase": "025",
+  "titulo": "Qué hace tu framework con el socket",
+  "descripcion": "La misma respuesta servida sin framework y con framework, midiendo qué añade cada capa.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

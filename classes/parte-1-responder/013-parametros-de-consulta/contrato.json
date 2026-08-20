@@ -1,0 +1,8 @@
+{
+  "clase": "013",
+  "titulo": "Parámetros de consulta",
+  "descripcion": "GET /tareas?limite=5 usa 5; sin parámetro usa el valor por omisión 20.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

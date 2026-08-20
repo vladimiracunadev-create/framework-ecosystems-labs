@@ -1,0 +1,8 @@
+{
+  "clase": "130",
+  "titulo": "Registro estructurado",
+  "descripcion": "Cada línea es un objeto con campos estables y nivel correcto.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

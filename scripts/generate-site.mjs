@@ -44,7 +44,7 @@ function relativo(file) {
 /** Todo documento del repositorio que debe publicarse, con sus metadatos. */
 function recolectar() {
   const documentos = [];
-  const areas = ["curriculum", "docs", "assessments", "projects", "labs", "templates", "contracts", "sources", "atlas"];
+  const areas = ["curriculum", "docs", "assessments", "projects", "labs", "templates", "contracts", "sources", "atlas", "classes"];
   for (const file of markdownFiles(...areas)) {
     const bruto = fs.readFileSync(file, "utf8");
     const { data, body } = parseFrontMatter(bruto);
@@ -360,6 +360,7 @@ function barraLateral(actual) {
   <ul class="resultados" id="resultados-doc"></ul>
   ${grupo("Programa", modulos)}
   ${grupo("Atlas", documentos.filter((doc) => doc.area === "atlas"))}
+  ${grupo("Clases", documentos.filter((doc) => doc.area === "classes"))}
   ${grupo("Fundamentos", documentos.filter((doc) => doc.area === "docs"))}
   ${grupo("Evaluación", documentos.filter((doc) => doc.area === "assessments"))}
   ${grupo("Proyectos", documentos.filter((doc) => doc.area === "projects"))}

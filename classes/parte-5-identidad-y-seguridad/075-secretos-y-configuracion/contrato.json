@@ -1,0 +1,8 @@
+{
+  "clase": "075",
+  "titulo": "Secretos y configuración",
+  "descripcion": "La aplicación arranca con la configuración del entorno y falla claro si falta.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

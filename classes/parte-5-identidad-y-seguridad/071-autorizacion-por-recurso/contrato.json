@@ -1,0 +1,8 @@
+{
+  "clase": "071",
+  "titulo": "Autorización por recurso",
+  "descripcion": "Un usuario no puede leer la tarea de otro aunque tenga el rol.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

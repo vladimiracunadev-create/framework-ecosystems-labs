@@ -1,0 +1,8 @@
+{
+  "clase": "058",
+  "titulo": "Migraciones",
+  "descripcion": "Añadir una columna, aplicar y revertir, con el estado verificado en cada paso.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

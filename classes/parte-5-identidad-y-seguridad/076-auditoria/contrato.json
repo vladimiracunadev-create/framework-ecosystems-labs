@@ -1,0 +1,8 @@
+{
+  "clase": "076",
+  "titulo": "Auditoría",
+  "descripcion": "Cada cambio deja un registro con actor, acción, recurso e instante.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

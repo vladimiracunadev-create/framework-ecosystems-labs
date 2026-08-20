@@ -1,0 +1,8 @@
+{
+  "clase": "022",
+  "titulo": "Respuesta en flujo",
+  "descripcion": "La respuesta llega en tres trozos separados en el tiempo.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

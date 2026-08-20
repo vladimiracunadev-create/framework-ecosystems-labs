@@ -1,0 +1,8 @@
+{
+  "clase": "078",
+  "titulo": "Dependencias vulnerables",
+  "descripcion": "El árbol de dependencias auditado y una vulnerabilidad conocida localizada.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "023",
+  "titulo": "Compresión",
+  "descripcion": "Accept-Encoding gzip devuelve respuesta comprimida y cabecera Vary correcta.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

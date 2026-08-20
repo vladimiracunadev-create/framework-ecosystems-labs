@@ -1,0 +1,8 @@
+{
+  "clase": "090",
+  "titulo": "Enrutado en el cliente",
+  "descripcion": "Navegación, atrás y enlace directo funcionan igual.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

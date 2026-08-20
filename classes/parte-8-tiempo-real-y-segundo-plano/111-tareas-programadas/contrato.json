@@ -1,0 +1,8 @@
+{
+  "clase": "111",
+  "titulo": "Tareas programadas",
+  "descripcion": "La tarea se ejecuta una sola vez aunque haya varias instancias.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

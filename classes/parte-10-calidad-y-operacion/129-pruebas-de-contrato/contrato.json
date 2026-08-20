@@ -1,0 +1,8 @@
+{
+  "clase": "129",
+  "titulo": "Pruebas de contrato",
+  "descripcion": "El mismo contrato verificado desde ambos lados, por separado.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

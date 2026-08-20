@@ -1,0 +1,8 @@
+{
+  "clase": "031",
+  "titulo": "Manejo centralizado de errores",
+  "descripcion": "Una excepción no controlada responde 500 en problem+json, sin filtrar la traza.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

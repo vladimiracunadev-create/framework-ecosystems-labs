@@ -1,0 +1,8 @@
+{
+  "clase": "029",
+  "titulo": "Registro de peticiones",
+  "descripcion": "Cada respuesta deja una línea con método, ruta, estado y duración.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

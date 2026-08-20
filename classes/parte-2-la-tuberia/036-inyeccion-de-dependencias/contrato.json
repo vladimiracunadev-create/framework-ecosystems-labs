@@ -1,0 +1,8 @@
+{
+  "clase": "036",
+  "titulo": "Inyección de dependencias",
+  "descripcion": "El mismo manejador funciona con una dependencia real y con una falsa, sin tocar su código.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

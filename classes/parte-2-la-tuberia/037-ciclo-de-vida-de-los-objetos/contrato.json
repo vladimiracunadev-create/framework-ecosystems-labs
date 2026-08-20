@@ -1,0 +1,8 @@
+{
+  "clase": "037",
+  "titulo": "Ciclo de vida de los objetos",
+  "descripcion": "Un contador por ámbito revela cuántas instancias se crearon en cada caso.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

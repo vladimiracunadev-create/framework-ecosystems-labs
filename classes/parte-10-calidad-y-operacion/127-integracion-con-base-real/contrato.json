@@ -1,0 +1,8 @@
+{
+  "clase": "127",
+  "titulo": "Integración con base real",
+  "descripcion": "La misma prueba contra una base efímera, reproducible en cualquier equipo.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

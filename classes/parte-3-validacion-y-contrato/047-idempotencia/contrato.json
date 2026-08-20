@@ -1,0 +1,8 @@
+{
+  "clase": "047",
+  "titulo": "Idempotencia",
+  "descripcion": "Dos POST con la misma clave de idempotencia crean un solo recurso.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

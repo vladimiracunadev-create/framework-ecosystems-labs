@@ -1,0 +1,8 @@
+{
+  "clase": "026",
+  "titulo": "El patrón middleware",
+  "descripcion": "Una capa intermedia añade una cabecera a todas las respuestas sin tocar las rutas.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

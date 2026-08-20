@@ -1,0 +1,8 @@
+{
+  "clase": "067",
+  "titulo": "Token de acceso",
+  "descripcion": "Token válido responde 200, alterado responde 401, caducado responde 401.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

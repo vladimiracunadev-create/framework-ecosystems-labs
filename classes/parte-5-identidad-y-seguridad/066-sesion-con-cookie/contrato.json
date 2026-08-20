@@ -1,0 +1,8 @@
+{
+  "clase": "066",
+  "titulo": "Sesión con cookie",
+  "descripcion": "Inicio de sesión, cookie con los atributos correctos, y cierre que la invalida.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

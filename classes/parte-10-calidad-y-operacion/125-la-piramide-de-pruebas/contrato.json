@@ -1,0 +1,8 @@
+{
+  "clase": "125",
+  "titulo": "La pirámide de pruebas",
+  "descripcion": "El mismo comportamiento probado en tres niveles, con su coste y su alcance.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

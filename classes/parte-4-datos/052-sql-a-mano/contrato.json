@@ -1,0 +1,8 @@
+{
+  "clase": "052",
+  "titulo": "SQL a mano",
+  "descripcion": "Insertar y leer una tarea con SQL parametrizado.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "008",
+  "titulo": "Leer la documentación oficial y el código fuente",
+  "descripcion": "Responder tres preguntas sobre un framework citando solo su documentación y su código.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

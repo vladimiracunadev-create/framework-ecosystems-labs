@@ -1,0 +1,8 @@
+{
+  "clase": "080",
+  "titulo": "Formularios que funcionan sin JavaScript",
+  "descripcion": "Alta de una tarea con un formulario HTML puro y redirección posterior.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

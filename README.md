@@ -144,6 +144,60 @@ Cada entrada declara clasificación, era, estado, licencia SPDX y documentación
 oficial. `node scripts/refresh-catalog.mjs` contrasta los 138 enlaces y los
 identificadores de licencia con su fuente.
 
+## 🎓 Las clases — el mismo problema en todos los frameworks
+
+Un módulo enseña un tema. **Una clase plantea un problema y lo resuelve en todos
+los frameworks a la vez**, con el código a la vista y un contrato ejecutable que
+los obliga a comportarse igual.
+
+**[149 clases en 12 partes](classes/README.md)**, de lo más simple —levantar un
+servidor— a lo más avanzado —migrar sin parar, elegir y saber salir.
+
+| Parte | Tema | Clases |
+| --- | --- | ---: |
+| [0](classes/parte-0-el-metodo/README.md) | El método: qué es un framework y cómo se compara | 10 |
+| [1](classes/parte-1-responder/README.md) | Responder: lo primero que hace cualquier framework | 15 |
+| [2](classes/parte-2-la-tuberia/README.md) | La tubería: middleware, filtros e interceptores | 13 |
+| [3](classes/parte-3-validacion-y-contrato/README.md) | Validación y contrato | 12 |
+| [4](classes/parte-4-datos/README.md) | Datos: del SQL a mano al dominio limpio | 15 |
+| [5](classes/parte-5-identidad-y-seguridad/README.md) | Identidad y seguridad | 13 |
+| [6](classes/parte-6-la-interfaz/README.md) | La interfaz: del HTML del servidor al componente | 14 |
+| [7](classes/parte-7-renderizado-y-fullstack/README.md) | Renderizado y full-stack | 12 |
+| [8](classes/parte-8-tiempo-real-y-segundo-plano/README.md) | Tiempo real y trabajo en segundo plano | 9 |
+| [9](classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | Móvil, escritorio y sin conexión | 10 |
+| [10](classes/parte-10-calidad-y-operacion/README.md) | Calidad, rendimiento y operación | 14 |
+| [11](classes/parte-11-legado-migracion-y-decision/README.md) | Legado, migración y decisión | 12 |
+
+### Los elencos
+
+Los lenguajes son intercambiables: cualquiera suma dos números. **Los frameworks
+no.** Spring Boot no implementa una clase de reactividad en el cliente y React no
+implementa una de migraciones de base de datos. Por eso cada clase declara su
+**elenco**: los frameworks para los que ese problema tiene sentido. En total, 53
+tecnologías del catálogo aparecen en algún elenco.
+
+### Un resultado verde que se puede creer
+
+```bash
+node scripts/run-class.mjs 011
+```
+
+El verificador arranca cada implementación, la somete al contrato y **declara
+cuáles omitió** por falta de cadena de herramientas:
+
+```text
+  ✔ fastapi              4 casos
+  ✔ flask                4 casos
+  ✔ laravel              4 casos
+  ⊘ spring-boot          falta la herramienta `mvn`
+  ⊘ gin                  falta la herramienta `go`
+
+RESUMEN: 3 verificadas · 0 con fallo · 7 omitidas por falta de herramientas
+```
+
+Un informe que dijera «todo bien» sin haber ejecutado siete de diez estaría
+mintiendo. Distinguir *verificado* de *omitido* es lo que hace creíble el verde.
+
 ## El programa
 
 | Módulo | Tema | Nivel | Horas | Fuentes |
@@ -204,6 +258,7 @@ pnpm check
 ```text
 atlas/            Atlas: ecosistemas, genealogía y fichas a fondo
 catalog/          Registro de 138 tecnologías con era, estado y licencia
+classes/          149 clases: el mismo problema resuelto en todos los frameworks
 contracts/        Dominio y contrato TaskFlow compartido
 curriculum/       Los 13 módulos del programa
 docs/             Taxonomía, arquitectura, selección, seguridad, modelo pedagógico

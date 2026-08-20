@@ -1,0 +1,29 @@
+{
+  "clase": "011",
+  "titulo": "Levantar un servidor y responder",
+  "descripcion": "Un proceso que escucha en un puerto y responde texto plano en la raíz.",
+  "estado": "construida",
+  "tipo": "http",
+  "casos": [
+    {
+      "nombre": "la raíz responde 200",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": { "estado": 200 }
+    },
+    {
+      "nombre": "el cuerpo es exactamente hola",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": { "estado": 200, "cuerpo": "hola" }
+    },
+    {
+      "nombre": "el tipo de contenido es texto plano",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": { "estado": 200, "cabeceras": { "content-type": "text/plain" } }
+    },
+    {
+      "nombre": "una ruta inexistente responde 404",
+      "peticion": { "metodo": "GET", "ruta": "/no-existe" },
+      "esperado": { "estado": 404 }
+    }
+  ]
+}

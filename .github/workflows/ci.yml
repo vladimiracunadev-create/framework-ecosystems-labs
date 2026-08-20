@@ -86,6 +86,16 @@ jobs:
       - name: El Atlas coincide con el catálogo
         run: node scripts/generate-atlas.mjs --check
 
+      # El árbol de clases se deriva del manifiesto. Si alguien añade una clase
+      # y no regenera, los índices mienten y esto lo detecta.
+      - name: El árbol de clases coincide con el manifiesto
+        run: node scripts/generate-classes.mjs --check
+
+      # Una clase marcada como construida tiene que cumplir su contrato: casos
+      # ejecutables, implementaciones presentes, secciones y fuentes.
+      - name: Las clases construidas cumplen su contrato
+        run: node scripts/verify-classes.mjs
+
       - name: Resumen
         if: always()
         run: |
@@ -103,6 +113,8 @@ jobs:
             echo "| Tecnologías en el Atlas | $(node -p "require('./catalog/frameworks.json').entries.length") |"
             echo "| Ecosistemas | $(ls atlas/ecosistemas | wc -l) |"
             echo "| Fichas del Atlas | $(ls atlas/fichas 2>/dev/null | wc -l) |"
+            echo "| Clases | $(node -p "require('./classes/_manifest.json').total_clases") |"
+            echo "| Clases construidas | $(node -p "require('./classes/_manifest.json').partes.flatMap(p=>p.clases).filter(c=>c.estado==='construida').length") |"
             echo "| Palabras del currículo | $(cat curriculum/*.md | wc -w) |"
           } >> "$GITHUB_STEP_SUMMARY"
 

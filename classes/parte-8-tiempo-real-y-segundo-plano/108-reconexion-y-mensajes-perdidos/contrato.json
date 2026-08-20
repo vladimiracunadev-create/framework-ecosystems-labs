@@ -1,0 +1,8 @@
+{
+  "clase": "108",
+  "titulo": "Reconexión y mensajes perdidos",
+  "descripcion": "Tras un corte, el cliente reconecta con espera creciente y recupera lo perdido.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

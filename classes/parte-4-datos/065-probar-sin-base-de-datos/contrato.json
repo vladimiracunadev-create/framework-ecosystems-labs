@@ -1,0 +1,8 @@
+{
+  "clase": "065",
+  "titulo": "Probar sin base de datos",
+  "descripcion": "La misma prueba con las tres estrategias y lo que detecta cada una.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

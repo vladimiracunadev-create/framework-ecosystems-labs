@@ -1,0 +1,8 @@
+{
+  "clase": "084",
+  "titulo": "Estado local",
+  "descripcion": "Un contador que incrementa y respeta un máximo.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

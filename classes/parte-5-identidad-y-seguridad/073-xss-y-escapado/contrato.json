@@ -1,0 +1,8 @@
+{
+  "clase": "073",
+  "titulo": "XSS y escapado",
+  "descripcion": "El mismo texto peligroso renderizado seguro y, deliberadamente, inseguro.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

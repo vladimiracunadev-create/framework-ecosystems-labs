@@ -1,0 +1,8 @@
+{
+  "clase": "045",
+  "titulo": "Paginación",
+  "descripcion": "Paginación por desplazamiento y por cursor sobre el mismo conjunto de datos.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

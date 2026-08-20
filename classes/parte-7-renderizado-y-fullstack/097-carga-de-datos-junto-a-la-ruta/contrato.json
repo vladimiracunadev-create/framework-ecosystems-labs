@@ -1,0 +1,8 @@
+{
+  "clase": "097",
+  "titulo": "Carga de datos junto a la ruta",
+  "descripcion": "Los datos empiezan a cargarse antes de que el componente exista.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

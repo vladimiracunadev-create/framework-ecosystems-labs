@@ -1,0 +1,8 @@
+{
+  "clase": "062",
+  "titulo": "Caché de lectura",
+  "descripcion": "Segunda lectura servida de caché; tras la escritura, la caché ya no miente.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

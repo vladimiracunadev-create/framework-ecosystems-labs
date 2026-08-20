@@ -1,0 +1,8 @@
+{
+  "clase": "106",
+  "titulo": "Eventos enviados por el servidor",
+  "descripcion": "Un flujo de eventos recibido por el cliente, con reconexión automática.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

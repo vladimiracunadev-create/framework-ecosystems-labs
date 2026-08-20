@@ -1,0 +1,8 @@
+{
+  "clase": "082",
+  "titulo": "El primer componente",
+  "descripcion": "Un componente que recibe un texto y lo muestra.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

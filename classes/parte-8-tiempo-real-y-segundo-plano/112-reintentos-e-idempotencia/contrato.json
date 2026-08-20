@@ -1,0 +1,8 @@
+{
+  "clase": "112",
+  "titulo": "Reintentos e idempotencia",
+  "descripcion": "El mismo trabajo procesado tres veces produce un solo efecto.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

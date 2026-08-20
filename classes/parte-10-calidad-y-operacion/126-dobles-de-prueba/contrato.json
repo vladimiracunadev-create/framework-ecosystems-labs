@@ -1,0 +1,8 @@
+{
+  "clase": "126",
+  "titulo": "Dobles de prueba",
+  "descripcion": "La misma prueba con tres dobles distintos y lo que cada uno permite refactorizar.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "096",
+  "titulo": "Componentes de servidor",
+  "descripcion": "Un componente que consulta la base y nunca llega al navegador.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

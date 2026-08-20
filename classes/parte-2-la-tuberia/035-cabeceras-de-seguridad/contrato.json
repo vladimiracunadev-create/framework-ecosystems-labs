@@ -1,0 +1,8 @@
+{
+  "clase": "035",
+  "titulo": "Cabeceras de seguridad",
+  "descripcion": "La respuesta incluye el conjunto mínimo de cabeceras de seguridad verificado.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

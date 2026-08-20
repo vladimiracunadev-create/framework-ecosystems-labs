@@ -1,0 +1,8 @@
+{
+  "clase": "109",
+  "titulo": "Estado de conexión con varias instancias",
+  "descripcion": "Un mensaje enviado a una instancia llega a los conectados a la otra.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

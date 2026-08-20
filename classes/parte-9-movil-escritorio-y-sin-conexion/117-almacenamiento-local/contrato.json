@@ -1,0 +1,8 @@
+{
+  "clase": "117",
+  "titulo": "Almacenamiento local",
+  "descripcion": "Los datos sobreviven al cierre completo de la aplicación.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

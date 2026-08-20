@@ -1,0 +1,8 @@
+{
+  "clase": "006",
+  "titulo": "Coste total: aprender, mantener, contratar, salir",
+  "descripcion": "Rellenar la matriz de coste total para dos frameworks del mismo nicho.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

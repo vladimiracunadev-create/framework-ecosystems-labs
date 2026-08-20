@@ -1,0 +1,8 @@
+{
+  "clase": "020",
+  "titulo": "Servir archivos estáticos",
+  "descripcion": "GET de un archivo estático responde 200 con content-type y cabecera de caché.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

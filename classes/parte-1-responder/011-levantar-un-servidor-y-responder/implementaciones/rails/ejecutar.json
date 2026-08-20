@@ -1,0 +1,25 @@
+{
+  "framework": "rails",
+  "requiere": [
+    "ruby",
+    "bundle"
+  ],
+  "comprobar": [
+    "ruby",
+    "--version"
+  ],
+  "preparar": [
+    "bundle",
+    "install",
+    "--quiet"
+  ],
+  "arrancar": [
+    "bundle",
+    "exec",
+    "puma",
+    "-b",
+    "tcp://127.0.0.1:${PUERTO}",
+    "config.ru"
+  ],
+  "espera_ms": 40000
+}

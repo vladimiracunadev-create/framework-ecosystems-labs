@@ -46,7 +46,12 @@ const required = [
 
 // Directorios que no forman parte del contenido: generados, dependencias o
 // metadatos de la herramienta de control de versiones.
-const IGNORAR = new Set(["node_modules", "site", ".git", ".pnpm-store", "dist", "coverage"]);
+// Lo que trae un gestor de paquetes o produce una compilación no es contenido
+// del repositorio: su documentación es de otros y no se valida aquí.
+const IGNORAR = new Set([
+  "node_modules", "site", ".git", ".pnpm-store", "dist", "coverage",
+  "vendor", "target", "bin", "obj", "__pycache__", ".venv",
+]);
 
 function walk(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {

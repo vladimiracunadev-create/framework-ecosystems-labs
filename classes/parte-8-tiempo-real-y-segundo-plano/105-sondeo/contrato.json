@@ -1,0 +1,8 @@
+{
+  "clase": "105",
+  "titulo": "Sondeo",
+  "descripcion": "El cliente pregunta cada intervalo y detecta el cambio; se mide el coste.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "070",
+  "titulo": "Autorización por rol",
+  "descripcion": "El mismo recurso permitido a un rol y denegado a otro con 403.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

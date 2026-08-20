@@ -1,0 +1,8 @@
+{
+  "clase": "120",
+  "titulo": "Escritorio: incrustar el motor o heredarlo",
+  "descripcion": "La misma aplicación empaquetada con ambas estrategias, medida en tamaño y memoria.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

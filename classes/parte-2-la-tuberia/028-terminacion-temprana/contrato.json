@@ -1,0 +1,8 @@
+{
+  "clase": "028",
+  "titulo": "Terminación temprana",
+  "descripcion": "Sin cabecera de autorización responde 401 emitido por la capa, no por la ruta.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

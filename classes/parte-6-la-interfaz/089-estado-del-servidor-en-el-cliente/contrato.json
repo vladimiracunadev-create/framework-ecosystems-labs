@@ -1,0 +1,8 @@
+{
+  "clase": "089",
+  "titulo": "Estado del servidor en el cliente",
+  "descripcion": "Carga, error, revalidación y caché de un recurso remoto.",
+  "estado": "esqueleto",
+  "tipo": "interfaz",
+  "casos": []
+}

@@ -1,0 +1,8 @@
+{
+  "clase": "100",
+  "titulo": "HTML en flujo",
+  "descripcion": "La cabecera llega antes de que la lista termine de cargarse.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}

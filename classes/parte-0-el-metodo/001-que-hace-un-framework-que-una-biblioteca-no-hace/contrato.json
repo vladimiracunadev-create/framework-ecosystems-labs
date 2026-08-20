@@ -1,0 +1,8 @@
+{
+  "clase": "001",
+  "titulo": "Qué hace un framework que una biblioteca no hace",
+  "descripcion": "El mismo saludo HTTP escrito con una biblioteca y con un framework: quién controla el bucle.",
+  "estado": "esqueleto",
+  "tipo": "http",
+  "casos": []
+}
