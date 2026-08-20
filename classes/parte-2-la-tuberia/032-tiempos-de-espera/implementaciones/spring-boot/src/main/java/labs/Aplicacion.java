@@ -50,7 +50,11 @@ public class Aplicacion {
 
     @RestControllerAdvice
     public static class Errores {
-        @ExceptionHandler(AsyncRequestTimeoutException.class)
+        // Spring 6 puede lanzar `AsyncRequestTimeoutException` o su subclase
+        // `AsyncRequestNotUsableException` segun donde se detecte el plazo. Se
+        // capturan las dos, o el 504 sale como 500.
+        @ExceptionHandler({ AsyncRequestTimeoutException.class,
+                org.springframework.web.context.request.async.AsyncRequestNotUsableException.class })
         public ResponseEntity<Map<String, Object>> plazo() {
             Map<String, Object> cuerpo = new LinkedHashMap<>();
             cuerpo.put("type", "about:blank");

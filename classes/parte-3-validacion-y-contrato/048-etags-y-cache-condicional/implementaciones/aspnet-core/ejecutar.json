@@ -1,0 +1,29 @@
+{
+  "framework": "aspnet-core",
+  "requiere": [
+    "dotnet"
+  ],
+  "comprobar": [
+    "dotnet",
+    "--version"
+  ],
+  "preparar": [
+    "dotnet",
+    "build",
+    "-c",
+    "Release",
+    "--nologo",
+    "-v",
+    "quiet"
+  ],
+  "arrancar": [
+    "dotnet",
+    "run",
+    "-c",
+    "Release",
+    "--no-build",
+    "--urls",
+    "http://127.0.0.1:${PUERTO}"
+  ],
+  "espera_ms": 60000
+}

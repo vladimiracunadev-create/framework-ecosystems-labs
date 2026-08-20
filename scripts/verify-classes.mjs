@@ -38,6 +38,26 @@ const SECCIONES_CONSTRUIDA = [
 ];
 
 const MIN_IMPLEMENTACIONES = 2;
+
+/** Extensiones que cuentan como código de la implementación, no como andamiaje. */
+const EXTENSIONES_FUENTE = new Set([
+  ".mjs", ".js", ".ts", ".py", ".java", ".cs", ".go", ".php", ".rb", ".ru",
+]);
+
+/** Busca de forma recursiva un archivo con código, saltando lo descargado. */
+function tieneFuente(directorio) {
+  const IGNORADOS = new Set(["node_modules", "vendor", "target", "bin", "obj", "dist", "__pycache__"]);
+  for (const entrada of fs.readdirSync(directorio, { withFileTypes: true })) {
+    if (IGNORADOS.has(entrada.name)) continue;
+    const ruta = path.join(directorio, entrada.name);
+    if (entrada.isDirectory()) {
+      if (tieneFuente(ruta)) return true;
+      continue;
+    }
+    if (EXTENSIONES_FUENTE.has(path.extname(entrada.name))) return true;
+  }
+  return false;
+}
 const MIN_CASOS = 2;
 
 const problemas = [];
@@ -128,6 +148,18 @@ for (const parte of manifest.partes) {
       if (contrato.tipo === "http" && !fs.existsSync(path.join(dirImpl, nombre, "ejecutar.json"))) {
         fallar(`${rel}/implementaciones/${nombre}`, "falta ejecutar.json: el verificador no sabría arrancarla");
       }
+
+      // Andamiaje sin código. El caso que se coló en la clase 034: la carpeta
+      // tenía su `pom.xml` y su receta, y ningún archivo fuente. La compilación
+      // fallaba en integración continua con un error del empaquetador que no
+      // decía nada sobre la causa real.
+      if (!tieneFuente(path.join(dirImpl, nombre))) {
+        fallar(
+          `${rel}/implementaciones/${nombre}`,
+          "solo hay andamiaje: ningún archivo de código en la implementación",
+        );
+      }
+
       implementaciones++;
     }
 

@@ -1,8 +1,53 @@
 {
   "clase": "039",
   "titulo": "Validar la entrada",
-  "descripcion": "Título vacío responde 422, título de 200 caracteres responde 422, válido responde 201.",
-  "estado": "esqueleto",
+  "descripcion": "Rechazar lo inválido antes de que llegue a la lógica, con 422.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "una tarea válida se crea",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "leer el módulo 05" } },
+      "esperado": { "estado": 201, "json_contiene": { "titulo": "leer el módulo 05", "completada": false } }
+    },
+    {
+      "nombre": "el título se limpia de espacios sobrantes",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "  con espacios  " } },
+      "esperado": { "estado": 201, "json_contiene": { "titulo": "con espacios" } }
+    },
+    {
+      "nombre": "acepta el campo opcional",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "hecha", "completada": true } },
+      "esperado": { "estado": 201, "json_contiene": { "completada": true } }
+    },
+    {
+      "nombre": "un título vacío se rechaza",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": { "estado": 422 }
+    },
+    {
+      "nombre": "un título de solo espacios también",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "     " } },
+      "esperado": { "estado": 422 }
+    },
+    {
+      "nombre": "sin título se rechaza",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "completada": true } },
+      "esperado": { "estado": 422 }
+    },
+    {
+      "nombre": "un título demasiado largo se rechaza",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/tareas",
+        "cuerpo": { "titulo": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }
+      },
+      "esperado": { "estado": 422 }
+    },
+    {
+      "nombre": "un tipo equivocado en el campo opcional se rechaza",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "vale", "completada": "si" } },
+      "esperado": { "estado": 422 }
+    }
+  ]
 }

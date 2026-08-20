@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Diagnostics;
 
 var constructor = WebApplication.CreateBuilder(args);
@@ -13,15 +14,18 @@ app.UseExceptionHandler(rama => rama.Run(async contexto =>
 
     if (caracteristica?.Error is ErrorDeNegocio negocio)
     {
+        // `WriteAsJsonAsync` REESCRIBE el content-type a application/json y
+        // pisa el que acabamos de poner. Para conservar problem+json hay que
+        // serializar y escribir el texto.
         contexto.Response.StatusCode = negocio.Estado;
         contexto.Response.ContentType = tipo;
-        await contexto.Response.WriteAsJsonAsync(new
+        await contexto.Response.WriteAsync(JsonSerializer.Serialize(new
         {
             type = "about:blank",
             title = negocio.Message,
             status = negocio.Estado,
             code = negocio.Codigo,
-        });
+        }));
         return;
     }
 
@@ -29,13 +33,13 @@ app.UseExceptionHandler(rama => rama.Run(async contexto =>
     Console.Error.WriteLine($"error no controlado: {caracteristica?.Error.Message}");
     contexto.Response.StatusCode = 500;
     contexto.Response.ContentType = tipo;
-    await contexto.Response.WriteAsJsonAsync(new
+    await contexto.Response.WriteAsync(JsonSerializer.Serialize(new
     {
         type = "about:blank",
         title = "error interno",
         status = 500,
         code = "ERROR_INTERNO",
-    });
+    }));
 }));
 
 app.MapGet("/roto", () =>

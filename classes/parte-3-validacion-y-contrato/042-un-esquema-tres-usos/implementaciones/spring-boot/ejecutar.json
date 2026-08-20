@@ -1,0 +1,25 @@
+{
+  "framework": "spring-boot",
+  "requiere": [
+    "java",
+    "mvn"
+  ],
+  "comprobar": [
+    "mvn",
+    "--version"
+  ],
+  "preparar": [
+    "mvn",
+    "-q",
+    "-B",
+    "package",
+    "-DskipTests"
+  ],
+  "arrancar": [
+    "java",
+    "-jar",
+    "target/clase-042-1.0.0.jar",
+    "--server.port=${PUERTO}"
+  ],
+  "espera_ms": 60000
+}

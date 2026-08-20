@@ -29,7 +29,11 @@ public class Aplicacion {
      * un limite de cuerpo para peticiones que no son multipart: hay que
      * ponerlo, o dejarselo al servidor de entrada.
      */
+    // Sin `@ResponseStatus`, un @PostMapping que devuelve un valor responde
+    // 200, no 201. Es un valor por omision facil de pasar por alto.
     @PostMapping("/tareas")
+    @org.springframework.web.bind.annotation.ResponseStatus(
+            org.springframework.http.HttpStatus.CREATED)
     public Map<String, Object> crear(HttpServletRequest peticion,
             @RequestBody(required = false) Map<String, Object> cuerpo) {
         if (peticion.getContentLengthLong() > LIMITE) {

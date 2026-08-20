@@ -1,0 +1,6 @@
+---
+# Las gemas se instalan dentro de la propia implementación, no en el directorio
+# del sistema. Sin esto, `bundle install` intenta escribir en /var/lib/gems y
+# falla en cualquier máquina donde el usuario no sea administrador — incluido el
+# ejecutor de integración continua.
+BUNDLE_PATH: "vendor/bundle"

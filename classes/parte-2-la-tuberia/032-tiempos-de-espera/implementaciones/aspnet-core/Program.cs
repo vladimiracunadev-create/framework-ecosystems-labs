@@ -18,15 +18,10 @@ app.MapGet("/rapido", () => Results.Json(new { ok = true }));
 
 app.MapGet("/lento", async (CancellationToken cancelacion) =>
 {
-    try
-    {
-        await Task.Delay(1200, cancelacion);
-    }
-    catch (OperationCanceledException)
-    {
-        // El plazo se agoto: el middleware ya emitio el 504.
-        return Results.Empty;
-    }
+    // NO se captura la cancelacion: devolver un resultado aqui produciria un
+    // 200 y pisaria el 504 que el middleware iba a emitir. Dejar que la
+    // excepcion suba es lo correcto — el middleware la espera.
+    await Task.Delay(1200, cancelacion);
     return Results.Json(new { ok = true, tarde = true });
 });
 
