@@ -127,7 +127,7 @@ jobs:
   clases:
     name: Equivalencia entre frameworks (clases)
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     permissions:
       contents: read
     steps:
@@ -169,14 +169,25 @@ jobs:
           python -m pip install --quiet --upgrade pip
           python -m pip install --quiet fastapi uvicorn flask django
 
+      # El ejecutor trae Ruby pero no siempre Bundler, y sin él la
+      # implementación de Rails se omite en lugar de verificarse.
+      - name: Bundler para las clases de Ruby
+        run: gem install bundler --no-document
+
       - name: El árbol de clases coincide con el manifiesto
         run: node scripts/generate-classes.mjs --check
 
       - name: Las clases construidas cumplen su contrato
         run: node scripts/verify-classes.mjs
 
+      # `set -o pipefail` no es un detalle: sin él, la tubería devuelve el
+      # código de `tee` y un fallo del verificador pasaría por verde. Es
+      # justamente el defecto que este verificador existe para evitar.
       - name: Ejecutar todas las clases contra su contrato
-        run: node scripts/run-class.mjs --todas | tee /tmp/clases.txt
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/run-class.mjs --todas | tee /tmp/clases.txt
 
       - name: Resumen
         if: always()

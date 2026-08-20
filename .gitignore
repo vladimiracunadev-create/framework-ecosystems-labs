@@ -25,8 +25,11 @@ classes/**/node_modules/
 classes/**/target/
 classes/**/bin/
 classes/**/obj/
-classes/**/storage/framework/
-classes/**/storage/logs/
-classes/**/bootstrap/cache/
+# Se ignora el CONTENIDO de los directorios de tiempo de ejecución, no los
+# directorios: Laravel exige que existan en disco y sin ellos falla al arrancar.
+classes/**/storage/framework/*/*
+classes/**/storage/logs/*
+classes/**/bootstrap/cache/*
+!classes/**/.gitkeep
 classes/**/__pycache__/
 classes/**/.venv/

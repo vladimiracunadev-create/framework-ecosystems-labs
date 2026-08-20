@@ -1,0 +1,4 @@
+# Esta implementación es su propia raíz. Sin este archivo, pnpm sube hasta el
+# `pnpm-workspace.yaml` del repositorio, no reconoce este directorio como
+# paquete del espacio de trabajo y deja el `node_modules` donde no toca.
+packages: []

@@ -47,6 +47,31 @@ los frameworks.
   que llevaban ambos. Ahora resuelve el ejecutable y solo usa el intérprete para
   los envoltorios `.cmd` y `.bat` de Windows.
 
+## [0.8.1] — 2026-08-20
+
+Correcciones de la primera ejecución real de `classes/` en integración continua.
+Las tres las descubrió el propio verificador.
+
+### Corregido
+
+- **El trabajo `clases` daba verde con tres implementaciones rotas.** La tubería
+  `node ... | tee` devolvía el código de salida de `tee`, no el del verificador.
+  Ahora lleva `set -o pipefail`. Es exactamente el defecto que este verificador
+  existe para evitar, y estaba en el propio flujo que lo ejecuta.
+- **Express y Fastify no arrancaban en integración continua.** `pnpm` subía
+  hasta el `pnpm-workspace.yaml` del repositorio, no reconocía el directorio de
+  la implementación como paquete y dejaba las dependencias donde no tocaba. Cada
+  implementación de Node declara ahora su propia raíz de espacio de trabajo.
+- **Laravel respondía 500 en integración continua.** `storage/framework/` y
+  `bootstrap/cache/` estaban ignorados por completo, así que no existían en el
+  ejecutor y el framework falla al arrancar sin ellos. Se versiona la carpeta
+  con un `.gitkeep` y se ignora solo su contenido.
+
+### Cambiado
+
+- El trabajo `clases` instala Bundler: sin él la implementación de Rails se
+  omitía en lugar de verificarse. Su tiempo máximo sube a 35 minutos.
+
 ## [0.7.0] — 2026-08-20
 
 El Atlas queda completo: **una ficha por cada una de las 138 tecnologías** del
