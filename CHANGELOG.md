@@ -127,6 +127,46 @@ middleware a distinguir middleware, decorador y aspecto.
   defendibles, así que el contrato de la clase 024 exige la propiedad de
   seguridad —que la cabecera no esté— y admite ambos códigos.
 
+## [0.11.0] — 2026-08-20
+
+**Parte 3 completa**: doce clases sobre validación y contrato, de rechazar un
+título vacío a clasificar un cambio como compatible antes de publicarlo.
+
+### Añadido
+
+- **12 clases nuevas** (039–050): validar la entrada, errores por campo con
+  RFC 9457, esquemas, un esquema con tres usos, documentación generada,
+  versionado, paginación, filtrado y ordenación, idempotencia, ETags y caché
+  condicional, el contrato como prueba, y qué rompe a quién.
+- **54 implementaciones nuevas**, hasta 216, y **71 casos verificables nuevos**,
+  hasta 187.
+- Dos aserciones nuevas del verificador: comparación por **subconjunto** en
+  profundidad y comprobación por **subcadena** del cuerpo.
+
+### Corregido
+
+- **El informe de error de preparación era inservible.** Se truncaba a 160
+  caracteres, así que un fallo de compilación llegaba como «COMPILATION ERROR :»
+  sin archivo ni línea. Ahora filtra las líneas que mencionan un error y conserva
+  hasta 900 caracteres.
+- **El plazo de Spring resistió tres intentos.** El mecanismo global lanza
+  excepciones distintas según la versión y dónde se detecte; con
+  `completeOnTimeout` el futuro se completa con el valor dado y no hay excepción
+  que traducir.
+- **Rechazar campos desconocidos en Spring** es un ajuste del deserializador, no
+  una anotación sobre el tipo: `@JsonIgnoreProperties` no basta sobre un `record`.
+- Dos errores de compilación que solo aparecieron en integración continua:
+  `Map.of` infiriendo `Map<String, Boolean>`, y `AddOpenApi` sin su paquete.
+
+### Cambiado
+
+- Las 49 recetas de Node instalan con `--ignore-scripts`. Empezó como arreglo de
+  pnpm y es la opción correcta por su cuenta: un script de instalación es código
+  de un tercero corriendo con tus permisos.
+- El contrato de la clase 040 exige `campo` y `codigo`, **no el texto legible**.
+  Es lo que enseña RFC 9457: el texto es para personas y cambia de idioma; el
+  código es el contrato.
+
 ## [0.8.2] — 2026-08-20
 
 Rails cierra el elenco de la clase 011: **las diez implementaciones se verifican

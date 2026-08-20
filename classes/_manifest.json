@@ -876,7 +876,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 44,
@@ -892,7 +892,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 45,
@@ -908,7 +908,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 46,
@@ -924,7 +924,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 47,
@@ -940,7 +940,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 48,
@@ -956,7 +956,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 49,
@@ -972,7 +972,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 50,
@@ -988,7 +988,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         }
       ],
       "count": 12,

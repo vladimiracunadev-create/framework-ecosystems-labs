@@ -85,6 +85,24 @@ regla de la clase 041 era rechazar lo desconocido **en la entrada** y tolerarlo
 Fíjate en que el contrato **no razona**: envía la petición del cliente antiguo y
 mira qué vuelve. Es la única forma honesta de clasificar un cambio.
 
+## 🌐 Las implementaciones
+
+Las cuatro sirven **las tres versiones a la vez** para que el cliente antiguo
+pueda demostrarlo con una petición. El código está en
+[`implementaciones/`](implementaciones/), con cada cambio comentado y clasificado.
+
+## 🔬 Comparación
+
+| Cambio | En la entrada | En la salida |
+| --- | --- | --- |
+| Añadir | compatible si es opcional | **compatible** |
+| Quitar | compatible | **incompatible** |
+| Estrechar | **incompatible** | compatible |
+| Ampliar | compatible | **incompatible** si el cliente valida |
+
+Es la tabla que resume la clase, y la asimetría entre columnas es el principio de
+robustez: **lo que aceptas puede crecer; lo que prometes, no**.
+
 ## 🧭 Qué hacer cuando el cambio es incompatible
 
 Tres caminos, en orden de preferencia:
