@@ -1,8 +1,39 @@
 {
   "clase": "013",
   "titulo": "Parámetros de consulta",
-  "descripcion": "GET /tareas?limite=5 usa 5; sin parámetro usa el valor por omisión 20.",
-  "estado": "esqueleto",
+  "descripcion": "Leer la cadena de consulta, aplicar el valor por omisión y rechazar lo inválido.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "usa el valor recibido",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?limite=5" },
+      "esperado": { "estado": 200, "json": { "limite": 5 } }
+    },
+    {
+      "nombre": "sin parámetro aplica el valor por omisión",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json": { "limite": 20 } }
+    },
+    {
+      "nombre": "acepta el límite superior",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?limite=100" },
+      "esperado": { "estado": 200, "json": { "limite": 100 } }
+    },
+    {
+      "nombre": "rechaza lo que no es un número",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?limite=abc" },
+      "esperado": { "estado": 422 }
+    },
+    {
+      "nombre": "rechaza el cero",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?limite=0" },
+      "esperado": { "estado": 422 }
+    },
+    {
+      "nombre": "rechaza por encima del máximo",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?limite=101" },
+      "esperado": { "estado": 422 }
+    }
+  ]
 }

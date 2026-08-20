@@ -1,8 +1,34 @@
 {
   "clase": "012",
   "titulo": "Rutas y parámetros de ruta",
-  "descripcion": "GET /tareas/42 responde 200 con el identificador extraído.",
-  "estado": "esqueleto",
+  "descripcion": "Extraer del camino la parte variable y devolverla como JSON.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "extrae un identificador numérico",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/42" },
+      "esperado": { "estado": 200, "json": { "id": "42" } }
+    },
+    {
+      "nombre": "extrae un identificador con letras",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/abc-123" },
+      "esperado": { "estado": 200, "json": { "id": "abc-123" } }
+    },
+    {
+      "nombre": "responde con tipo JSON",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "cabeceras": { "content-type": "application/json" } }
+    },
+    {
+      "nombre": "decodifica lo que venía escapado en la URL",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/con%20espacio" },
+      "esperado": { "estado": 200, "json": { "id": "con espacio" } }
+    },
+    {
+      "nombre": "sin identificador no hay ruta que coincida",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 404 }
+    }
+  ]
 }

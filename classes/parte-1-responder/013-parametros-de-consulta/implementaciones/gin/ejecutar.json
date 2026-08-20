@@ -1,0 +1,21 @@
+{
+  "framework": "gin",
+  "requiere": [
+    "go"
+  ],
+  "comprobar": [
+    "go",
+    "version"
+  ],
+  "preparar": [
+    "go",
+    "mod",
+    "tidy"
+  ],
+  "arrancar": [
+    "go",
+    "run",
+    "main.go"
+  ],
+  "espera_ms": 60000
+}

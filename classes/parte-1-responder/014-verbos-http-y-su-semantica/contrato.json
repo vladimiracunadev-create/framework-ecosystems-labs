@@ -1,8 +1,44 @@
 {
   "clase": "014",
   "titulo": "Verbos HTTP y su semántica",
-  "descripcion": "GET es seguro y PUT idempotente: dos llamadas iguales dejan el mismo estado.",
-  "estado": "esqueleto",
+  "descripcion": "GET es seguro, PUT es idempotente y POST no lo es. El contrato lo comprueba repitiendo llamadas.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "GET lee sin cambiar nada",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json": { "id": "1", "titulo": "original" } }
+    },
+    {
+      "nombre": "GET repetido devuelve lo mismo: es seguro",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json": { "id": "1", "titulo": "original" } }
+    },
+    {
+      "nombre": "PUT sustituye el recurso entero",
+      "peticion": { "metodo": "PUT", "ruta": "/tareas/1", "cuerpo": { "titulo": "sustituido" } },
+      "esperado": { "estado": 200, "json": { "id": "1", "titulo": "sustituido" } }
+    },
+    {
+      "nombre": "PUT repetido deja el mismo estado: es idempotente",
+      "peticion": { "metodo": "PUT", "ruta": "/tareas/1", "cuerpo": { "titulo": "sustituido" } },
+      "esperado": { "estado": 200, "json": { "id": "1", "titulo": "sustituido" } }
+    },
+    {
+      "nombre": "el estado tras dos PUT iguales es el de uno solo",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json": { "id": "1", "titulo": "sustituido" } }
+    },
+    {
+      "nombre": "POST crea y responde 201 con Location",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "primera" } },
+      "esperado": { "estado": 201, "json": { "id": "nueva-1", "altas": 1 }, "cabeceras": { "location": "/tareas/nueva-1" } }
+    },
+    {
+      "nombre": "POST repetido crea OTRO recurso: no es idempotente",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "primera" } },
+      "esperado": { "estado": 201, "json": { "id": "nueva-2", "altas": 2 } }
+    }
+  ]
 }

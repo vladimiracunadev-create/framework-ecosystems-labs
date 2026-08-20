@@ -47,6 +47,41 @@ los frameworks.
   que llevaban ambos. Ahora resuelve el ejecutable y solo usa el intérprete para
   los envoltorios `.cmd` y `.bat` de Windows.
 
+## [0.9.0] — 2026-08-20
+
+**Parte 1 completa**: quince clases construidas, de levantar un servidor a mirar
+qué hay debajo del framework.
+
+### Añadido
+
+- **14 clases nuevas** (012–025): rutas y parámetros, cadena de consulta, verbos
+  y su semántica, códigos de estado, cabeceras, cuerpo JSON, negociación de
+  contenido, redirecciones, archivos estáticos, subida de archivos, respuesta en
+  flujo, compresión, CORS y el recorrido por las capas que hay bajo el framework.
+- **103 implementaciones** reales y ejecutables, y **70 casos verificables**.
+- **`--cambiadas <ref>`** en el verificador: ejecuta solo las clases que toca un
+  cambio. Una clase con diez implementaciones tarda unos cuatro minutos, así que
+  ejecutar las 149 en cada empuje costaría horas.
+- **`.github/workflows/classes-full.yml`**: el barrido completo, por horario
+  semanal y a mano.
+- Tres aserciones nuevas en el verificador, todas nacidas de un fallo real:
+  `cabeceras_contienen` para cabeceras que son listas de directivas,
+  `cabecera_ausente` para comprobar que algo NO está, y `estado_en` para cuando
+  el estándar admite varios códigos.
+- Soporte de `multipart` en las peticiones del contrato, y preparación en varios
+  pasos en `ejecutar.json`.
+
+### Corregido
+
+- **La comparación de JSON era textual.** Un objeto JSON no tiene orden de
+  claves [RFC 8259]: Flask serializa ordenando y aparecía como incorrecto.
+- **La implementación de Laravel arrastraba estado entre ejecuciones.** El
+  servidor de desarrollo de PHP atiende cada petición en un proceso nuevo, así
+  que el estado vive en un archivo; ahora se limpia antes de arrancar.
+- **Flask devolvía 200 ante un parámetro inválido.** `request.args.get(...,
+  type=int)` devuelve el valor por omisión cuando la conversión falla, no `None`.
+  El fallo está documentado en la clase 013 porque es exactamente lo que enseña.
+
 ## [0.8.2] — 2026-08-20
 
 Rails cierra el elenco de la clase 011: **las diez implementaciones se verifican

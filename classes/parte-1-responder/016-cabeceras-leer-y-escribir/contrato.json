@@ -1,8 +1,34 @@
 {
   "clase": "016",
   "titulo": "Cabeceras: leer y escribir",
-  "descripcion": "Eco de una cabecera de petición y emisión de una cabecera de respuesta.",
-  "estado": "esqueleto",
+  "descripcion": "Eco de una cabecera de petición y emisión de cabeceras de respuesta.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "devuelve la cabecera recibida",
+      "peticion": { "metodo": "GET", "ruta": "/eco", "cabeceras": { "x-peticion": "hola" } },
+      "esperado": { "estado": 200, "json": { "recibido": "hola" } }
+    },
+    {
+      "nombre": "el nombre de la cabecera no distingue mayúsculas",
+      "peticion": { "metodo": "GET", "ruta": "/eco", "cabeceras": { "X-PETICION": "MAYUS" } },
+      "esperado": { "estado": 200, "json": { "recibido": "MAYUS" } }
+    },
+    {
+      "nombre": "sin la cabecera aplica el valor por omisión",
+      "peticion": { "metodo": "GET", "ruta": "/eco" },
+      "esperado": { "estado": 200, "json": { "recibido": "(ninguna)" } }
+    },
+    {
+      "nombre": "emite la cabecera de respuesta",
+      "peticion": { "metodo": "GET", "ruta": "/eco" },
+      "esperado": { "estado": 200, "cabeceras": { "x-respuesta": "servida" } }
+    },
+    {
+      "nombre": "emite la directiva de caché",
+      "peticion": { "metodo": "GET", "ruta": "/eco" },
+      "esperado": { "estado": 200, "cabeceras_contienen": { "cache-control": "no-store" } }
+    }
+  ]
 }

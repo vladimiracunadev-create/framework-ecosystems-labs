@@ -1,8 +1,32 @@
 {
   "clase": "021",
   "titulo": "Subida de archivos",
-  "descripcion": "POST multipart devuelve el tamaño recibido; excedido el límite responde 413.",
-  "estado": "esqueleto",
+  "descripcion": "Recibir multipart, informar del tamaño y rechazar lo que pasa del límite.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "recibe el archivo y devuelve su tamaño",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/subir",
+        "multipart": { "archivo": { "nombre": "nota.txt", "contenido": "hola", "tipo": "text/plain" } }
+      },
+      "esperado": { "estado": 201, "json": { "nombre": "nota.txt", "bytes": 4 } }
+    },
+    {
+      "nombre": "sin archivo responde 422",
+      "peticion": { "metodo": "POST", "ruta": "/subir", "multipart": { "otro": "valor" } },
+      "esperado": { "estado": 422, "json": { "error": "falta el archivo" } }
+    },
+    {
+      "nombre": "por encima del límite responde 413",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/subir",
+        "multipart": { "archivo": { "nombre": "grande.bin", "bytes": 4096, "tipo": "application/octet-stream" } }
+      },
+      "esperado": { "estado": 413 }
+    }
+  ]
 }

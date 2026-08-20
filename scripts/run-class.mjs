@@ -12,6 +12,13 @@
  *   node scripts/run-class.mjs 011
  *   node scripts/run-class.mjs 011 --solo express
  *   node scripts/run-class.mjs --todas
+ *   node scripts/run-class.mjs --cambiadas origin/main
+ *
+ * `--cambiadas` existe por una razón medida: una clase con diez
+ * implementaciones tarda unos cuatro minutos, casi todo en descargar
+ * dependencias de Maven, Composer y Bundler. Ejecutarlas todas en cada empuje
+ * costaría horas. En integración continua se ejecutan las clases que el cambio
+ * toca; el barrido completo va aparte, por horario o a mano.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -25,9 +32,11 @@ const manifest = JSON.parse(fs.readFileSync(path.join(CLASSES, "_manifest.json")
 
 const args = process.argv.slice(2);
 const todas = args.includes("--todas");
+const cambiadasIdx = args.indexOf("--cambiadas");
+const base = cambiadasIdx >= 0 ? args[cambiadasIdx + 1] : null;
 const soloIdx = args.indexOf("--solo");
 const solo = soloIdx >= 0 ? args[soloIdx + 1] : null;
-const objetivo = args.find((a) => !a.startsWith("--") && a !== solo);
+const objetivo = args.find((a) => !a.startsWith("--") && a !== solo && a !== base);
 
 const esWindows = process.platform === "win32";
 
@@ -98,6 +107,32 @@ function matarArbol(hijo) {
 
 // ------------------------------------------------------------ comprobación
 
+/**
+ * Comparación estructural, no textual.
+ *
+ * En JSON un objeto es un conjunto NO ordenado de pares [@rfc8259], así que dos
+ * respuestas con las mismas claves en distinto orden son la misma respuesta.
+ * Comparar por `JSON.stringify` haría fallar a los frameworks que serializan
+ * ordenando claves —Flask, por ejemplo— por una diferencia que no existe.
+ */
+function igualEnProfundidad(real, esperado) {
+  if (esperado === null || typeof esperado !== "object") return real === esperado;
+  if (Array.isArray(esperado)) {
+    return (
+      Array.isArray(real) &&
+      real.length === esperado.length &&
+      esperado.every((v, i) => igualEnProfundidad(real[i], v))
+    );
+  }
+  if (real === null || typeof real !== "object" || Array.isArray(real)) return false;
+  const clavesEsperadas = Object.keys(esperado);
+  const clavesReales = Object.keys(real);
+  if (clavesEsperadas.length !== clavesReales.length) return false;
+  return clavesEsperadas.every(
+    (k) => Object.hasOwn(real, k) && igualEnProfundidad(real[k], esperado[k]),
+  );
+}
+
 function normalizarCabecera(v) {
   return String(v ?? "").split(";")[0].trim().toLowerCase();
 }
@@ -109,6 +144,24 @@ async function comprobarCaso(baseUrl, caso) {
   if (p.cuerpo !== undefined) {
     init.body = typeof p.cuerpo === "string" ? p.cuerpo : JSON.stringify(p.cuerpo);
     init.headers = { "content-type": "application/json", ...init.headers };
+  } else if (p.multipart) {
+    // El `content-type` de multipart lleva un delimitador generado: lo pone
+    // `fetch` a partir del FormData, y ponerlo a mano lo rompería.
+    const formulario = new FormData();
+    for (const [campo, valor] of Object.entries(p.multipart)) {
+      if (typeof valor === "string") {
+        formulario.append(campo, valor);
+        continue;
+      }
+      const contenido =
+        valor.bytes !== undefined ? "x".repeat(valor.bytes) : (valor.contenido ?? "");
+      formulario.append(
+        campo,
+        new Blob([contenido], { type: valor.tipo ?? "application/octet-stream" }),
+        valor.nombre ?? "archivo.bin",
+      );
+    }
+    init.body = formulario;
   }
 
   let res;
@@ -125,10 +178,40 @@ async function comprobarCaso(baseUrl, caso) {
     fallos.push(`estado ${res.status}, esperado ${e.estado}`);
   }
 
+  // A veces el estándar admite VARIOS códigos y elegir uno sería inventarse el
+  // contrato. La respuesta a una comprobación previa de CORS, por ejemplo, solo
+  // tiene que ser un 2xx: Express usa 204 y Starlette 200, y los dos cumplen.
+  if (e.estado_en !== undefined && !e.estado_en.includes(res.status)) {
+    fallos.push(`estado ${res.status}, esperado uno de ${e.estado_en.join(", ")}`);
+  }
+
   for (const [k, v] of Object.entries(e.cabeceras ?? {})) {
     const real = normalizarCabecera(res.headers.get(k));
     if (real !== String(v).toLowerCase()) {
       fallos.push(`cabecera ${k}: "${real}", esperada "${v}"`);
+    }
+  }
+
+  // Algunas cabeceras son LISTAS de directivas separadas por comas
+  // —`Cache-Control`, `Vary`, `Allow`— y su orden no significa nada. Exigir
+  // igualdad de cadena sobre ellas mide la normalización del framework, no el
+  // comportamiento: Symfony añade `private` a Cache-Control por omisión, y eso
+  // no hace incorrecta la respuesta. Para esas cabeceras se comprueba que la
+  // directiva esté presente.
+  // Comprobar que una cabecera NO está también es parte del contrato: la
+  // ausencia de `Content-Length` es lo que distingue una respuesta troceada de
+  // una construida entera antes de enviarla.
+  for (const k of e.cabecera_ausente ?? []) {
+    if (res.headers.get(k) !== null) {
+      fallos.push(`cabecera ${k} presente ("${res.headers.get(k)}") y debía estar ausente`);
+    }
+  }
+
+  for (const [k, v] of Object.entries(e.cabeceras_contienen ?? {})) {
+    const crudo = String(res.headers.get(k) ?? "").toLowerCase();
+    const partes = crudo.split(",").map((x) => x.trim()).filter(Boolean);
+    if (!partes.includes(String(v).toLowerCase())) {
+      fallos.push(`cabecera ${k}: "${crudo}" no contiene la directiva "${v}"`);
     }
   }
 
@@ -144,9 +227,9 @@ async function comprobarCaso(baseUrl, caso) {
     } catch {
       return { ok: false, motivo: "la respuesta no es JSON válido" };
     }
-    const esperado = JSON.stringify(e.json);
-    const real = JSON.stringify(cuerpo);
-    if (real !== esperado) fallos.push(`json ${real}, esperado ${esperado}`);
+    if (!igualEnProfundidad(cuerpo, e.json)) {
+      fallos.push(`json ${JSON.stringify(cuerpo)}, esperado ${JSON.stringify(e.json)}`);
+    }
   }
 
   return fallos.length ? { ok: false, motivo: fallos.join("; ") } : { ok: true };
@@ -184,13 +267,23 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
     }
   }
 
+  // `preparar` admite un solo comando (array de cadenas) o varios (array de
+  // arrays). Varios hacen falta más a menudo de lo que parece: instalar
+  // dependencias y, además, dejar el estado limpio antes de arrancar.
   if (cfg.preparar) {
-    const c = preparar(cfg.preparar[0], cfg.preparar.slice(1));
-    const r = spawnSync(c.comando, c.argumentos, {
-      cwd: dir, ...c.opciones, encoding: "utf8", timeout: 300_000,
-    });
-    if (r.status !== 0) {
-      return { framework, estado: "error", detalle: `la preparación falló: ${(r.stderr || r.stdout || "").trim().slice(0, 200)}` };
+    const pasos = Array.isArray(cfg.preparar[0]) ? cfg.preparar : [cfg.preparar];
+    for (const paso of pasos) {
+      const c = preparar(paso[0], paso.slice(1));
+      const r = spawnSync(c.comando, c.argumentos, {
+        cwd: dir, ...c.opciones, encoding: "utf8", timeout: 300_000,
+      });
+      if (r.status !== 0) {
+        return {
+          framework,
+          estado: "error",
+          detalle: `la preparación falló en \`${paso.join(" ")}\`: ${(r.stderr || r.stdout || "").trim().slice(0, 160)}`,
+        };
+      }
     }
   }
 
@@ -286,12 +379,45 @@ async function verificarClase(ref, puertoBase = 4100) {
 
 // ------------------------------------------------------------------ entrada
 
-const refs = todas
-  ? manifest.partes.flatMap((p) => p.clases.map((c) => String(c.n)))
-  : [objetivo];
+/** Clases cuyo directorio aparece en el diff contra la referencia dada. */
+function clasesCambiadas(referencia) {
+  const r = spawnSync("git", ["diff", "--name-only", `${referencia}...HEAD`], { encoding: "utf8" });
+  if (r.status !== 0) {
+    console.error(`No se pudo comparar con "${referencia}": ${(r.stderr ?? "").trim()}`);
+    process.exit(2);
+  }
+  const tocados = r.stdout.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  const encontradas = new Set();
+  for (const parte of manifest.partes) {
+    for (const clase of parte.clases) {
+      const prefijo = `classes/${parte.slug}/${clase.slug}/`;
+      if (tocados.some((t) => t.replaceAll("\\", "/").startsWith(prefijo))) {
+        encontradas.add(String(clase.n));
+      }
+    }
+  }
+  return [...encontradas];
+}
+
+let refs;
+if (todas) {
+  refs = manifest.partes.flatMap((p) => p.clases.map((c) => String(c.n)));
+} else if (base) {
+  refs = clasesCambiadas(base);
+  if (!refs.length) {
+    console.log(`Ninguna clase cambió respecto a ${base}: nada que ejecutar.`);
+    console.log("CLASS_RUN_OK");
+    process.exit(0);
+  }
+  console.log(`Clases tocadas por el cambio: ${refs.join(", ")}`);
+} else {
+  refs = [objetivo];
+}
 
 if (!refs[0]) {
-  console.error("Uso: node scripts/run-class.mjs <n.º de clase> [--solo <framework>] | --todas");
+  console.error(
+    "Uso: node scripts/run-class.mjs <n.º de clase> [--solo <framework>] | --todas | --cambiadas <ref>",
+  );
   process.exit(2);
 }
 

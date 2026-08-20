@@ -1,8 +1,39 @@
 {
   "clase": "017",
   "titulo": "Cuerpo JSON: recibir y devolver",
-  "descripcion": "POST con JSON válido crea el recurso; cuerpo mal formado responde 400.",
-  "estado": "esqueleto",
+  "descripcion": "Deserializar la entrada, distinguir el cuerpo ilegible del incompleto, y serializar la salida.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "un cuerpo válido crea el recurso",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "leer el módulo 05" } },
+      "esperado": { "estado": 201, "json": { "id": "1", "titulo": "leer el módulo 05", "completada": false } }
+    },
+    {
+      "nombre": "la respuesta se declara como JSON",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "otra" } },
+      "esperado": { "estado": 201, "cabeceras": { "content-type": "application/json" } }
+    },
+    {
+      "nombre": "un cuerpo ilegible responde 400",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": "{esto no es json" },
+      "esperado": { "estado": 400, "json": { "error": "cuerpo JSON mal formado" } }
+    },
+    {
+      "nombre": "un cuerpo legible pero incompleto responde 422",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "otra_cosa": 1 } },
+      "esperado": { "estado": 422, "json": { "error": "titulo es obligatorio" } }
+    },
+    {
+      "nombre": "un título vacío también es 422",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": { "estado": 422, "json": { "error": "titulo es obligatorio" } }
+    },
+    {
+      "nombre": "el booleano se serializa como booleano, no como texto",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "tipos" } },
+      "esperado": { "estado": 201, "json": { "id": "1", "titulo": "tipos", "completada": false } }
+    }
+  ]
 }

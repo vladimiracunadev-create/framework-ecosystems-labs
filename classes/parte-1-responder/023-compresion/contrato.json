@@ -1,8 +1,29 @@
 {
   "clase": "023",
   "titulo": "Compresión",
-  "descripcion": "Accept-Encoding gzip devuelve respuesta comprimida y cabecera Vary correcta.",
-  "estado": "esqueleto",
+  "descripcion": "Comprimir cuando compensa, y no cuando no.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "una respuesta grande se comprime si el cliente lo admite",
+      "peticion": { "metodo": "GET", "ruta": "/grande", "cabeceras": { "accept-encoding": "gzip" } },
+      "esperado": { "estado": 200, "cabeceras": { "content-encoding": "gzip" } }
+    },
+    {
+      "nombre": "declara que la respuesta varía según la codificación aceptada",
+      "peticion": { "metodo": "GET", "ruta": "/grande", "cabeceras": { "accept-encoding": "gzip" } },
+      "esperado": { "estado": 200, "cabeceras_contienen": { "vary": "accept-encoding" } }
+    },
+    {
+      "nombre": "sin admitirlo el cliente, no se comprime",
+      "peticion": { "metodo": "GET", "ruta": "/grande", "cabeceras": { "accept-encoding": "identity" } },
+      "esperado": { "estado": 200, "cabecera_ausente": ["content-encoding"] }
+    },
+    {
+      "nombre": "una respuesta pequeña no se comprime aunque se admita",
+      "peticion": { "metodo": "GET", "ruta": "/pequeno", "cabeceras": { "accept-encoding": "gzip" } },
+      "esperado": { "estado": 200, "cuerpo": "corto", "cabecera_ausente": ["content-encoding"] }
+    }
+  ]
 }

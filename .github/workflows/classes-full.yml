@@ -1,0 +1,86 @@
+name: Clases (barrido completo)
+
+# El flujo de aceptación ejecuta solo las clases que toca cada cambio, porque
+# una clase con diez implementaciones tarda unos cuatro minutos y casi todo es
+# descarga de dependencias. Este flujo ejecuta TODAS: es el que responde a la
+# pregunta «¿sigue cumpliendo el contrato todo lo construido?».
+#
+# Va por horario y a mano, no en cada empuje, porque su coste crece con el
+# número de clases construidas y no con el tamaño del cambio.
+
+on:
+  schedule:
+    # Lunes a las 05:00 UTC.
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: clases-completo
+  cancel-in-progress: true
+
+jobs:
+  barrido:
+    name: Todas las clases contra su contrato
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      - name: Habilitar pnpm
+        run: corepack enable
+
+      - name: Preparar Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Preparar Java
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Preparar .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Dependencias de Python de las clases
+        run: |
+          python -m pip install --quiet --upgrade pip
+          python -m pip install --quiet fastapi uvicorn flask django
+
+      - name: Bundler para las clases de Ruby
+        run: sudo gem install bundler --no-document
+
+      - name: Barrido completo
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/run-class.mjs --todas | tee /tmp/clases.txt
+
+      - name: Resumen
+        if: always()
+        run: |
+          {
+            echo "### Barrido completo de clases"
+            echo ""
+            echo '```text'
+            grep -E "RESUMEN|CLASS_RUN|✘" /tmp/clases.txt || echo "sin salida"
+            echo '```'
+            echo ""
+            echo "Una implementación **omitida** no es un fallo: es una cadena de herramientas ausente en el ejecutor, declarada en lugar de escondida."
+          } >> "$GITHUB_STEP_SUMMARY"

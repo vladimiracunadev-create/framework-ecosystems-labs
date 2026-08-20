@@ -1,8 +1,44 @@
 {
   "clase": "024",
   "titulo": "CORS",
-  "descripcion": "La petición previa OPTIONS responde 204 con las cabeceras exactas; un origen no permitido no las recibe.",
-  "estado": "esqueleto",
+  "descripcion": "La comprobación previa y las cabeceras exactas que el navegador exige.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la comprobación previa responde sin contenido",
+      "peticion": {
+        "metodo": "OPTIONS",
+        "ruta": "/datos",
+        "cabeceras": {
+          "origin": "https://permitido.example",
+          "access-control-request-method": "GET",
+          "access-control-request-headers": "x-token"
+        }
+      },
+      "esperado": { "estado_en": [200, 204] }
+    },
+    {
+      "nombre": "la comprobación previa declara el origen permitido",
+      "peticion": {
+        "metodo": "OPTIONS",
+        "ruta": "/datos",
+        "cabeceras": {
+          "origin": "https://permitido.example",
+          "access-control-request-method": "GET"
+        }
+      },
+      "esperado": { "estado_en": [200, 204], "cabeceras": { "access-control-allow-origin": "https://permitido.example" } }
+    },
+    {
+      "nombre": "una peticion simple desde el origen permitido lleva la cabecera",
+      "peticion": { "metodo": "GET", "ruta": "/datos", "cabeceras": { "origin": "https://permitido.example" } },
+      "esperado": { "estado": 200, "cabeceras": { "access-control-allow-origin": "https://permitido.example" } }
+    },
+    {
+      "nombre": "un origen no permitido no recibe la cabecera",
+      "peticion": { "metodo": "GET", "ruta": "/datos", "cabeceras": { "origin": "https://atacante.example" } },
+      "esperado": { "estado": 200, "cabecera_ausente": ["access-control-allow-origin"] }
+    }
+  ]
 }

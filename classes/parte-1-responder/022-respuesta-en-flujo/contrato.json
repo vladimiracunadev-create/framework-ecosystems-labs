@@ -1,8 +1,24 @@
 {
   "clase": "022",
   "titulo": "Respuesta en flujo",
-  "descripcion": "La respuesta llega en tres trozos separados en el tiempo.",
-  "estado": "esqueleto",
+  "descripcion": "Enviar la respuesta a trozos, sin construirla entera antes.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el flujo completo llega entero y en orden",
+      "peticion": { "metodo": "GET", "ruta": "/flujo" },
+      "esperado": { "estado": 200, "cuerpo": "uno\ndos\ntres" }
+    },
+    {
+      "nombre": "se sirve como texto plano",
+      "peticion": { "metodo": "GET", "ruta": "/flujo" },
+      "esperado": { "estado": 200, "cabeceras": { "content-type": "text/plain" } }
+    },
+    {
+      "nombre": "no se declara longitud: el tamaño no se conoce al empezar",
+      "peticion": { "metodo": "GET", "ruta": "/flujo" },
+      "esperado": { "estado": 200, "cabecera_ausente": ["content-length"] }
+    }
+  ]
 }

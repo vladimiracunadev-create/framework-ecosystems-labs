@@ -1,8 +1,24 @@
 {
   "clase": "025",
   "titulo": "Qué hace tu framework con el socket",
-  "descripcion": "La misma respuesta servida sin framework y con framework, midiendo qué añade cada capa.",
-  "estado": "esqueleto",
+  "descripcion": "La misma respuesta servida sin framework y con framework, para ver qué añade cada capa.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la raíz responde 200 con JSON",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": { "estado": 200, "cabeceras": { "content-type": "application/json" } }
+    },
+    {
+      "nombre": "una ruta inexistente responde 404 con JSON, no con HTML",
+      "peticion": { "metodo": "GET", "ruta": "/no-existe" },
+      "esperado": { "estado": 404, "json": { "error": "no existe" } }
+    },
+    {
+      "nombre": "el 404 también se declara como JSON",
+      "peticion": { "metodo": "GET", "ruta": "/tampoco" },
+      "esperado": { "estado": 404, "cabeceras": { "content-type": "application/json" } }
+    }
+  ]
 }

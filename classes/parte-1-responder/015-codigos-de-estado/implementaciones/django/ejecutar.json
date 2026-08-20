@@ -1,0 +1,16 @@
+{
+  "framework": "django",
+  "requiere": [
+    "python"
+  ],
+  "comprobar": [
+    "python",
+    "-c",
+    "import django"
+  ],
+  "arrancar": [
+    "python",
+    "app.py"
+  ],
+  "espera_ms": 20000
+}

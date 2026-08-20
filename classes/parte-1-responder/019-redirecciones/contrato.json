@@ -1,8 +1,34 @@
 {
   "clase": "019",
   "titulo": "Redirecciones",
-  "descripcion": "301, 302 y 307 sobre la misma ruta: qué conserva cada uno.",
-  "estado": "esqueleto",
+  "descripcion": "Permanente frente a temporal, y cuál conserva el método.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "301 permanente con destino",
+      "peticion": { "metodo": "GET", "ruta": "/antigua" },
+      "esperado": { "estado": 301, "cabeceras": { "location": "/nueva" } }
+    },
+    {
+      "nombre": "302 temporal con destino",
+      "peticion": { "metodo": "GET", "ruta": "/temporal" },
+      "esperado": { "estado": 302, "cabeceras": { "location": "/nueva" } }
+    },
+    {
+      "nombre": "307 conserva el método",
+      "peticion": { "metodo": "POST", "ruta": "/temporal-estricta", "cuerpo": { "x": 1 } },
+      "esperado": { "estado": 307, "cabeceras": { "location": "/nueva" } }
+    },
+    {
+      "nombre": "el destino existe y responde",
+      "peticion": { "metodo": "GET", "ruta": "/nueva" },
+      "esperado": { "estado": 200, "json": { "destino": "nueva" } }
+    },
+    {
+      "nombre": "el destino también atiende POST",
+      "peticion": { "metodo": "POST", "ruta": "/nueva", "cuerpo": { "x": 1 } },
+      "esperado": { "estado": 200, "json": { "destino": "nueva", "metodo": "POST" } }
+    }
+  ]
 }

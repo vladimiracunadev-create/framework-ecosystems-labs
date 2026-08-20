@@ -1,8 +1,29 @@
 {
   "clase": "020",
   "titulo": "Servir archivos estáticos",
-  "descripcion": "GET de un archivo estático responde 200 con content-type y cabecera de caché.",
-  "estado": "esqueleto",
+  "descripcion": "Entregar un archivo del disco con el tipo y la caché correctos.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "sirve el archivo",
+      "peticion": { "metodo": "GET", "ruta": "/estatico/logo.svg" },
+      "esperado": { "estado": 200 }
+    },
+    {
+      "nombre": "deduce el tipo por la extensión",
+      "peticion": { "metodo": "GET", "ruta": "/estatico/logo.svg" },
+      "esperado": { "estado": 200, "cabeceras": { "content-type": "image/svg+xml" } }
+    },
+    {
+      "nombre": "declara que se puede cachear",
+      "peticion": { "metodo": "GET", "ruta": "/estatico/logo.svg" },
+      "esperado": { "estado": 200, "cabeceras_contienen": { "cache-control": "max-age=3600" } }
+    },
+    {
+      "nombre": "un archivo inexistente responde 404",
+      "peticion": { "metodo": "GET", "ruta": "/estatico/no-existe.svg" },
+      "esperado": { "estado": 404 }
+    }
+  ]
 }

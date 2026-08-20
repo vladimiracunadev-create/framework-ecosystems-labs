@@ -1,0 +1,6 @@
+{
+  "name": "clase-011-fastify",
+  "private": true,
+  "type": "module",
+  "dependencies": { "fastify": "^5.6.1" }
+}

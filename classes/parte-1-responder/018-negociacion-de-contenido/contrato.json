@@ -1,8 +1,34 @@
 {
   "clase": "018",
   "titulo": "Negociación de contenido",
-  "descripcion": "Accept application/json devuelve JSON, text/html devuelve HTML, otro devuelve 406.",
-  "estado": "esqueleto",
+  "descripcion": "Servir la representación que el cliente pide, y declarar que la respuesta varía según Accept.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "pide JSON y recibe JSON",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1", "cabeceras": { "accept": "application/json" } },
+      "esperado": { "estado": 200, "cabeceras": { "content-type": "application/json" } }
+    },
+    {
+      "nombre": "pide HTML y recibe HTML",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1", "cabeceras": { "accept": "text/html" } },
+      "esperado": { "estado": 200, "cabeceras": { "content-type": "text/html" } }
+    },
+    {
+      "nombre": "declara que la respuesta varía según Accept",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1", "cabeceras": { "accept": "application/json" } },
+      "esperado": { "estado": 200, "cabeceras_contienen": { "vary": "accept" } }
+    },
+    {
+      "nombre": "un tipo que no sabe servir responde 406",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1", "cabeceras": { "accept": "application/pdf" } },
+      "esperado": { "estado": 406 }
+    },
+    {
+      "nombre": "el comodín recibe la representación por omisión",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1", "cabeceras": { "accept": "*/*" } },
+      "esperado": { "estado": 200, "cabeceras": { "content-type": "application/json" } }
+    }
+  ]
 }

@@ -1,0 +1,16 @@
+{
+  "framework": "flask",
+  "requiere": [
+    "python"
+  ],
+  "comprobar": [
+    "python",
+    "-c",
+    "import flask"
+  ],
+  "arrancar": [
+    "python",
+    "app.py"
+  ],
+  "espera_ms": 20000
+}

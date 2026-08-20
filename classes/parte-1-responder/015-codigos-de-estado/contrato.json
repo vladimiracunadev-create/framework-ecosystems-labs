@@ -2,7 +2,38 @@
   "clase": "015",
   "titulo": "Códigos de estado",
   "descripcion": "201 con Location al crear, 204 sin cuerpo al borrar, 404 al no encontrar.",
-  "estado": "esqueleto",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "crear responde 201",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "nueva" } },
+      "esperado": { "estado": 201, "json": { "id": "100" } }
+    },
+    {
+      "nombre": "crear indica dónde quedó el recurso",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "otra" } },
+      "esperado": { "estado": 201, "cabeceras": { "location": "/tareas/101" } }
+    },
+    {
+      "nombre": "el recurso creado se puede leer en su Location",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/101" },
+      "esperado": { "estado": 200, "json": { "id": "101", "titulo": "otra" } }
+    },
+    {
+      "nombre": "borrar responde 204 con el cuerpo vacío",
+      "peticion": { "metodo": "DELETE", "ruta": "/tareas/101" },
+      "esperado": { "estado": 204, "cuerpo": "" }
+    },
+    {
+      "nombre": "lo borrado ya no está",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/101" },
+      "esperado": { "estado": 404 }
+    },
+    {
+      "nombre": "borrar lo inexistente responde 404, no 204",
+      "peticion": { "metodo": "DELETE", "ruta": "/tareas/no-existe" },
+      "esperado": { "estado": 404, "json": { "error": "no existe" } }
+    }
+  ]
 }
