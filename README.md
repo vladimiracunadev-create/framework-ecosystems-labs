@@ -1,6 +1,7 @@
 # Framework Ecosystems Labs
 
 [![CI](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/ci.yml/badge.svg)](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/ci.yml)
+[![Aceptación](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/acceptance.yml/badge.svg)](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/acceptance.yml)
 [![Pages](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/pages.yml/badge.svg)](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/pages.yml)
 [![Fuentes verificadas](https://img.shields.io/badge/fuentes-97%20verificadas-0b5fd0)](docs/BIBLIOGRAPHY.md)
 [![Licencia](https://img.shields.io/badge/licencia-MIT-informational)](LICENSE)
@@ -44,6 +45,13 @@ tiene DOI, si una lección omite alguna de las doce secciones obligatorias, o si
 alguna entrada del registro **no se cita en ningún texto** — la bibliografía
 decorativa también es un fallo.
 
+Y `verify-contract.mjs` cierra el otro flanco: comprueba que cada código del
+catálogo de errores se ejercita en las pruebas, que las cinco implementaciones
+pueden emitirlo, y que **todo extracto del contrato citado en una lección
+coincide literalmente con el contrato**. Esa última comprobación existe por un
+fallo real: el currículo enseñaba un formato de error que el contrato canónico no
+cumplía, y nada lo detectaba.
+
 Detalle completo en [`sources/README.md`](sources/README.md) y
 [`docs/BIBLIOGRAPHY.md`](docs/BIBLIOGRAPHY.md).
 
@@ -66,7 +74,31 @@ Al finalizar, una persona podrá:
 mismo dominio + mismo contrato + mismas pruebas + entornos declarados
 ```
 
-Cambiar requisitos para favorecer una tecnología invalida la comparación.
+Cambiar requisitos para favorecer una tecnología invalida la comparación. Y aquí
+no es una consigna: **el mismo examen se ejecuta contra los cinco ecosistemas**.
+
+| Implementación | Ecosistema | Pruebas de aceptación |
+| --- | --- | --- |
+| [Referencia sin framework](labs/01-http-contract/README.md) | Node.js, sin dependencias | 20 / 20 |
+| [Express](labs/02-express-api/README.md) | Node.js | 20 / 20 |
+| [FastAPI](labs/03-fastapi/README.md) | Python | 20 / 20 |
+| [Spring Boot](labs/04-spring-boot/README.md) | JVM | 20 / 20 · una desviación declarada |
+| [ASP.NET Core](labs/05-aspnet-core/README.md) | .NET | 20 / 20 |
+
+```bash
+node scripts/run-acceptance.mjs reference-node   # sin instalar nada
+node scripts/run-acceptance.mjs express --prepare
+```
+
+Los 20 casos viven en
+[`contracts/taskflow/acceptance.test.mjs`](contracts/taskflow/acceptance.test.mjs)
+y solo hablan HTTP: se lanzan sin adaptador contra cualquier implementación, en
+cualquier lenguaje. Los errores siguen RFC 9457 con `errors[]` por campo, porque
+un `422` que solo dice «datos inválidos» impide construir una interfaz accesible.
+
+Las desviaciones que una implementación necesita están **declaradas** en
+[`ACCEPTANCE.md`](contracts/taskflow/ACCEPTANCE.md). Una desviación declarada es
+información sobre el ecosistema; una silenciosa es un fallo de la comparación.
 
 ## El programa
 
@@ -107,10 +139,12 @@ donde cada decisión pedagógica se apoya en su propia fuente.
 Requiere Node.js 22 o superior. **Sin instalar dependencias:**
 
 ```bash
-node scripts/validate-repository.mjs
-node scripts/verify-sources.mjs
+node scripts/validate-repository.mjs             # estructura, catálogo, enlaces
+node scripts/verify-sources.mjs                  # trazabilidad de las citas
+node scripts/verify-contract.mjs                 # contrato ↔ lecciones ↔ código
 node --test labs/01-http-contract/reference-node/server.test.mjs
-node scripts/generate-site.mjs   # genera site/ (no se versiona)
+node scripts/run-acceptance.mjs reference-node   # el contrato, de punta a punta
+node scripts/generate-site.mjs                   # genera site/ (no se versiona)
 ```
 
 Con pnpm, que es el único gestor admitido para JavaScript y TypeScript:
@@ -132,7 +166,7 @@ projects/         Productos canónicos y proyecto final
 assessments/      Diagnóstico y rúbricas
 sources/          Registro bibliográfico verificable y su política
 templates/        Plantillas de lección, framework y decisión
-scripts/          Validaciones y generador del sitio, sin dependencias
+scripts/          Validaciones, ejecutor de aceptación y generador del sitio
 ```
 
 ## Cobertura de «todos los frameworks»

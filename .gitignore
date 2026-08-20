@@ -13,3 +13,7 @@ obj/
 .DS_Store
 Thumbs.db
 site/
+labs/*/node_modules/
+labs/04-spring-boot/target/
+labs/05-aspnet-core/bin/
+labs/05-aspnet-core/obj/

@@ -107,113 +107,147 @@ omisión y lo implícito falla por sorpresa**. Ninguna de las dos es gratis.
 
 ## Implementación mínima
 
-Fragmento del contrato canónico del repositorio, en
-[`contracts/taskflow/openapi.yaml`](../contracts/taskflow/openapi.yaml):
+Extracto literal del contrato canónico del repositorio. Lo verifica
+`scripts/verify-contract.mjs`: si el contrato cambia y esta lección no, la
+validación falla. Una lección que cita mal el contrato es peor que una que no lo
+cita.
 
+<!-- extracto-verificado: contracts/taskflow/openapi.yaml -->
 ```yaml
-paths:
-  /tasks:
     post:
       operationId: createTask
+      summary: Crear una tarea
       parameters:
-        - name: Idempotency-Key
-          in: header
-          required: false
-          schema: { type: string, maxLength: 128 }
+        - $ref: "#/components/parameters/IdempotencyKey"
       requestBody:
         required: true
         content:
           application/json:
-            schema: { $ref: "#/components/schemas/TaskCreate" }
+            schema: {$ref: "#/components/schemas/CreateTask"}
       responses:
         "201":
           description: Tarea creada
           headers:
-            Location: { schema: { type: string } }
-        "422":
-          description: Entrada válida como JSON pero inválida como tarea
+            Location:
+              required: true
+              description: Ruta del recurso creado
 ```
 
-Validación derivada del esquema, sin dependencias [@json-schema]:
+La clave de idempotencia es **obligatoria** en este contrato, no opcional. Es una
+decisión discutible y por eso está documentada: obliga al cliente a pensar en el
+reintento desde el primer día, a cambio de rechazar peticiones que en otra API
+serían válidas. Un contrato que la hiciera opcional tendría que explicar qué pasa
+con los duplicados, y casi ninguno lo hace.
+
+### El sobre de error, una sola vez
 
 ```javascript
-// validar.mjs — validación mínima explícita, con errores por campo
-export function validarTaskCreate(entrada) {
-  const errores = [];
-  if (typeof entrada !== "object" || entrada === null) {
-    return [{ field: "", code: "BODY_NOT_OBJECT" }];
-  }
-  const { title, done } = entrada;
-  if (typeof title !== "string") errores.push({ field: "title", code: "TITLE_REQUIRED" });
-  else if (title.trim().length === 0) errores.push({ field: "title", code: "TITLE_EMPTY" });
-  else if (title.length > 200) errores.push({ field: "title", code: "TITLE_TOO_LONG" });
-  if (done !== undefined && typeof done !== "boolean") errores.push({ field: "done", code: "DONE_NOT_BOOLEAN" });
-  return errores;
-}
+// problema.mjs — el ÚNICO punto que construye respuestas de error
+const CATALOGO = {
+  IDEMPOTENCY_KEY_REQUIRED: { status: 400, title: "Idempotency key required" },
+  MALFORMED_JSON: { status: 400, title: "Malformed JSON" },
+  TASK_NOT_FOUND: { status: 404, title: "Task not found" },
+  VALIDATION_ERROR: { status: 422, title: "Validation error" },
+};
 
-// El error se emite con una forma estable y sin filtrar detalles internos.
-export function problema(status, code, errores = []) {
-  return {
-    type: `https://example.org/problemas/${code.toLowerCase()}`,
-    title: code,
-    status,
-    errors: errores, // por campo: la interfaz necesita saber cuál falló
-  };
+export function problema(code, { detail, instance, errors } = {}) {
+  const { status, title } = CATALOGO[code];
+  // RFC 9457: type, title y status son obligatorios. `code` y `errors` son
+  // miembros de extensión, que la norma permite y el contrato documenta.
+  const cuerpo = { type: `https://example.org/problems/${code.toLowerCase().replace(/_/g, "-")}`, title, status, code };
+  if (detail) cuerpo.detail = detail;
+  if (instance) cuerpo.instance = instance;
+  if (errors?.length) cuerpo.errors = errors;
+  return { status, headers: { "content-type": "application/problem+json" }, cuerpo };
+}
+```
+
+Si cada rama del código construyera su propio error, tarde o temprano una
+filtraría una traza o cambiaría el formato sin que nadie lo notara. El catálogo
+cerrado hace además que añadir un código sea un acto deliberado: los códigos son
+parte del contrato [@rfc9457], y cambiarlos rompe a los clientes.
+
+### Validación que nombra el campo
+
+```javascript
+// validar.mjs — misma regla que la referencia del módulo 01
+const TITLE_MAX = 120;
+
+export function validarCreateTask(entrada) {
+  const errores = [];
+  if (typeof entrada !== "object" || entrada === null || Array.isArray(entrada)) {
+    return [{ field: "", code: "BODY_NOT_OBJECT", detail: "The body must be a JSON object" }];
+  }
+  const { title } = entrada;
+  if (typeof title !== "string") {
+    errores.push({ field: "title", code: "TITLE_REQUIRED", detail: "title is required and must be a string" });
+  } else if (title.trim().length === 0) {
+    errores.push({ field: "title", code: "TITLE_EMPTY", detail: "title must not be blank" });
+  } else if (title.trim().length > TITLE_MAX) {
+    errores.push({ field: "title", code: "TITLE_TOO_LONG", detail: `title must not exceed ${TITLE_MAX} characters` });
+  }
+  return errores;
 }
 ```
 
 El error lleva el campo culpable. Sin esa granularidad, la interfaz accesible del
-módulo 03 no puede asociar el mensaje al control correspondiente.
+módulo 03 no puede asociar el mensaje al control correspondiente: el error por
+campo es un requisito de accesibilidad, no un lujo del backend [@json-schema].
 
 ## Pruebas compartidas
 
-Las de `contracts/taskflow/ACCEPTANCE.md`, idénticas para toda implementación:
+No son una lista de buenas intenciones: son **20 casos ejecutables** en
+[`contracts/taskflow/acceptance.test.mjs`](../contracts/taskflow/acceptance.test.mjs),
+descritos en [`ACCEPTANCE.md`](../contracts/taskflow/ACCEPTANCE.md). Solo hablan
+HTTP, así que se lanzan sin adaptador contra cualquier implementación:
+
+```bash
+node scripts/run-acceptance.mjs reference-node   # referencia sin framework
+node scripts/run-acceptance.mjs express          # el mismo examen
+node scripts/run-acceptance.mjs fastapi
+node scripts/run-acceptance.mjs --url http://donde-sea:8080
+```
+
+Tres de esos casos concentran lo que el módulo enseña:
 
 ```javascript
-// aceptacion.test.mjs — se ejecuta contra CUALQUIER implementación
-import assert from "node:assert/strict";
-import { test } from "node:test";
+test("repetir la misma clave de idempotencia no crea una segunda tarea", async () => {
+  const key = clave();
+  const primera = await crear("Una sola vez", { key });
+  const segunda = await crear("Una sola vez", { key });
 
-const BASE = process.env.TASKFLOW_URL ?? "http://localhost:3000";
+  assert.equal(primera.status, 201);
+  assert.equal(segunda.status, 200, "la repetición se reconoce, no se vuelve a crear");
+  assert.equal((await primera.json()).id, (await segunda.json()).id);
 
-test("crear tarea devuelve 201 y Location", async () => {
-  const res = await fetch(`${BASE}/tasks`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ title: "Comparar dos ecosistemas" }),
-  });
-  assert.equal(res.status, 201);
-  assert.match(res.headers.get("location") ?? "", /^\/tasks\/.+/);
+  // Comprobar solo el código de estado dejaría pasar una implementación que
+  // devuelve 200 y crea el recurso igualmente.
+  const items = (await (await fetch(`${BASE}/tasks`)).json()).items;
+  assert.equal(items.filter((tarea) => tarea.id === (await primera.json()).id).length, 1);
 });
 
-test("la misma clave de idempotencia no crea dos tareas", async () => {
-  const enviar = () =>
-    fetch(`${BASE}/tasks`, {
-      method: "POST",
-      headers: { "content-type": "application/json", "idempotency-key": "k-fija" },
-      body: JSON.stringify({ title: "Una sola vez" }),
-    });
-  const primera = await enviar();
-  const segunda = await enviar();
-  const a = await primera.json();
-  const b = await segunda.json();
-  assert.equal(a.id, b.id); // mismo recurso, no uno nuevo
+test("un título vacío responde 422 e indica el campo que falló", async () => {
+  const cuerpo = await problema(await crear("   "), { status: 422, code: "VALIDATION_ERROR" });
+  const campo = cuerpo.errors.find((error) => error.field === "title");
+  assert.ok(campo, "la interfaz necesita saber QUÉ campo falló para señalarlo");
+  assert.equal(campo.code, "TITLE_EMPTY");
 });
 
-test("el error indica el campo que falló", async () => {
-  const res = await fetch(`${BASE}/tasks`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ title: "" }),
-  });
-  assert.equal(res.status, 422);
-  const cuerpo = await res.json();
-  assert.ok(cuerpo.errors.some((e) => e.field === "title"));
+test("reutilizar una clave con un cuerpo distinto responde 409", async () => {
+  const key = clave();
+  await crear("Cuerpo original", { key });
+  await problema(await crear("Cuerpo diferente", { key }), { status: 409, code: "IDEMPOTENCY_KEY_REUSED" });
 });
 ```
 
-Estas pruebas usan solo `fetch` y el ejecutor del runtime: se lanzan contra
-cualquier implementación, en cualquier lenguaje, sin adaptador.
+Además, **toda** respuesta de error pasa por la misma comprobación transversal:
+viaja como `application/problem+json`, lleva los cuatro miembros obligatorios y
+no filtra trazas, rutas de archivo ni consultas. Un error con el código correcto
+y el sobre equivocado también incumple el contrato.
+
+Si una implementación necesita que cambies una de estas pruebas para pasar, la
+comparación deja de ser válida: cambiaste el examen para que aprobara un
+candidato concreto.
 
 ## Seguridad y accesibilidad
 

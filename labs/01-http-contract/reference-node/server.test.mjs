@@ -1,81 +1,120 @@
+/**
+ * Pruebas unitarias de la referencia.
+ *
+ * Complementan a `contracts/taskflow/acceptance.test.mjs`, que comprueba el
+ * contrato desde fuera: aquí se comprueban las decisiones internas que el
+ * contrato no ve —validación por campo, límite de cuerpo, cierre correcto—
+ * y que serían igual de ciertas con otro transporte.
+ */
 import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
-import { once } from "node:events";
-import { createTaskServer } from "./server.mjs";
+import { createTaskServer, validateCreateTask } from "./server.mjs";
 
-
-const server = createTaskServer();
-let baseUrl;
-
+let servidor;
+let base;
 
 before(async () => {
-  server.listen(0, "127.0.0.1");
-  await once(server, "listening");
-  const address = server.address();
-  baseUrl = `http://127.0.0.1:${address.port}`;
+  servidor = createTaskServer();
+  await new Promise((resolver) => servidor.listen(0, "127.0.0.1", resolver));
+  base = `http://127.0.0.1:${servidor.address().port}`;
 });
 
+after(() => new Promise((resolver) => servidor.close(resolver)));
 
-after(async () => {
-  server.close();
-  await once(server, "close");
-});
-
-
-test("health and empty collection", async () => {
-  const health = await fetch(`${baseUrl}/health`);
-  assert.equal(health.status, 200);
-  assert.deepEqual(await health.json(), { status: "ok" });
-
-  const tasks = await fetch(`${baseUrl}/tasks`);
-  assert.deepEqual(await tasks.json(), { items: [] });
-});
-
-
-test("requires an idempotency key", async () => {
-  const response = await fetch(`${baseUrl}/tasks`, {
+const crear = (body, key = `u-${Math.random().toString(36).slice(2)}`) =>
+  fetch(`${base}/tasks`, {
     method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ title: "Learn contracts" }),
+    headers: { "content-type": "application/json", "idempotency-key": key },
+    body: typeof body === "string" ? body : JSON.stringify(body),
   });
-  assert.equal(response.status, 400);
-  assert.equal((await response.json()).error.code, "IDEMPOTENCY_KEY_REQUIRED");
+
+// ------------------------------------------------- validación, sin servidor
+
+test("la validación es una función pura y se prueba sin abrir un puerto", () => {
+  assert.deepEqual(validateCreateTask({ title: "válido" }), []);
+  assert.equal(validateCreateTask({}).at(0).code, "TITLE_REQUIRED");
+  assert.equal(validateCreateTask({ title: "   " }).at(0).code, "TITLE_EMPTY");
+  assert.equal(validateCreateTask({ title: "x".repeat(121) }).at(0).code, "TITLE_TOO_LONG");
+  assert.equal(validateCreateTask(null).at(0).code, "BODY_NOT_OBJECT");
+  assert.equal(validateCreateTask([]).at(0).code, "BODY_NOT_OBJECT");
 });
 
-
-test("creates once and reuses the result", async () => {
-  const request = {
-    method: "POST",
-    headers: { "content-type": "application/json", "idempotency-key": "class-01" },
-    body: JSON.stringify({ title: "  Compare frameworks  " }),
-  };
-  const created = await fetch(`${baseUrl}/tasks`, request);
-  const createdBody = await created.json();
-  assert.equal(created.status, 201);
-  assert.equal(createdBody.title, "Compare frameworks");
-  assert.equal(createdBody.completed, false);
-
-  const repeated = await fetch(`${baseUrl}/tasks`, request);
-  const repeatedBody = await repeated.json();
-  assert.equal(repeated.status, 200);
-  assert.equal(repeatedBody.id, createdBody.id);
-
-  const found = await fetch(`${baseUrl}/tasks/${createdBody.id}`);
-  assert.equal(found.status, 200);
-  assert.equal((await found.json()).id, createdBody.id);
+test("cada error de validación nombra su campo", () => {
+  for (const entrada of [{}, { title: "" }, { title: "x".repeat(200) }, { title: 7 }]) {
+    const [error] = validateCreateTask(entrada);
+    assert.equal(error.field, "title", `la interfaz no podría señalar el control para ${JSON.stringify(entrada)}`);
+  }
 });
 
+test("el límite del título es inclusivo en 120", () => {
+  assert.deepEqual(validateCreateTask({ title: "y".repeat(120) }), []);
+  assert.equal(validateCreateTask({ title: "y".repeat(121) }).length, 1);
+});
 
-test("normalizes validation and not-found errors", async () => {
-  const invalid = await fetch(`${baseUrl}/tasks`, {
-    method: "POST",
-    headers: { "content-type": "application/json", "idempotency-key": "invalid-01" },
-    body: JSON.stringify({ title: "   " }),
-  });
-  assert.equal(invalid.status, 422);
-  assert.equal((await invalid.json()).error.code, "VALIDATION_ERROR");
+// ------------------------------------------------------ comportamiento HTTP
 
-  const missing = await fetch(`${baseUrl}/tasks/does-not-exist`);
-  assert.equal(missing.status, 404);
-  assert.equal((await missing.json()).error.code, "TASK_NOT_FOUND");
+test("GET /health no depende del estado almacenado", async () => {
+  const respuesta = await fetch(`${base}/health`);
+  assert.equal(respuesta.status, 200);
+  assert.deepEqual(await respuesta.json(), { status: "ok" });
+});
+
+test("crear devuelve 201 con Location y el recurso queda accesible ahí", async () => {
+  const respuesta = await crear({ title: "Referencia" });
+  assert.equal(respuesta.status, 201);
+  const location = respuesta.headers.get("location");
+  const tarea = await respuesta.json();
+  assert.equal(location, `/tasks/${tarea.id}`);
+  assert.equal((await fetch(`${base}${location}`)).status, 200);
+});
+
+test("los errores viajan como application/problem+json", async () => {
+  const respuesta = await fetch(`${base}/tasks/inexistente`);
+  assert.match(respuesta.headers.get("content-type") ?? "", /^application\/problem\+json/);
+  const cuerpo = await respuesta.json();
+  assert.deepEqual(Object.keys(cuerpo).sort(), ["code", "instance", "status", "title", "type"]);
+  assert.equal(cuerpo.code, "TASK_NOT_FOUND");
+});
+
+test("un cuerpo por encima del límite se corta durante la lectura", async () => {
+  // 64 KiB es el límite; se envía holgadamente por encima para que el corte
+  // ocurra mientras llega y no después de haberlo acumulado entero.
+  const respuesta = await crear({ title: "z".repeat(200_000) });
+  assert.equal(respuesta.status, 413);
+  assert.equal((await respuesta.json()).code, "BODY_TOO_LARGE");
+  assert.equal((await fetch(`${base}/health`)).status, 200, "el proceso sigue sano tras rechazar el cuerpo");
+});
+
+test("un JSON malformado produce 400 y no una excepción sin controlar", async () => {
+  const respuesta = await crear("{no es json");
+  assert.equal(respuesta.status, 400);
+  assert.equal((await respuesta.json()).code, "MALFORMED_JSON");
+});
+
+test("la misma clave con distinto cuerpo es un conflicto, no una repetición", async () => {
+  const key = "conflicto-1";
+  assert.equal((await crear({ title: "original" }, key)).status, 201);
+  assert.equal((await crear({ title: "original" }, key)).status, 200);
+  const conflicto = await crear({ title: "distinto" }, key);
+  assert.equal(conflicto.status, 409);
+  assert.equal((await conflicto.json()).code, "IDEMPOTENCY_KEY_REUSED");
+});
+
+test("un método no admitido responde 405 y declara Allow", async () => {
+  const respuesta = await fetch(`${base}/tasks`, { method: "PUT" });
+  assert.equal(respuesta.status, 405);
+  assert.equal(respuesta.headers.get("allow"), "GET, POST");
+});
+
+test("ningún error de la referencia expone rutas ni trazas", async () => {
+  const respuestas = await Promise.all([
+    fetch(`${base}/ninguna`),
+    fetch(`${base}/tasks/inexistente`),
+    crear("{roto"),
+    fetch(`${base}/tasks`, { method: "DELETE" }),
+  ]);
+  for (const respuesta of respuestas) {
+    const texto = JSON.stringify(await respuesta.json());
+    assert.ok(!/node_modules|[A-Za-z]:\\|\bat\s+\w+\s+\(/.test(texto), `filtra el interior: ${texto}`);
+  }
 });

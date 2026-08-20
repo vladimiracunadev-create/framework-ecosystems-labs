@@ -119,63 +119,108 @@ comportamiento implícito se paga al diagnosticar.
 ## Implementación mínima
 
 El repositorio incluye la referencia completa en
-[`labs/01-http-contract/reference-node/server.mjs`](../labs/01-http-contract/reference-node/server.mjs).
-Su núcleo es este:
+[`labs/01-http-contract/reference-node/server.mjs`](../labs/01-http-contract/reference-node/server.mjs),
+escrita solo con módulos nativos [@nodejs-docs]. Estos dos fragmentos son los que
+concentran las decisiones del módulo, y `scripts/verify-contract.mjs` comprueba
+que coincidan literalmente con el archivo real.
 
+El emisor único de errores, según RFC 9457 [@rfc9457]:
+
+<!-- extracto-verificado: labs/01-http-contract/reference-node/server.mjs -->
 ```javascript
-import http from "node:http";
-
-const tareas = new Map();
-const idempotencia = new Map();
-
-function json(res, status, body, headers = {}) {
-  const payload = JSON.stringify(body);
-  res.writeHead(status, {
-    "content-type": "application/json; charset=utf-8",
-    "content-length": Buffer.byteLength(payload),
-    ...headers,
-  });
-  res.end(payload);
-}
-
-async function leerJson(req, limite = 64 * 1024) {
-  let total = 0;
-  const trozos = [];
-  for await (const trozo of req) {
-    total += trozo.length;
-    // El límite se comprueba mientras se lee: si se comprueba al final,
-    // un cuerpo enorme ya consumió la memoria.
-    if (total > limite) throw Object.assign(new Error("payload"), { code: "PAYLOAD_TOO_LARGE" });
-    trozos.push(trozo);
-  }
-  if (!trozos.length) return {};
-  return JSON.parse(Buffer.concat(trozos).toString("utf8"));
+function problem(response, code, { detail, instance, errors, headers } = {}) {
+  const { status, title } = CATALOGO[code] ?? CATALOGO.INTERNAL_ERROR;
+  const payload = { type: `${PROBLEM_BASE}/${kebab(code)}`, title, status, code };
+  if (detail) payload.detail = detail;
+  if (instance) payload.instance = instance;
+  if (errors?.length) payload.errors = errors;
+  send(response, status, payload, { "content-type": "application/problem+json; charset=utf-8", ...headers });
 }
 ```
+
+Y la lectura del cuerpo con su límite. Aquí hay una decisión que casi nunca se
+explica y que cuesta una tarde descubrir:
+
+<!-- extracto-verificado: labs/01-http-contract/reference-node/server.mjs -->
+```javascript
+function readBody(request) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    let size = 0;
+    let cortado = false;
+
+    request.on("data", (chunk) => {
+      if (cortado) return;
+      size += chunk.length;
+      if (size > MAX_BODY_BYTES) {
+        cortado = true;
+        request.pause();
+        reject(Object.assign(new Error("body too large"), { code: "BODY_TOO_LARGE" }));
+        return;
+      }
+      chunks.push(chunk);
+    });
+```
+
+Se usan eventos y no `for await` **a propósito**: salir de un `for await`
+destruye el flujo, y destruir el flujo cierra el socket antes de que la respuesta
+`413` salga. El cliente vería una conexión cortada en lugar del error que explica
+qué pasó. Es un ejemplo exacto de lo que este módulo persigue: la diferencia
+entre rechazar una petición y rechazarla **comunicando por qué**.
 
 Puedes ejecutar la referencia y sus pruebas sin instalar nada:
 
 ```bash
 node --test labs/01-http-contract/reference-node/server.test.mjs
+node scripts/run-acceptance.mjs reference-node
 ```
 
 ## Pruebas compartidas
 
-Las pruebas de aceptación viven en
-[`contracts/taskflow/ACCEPTANCE.md`](../contracts/taskflow/ACCEPTANCE.md) y son
-las **mismas** para todas las implementaciones del programa. Comprueban el
+Las pruebas de aceptación son **ejecutables** y viven en
+[`contracts/taskflow/acceptance.test.mjs`](../contracts/taskflow/acceptance.test.mjs),
+descritas caso a caso en [`ACCEPTANCE.md`](../contracts/taskflow/ACCEPTANCE.md).
+Son las **mismas** para todas las implementaciones del programa y comprueban el
 contrato, no la implementación:
 
-1. `GET /health` responde `200` con un cuerpo que declara el estado.
-2. `POST /tasks` sin `title` responde `422` con un código de error estable.
-3. `POST /tasks` con `title` responde `201` y una cabecera `Location`.
-4. Repetir `POST /tasks` con la misma `Idempotency-Key` **no** crea un segundo
-   recurso.
-5. `GET /tasks/{id}` inexistente responde `404` con `TASK_NOT_FOUND`.
-6. Un cuerpo que no es JSON responde `400`, no `500`.
-7. Un cuerpo mayor que el límite responde `413`, no agota la memoria.
+```bash
+node scripts/run-acceptance.mjs reference-node
+```
 
-Si una implementación necesita cambiar una de estas pruebas para pasar, la
+Los 20 casos cubren cuatro grupos, y cada grupo enseña algo distinto:
+
+| Grupo | Casos | Qué demuestra |
+| --- | ---: | --- |
+| Recorrido correcto | 1–5 | `200`, `201` con `Location`, recuperación por esa ruta |
+| Idempotencia | 6–9 | Repetir no duplica; reutilizar la clave con otro cuerpo es `409` |
+| Validación | 10–14 | `422` con `errors[]` por campo y límites inclusivos |
+| Entradas hostiles | 15–20 | `400`, `413`, `415`, `404` y `405` con `Allow` |
+
+Dos comprobaciones merecen atención especial porque no se les suele hacer sitio:
+
+```javascript
+test("un cuerpo mayor que el límite responde 413 y el servidor sigue vivo", async () => {
+  const respuesta = await crear(null, { body: JSON.stringify({ title: "z".repeat(100_000) }) });
+  await problema(respuesta, { status: 413, code: "BODY_TOO_LARGE" });
+  // Rechazar la petición no basta: el servicio no puede quedar degradado.
+  assert.equal((await fetch(`${BASE}/health`)).status, 200);
+});
+
+test("un método no admitido responde 405 y declara Allow", async () => {
+  const respuesta = await fetch(`${BASE}/tasks`, { method: "DELETE" });
+  await problema(respuesta, { status: 405, code: "METHOD_NOT_ALLOWED" });
+  const allow = respuesta.headers.get("allow") ?? "";
+  assert.ok(allow.includes("GET") && allow.includes("POST"));
+});
+```
+
+El `405` sin `Allow` es un error frecuente: el recurso existe, el verbo no, y el
+cliente se queda sin saber cuál sí [@rfc9110]. El `413` que tumba el proceso es
+peor todavía: se defendió del cuerpo grande y perdió el servicio.
+
+Además, **todo** error pasa por una comprobación transversal —`application/problem+json`,
+los cuatro miembros obligatorios [@rfc9457] y ninguna filtración de trazas o
+rutas—. Si una implementación necesita cambiar una prueba para pasar, la
 comparación deja de ser válida: se cambió el problema para favorecer la
 herramienta.
 

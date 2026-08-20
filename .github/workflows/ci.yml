@@ -43,8 +43,18 @@ jobs:
       - name: Archivos, catálogo, contrato, numeración y enlaces
         run: node scripts/validate-repository.mjs
 
+      # Existe por un fallo real: el currículo enseñaba un formato de error que
+      # el contrato canónico no cumplía y nada lo detectaba.
+      - name: Coherencia entre contrato, lecciones e implementaciones
+        run: node scripts/verify-contract.mjs
+
       - name: Pruebas de la referencia sin framework
         run: node --test labs/01-http-contract/reference-node/server.test.mjs
+
+      # Sin toolchains externas: la referencia no necesita instalar nada, así que
+      # el contrato queda comprobado de punta a punta en el CI rápido.
+      - name: Contrato canónico contra la referencia
+        run: node scripts/run-acceptance.mjs reference-node
 
   fuentes:
     name: Trazabilidad de las fuentes
@@ -84,6 +94,7 @@ jobs:
             echo "| Artículos con DOI | $(node -p "require('./sources/bibliography.json').entries.filter(e=>e.type==='paper').length") |"
             echo "| Módulos | $(find curriculum -maxdepth 1 -name '[0-9][0-9]-*.md' | wc -l) |"
             echo "| Citas en el currículo | $(grep -roE '\[@[a-z0-9-]+\]' curriculum docs assessments projects | wc -l) |"
+            echo "| Casos de aceptación | $(grep -c '^test(' contracts/taskflow/acceptance.test.mjs) |"
             echo "| Palabras del currículo | $(cat curriculum/*.md | wc -w) |"
           } >> "$GITHUB_STEP_SUMMARY"
 

@@ -1,0 +1,155 @@
+name: Aceptación
+
+# El contrato es la tesis del repositorio: las mismas pruebas, sin adaptador,
+# contra los cinco ecosistemas. Este flujo va aparte del CI porque instala
+# toolchains completas y tarda más; el CI debe seguir respondiendo en segundos.
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aceptacion-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  javascript:
+    name: ${{ matrix.destino }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        destino: [reference-node, express]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      - name: Habilitar pnpm
+        run: corepack enable
+
+      - name: Pruebas de aceptación
+        run: node scripts/run-acceptance.mjs ${{ matrix.destino }} --prepare
+
+  python:
+    name: fastapi
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      - name: Preparar Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Pruebas de aceptación
+        run: node scripts/run-acceptance.mjs fastapi --prepare
+
+  jvm:
+    name: spring-boot
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      # La caché de Maven evita volver a descargar todo el árbol de Spring en
+      # cada ejecución: sin ella este trabajo tarda varios minutos de más.
+      - name: Preparar JDK
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Pruebas de aceptación
+        run: node scripts/run-acceptance.mjs spring-boot --prepare
+
+  dotnet:
+    name: aspnet
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      - name: Preparar .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Pruebas de aceptación
+        run: node scripts/run-acceptance.mjs aspnet --prepare
+
+  resumen:
+    name: Resumen del contrato
+    needs: [javascript, python, jvm, dotnet]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Publicar el resultado por ecosistema
+        run: |
+          {
+            echo "### Contrato TaskFlow — el mismo examen para todos"
+            echo ""
+            echo "| Ecosistema | Resultado |"
+            echo "| --- | --- |"
+            echo "| Referencia sin framework · Express | ${{ needs.javascript.result }} |"
+            echo "| FastAPI | ${{ needs.python.result }} |"
+            echo "| Spring Boot | ${{ needs.jvm.result }} |"
+            echo "| ASP.NET Core | ${{ needs.dotnet.result }} |"
+            echo ""
+            echo "Las desviaciones declaradas están en \`contracts/taskflow/ACCEPTANCE.md\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fallar si alguna implementación incumple
+        if: needs.javascript.result != 'success' || needs.python.result != 'success' || needs.jvm.result != 'success' || needs.dotnet.result != 'success'
+        run: |
+          echo "Al menos una implementación no cumple el contrato canónico."
+          exit 1

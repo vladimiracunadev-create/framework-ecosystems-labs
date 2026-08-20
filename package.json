@@ -1,20 +1,25 @@
 {
   "name": "framework-ecosystems-labs",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "description": "Programa comparativo de frameworks: un contrato, muchos ecosistemas, la misma prueba.",
   "license": "MIT",
   "packageManager": "pnpm@10.15.0",
-  "engines": {"node": ">=22"},
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "validate": "node scripts/validate-repository.mjs",
     "sources": "node scripts/verify-sources.mjs",
     "sources:refresh": "node scripts/refresh-sources.mjs",
+    "contract": "node scripts/verify-contract.mjs",
     "bibliography": "node scripts/generate-bibliography.mjs",
     "bibliography:check": "node scripts/generate-bibliography.mjs --check",
     "site": "node scripts/generate-site.mjs",
     "test:reference": "node --test labs/01-http-contract/reference-node/server.test.mjs",
-    "check": "pnpm validate && pnpm sources && pnpm bibliography:check && pnpm test:reference && pnpm site"
+    "acceptance": "node scripts/run-acceptance.mjs",
+    "acceptance:reference": "node scripts/run-acceptance.mjs reference-node",
+    "check": "pnpm validate && pnpm sources && pnpm contract && pnpm bibliography:check && pnpm test:reference && pnpm acceptance:reference && pnpm site"
   }
 }

@@ -11,10 +11,18 @@ export function readJson(relative) {
   return JSON.parse(fs.readFileSync(path.join(root, relative), "utf8"));
 }
 
+/**
+ * Directorios que nunca forman parte del contenido. `node_modules` importa más
+ * de lo que parece: los laboratorios instalan dependencias en su propia carpeta
+ * y sus archivos Markdown aparecerían como documentos del programa.
+ */
+const IGNORADOS = new Set(["node_modules", ".git", "site", "dist", "build", "coverage", "target", "bin", "obj", "__pycache__", ".venv"]);
+
 export function walk(directory, filter = () => true) {
   const base = path.isAbsolute(directory) ? directory : path.join(root, directory);
   if (!fs.existsSync(base)) return [];
   return fs.readdirSync(base, { withFileTypes: true }).flatMap((entry) => {
+    if (IGNORADOS.has(entry.name)) return [];
     const target = path.join(base, entry.name);
     if (entry.isDirectory()) return walk(target, filter);
     return filter(target) ? [target] : [];

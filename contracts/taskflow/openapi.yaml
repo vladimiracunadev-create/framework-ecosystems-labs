@@ -1,114 +1,220 @@
 openapi: 3.1.0
 info:
-  title: TaskFlow Learning Contract
-  version: 1.0.0
+  title: TaskFlow
+  version: 2.0.0
+  summary: Contrato canónico del programa. Todas las implementaciones lo cumplen sin excepciones.
+  description: |
+    Este documento es la fuente de verdad del repositorio. Las pruebas de aceptación
+    de `acceptance.test.mjs` derivan de él y se ejecutan sin modificación contra
+    cualquier implementación; si una implementación necesita cambiarlas para pasar,
+    la comparación deja de ser válida.
+
+    Los errores siguen RFC 9457 (Problem Details for HTTP APIs) con dos miembros de
+    extensión: `code`, estable para máquinas, y `errors`, con un elemento por campo
+    inválido. El error por campo no es un adorno del backend: sin él, una interfaz
+    accesible no puede asociar el mensaje al control que falló.
+  license:
+    name: MIT
+    identifier: MIT
 servers:
   - url: http://127.0.0.1:3000
+    description: Implementación local bajo prueba
+
 paths:
   /health:
     get:
-      operationId: getHealth
+      operationId: health
+      summary: Comprobación de vida del proceso
+      description: No depende de la persistencia. Una sonda de vida que cae con su base de datos provoca reinicios en bucle de un proceso sano.
       responses:
         "200":
-          description: Service is running
+          description: El proceso responde
           content:
             application/json:
-              schema:
-                type: object
-                required: [status]
-                properties:
-                  status: {type: string, const: ok}
+              schema: {$ref: "#/components/schemas/Health"}
+              example: {status: ok}
+
   /tasks:
     get:
       operationId: listTasks
+      summary: Listar tareas
       responses:
         "200":
-          description: Task collection
+          description: Colección de tareas
           content:
             application/json:
-              schema:
-                type: object
-                required: [items]
-                properties:
-                  items:
-                    type: array
-                    items: {$ref: "#/components/schemas/Task"}
+              schema: {$ref: "#/components/schemas/TaskList"}
+              example: {items: []}
     post:
       operationId: createTask
+      summary: Crear una tarea
+      description: |
+        `POST` no es idempotente, de modo que un reintento tras un tiempo de espera
+        agotado crearía un recurso duplicado. `Idempotency-Key` es obligatoria: el
+        servidor recuerda la clave y devuelve `200` con el mismo recurso si se repite.
+        Reutilizar una clave con un cuerpo distinto es un error del cliente y responde `409`.
       parameters:
-        - name: Idempotency-Key
-          in: header
-          required: true
-          schema: {type: string, minLength: 1, maxLength: 128}
+        - $ref: "#/components/parameters/IdempotencyKey"
       requestBody:
         required: true
         content:
           application/json:
             schema: {$ref: "#/components/schemas/CreateTask"}
+            example: {title: Comparar dos ecosistemas}
       responses:
         "201":
-          description: Task created
+          description: Tarea creada
+          headers:
+            Location:
+              required: true
+              description: Ruta del recurso creado
+              schema: {type: string, examples: ["/tasks/task-1"]}
           content:
             application/json:
               schema: {$ref: "#/components/schemas/Task"}
         "200":
-          description: Existing result for repeated idempotency key
+          description: Resultado previo para una clave de idempotencia repetida
           content:
             application/json:
               schema: {$ref: "#/components/schemas/Task"}
-        "400": {$ref: "#/components/responses/Problem"}
-        "415": {$ref: "#/components/responses/Problem"}
-        "422": {$ref: "#/components/responses/Problem"}
+        "400":
+          $ref: "#/components/responses/Problem"
+        "409":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/Problem"
+        "415":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+
   /tasks/{taskId}:
+    parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema: {type: string, minLength: 1}
     get:
       operationId: getTask
-      parameters:
-        - name: taskId
-          in: path
-          required: true
-          schema: {type: string}
+      summary: Obtener una tarea
       responses:
         "200":
-          description: Task found
+          description: Tarea encontrada
           content:
             application/json:
               schema: {$ref: "#/components/schemas/Task"}
         "404":
-          description: TASK_NOT_FOUND
-          content:
-            application/json:
-              schema: {$ref: "#/components/schemas/Problem"}
-              example:
-                error: {code: TASK_NOT_FOUND, message: Task was not found}
+          $ref: "#/components/responses/Problem"
+
 components:
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      description: Clave generada por el cliente y estable entre reintentos.
+      schema: {type: string, minLength: 1, maxLength: 128}
+
   schemas:
+    Health:
+      type: object
+      additionalProperties: false
+      required: [status]
+      properties:
+        status: {type: string, const: ok}
+
     CreateTask:
       type: object
       additionalProperties: false
       required: [title]
       properties:
         title: {type: string, minLength: 1, maxLength: 120}
+
     Task:
       type: object
       required: [id, title, completed, createdAt]
       properties:
-        id: {type: string}
-        title: {type: string}
+        id: {type: string, minLength: 1}
+        title: {type: string, minLength: 1, maxLength: 120}
         completed: {type: boolean}
         createdAt: {type: string, format: date-time}
+
+    TaskList:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: {$ref: "#/components/schemas/Task"}
+
+    # RFC 9457 con dos miembros de extensión: `code` y `errors`.
     Problem:
       type: object
-      required: [error]
+      required: [type, title, status, code]
       properties:
-        error:
-          type: object
-          required: [code, message]
-          properties:
-            code: {type: string}
-            message: {type: string}
+        type:
+          type: string
+          format: uri
+          description: Identificador del tipo de problema. Estable y documentado.
+        title: {type: string, description: Resumen legible, invariante para un mismo type.}
+        status: {type: integer, minimum: 400, maximum: 599}
+        detail: {type: string, description: Explicación de esta ocurrencia concreta. Nunca traza, consulta ni ruta interna.}
+        instance: {type: string, description: Ruta de la petición que produjo el problema.}
+        code:
+          type: string
+          pattern: "^[A-Z][A-Z0-9_]*$"
+          description: Código estable para máquinas. Cambiarlo rompe a los clientes.
+        errors:
+          type: array
+          description: Un elemento por campo inválido. Obligatorio en 422.
+          items:
+            type: object
+            required: [field, code]
+            properties:
+              field: {type: string}
+              code: {type: string, pattern: "^[A-Z][A-Z0-9_]*$"}
+              detail: {type: string}
+
   responses:
     Problem:
-      description: Stable error envelope
+      description: Error normalizado según RFC 9457
       content:
-        application/json:
+        application/problem+json:
           schema: {$ref: "#/components/schemas/Problem"}
+          examples:
+            validacion:
+              value:
+                type: https://vladimiracunadev-create.github.io/framework-ecosystems-labs/problems/validation-error
+                title: Validation error
+                status: 422
+                code: VALIDATION_ERROR
+                detail: The request body failed validation
+                instance: /tasks
+                errors:
+                  - {field: title, code: TITLE_EMPTY, detail: Title must not be blank}
+            noEncontrada:
+              value:
+                type: https://vladimiracunadev-create.github.io/framework-ecosystems-labs/problems/task-not-found
+                title: Task not found
+                status: 404
+                code: TASK_NOT_FOUND
+                instance: /tasks/desconocida
+
+x-error-catalog:
+  description: |
+    Catálogo cerrado de códigos. Añadir uno es aditivo; cambiar o retirar uno rompe
+    a los clientes y exige plazo publicado.
+  codes:
+    IDEMPOTENCY_KEY_REQUIRED: {status: 400, when: Falta la cabecera Idempotency-Key o está en blanco}
+    MALFORMED_JSON: {status: 400, when: El cuerpo no es JSON válido}
+    IDEMPOTENCY_KEY_REUSED: {status: 409, when: La clave ya se usó con un cuerpo distinto}
+    BODY_TOO_LARGE: {status: 413, when: El cuerpo supera los 64 KiB}
+    UNSUPPORTED_MEDIA_TYPE: {status: 415, when: Content-Type no es application/json}
+    VALIDATION_ERROR: {status: 422, when: El cuerpo es JSON válido pero incumple el esquema; incluye errors[]}
+    TASK_NOT_FOUND: {status: 404, when: El identificador no corresponde a ninguna tarea}
+    ROUTE_NOT_FOUND: {status: 404, when: La ruta no existe}
+    METHOD_NOT_ALLOWED: {status: 405, when: La ruta existe pero no admite el método; incluye la cabecera Allow}
+  fieldCodes:
+    TITLE_REQUIRED: Falta title o no es una cadena
+    TITLE_EMPTY: title queda vacío tras recortar espacios
+    TITLE_TOO_LONG: title supera 120 caracteres
