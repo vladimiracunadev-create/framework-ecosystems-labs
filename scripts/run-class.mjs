@@ -157,6 +157,30 @@ function igualEnProfundidad(real, esperado) {
   );
 }
 
+/**
+ * Comparación por SUBCONJUNTO, a cualquier profundidad.
+ *
+ * Comprueba que lo esperado está dentro de lo real, sin exigir que no haya nada
+ * más. Es lo que hace falta cuando parte de la respuesta es propia del framework
+ * y no del contrato: en la clase 040, el `detalle` legible de un error de
+ * validación lo redacta cada framework en sus palabras —y en su idioma—,
+ * mientras que el `codigo` es el que el cliente compara.
+ */
+function contieneEnProfundidad(real, esperado) {
+  if (esperado === null || typeof esperado !== "object") return real === esperado;
+  if (Array.isArray(esperado)) {
+    return (
+      Array.isArray(real) &&
+      real.length === esperado.length &&
+      esperado.every((v, i) => contieneEnProfundidad(real[i], v))
+    );
+  }
+  if (real === null || typeof real !== "object" || Array.isArray(real)) return false;
+  return Object.entries(esperado).every(
+    ([k, v]) => Object.hasOwn(real, k) && contieneEnProfundidad(real[k], v),
+  );
+}
+
 function normalizarCabecera(v) {
   return String(v ?? "").split(";")[0].trim().toLowerCase();
 }
@@ -271,9 +295,9 @@ async function comprobarCaso(baseUrl, caso) {
       return { ok: false, motivo: "la respuesta no es JSON válido" };
     }
     for (const [clave, valor] of Object.entries(e.json_contiene)) {
-      if (!igualEnProfundidad(cuerpo?.[clave], valor)) {
+      if (!contieneEnProfundidad(cuerpo?.[clave], valor)) {
         fallos.push(
-          `json.${clave} = ${JSON.stringify(cuerpo?.[clave])}, esperado ${JSON.stringify(valor)}`,
+          `json.${clave} = ${JSON.stringify(cuerpo?.[clave])}, no contiene ${JSON.stringify(valor)}`,
         );
       }
     }

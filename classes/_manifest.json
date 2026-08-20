@@ -811,7 +811,7 @@
             "rails",
             "gin"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 40,
@@ -827,7 +827,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 41,
@@ -843,7 +843,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 42,

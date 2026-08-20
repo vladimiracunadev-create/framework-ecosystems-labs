@@ -8,9 +8,9 @@ Desde comprobar un campo hasta publicar una API que no rompe a quien la consume.
 
 | # | Clase | Nivel | Pista | Elenco | Estado |
 | --- | --- | --- | --- | --- | --- |
-| [039](039-validar-la-entrada/README.md) | [Validar la entrada](039-validar-la-entrada/README.md) | 🟢 introductorio | `backend` | 10 | 🚧 Esqueleto |
-| [040](040-errores-por-campo-con-rfc-9457/README.md) | [Errores por campo con RFC 9457](040-errores-por-campo-con-rfc-9457/README.md) | 🟡 intermedio | `backend` | 4 | 🚧 Esqueleto |
-| [041](041-esquemas/README.md) | [Esquemas](041-esquemas/README.md) | 🟡 intermedio | `backend` | 4 | 🚧 Esqueleto |
+| [039](039-validar-la-entrada/README.md) | [Validar la entrada](039-validar-la-entrada/README.md) | 🟢 introductorio | `backend` | 10 | ✅ Construida |
+| [040](040-errores-por-campo-con-rfc-9457/README.md) | [Errores por campo con RFC 9457](040-errores-por-campo-con-rfc-9457/README.md) | 🟡 intermedio | `backend` | 4 | ✅ Construida |
+| [041](041-esquemas/README.md) | [Esquemas](041-esquemas/README.md) | 🟡 intermedio | `backend` | 4 | ✅ Construida |
 | [042](042-un-esquema-tres-usos/README.md) | [Un esquema, tres usos](042-un-esquema-tres-usos/README.md) | 🟡 intermedio | `backend` | 5 | 🚧 Esqueleto |
 | [043](043-documentacion-generada/README.md) | [Documentación generada](043-documentacion-generada/README.md) | 🟡 intermedio | `backend` | 4 | 🚧 Esqueleto |
 | [044](044-versionado-de-api/README.md) | [Versionado de API](044-versionado-de-api/README.md) | 🔴 avanzado | `backend` | 4 | 🚧 Esqueleto |

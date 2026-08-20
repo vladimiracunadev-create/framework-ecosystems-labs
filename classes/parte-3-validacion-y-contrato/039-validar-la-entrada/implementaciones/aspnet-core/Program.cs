@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 
 var constructor = WebApplication.CreateBuilder(args);
 var app = constructor.Build();
@@ -21,10 +22,21 @@ app.MapPost("/tareas", (Tarea? tarea) =>
             new { error = resultados[0].ErrorMessage }, statusCode: 422);
     }
 
+    var completada = false;
+    if (tarea.Completada is JsonElement valor && valor.ValueKind != JsonValueKind.Null)
+    {
+        if (valor.ValueKind is not (JsonValueKind.True or JsonValueKind.False))
+        {
+            return Results.Json(
+                new { error = "completada debe ser booleano" }, statusCode: 422);
+        }
+        completada = valor.GetBoolean();
+    }
+
     return Results.Json(new
     {
         titulo = tarea.Titulo!.Trim(),
-        completada = tarea.Completada ?? false,
+        completada,
     }, statusCode: 201);
 });
 
@@ -37,5 +49,13 @@ class Tarea
     [MaxLength(120, ErrorMessage = "titulo no puede pasar de 120 caracteres")]
     public string? Titulo { get; set; }
 
-    public bool? Completada { get; set; }
+    /// <summary>
+    /// <c>JsonElement?</c> y no <c>bool?</c> a proposito.
+    ///
+    /// Con <c>bool?</c>, un <c>"si"</c> en el cuerpo falla al DESERIALIZAR
+    /// —antes de que exista validacion— y el enlace automatico responde 400.
+    /// Pero un tipo equivocado es entrada invalida, no cuerpo ilegible:
+    /// corresponde 422.
+    /// </summary>
+    public JsonElement? Completada { get; set; }
 }

@@ -6,33 +6,28 @@ import java.util.concurrent.Callable;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
-import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.context.request.async.WebAsyncTask;
 
 @SpringBootApplication
 @RestController
 public class Aplicacion {
 
-    /**
-     * El plazo solo aplica a manejadores ASINCRONOS: devolver `Callable` cede
-     * el hilo del contenedor y permite que el despachador imponga el limite.
-     * Un manejador sincrono bloquea su hilo y no hay plazo que valga — que es
-     * la limitacion importante de este modelo.
-     */
-    @Configuration
-    public static class Asincrono implements WebMvcConfigurer {
-        @Override
-        public void configureAsyncSupport(AsyncSupportConfigurer configurador) {
-            configurador.setDefaultTimeout(300);
-        }
+    private static final long LIMITE_MS = 300L;
+
+    private static ResponseEntity<Map<String, Object>> plazoAgotado() {
+        Map<String, Object> cuerpo = new LinkedHashMap<>();
+        cuerpo.put("type", "about:blank");
+        cuerpo.put("title", "el servidor tardo demasiado");
+        cuerpo.put("status", 504);
+        cuerpo.put("code", "TIEMPO_AGOTADO");
+        return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT)
+                .contentType(MediaType.valueOf("application/problem+json"))
+                .body(cuerpo);
     }
 
     @GetMapping("/rapido")
@@ -40,31 +35,30 @@ public class Aplicacion {
         return () -> Map.of("ok", true);
     }
 
+    /**
+     * `WebAsyncTask` y no un `Callable` con plazo global.
+     *
+     * Con el plazo global, la excepcion que Spring lanza al agotarse depende de
+     * la version y de donde se detecte —hay al menos dos clases distintas— y un
+     * `@ExceptionHandler` que no acierte con la correcta acaba devolviendo 500.
+     * El primer intento de esta clase fallaba asi.
+     *
+     * `onTimeout` elimina la ambiguedad: la respuesta del plazo se declara EN EL
+     * MISMO SITIO que el trabajo, y no depende de que otra pieza traduzca una
+     * excepcion. Es mas verboso y es la unica forma de que el codigo sea el que
+     * quieres.
+     */
     @GetMapping("/lento")
-    public Callable<Map<String, Object>> lento() {
-        return () -> {
+    public WebAsyncTask<ResponseEntity<Map<String, Object>>> lento() {
+        Callable<ResponseEntity<Map<String, Object>>> trabajo = () -> {
             Thread.sleep(1200);
-            return Map.of("ok", true, "tarde", true);
+            return ResponseEntity.ok(Map.of("ok", true, "tarde", true));
         };
-    }
 
-    @RestControllerAdvice
-    public static class Errores {
-        // Spring 6 puede lanzar `AsyncRequestTimeoutException` o su subclase
-        // `AsyncRequestNotUsableException` segun donde se detecte el plazo. Se
-        // capturan las dos, o el 504 sale como 500.
-        @ExceptionHandler({ AsyncRequestTimeoutException.class,
-                org.springframework.web.context.request.async.AsyncRequestNotUsableException.class })
-        public ResponseEntity<Map<String, Object>> plazo() {
-            Map<String, Object> cuerpo = new LinkedHashMap<>();
-            cuerpo.put("type", "about:blank");
-            cuerpo.put("title", "el servidor tardo demasiado");
-            cuerpo.put("status", 504);
-            cuerpo.put("code", "TIEMPO_AGOTADO");
-            return ResponseEntity.status(504)
-                    .contentType(MediaType.valueOf("application/problem+json"))
-                    .body(cuerpo);
-        }
+        WebAsyncTask<ResponseEntity<Map<String, Object>>> tarea =
+                new WebAsyncTask<>(LIMITE_MS, trabajo);
+        tarea.onTimeout(Aplicacion::plazoAgotado);
+        return tarea;
     }
 
     public static void main(String[] args) {

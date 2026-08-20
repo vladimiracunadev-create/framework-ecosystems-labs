@@ -1,8 +1,58 @@
 {
   "clase": "040",
   "titulo": "Errores por campo con RFC 9457",
-  "descripcion": "422 en application/problem+json con un array de errores por campo.",
-  "estado": "esqueleto",
+  "descripcion": "Decir exactamente qué campo falló y por qué, en formato estándar y con todos los errores a la vez.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "una tarea válida se crea",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "válida" } },
+      "esperado": { "estado": 201 }
+    },
+    {
+      "nombre": "el error usa el formato estándar de problema",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": { "estado": 422, "cabeceras": { "content-type": "application/problem+json" } }
+    },
+    {
+      "nombre": "identifica el campo y el motivo",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": {
+        "estado": 422,
+        "json_contiene": {
+          "status": 422,
+          "code": "VALIDACION",
+          "errors": [{ "campo": "titulo", "codigo": "REQUERIDO" }]
+        }
+      }
+    },
+    {
+      "nombre": "distingue el motivo: longitud no es lo mismo que ausencia",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/tareas",
+        "cuerpo": { "titulo": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }
+      },
+      "esperado": {
+        "estado": 422,
+        "json_contiene": {
+          "errors": [{ "campo": "titulo", "codigo": "LONGITUD" }]
+        }
+      }
+    },
+    {
+      "nombre": "informa de DOS campos a la vez, no solo del primero",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "", "prioridad": 9 } },
+      "esperado": {
+        "estado": 422,
+        "json_contiene": {
+          "errors": [
+            { "campo": "titulo", "codigo": "REQUERIDO" },
+            { "campo": "prioridad", "codigo": "VALOR" }
+          ]
+        }
+      }
+    }
+  ]
 }

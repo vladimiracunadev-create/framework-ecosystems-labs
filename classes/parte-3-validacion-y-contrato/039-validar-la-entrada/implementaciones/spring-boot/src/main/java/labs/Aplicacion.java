@@ -29,14 +29,32 @@ public class Aplicacion {
             @NotBlank(message = "titulo no puede estar vacio")
             @Size(max = 120, message = "titulo no puede pasar de 120 caracteres")
             String titulo,
-            Boolean completada) {
+            /**
+             * `Object` y no `Boolean` a proposito.
+             *
+             * Con `Boolean`, un `"si"` en el cuerpo falla al DESERIALIZAR —antes
+             * de que la validacion exista— y Spring responde 400. Pero un tipo
+             * equivocado es entrada invalida, no cuerpo ilegible: corresponde
+             * 422.
+             *
+             * Es el precio de que el enlace ocurra antes que la validacion en
+             * los frameworks tipados. Aceptar el valor crudo y comprobar el tipo
+             * a mano es la forma de recuperar el codigo correcto.
+             */
+            Object completada) {
     }
 
     @PostMapping("/tareas")
     public ResponseEntity<Map<String, Object>> crear(@Valid @RequestBody Tarea tarea) {
+        Object completada = tarea.completada();
+        if (completada != null && !(completada instanceof Boolean)) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(Map.of("error", "completada debe ser booleano"));
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
                 "titulo", tarea.titulo().trim(),
-                "completada", tarea.completada() != null && tarea.completada()));
+                "completada", completada != null && (Boolean) completada));
     }
 
     @RestControllerAdvice
