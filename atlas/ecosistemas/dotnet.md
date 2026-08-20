@@ -64,15 +64,15 @@ es de calidad sino de qué quieres controlar.
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
 | [**ASP.NET Web Forms**](../fichas/aspnet-webforms.md) | `component-framework` | 2002 | 🌱 Pionero | ⚪ histórico | `NOASSERTION` | [oficial](https://learn.microsoft.com/aspnet/web-forms/) |
-| **ASP.NET MVC** | `web-framework` | 2009 | 🏛️ Clásico | ⚪ histórico | `Apache-2.0` | [oficial](https://learn.microsoft.com/aspnet/mvc/) |
-| **WPF** | `ui-framework` | 2006 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://learn.microsoft.com/dotnet/desktop/wpf/) |
-| **Xamarin** | `ui-framework` | 2011 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://learn.microsoft.com/xamarin/) |
-| **ASP.NET Core** | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/aspnet/core/) |
-| **Avalonia** | `ui-framework` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.avaloniaui.net/) |
-| **Blazor** | `component-framework` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/aspnet/core/blazor/) |
-| **Dapper** | `micro-orm` | 2011 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://github.com/DapperLib/Dapper) |
-| **.NET MAUI** | `ui-framework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/dotnet/maui/) |
-| **Entity Framework Core** | `orm` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/ef/core/) |
+| [**ASP.NET MVC**](../fichas/aspnet-mvc.md) | `web-framework` | 2009 | 🏛️ Clásico | ⚪ histórico | `Apache-2.0` | [oficial](https://learn.microsoft.com/aspnet/mvc/) |
+| [**WPF**](../fichas/wpf.md) | `ui-framework` | 2006 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://learn.microsoft.com/dotnet/desktop/wpf/) |
+| [**Xamarin**](../fichas/xamarin.md) | `ui-framework` | 2011 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://learn.microsoft.com/xamarin/) |
+| [**ASP.NET Core**](../fichas/aspnet-core.md) | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/aspnet/core/) |
+| [**Avalonia**](../fichas/avalonia.md) | `ui-framework` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.avaloniaui.net/) |
+| [**Blazor**](../fichas/blazor.md) | `component-framework` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/aspnet/core/blazor/) |
+| [**Dapper**](../fichas/dapper.md) | `micro-orm` | 2011 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://github.com/DapperLib/Dapper) |
+| [**.NET MAUI**](../fichas/dotnet-maui.md) | `ui-framework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/dotnet/maui/) |
+| [**Entity Framework Core**](../fichas/entity-framework-core.md) | `orm` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/ef/core/) |
 <!-- fin -->
 
 ## Qué aportó cada una

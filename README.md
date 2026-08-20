@@ -124,9 +124,11 @@ veinte años con nombres distintos.
 Incluye la **genealogía** —quién viene de quién— y las **cinco eras** del campo,
 de «el servidor lo hace todo» a las islas y el regreso del hipermedia.
 
-Y **[38 fichas a fondo](atlas/fichas/README.md)**, cada una con sus fuentes: de
-qué problema nació la tecnología, qué idea aportó, qué dejó abierto y qué lección
-deja para decidir hoy.
+Y **[138 fichas a fondo](atlas/fichas/README.md)** —una por cada tecnología del
+catálogo, sin excepciones—, cada una con sus fuentes: de qué problema nació, qué
+idea aportó, qué dejó abierto y qué lección deja para decidir hoy.
+
+Una muestra de lo que se aprende leyéndolas:
 
 | Ficha | Lo que enseña |
 | --- | --- |

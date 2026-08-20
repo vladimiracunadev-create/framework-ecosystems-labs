@@ -3,6 +3,41 @@
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el
 versionado es [semántico](https://semver.org/lang/es/).
 
+## [0.7.0] — 2026-08-20
+
+El Atlas queda completo: **una ficha por cada una de las 138 tecnologías** del
+catálogo, ninguna pendiente.
+
+### Añadido
+
+- **50 fichas nuevas**, de 88 a 138. Cierran los cinco frentes que quedaban
+  abiertos:
+  - **.NET y escritorio**: ASP.NET Core, ASP.NET MVC, Blazor, Entity Framework
+    Core, Dapper, WPF, Avalonia, Xamarin, .NET MAUI, Qt y GTK.
+  - **Apple**: SwiftUI y UIKit.
+  - **Metaframeworks de JavaScript**: Nuxt, Nitro, SvelteKit, Remix,
+    React Router, SolidStart, Analog y RedwoodJS.
+  - **Servidores y runtimes de Node**: Fastify, Koa, Hono, hapi, Sails,
+    AdonisJS, Elysia, Deno, Bun, Socket.IO y tRPC.
+  - **Datos, móvil, documentación e histórico**: Prisma, Drizzle, TypeORM;
+    Cordova, Capacitor, Ionic, NativeScript; Docusaurus, VitePress;
+    Hotwire Turbo, Stimulus; y Prototype.js, MooTools, Dojo, Ext JS, Aurelia,
+    Mithril y Marko.
+- **2 fuentes nuevas**, hasta 210: *Designing Interfaces* de Tidwell y *Building
+  Progressive Web Apps* de Ater, ambas con ISBN-13 contrastado en Open Library.
+
+### Cambiado
+
+- El sitio publica **203 páginas** (antes 103).
+- `README.md` y `atlas/README.md` reflejan la cobertura completa: 138 fichas,
+  una por tecnología.
+
+### Verificado
+
+- 210/210 fuentes citadas en 180 documentos; ninguna fuente declarada sin uso.
+- Cero enlaces relativos rotos entre las 138 fichas, los 13 ecosistemas y los
+  13 módulos.
+
 ## [0.6.0] — 2026-08-20
 
 Segunda oleada de fichas: de 14 a 38, con 58 fuentes nuevas verificadas.

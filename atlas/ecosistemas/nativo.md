@@ -49,8 +49,8 @@ Ninguna columna gana. La pregunta del módulo 11 es cuál de esos cuatro costes
 <!-- generado:tabla-ecosistema nativo -->
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **GTK** | `ui-toolkit` | 1998 | 🏛️ Clásico | 🟢 activo | `LGPL-2.1-or-later` | [oficial](https://docs.gtk.org/) |
-| **Qt** | `ui-framework` | 1995 | 🏛️ Clásico | 🟢 activo | `LGPL-3.0-only` | [oficial](https://doc.qt.io/) |
+| [**GTK**](../fichas/gtk.md) | `ui-toolkit` | 1998 | 🏛️ Clásico | 🟢 activo | `LGPL-2.1-or-later` | [oficial](https://docs.gtk.org/) |
+| [**Qt**](../fichas/qt.md) | `ui-framework` | 1995 | 🏛️ Clásico | 🟢 activo | `LGPL-3.0-only` | [oficial](https://doc.qt.io/) |
 <!-- fin -->
 
 ## Qué aportó cada una

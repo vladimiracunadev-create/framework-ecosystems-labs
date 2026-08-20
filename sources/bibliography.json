@@ -3170,6 +3170,40 @@
         "concurrencia"
       ],
       "locator": "https://openlibrary.org/isbn/9781492052593"
+    },
+    {
+      "id": "tidwell-designing-interfaces",
+      "type": "book",
+      "authors": [
+        "Tidwell, Jenifer"
+      ],
+      "title": "Designing Interfaces: Patterns for Effective Interaction Design",
+      "publisher": "O'Reilly Media",
+      "published": "2005",
+      "isbn13": "9780596008031",
+      "topics": [
+        "interfaz",
+        "patrones",
+        "interacción"
+      ],
+      "locator": "https://openlibrary.org/isbn/9780596008031"
+    },
+    {
+      "id": "ater-pwa",
+      "type": "book",
+      "authors": [
+        "Ater, Tal"
+      ],
+      "title": "Building Progressive Web Apps: Bringing the Power of Native to the Browser",
+      "publisher": "O'Reilly Media",
+      "published": "2017",
+      "isbn13": "9781491961650",
+      "topics": [
+        "pwa",
+        "offline",
+        "movil"
+      ],
+      "locator": "https://openlibrary.org/isbn/9781491961650"
     }
   ]
 }

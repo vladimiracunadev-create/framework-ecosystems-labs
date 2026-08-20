@@ -53,8 +53,8 @@ módulo 11 debe contestar tres preguntas que en otros ecosistemas son opcionales
 <!-- generado:tabla-ecosistema apple -->
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **UIKit** | `ui-toolkit` | 2008 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://developer.apple.com/documentation/uikit) |
-| **SwiftUI** | `ui-toolkit` | 2019 | 🟢 Vigente | 🟢 activo | `NOASSERTION` | [oficial](https://developer.apple.com/documentation/swiftui) |
+| [**UIKit**](../fichas/uikit.md) | `ui-toolkit` | 2008 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://developer.apple.com/documentation/uikit) |
+| [**SwiftUI**](../fichas/swiftui.md) | `ui-toolkit` | 2019 | 🟢 Vigente | 🟢 activo | `NOASSERTION` | [oficial](https://developer.apple.com/documentation/swiftui) |
 <!-- fin -->
 
 ## Qué aportó cada una

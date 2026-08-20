@@ -2,7 +2,7 @@
 
 Documento generado por `node scripts/generate-bibliography.mjs`. No editar a mano.
 
-Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **208** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
+Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **210** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
 
 Cada entrada declara un localizador resoluble y es citada al menos una vez en el programa;
 `node scripts/verify-sources.mjs` falla si deja de cumplirse cualquiera de las dos condiciones.
@@ -11,7 +11,7 @@ Cada entrada declara un localizador resoluble y es citada al menos una vez en el
 
 | Tipo | Entradas | Verificación |
 | --- | ---: | --- |
-| Libros | 97 | `https://openlibrary.org/isbn/{isbn13}.json` |
+| Libros | 99 | `https://openlibrary.org/isbn/{isbn13}.json` |
 | Artículos | 7 | `https://api.crossref.org/works/{doi}` |
 | Normas y especificaciones | 32 | `GET a la URL declarada` |
 | Documentación oficial y referencias | 72 | `GET a la URL declarada` |
@@ -34,7 +34,7 @@ Ambler, Scott W.; Sadalage, Pramod J., *Refactoring Databases: Evolutionary Data
 
 - Localizador: <https://openlibrary.org/isbn/9780321293534>
 - Temas: migraciones, esquema, evolución
-- Citada en: [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md), [`curriculum/10-modernizacion-y-migracion.md`](../curriculum/10-modernizacion-y-migracion.md)
+- Citada en: [`atlas/fichas/drizzle.md`](../atlas/fichas/drizzle.md), [`atlas/fichas/entity-framework-core.md`](../atlas/fichas/entity-framework-core.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md), [`curriculum/10-modernizacion-y-migracion.md`](../curriculum/10-modernizacion-y-migracion.md)
 
 ### `anderson-krathwohl-taxonomy`
 
@@ -44,13 +44,21 @@ Anderson, Lorin W.; Krathwohl, David R., *A Taxonomy for Learning, Teaching, and
 - Temas: pedagogía, objetivos, evaluación
 - Citada en: [`assessments/rubric.md`](../assessments/rubric.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`docs/LEARNING-MODEL.md`](../docs/LEARNING-MODEL.md)
 
+### `ater-pwa`
+
+Ater, Tal, *Building Progressive Web Apps: Bringing the Power of Native to the Browser*, O'Reilly Media, 2017, ISBN 9781491961650
+
+- Localizador: <https://openlibrary.org/isbn/9781491961650>
+- Temas: pwa, offline, movil
+- Citada en: [`atlas/fichas/capacitor.md`](../atlas/fichas/capacitor.md), [`atlas/fichas/cordova.md`](../atlas/fichas/cordova.md)
+
 ### `banks-porcello-learning-react`
 
 Banks, Alex; Porcello, Eve, *Learning React: Modern Patterns for Developing React Apps*, 2.ª ed., O'Reilly Media, 2020, ISBN 9781492051725
 
 - Localizador: <https://openlibrary.org/isbn/9781492051725>
 - Temas: react, frontend, componentes
-- Citada en: [`atlas/fichas/jetpack-compose.md`](../atlas/fichas/jetpack-compose.md), [`atlas/fichas/react.md`](../atlas/fichas/react.md)
+- Citada en: [`atlas/fichas/jetpack-compose.md`](../atlas/fichas/jetpack-compose.md), [`atlas/fichas/react-router.md`](../atlas/fichas/react-router.md), [`atlas/fichas/react.md`](../atlas/fichas/react.md)
 
 ### `bass-software-architecture-practice`
 
@@ -82,7 +90,7 @@ Bibeault, Bear; Katz, Yehuda, *jQuery in Action*, Manning, 2008, ISBN 9781933988
 
 - Localizador: <https://openlibrary.org/isbn/9781933988351>
 - Temas: jquery, dom, navegador
-- Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md)
+- Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md), [`atlas/fichas/mootools.md`](../atlas/fichas/mootools.md)
 
 ### `blandy-programming-rust`
 
@@ -122,7 +130,7 @@ Casciaro, Mario; Mammino, Luciano, *Node.js Design Patterns*, 3.ª ed., Packt Pu
 
 - Localizador: <https://openlibrary.org/isbn/9781839214110>
 - Temas: node, patrones, asincronía
-- Citada en: [`atlas/fichas/express.md`](../atlas/fichas/express.md), [`atlas/fichas/ktor.md`](../atlas/fichas/ktor.md)
+- Citada en: [`atlas/fichas/adonisjs.md`](../atlas/fichas/adonisjs.md), [`atlas/fichas/express.md`](../atlas/fichas/express.md), [`atlas/fichas/fastify.md`](../atlas/fichas/fastify.md), [`atlas/fichas/hapi.md`](../atlas/fichas/hapi.md), [`atlas/fichas/koa.md`](../atlas/fichas/koa.md), [`atlas/fichas/ktor.md`](../atlas/fichas/ktor.md), [`atlas/fichas/sails.md`](../atlas/fichas/sails.md)
 
 ### `cohn-succeeding-agile`
 
@@ -194,7 +202,7 @@ Feathers, Michael C., *Working Effectively with Legacy Code*, Prentice Hall, 200
 
 - Localizador: <https://openlibrary.org/isbn/9780131177055>
 - Temas: legado, costuras, refactorización
-- Citada en: [`curriculum/10-modernizacion-y-migracion.md`](../curriculum/10-modernizacion-y-migracion.md)
+- Citada en: [`atlas/fichas/uikit.md`](../atlas/fichas/uikit.md), [`curriculum/10-modernizacion-y-migracion.md`](../curriculum/10-modernizacion-y-migracion.md)
 
 ### `fernandez-rails-way`
 
@@ -210,7 +218,7 @@ Flanagan, David, *JavaScript: The Definitive Guide*, 7.ª ed., O'Reilly Media, 2
 
 - Localizador: <https://openlibrary.org/isbn/9781491952023>
 - Temas: javascript, lenguaje, referencia
-- Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md)
+- Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md), [`atlas/fichas/prototype-js.md`](../atlas/fichas/prototype-js.md)
 
 ### `ford-evolutionary-architectures`
 
@@ -234,7 +242,7 @@ Fowler, Martin, *Patterns of Enterprise Application Architecture*, Addison-Wesle
 
 - Localizador: <https://openlibrary.org/isbn/9780321127426>
 - Temas: arquitectura, persistencia, dominio
-- Citada en: [`atlas/README.md`](../atlas/README.md), [`atlas/fichas/activerecord.md`](../atlas/fichas/activerecord.md), [`atlas/fichas/eloquent.md`](../atlas/fichas/eloquent.md), [`atlas/fichas/hanami.md`](../atlas/fichas/hanami.md), [`atlas/fichas/hibernate.md`](../atlas/fichas/hibernate.md), [`atlas/fichas/sqlalchemy.md`](../atlas/fichas/sqlalchemy.md), [`atlas/fichas/yii.md`](../atlas/fichas/yii.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
+- Citada en: [`atlas/README.md`](../atlas/README.md), [`atlas/fichas/activerecord.md`](../atlas/fichas/activerecord.md), [`atlas/fichas/eloquent.md`](../atlas/fichas/eloquent.md), [`atlas/fichas/entity-framework-core.md`](../atlas/fichas/entity-framework-core.md), [`atlas/fichas/hanami.md`](../atlas/fichas/hanami.md), [`atlas/fichas/hibernate.md`](../atlas/fichas/hibernate.md), [`atlas/fichas/prisma.md`](../atlas/fichas/prisma.md), [`atlas/fichas/sqlalchemy.md`](../atlas/fichas/sqlalchemy.md), [`atlas/fichas/typeorm.md`](../atlas/fichas/typeorm.md), [`atlas/fichas/yii.md`](../atlas/fichas/yii.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
 ### `fowler-refactoring`
 
@@ -250,7 +258,7 @@ Freeman, Adam, *Pro ASP.NET Core 7*, Manning Publications, 2023, ISBN 9781633437
 
 - Localizador: <https://openlibrary.org/isbn/9781633437821>
 - Temas: aspnet, .net, middleware
-- Citada en: [`atlas/fichas/aspnet-webforms.md`](../atlas/fichas/aspnet-webforms.md)
+- Citada en: [`atlas/fichas/aspnet-core.md`](../atlas/fichas/aspnet-core.md), [`atlas/fichas/aspnet-mvc.md`](../atlas/fichas/aspnet-mvc.md), [`atlas/fichas/aspnet-webforms.md`](../atlas/fichas/aspnet-webforms.md)
 
 ### `freeman-head-first-patterns`
 
@@ -330,7 +338,7 @@ Gross, Carson; Stepinski, Adam; Akşimşek, Deniz, *Hypermedia Systems*, Big Sky
 
 - Localizador: <https://openlibrary.org/isbn/9798990991804>
 - Temas: hipermedia, htmx, rest
-- Citada en: [`atlas/fichas/htmx.md`](../atlas/fichas/htmx.md)
+- Citada en: [`atlas/fichas/hotwire-turbo.md`](../atlas/fichas/hotwire-turbo.md), [`atlas/fichas/htmx.md`](../atlas/fichas/htmx.md)
 
 ### `harris-sinatra`
 
@@ -466,7 +474,7 @@ Macrae, Callum, *Vue.js: Up and Running: Building Accessible and Performant Web 
 
 - Localizador: <https://openlibrary.org/isbn/9781491997246>
 - Temas: vue, frontend, accesibilidad
-- Citada en: [`atlas/fichas/vue.md`](../atlas/fichas/vue.md)
+- Citada en: [`atlas/fichas/nuxt.md`](../atlas/fichas/nuxt.md), [`atlas/fichas/vue.md`](../atlas/fichas/vue.md)
 
 ### `majors-observability`
 
@@ -482,7 +490,7 @@ Martin, Robert C., *Clean Architecture: A Craftsman's Guide to Software Structur
 
 - Localizador: <https://openlibrary.org/isbn/9780134494166>
 - Temas: arquitectura, límites, dependencias
-- Citada en: [`atlas/fichas/compose-multiplatform.md`](../atlas/fichas/compose-multiplatform.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
+- Citada en: [`atlas/fichas/compose-multiplatform.md`](../atlas/fichas/compose-multiplatform.md), [`atlas/fichas/swiftui.md`](../atlas/fichas/swiftui.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
 
 ### `martin-clean-code`
 
@@ -538,7 +546,7 @@ Nygard, Michael T., *Release It!: Design and Deploy Production-Ready Software*, 
 
 - Localizador: <https://openlibrary.org/isbn/9781680502398>
 - Temas: estabilidad, operación, fallos
-- Citada en: [`atlas/fichas/aiohttp.md`](../atlas/fichas/aiohttp.md), [`atlas/fichas/axum.md`](../atlas/fichas/axum.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md), [`curriculum/10-modernizacion-y-migracion.md`](../curriculum/10-modernizacion-y-migracion.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
+- Citada en: [`atlas/fichas/aiohttp.md`](../atlas/fichas/aiohttp.md), [`atlas/fichas/axum.md`](../atlas/fichas/axum.md), [`atlas/fichas/socketio.md`](../atlas/fichas/socketio.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md), [`curriculum/10-modernizacion-y-migracion.md`](../curriculum/10-modernizacion-y-migracion.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
 
 ### `osmani-js-design-patterns`
 
@@ -546,7 +554,7 @@ Osmani, Addy, *Learning JavaScript Design Patterns: A JavaScript and React Devel
 
 - Localizador: <https://openlibrary.org/isbn/9781098139872>
 - Temas: frontend, patrones, javascript
-- Citada en: [`curriculum/03-frontend-componentes-y-estado.md`](../curriculum/03-frontend-componentes-y-estado.md)
+- Citada en: [`atlas/fichas/mithril.md`](../atlas/fichas/mithril.md), [`curriculum/03-frontend-componentes-y-estado.md`](../curriculum/03-frontend-componentes-y-estado.md)
 
 ### `osmani-backbone`
 
@@ -586,7 +594,7 @@ Porcello, Eve; Banks, Alex, *Learning GraphQL: Declarative Data Fetching for Mod
 
 - Localizador: <https://openlibrary.org/isbn/9781492030713>
 - Temas: graphql, datos, api
-- Citada en: [`atlas/fichas/gatsby.md`](../atlas/fichas/gatsby.md)
+- Citada en: [`atlas/fichas/gatsby.md`](../atlas/fichas/gatsby.md), [`atlas/fichas/redwoodjs.md`](../atlas/fichas/redwoodjs.md)
 
 ### `potencier-symfony`
 
@@ -634,7 +642,7 @@ Richardson, Leonard; Amundsen, Mike; Ruby, Sam, *RESTful Web APIs: Services for 
 
 - Localizador: <https://openlibrary.org/isbn/9781449358068>
 - Temas: http, api, hipermedia
-- Citada en: [`atlas/fichas/htmx.md`](../atlas/fichas/htmx.md), [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md), [`curriculum/05-backend-y-api.md`](../curriculum/05-backend-y-api.md)
+- Citada en: [`atlas/fichas/htmx.md`](../atlas/fichas/htmx.md), [`atlas/fichas/trpc.md`](../atlas/fichas/trpc.md), [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md), [`curriculum/05-backend-y-api.md`](../curriculum/05-backend-y-api.md)
 
 ### `riva-nextjs`
 
@@ -714,7 +722,7 @@ Sweller, John; Ayres, Paul; Kalyuga, Slava, *Cognitive Load Theory*, Springer, 2
 
 - Localizador: <https://openlibrary.org/isbn/9781441981257>
 - Temas: pedagogía, carga cognitiva, ejemplos resueltos
-- Citada en: [`docs/LEARNING-MODEL.md`](../docs/LEARNING-MODEL.md)
+- Citada en: [`atlas/fichas/stimulus.md`](../atlas/fichas/stimulus.md), [`docs/LEARNING-MODEL.md`](../docs/LEARNING-MODEL.md)
 
 ### `thomas-programming-elixir`
 
@@ -723,6 +731,14 @@ Thomas, Dave, *Programming Elixir*, Pragmatic Bookshelf, 2014, ISBN 978193778558
 - Localizador: <https://openlibrary.org/isbn/9781937785581>
 - Temas: elixir, concurrencia, beam
 - Citada en: [`atlas/fichas/phoenix-liveview.md`](../atlas/fichas/phoenix-liveview.md), [`atlas/fichas/phoenix.md`](../atlas/fichas/phoenix.md)
+
+### `tidwell-designing-interfaces`
+
+Tidwell, Jenifer, *Designing Interfaces: Patterns for Effective Interaction Design*, O'Reilly Media, 2005, ISBN 9780596008031
+
+- Localizador: <https://openlibrary.org/isbn/9780596008031>
+- Temas: interfaz, patrones, interacción
+- Citada en: [`atlas/fichas/redwoodjs.md`](../atlas/fichas/redwoodjs.md), [`atlas/fichas/wpf.md`](../atlas/fichas/wpf.md)
 
 ### `vernon-iddd`
 
@@ -746,7 +762,7 @@ Volkmann, Mark, *Svelte and Sapper in Action*, Manning Publications, 2020, ISBN 
 
 - Localizador: <https://openlibrary.org/isbn/9781617297946>
 - Temas: svelte, compilación, frontend
-- Citada en: [`atlas/fichas/svelte.md`](../atlas/fichas/svelte.md)
+- Citada en: [`atlas/fichas/svelte.md`](../atlas/fichas/svelte.md), [`atlas/fichas/sveltekit.md`](../atlas/fichas/sveltekit.md)
 
 ### `wagner-web-performance`
 
@@ -778,7 +794,7 @@ Wilken, Jeremy, *Angular in Action*, Manning Publications, 2018, ISBN 9781617293
 
 - Localizador: <https://openlibrary.org/isbn/9781617293313>
 - Temas: angular, typescript, frontend
-- Citada en: [`atlas/fichas/angular.md`](../atlas/fichas/angular.md)
+- Citada en: [`atlas/fichas/angular.md`](../atlas/fichas/angular.md), [`atlas/fichas/aurelia.md`](../atlas/fichas/aurelia.md)
 
 ### `williams-wordpress-plugins`
 
@@ -866,7 +882,7 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 
 - Localizador: <https://tc39.es/ecma262/>
 - Temas: javascript, lenguaje, estándar
-- Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md), [`atlas/fichas/rollup.md`](../atlas/fichas/rollup.md)
+- Citada en: [`atlas/fichas/dojo.md`](../atlas/fichas/dojo.md), [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md), [`atlas/fichas/prototype-js.md`](../atlas/fichas/prototype-js.md), [`atlas/fichas/rollup.md`](../atlas/fichas/rollup.md), [`atlas/fichas/typeorm.md`](../atlas/fichas/typeorm.md)
 
 ### `rfc9110`
 
@@ -882,7 +898,7 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 
 - Localizador: <https://www.rfc-editor.org/rfc/rfc9111>
 - Temas: http, caché, rendimiento
-- Citada en: [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md), [`curriculum/04-fullstack-y-renderizado.md`](../curriculum/04-fullstack-y-renderizado.md)
+- Citada en: [`atlas/fichas/remix.md`](../atlas/fichas/remix.md), [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md), [`curriculum/04-fullstack-y-renderizado.md`](../curriculum/04-fullstack-y-renderizado.md)
 
 ### `rfc9112`
 
@@ -986,7 +1002,7 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 
 - Localizador: <https://json-schema.org/specification>
 - Temas: validación, contrato
-- Citada en: [`curriculum/05-backend-y-api.md`](../curriculum/05-backend-y-api.md)
+- Citada en: [`atlas/fichas/fastify.md`](../atlas/fichas/fastify.md), [`curriculum/05-backend-y-api.md`](../curriculum/05-backend-y-api.md)
 
 ### `nist-800-63b`
 
@@ -1002,7 +1018,7 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 
 - Localizador: <https://csrc.nist.gov/pubs/sp/800/218/final>
 - Temas: cadena de suministro, proceso seguro
-- Citada en: [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
+- Citada en: [`atlas/fichas/deno.md`](../atlas/fichas/deno.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
 
 ### `openapi-spec`
 
@@ -1010,7 +1026,7 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 
 - Localizador: <https://spec.openapis.org/oas/latest.html>
 - Temas: contrato, api, documentación
-- Citada en: [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md), [`curriculum/05-backend-y-api.md`](../curriculum/05-backend-y-api.md)
+- Citada en: [`atlas/fichas/elysia.md`](../atlas/fichas/elysia.md), [`atlas/fichas/trpc.md`](../atlas/fichas/trpc.md), [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md), [`curriculum/05-backend-y-api.md`](../curriculum/05-backend-y-api.md)
 
 ### `slsa`
 
@@ -1090,7 +1106,7 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 
 - Localizador: <https://webassembly.org/>
 - Temas: webassembly, runtime, navegador
-- Citada en: [`atlas/ecosistemas/rust.md`](../atlas/ecosistemas/rust.md), [`atlas/fichas/yew.md`](../atlas/fichas/yew.md)
+- Citada en: [`atlas/ecosistemas/rust.md`](../atlas/ecosistemas/rust.md), [`atlas/fichas/blazor.md`](../atlas/fichas/blazor.md), [`atlas/fichas/yew.md`](../atlas/fichas/yew.md)
 
 ### `whatwg-fetch`
 
@@ -1098,7 +1114,7 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 
 - Localizador: <https://fetch.spec.whatwg.org/>
 - Temas: frontend, http, CORS
-- Citada en: [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md)
+- Citada en: [`atlas/fichas/hono.md`](../atlas/fichas/hono.md), [`curriculum/01-http-eventos-y-contratos.md`](../curriculum/01-http-eventos-y-contratos.md)
 
 ### `whatwg-html`
 
@@ -1166,7 +1182,7 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 
 - Localizador: <https://bun.com/docs/runtime/nodejs-apis>
 - Temas: bun, compatibilidad, runtime
-- Citada en: [`atlas/fichas/nodejs.md`](../atlas/fichas/nodejs.md)
+- Citada en: [`atlas/fichas/bun.md`](../atlas/fichas/bun.md), [`atlas/fichas/nodejs.md`](../atlas/fichas/nodejs.md)
 
 ### `cisa-kev`
 
@@ -1190,7 +1206,7 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 
 - Localizador: <https://deno.com/blog/v1>
 - Temas: deno, runtime, permisos
-- Citada en: [`atlas/fichas/nodejs.md`](../atlas/fichas/nodejs.md)
+- Citada en: [`atlas/fichas/deno.md`](../atlas/fichas/deno.md), [`atlas/fichas/nodejs.md`](../atlas/fichas/nodejs.md)
 
 ### `django-releases`
 
@@ -1222,7 +1238,7 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 
 - Localizador: <https://endoflife.date/>
 - Temas: soporte, versiones, ciclo de vida
-- Citada en: [`atlas/fichas/angularjs.md`](../atlas/fichas/angularjs.md)
+- Citada en: [`atlas/fichas/angularjs.md`](../atlas/fichas/angularjs.md), [`atlas/fichas/sails.md`](../atlas/fichas/sails.md), [`atlas/fichas/xamarin.md`](../atlas/fichas/xamarin.md)
 
 ### `fastapi-features`
 
@@ -1270,7 +1286,7 @@ Fowler, Martin, *CQRS*, martinfowler.com, 2011
 
 - Localizador: <https://martinfowler.com/bliki/CQRS.html>
 - Temas: dominio, lectura y escritura
-- Citada en: [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
+- Citada en: [`atlas/fichas/dapper.md`](../atlas/fichas/dapper.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
 ### `fowler-microservice-tradeoffs`
 
@@ -1294,7 +1310,7 @@ Fowler, Martin, *Microservice Trade-Offs*, martinfowler.com, 2015
 
 - Localizador: <https://google.github.io/eng-practices/>
 - Temas: revisión de código, proceso
-- Citada en: [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
+- Citada en: [`atlas/fichas/docusaurus.md`](../atlas/fichas/docusaurus.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
 
 ### `angular-signals`
 
@@ -1302,7 +1318,7 @@ Fowler, Martin, *Microservice Trade-Offs*, martinfowler.com, 2015
 
 - Localizador: <https://angular.dev/guide/signals>
 - Temas: angular, señales, reactividad
-- Citada en: [`atlas/fichas/angular.md`](../atlas/fichas/angular.md), [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md)
+- Citada en: [`atlas/fichas/analog.md`](../atlas/fichas/analog.md), [`atlas/fichas/angular.md`](../atlas/fichas/angular.md), [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md)
 
 ### `angularjs-eol`
 
@@ -1334,7 +1350,7 @@ Fowler, Martin, *Microservice Trade-Offs*, martinfowler.com, 2015
 
 - Localizador: <https://web.dev/articles/vitals>
 - Temas: rendimiento, métricas de usuario
-- Citada en: [`curriculum/04-fullstack-y-renderizado.md`](../curriculum/04-fullstack-y-renderizado.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
+- Citada en: [`atlas/fichas/vitepress.md`](../atlas/fichas/vitepress.md), [`curriculum/04-fullstack-y-renderizado.md`](../curriculum/04-fullstack-y-renderizado.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
 
 ### `webdev-offline-cookbook`
 
@@ -1382,7 +1398,7 @@ Hansson, David Heinemeier, *The Rails Doctrine*, Ruby on Rails
 
 - Localizador: <https://rubyonrails.org/doctrine>
 - Temas: rails, convenciones, filosofía
-- Citada en: [`atlas/fichas/rails.md`](../atlas/fichas/rails.md)
+- Citada en: [`atlas/fichas/hotwire-turbo.md`](../atlas/fichas/hotwire-turbo.md), [`atlas/fichas/rails.md`](../atlas/fichas/rails.md)
 
 ### `svelte-vdom-essay`
 
@@ -1398,7 +1414,7 @@ Harris, Rich, *Virtual DOM is pure overhead*, Svelte, 2018
 
 - Localizador: <https://12factor.net/>
 - Temas: configuración, despliegue, paridad de entornos
-- Citada en: [`atlas/ecosistemas/cloud.md`](../atlas/ecosistemas/cloud.md), [`atlas/fichas/play-framework.md`](../atlas/fichas/play-framework.md), [`curriculum/09-movil-escritorio-y-offline.md`](../curriculum/09-movil-escritorio-y-offline.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
+- Citada en: [`atlas/ecosistemas/cloud.md`](../atlas/ecosistemas/cloud.md), [`atlas/fichas/nitro.md`](../atlas/fichas/nitro.md), [`atlas/fichas/play-framework.md`](../atlas/fichas/play-framework.md), [`curriculum/09-movil-escritorio-y-offline.md`](../curriculum/09-movil-escritorio-y-offline.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
 
 ### `web-almanac`
 
@@ -1446,7 +1462,7 @@ Kleppmann, Martin; Wiggins, Adam; van Hardenberg, Peter; McGranaghan, Mark, *Loc
 
 - Localizador: <https://spdx.org/licenses/>
 - Temas: licencias, cumplimiento
-- Citada en: [`atlas/fichas/pyramid.md`](../atlas/fichas/pyramid.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
+- Citada en: [`atlas/fichas/extjs.md`](../atlas/fichas/extjs.md), [`atlas/fichas/gtk.md`](../atlas/fichas/gtk.md), [`atlas/fichas/pyramid.md`](../atlas/fichas/pyramid.md), [`atlas/fichas/qt.md`](../atlas/fichas/qt.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
 
 ### `react-why`
 
@@ -1470,7 +1486,7 @@ Kleppmann, Martin; Wiggins, Adam; van Hardenberg, Peter; McGranaghan, Mark, *Loc
 
 - Localizador: <https://reactnative.dev/architecture/overview>
 - Temas: react native, puente, móvil
-- Citada en: [`atlas/fichas/react-native.md`](../atlas/fichas/react-native.md)
+- Citada en: [`atlas/fichas/nativescript.md`](../atlas/fichas/nativescript.md), [`atlas/fichas/react-native.md`](../atlas/fichas/react-native.md)
 
 ### `micro-frontends-org`
 
@@ -1486,7 +1502,7 @@ Kleppmann, Martin; Wiggins, Adam; van Hardenberg, Peter; McGranaghan, Mark, *Loc
 
 - Localizador: <https://learn.microsoft.com/dotnet/architecture/blazor-for-web-forms-developers/>
 - Temas: migración, web forms, blazor
-- Citada en: [`atlas/fichas/aspnet-webforms.md`](../atlas/fichas/aspnet-webforms.md)
+- Citada en: [`atlas/fichas/aspnet-webforms.md`](../atlas/fichas/aspnet-webforms.md), [`atlas/fichas/blazor.md`](../atlas/fichas/blazor.md)
 
 ### `jasonformat-islands`
 
@@ -1494,7 +1510,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://jasonformat.com/islands-architecture/>
 - Temas: islas, hidratación, rendimiento
-- Citada en: [`atlas/fichas/astro.md`](../atlas/fichas/astro.md)
+- Citada en: [`atlas/fichas/astro.md`](../atlas/fichas/astro.md), [`atlas/fichas/marko.md`](../atlas/fichas/marko.md)
 
 ### `mdn-web-docs`
 
@@ -1510,7 +1526,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement>
 - Temas: accesibilidad, robustez, frontend
-- Citada en: [`atlas/fichas/alpinejs.md`](../atlas/fichas/alpinejs.md)
+- Citada en: [`atlas/fichas/alpinejs.md`](../atlas/fichas/alpinejs.md), [`atlas/fichas/remix.md`](../atlas/fichas/remix.md), [`atlas/fichas/sveltekit.md`](../atlas/fichas/sveltekit.md)
 
 ### `mdn-web-components`
 
@@ -1534,7 +1550,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://opensource.org/licenses>
 - Temas: licencias, gobierno
-- Citada en: [`atlas/fichas/pyramid.md`](../atlas/fichas/pyramid.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
+- Citada en: [`atlas/fichas/pyramid.md`](../atlas/fichas/pyramid.md), [`atlas/fichas/qt.md`](../atlas/fichas/qt.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
 
 ### `nodejs-docs`
 
@@ -1598,7 +1614,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://www.postgresql.org/docs/current/>
 - Temas: persistencia, sql, transacciones
-- Citada en: [`atlas/fichas/sqlalchemy.md`](../atlas/fichas/sqlalchemy.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
+- Citada en: [`atlas/fichas/dapper.md`](../atlas/fichas/dapper.md), [`atlas/fichas/sqlalchemy.md`](../atlas/fichas/sqlalchemy.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
 ### `preact-differences`
 
@@ -1622,7 +1638,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://docs.solidjs.com/concepts/intro-to-reactivity>
 - Temas: solid, señales, reactividad
-- Citada en: [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md), [`atlas/fichas/solid.md`](../atlas/fichas/solid.md)
+- Citada en: [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md), [`atlas/fichas/solid.md`](../atlas/fichas/solid.md), [`atlas/fichas/solidstart.md`](../atlas/fichas/solidstart.md)
 
 ### `svelte-runes`
 
@@ -1670,7 +1686,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://vite.dev/guide/why>
 - Temas: construcción, módulos, desarrollo
-- Citada en: [`atlas/fichas/esbuild.md`](../atlas/fichas/esbuild.md), [`atlas/fichas/vite.md`](../atlas/fichas/vite.md)
+- Citada en: [`atlas/fichas/analog.md`](../atlas/fichas/analog.md), [`atlas/fichas/esbuild.md`](../atlas/fichas/esbuild.md), [`atlas/fichas/vite.md`](../atlas/fichas/vite.md)
 
 ### `vue-reactivity`
 
@@ -1686,7 +1702,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://www.w3.org/WAI/WCAG22/quickref/>
 - Temas: accesibilidad, criterios, verificación
-- Citada en: [`atlas/fichas/alpinejs.md`](../atlas/fichas/alpinejs.md)
+- Citada en: [`atlas/fichas/alpinejs.md`](../atlas/fichas/alpinejs.md), [`atlas/fichas/avalonia.md`](../atlas/fichas/avalonia.md), [`atlas/fichas/dotnet-maui.md`](../atlas/fichas/dotnet-maui.md), [`atlas/fichas/ionic.md`](../atlas/fichas/ionic.md)
 
 ### `wordpress-license`
 

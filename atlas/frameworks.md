@@ -82,69 +82,69 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
 | [**Backbone.js**](fichas/backbone.md) | `mv-library` | 2010 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://backbonejs.org/) |
-| **Apache Cordova** | `runtime-bridge` | 2009 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://cordova.apache.org/docs/en/latest/) |
-| **Dojo Toolkit** | `ui-toolkit` | 2004 | 🌱 Pionero | 🟡 mantenimiento | `BSD-3-Clause` | [oficial](https://dojotoolkit.org/documentation/) |
+| [**Apache Cordova**](fichas/cordova.md) | `runtime-bridge` | 2009 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://cordova.apache.org/docs/en/latest/) |
+| [**Dojo Toolkit**](fichas/dojo.md) | `ui-toolkit` | 2004 | 🌱 Pionero | 🟡 mantenimiento | `BSD-3-Clause` | [oficial](https://dojotoolkit.org/documentation/) |
 | [**jQuery**](fichas/jquery.md) | `dom-library` | 2006 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://api.jquery.com/) |
 | [**Knockout**](fichas/knockout.md) | `mvvm-library` | 2010 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://knockoutjs.com/documentation/introduction.html) |
-| **MooTools** | `dom-library` | 2006 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://mootools.net/) |
-| **Prototype** | `dom-library` | 2005 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://github.com/prototypejs/prototype) |
+| [**MooTools**](fichas/mootools.md) | `dom-library` | 2006 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://mootools.net/) |
+| [**Prototype**](fichas/prototype-js.md) | `dom-library` | 2005 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://github.com/prototypejs/prototype) |
 | [**AngularJS**](fichas/angularjs.md) | `web-framework` | 2010 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://docs.angularjs.org/guide) |
-| **Aurelia** | `web-framework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://docs.aurelia.io/) |
+| [**Aurelia**](fichas/aurelia.md) | `web-framework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://docs.aurelia.io/) |
 | [**Ember.js**](fichas/ember.md) | `web-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.emberjs.com/release/) |
 | [**Express**](fichas/express.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://expressjs.com/) |
-| **Ext JS** | `ui-toolkit` | 2007 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.sencha.com/extjs/) |
+| [**Ext JS**](fichas/extjs.md) | `ui-toolkit` | 2007 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.sencha.com/extjs/) |
 | [**Gatsby**](fichas/gatsby.md) | `react-metaframework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://www.gatsbyjs.com/docs/) |
-| **hapi** | `web-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://hapi.dev/) |
-| **Ionic** | `ui-toolkit` | 2013 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://ionicframework.com/docs) |
-| **Koa** | `web-framework` | 2013 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://koajs.com/) |
-| **Marko** | `ui-framework` | 2014 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://markojs.com/docs/) |
-| **Mithril** | `ui-framework` | 2014 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://mithril.js.org/) |
-| **NativeScript** | `ui-framework` | 2014 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://docs.nativescript.org/) |
+| [**hapi**](fichas/hapi.md) | `web-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://hapi.dev/) |
+| [**Ionic**](fichas/ionic.md) | `ui-toolkit` | 2013 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://ionicframework.com/docs) |
+| [**Koa**](fichas/koa.md) | `web-framework` | 2013 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://koajs.com/) |
+| [**Marko**](fichas/marko.md) | `ui-framework` | 2014 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://markojs.com/docs/) |
+| [**Mithril**](fichas/mithril.md) | `ui-framework` | 2014 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://mithril.js.org/) |
+| [**NativeScript**](fichas/nativescript.md) | `ui-framework` | 2014 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://docs.nativescript.org/) |
 | [**Rollup**](fichas/rollup.md) | `build-tool` | 2015 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://rollupjs.org/introduction/) |
-| **Sails.js** | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://sailsjs.com/documentation) |
-| **Socket.IO** | `realtime-library` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://socket.io/docs/v4/) |
-| **TypeORM** | `orm` | 2016 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://typeorm.io/) |
+| [**Sails.js**](fichas/sails.md) | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://sailsjs.com/documentation) |
+| [**Socket.IO**](fichas/socketio.md) | `realtime-library` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://socket.io/docs/v4/) |
+| [**TypeORM**](fichas/typeorm.md) | `orm` | 2016 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://typeorm.io/) |
 | [**webpack**](fichas/webpack.md) | `build-tool` | 2012 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://webpack.js.org/concepts/) |
-| **AdonisJS** | `full-stack-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.adonisjs.com/guides/preface/introduction) |
+| [**AdonisJS**](fichas/adonisjs.md) | `full-stack-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.adonisjs.com/guides/preface/introduction) |
 | [**Alpine.js**](fichas/alpinejs.md) | `dom-library` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://alpinejs.dev/start-here) |
 | [**Angular**](fichas/angular.md) | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://angular.dev/) |
 | [**Astro**](fichas/astro.md) | `web-metaframework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.astro.build/) |
-| **Capacitor** | `runtime-bridge` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://capacitorjs.com/docs) |
-| **Deno** | `runtime` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.deno.com/) |
-| **Docusaurus** | `documentation-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docusaurus.io/docs) |
+| [**Capacitor**](fichas/capacitor.md) | `runtime-bridge` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://capacitorjs.com/docs) |
+| [**Deno**](fichas/deno.md) | `runtime` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.deno.com/) |
+| [**Docusaurus**](fichas/docusaurus.md) | `documentation-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docusaurus.io/docs) |
 | [**Electron**](fichas/electron.md) | `desktop-runtime` | 2013 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.electronjs.org/docs/latest/) |
 | [**Eleventy**](fichas/eleventy.md) | `static-site-generator` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://www.11ty.dev/docs/) |
-| **Fastify** | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://fastify.dev/docs/latest/) |
-| **Turbo (Hotwire)** | `hypermedia-library` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://turbo.hotwired.dev/handbook/introduction) |
+| [**Fastify**](fichas/fastify.md) | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://fastify.dev/docs/latest/) |
+| [**Turbo (Hotwire)**](fichas/hotwire-turbo.md) | `hypermedia-library` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://turbo.hotwired.dev/handbook/introduction) |
 | [**htmx**](fichas/htmx.md) | `hypermedia-library` | 2020 | 🟢 Vigente | 🟢 activo | `BSD-2-Clause` | [oficial](https://htmx.org/docs/) |
 | [**Lit**](fichas/lit.md) | `web-components-library` | 2021 | 🟢 Vigente | 🟢 activo | `BSD-3-Clause` | [oficial](https://lit.dev/docs/) |
 | [**NestJS**](fichas/nestjs.md) | `application-framework` | 2017 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.nestjs.com/) |
 | [**Next.js**](fichas/nextjs.md) | `react-metaframework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nextjs.org/docs) |
-| **Nitro** | `server-toolkit` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nitro.build/guide) |
+| [**Nitro**](fichas/nitro.md) | `server-toolkit` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nitro.build/guide) |
 | [**Node.js**](fichas/nodejs.md) | `runtime` | 2009 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nodejs.org/docs/latest-v22.x/api/) |
-| **Nuxt** | `vue-metaframework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nuxt.com/docs) |
+| [**Nuxt**](fichas/nuxt.md) | `vue-metaframework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://nuxt.com/docs) |
 | [**Preact**](fichas/preact.md) | `ui-library` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://preactjs.com/guide/v10/getting-started/) |
-| **Prisma ORM** | `orm` | 2021 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://www.prisma.io/docs) |
+| [**Prisma ORM**](fichas/prisma.md) | `orm` | 2021 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://www.prisma.io/docs) |
 | [**React**](fichas/react.md) | `ui-library` | 2013 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://react.dev/) |
 | [**React Native**](fichas/react-native.md) | `ui-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactnative.dev/docs/getting-started) |
-| **React Router** | `routing-library` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactrouter.com/) |
-| **Remix** | `react-metaframework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://remix.run/docs) |
+| [**React Router**](fichas/react-router.md) | `routing-library` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://reactrouter.com/) |
+| [**Remix**](fichas/remix.md) | `react-metaframework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://remix.run/docs) |
 | [**SolidJS**](fichas/solid.md) | `ui-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.solidjs.com/) |
-| **Stimulus** | `dom-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://stimulus.hotwired.dev/handbook/introduction) |
+| [**Stimulus**](fichas/stimulus.md) | `dom-library` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://stimulus.hotwired.dev/handbook/introduction) |
 | [**Svelte**](fichas/svelte.md) | `ui-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://svelte.dev/docs/svelte) |
-| **SvelteKit** | `svelte-metaframework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://svelte.dev/docs/kit) |
-| **tRPC** | `rpc-library` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://trpc.io/docs) |
+| [**SvelteKit**](fichas/sveltekit.md) | `svelte-metaframework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://svelte.dev/docs/kit) |
+| [**tRPC**](fichas/trpc.md) | `rpc-library` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://trpc.io/docs) |
 | [**Vite**](fichas/vite.md) | `build-tool` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vite.dev/guide/) |
-| **VitePress** | `documentation-framework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vitepress.dev/) |
+| [**VitePress**](fichas/vitepress.md) | `documentation-framework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vitepress.dev/) |
 | [**Vue**](fichas/vue.md) | `web-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vuejs.org/guide/) |
-| **Analog** | `angular-metaframework` | 2023 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://analogjs.org/docs) |
-| **Bun** | `runtime` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://bun.com/docs) |
-| **Drizzle ORM** | `orm` | 2022 | 🌊 Emergente | 🟢 activo | `Apache-2.0` | [oficial](https://orm.drizzle.team/docs/overview) |
-| **Elysia** | `web-framework` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://elysiajs.com/) |
-| **Hono** | `web-framework` | 2021 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://hono.dev/docs/) |
+| [**Analog**](fichas/analog.md) | `angular-metaframework` | 2023 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://analogjs.org/docs) |
+| [**Bun**](fichas/bun.md) | `runtime` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://bun.com/docs) |
+| [**Drizzle ORM**](fichas/drizzle.md) | `orm` | 2022 | 🌊 Emergente | 🟢 activo | `Apache-2.0` | [oficial](https://orm.drizzle.team/docs/overview) |
+| [**Elysia**](fichas/elysia.md) | `web-framework` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://elysiajs.com/) |
+| [**Hono**](fichas/hono.md) | `web-framework` | 2021 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://hono.dev/docs/) |
 | [**Qwik**](fichas/qwik.md) | `ui-framework` | 2021 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://qwik.dev/docs/) |
-| **RedwoodJS** | `full-stack-framework` | 2020 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://redwoodjs.com/docs) |
-| **SolidStart** | `solid-metaframework` | 2024 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://docs.solidjs.com/solid-start) |
+| [**RedwoodJS**](fichas/redwoodjs.md) | `full-stack-framework` | 2020 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://redwoodjs.com/docs) |
+| [**SolidStart**](fichas/solidstart.md) | `solid-metaframework` | 2024 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://docs.solidjs.com/solid-start) |
 
 ### Python
 
@@ -212,15 +212,15 @@ Contexto y genealogía: [dotnet.md](ecosistemas/dotnet.md).
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
 | [**ASP.NET Web Forms**](fichas/aspnet-webforms.md) | `component-framework` | 2002 | 🌱 Pionero | ⚪ histórico | `NOASSERTION` | [oficial](https://learn.microsoft.com/aspnet/web-forms/) |
-| **ASP.NET MVC** | `web-framework` | 2009 | 🏛️ Clásico | ⚪ histórico | `Apache-2.0` | [oficial](https://learn.microsoft.com/aspnet/mvc/) |
-| **WPF** | `ui-framework` | 2006 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://learn.microsoft.com/dotnet/desktop/wpf/) |
-| **Xamarin** | `ui-framework` | 2011 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://learn.microsoft.com/xamarin/) |
-| **ASP.NET Core** | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/aspnet/core/) |
-| **Avalonia** | `ui-framework` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.avaloniaui.net/) |
-| **Blazor** | `component-framework` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/aspnet/core/blazor/) |
-| **Dapper** | `micro-orm` | 2011 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://github.com/DapperLib/Dapper) |
-| **.NET MAUI** | `ui-framework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/dotnet/maui/) |
-| **Entity Framework Core** | `orm` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/ef/core/) |
+| [**ASP.NET MVC**](fichas/aspnet-mvc.md) | `web-framework` | 2009 | 🏛️ Clásico | ⚪ histórico | `Apache-2.0` | [oficial](https://learn.microsoft.com/aspnet/mvc/) |
+| [**WPF**](fichas/wpf.md) | `ui-framework` | 2006 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://learn.microsoft.com/dotnet/desktop/wpf/) |
+| [**Xamarin**](fichas/xamarin.md) | `ui-framework` | 2011 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://learn.microsoft.com/xamarin/) |
+| [**ASP.NET Core**](fichas/aspnet-core.md) | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/aspnet/core/) |
+| [**Avalonia**](fichas/avalonia.md) | `ui-framework` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.avaloniaui.net/) |
+| [**Blazor**](fichas/blazor.md) | `component-framework` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/aspnet/core/blazor/) |
+| [**Dapper**](fichas/dapper.md) | `micro-orm` | 2011 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://github.com/DapperLib/Dapper) |
+| [**.NET MAUI**](fichas/dotnet-maui.md) | `ui-framework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/dotnet/maui/) |
+| [**Entity Framework Core**](fichas/entity-framework-core.md) | `orm` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://learn.microsoft.com/ef/core/) |
 
 ### Go
 
@@ -284,8 +284,8 @@ Contexto y genealogía: [apple.md](ecosistemas/apple.md).
 
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **UIKit** | `ui-toolkit` | 2008 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://developer.apple.com/documentation/uikit) |
-| **SwiftUI** | `ui-toolkit` | 2019 | 🟢 Vigente | 🟢 activo | `NOASSERTION` | [oficial](https://developer.apple.com/documentation/swiftui) |
+| [**UIKit**](fichas/uikit.md) | `ui-toolkit` | 2008 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://developer.apple.com/documentation/uikit) |
+| [**SwiftUI**](fichas/swiftui.md) | `ui-toolkit` | 2019 | 🟢 Vigente | 🟢 activo | `NOASSERTION` | [oficial](https://developer.apple.com/documentation/swiftui) |
 
 ### Escritorio nativo — C y C++
 
@@ -293,8 +293,8 @@ Contexto y genealogía: [nativo.md](ecosistemas/nativo.md).
 
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **GTK** | `ui-toolkit` | 1998 | 🏛️ Clásico | 🟢 activo | `LGPL-2.1-or-later` | [oficial](https://docs.gtk.org/) |
-| **Qt** | `ui-framework` | 1995 | 🏛️ Clásico | 🟢 activo | `LGPL-3.0-only` | [oficial](https://doc.qt.io/) |
+| [**GTK**](fichas/gtk.md) | `ui-toolkit` | 1998 | 🏛️ Clásico | 🟢 activo | `LGPL-2.1-or-later` | [oficial](https://docs.gtk.org/) |
+| [**Qt**](fichas/qt.md) | `ui-framework` | 1995 | 🏛️ Clásico | 🟢 activo | `LGPL-3.0-only` | [oficial](https://doc.qt.io/) |
 
 ### Plataformas de ejecución
 
