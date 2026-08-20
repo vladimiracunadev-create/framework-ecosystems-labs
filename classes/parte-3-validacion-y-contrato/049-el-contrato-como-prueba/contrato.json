@@ -1,8 +1,43 @@
 {
   "clase": "049",
   "titulo": "El contrato como prueba",
-  "descripcion": "Las mismas pruebas HTTP pasan contra cinco servidores distintos.",
-  "estado": "esqueleto",
+  "descripcion": "La misma batería, sin adaptador, contra cuatro servidores que no se conocen entre sí.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "leer lo que existe",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "id": "1", "titulo": "existente", "completada": false } }
+    },
+    {
+      "nombre": "leer lo que no existe",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/999" },
+      "esperado": { "estado": 404, "json_contiene": { "code": "NO_EXISTE" } }
+    },
+    {
+      "nombre": "crear con entrada inválida",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "   " } },
+      "esperado": { "estado": 422, "json_contiene": { "code": "VALIDACION" } }
+    },
+    {
+      "nombre": "crear responde 201 con Location",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "nueva" } },
+      "esperado": {
+        "estado": 201,
+        "json_contiene": { "id": "2", "titulo": "nueva" },
+        "cabeceras": { "location": "/tareas/2" }
+      }
+    },
+    {
+      "nombre": "borrar responde 204 sin cuerpo",
+      "peticion": { "metodo": "DELETE", "ruta": "/tareas/2" },
+      "esperado": { "estado": 204, "cuerpo": "" }
+    },
+    {
+      "nombre": "y lo borrado ya no está",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/2" },
+      "esperado": { "estado": 404 }
+    }
+  ]
 }

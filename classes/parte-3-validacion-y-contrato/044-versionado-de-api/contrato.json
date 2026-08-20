@@ -1,8 +1,39 @@
 {
   "clase": "044",
   "titulo": "Versionado de API",
-  "descripcion": "Dos versiones vivas del mismo recurso, cada una con su contrato.",
-  "estado": "esqueleto",
+  "descripcion": "Dos versiones vivas del mismo recurso, por ruta y por cabecera.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la v1 en la ruta sigue devolviendo el nombre completo",
+      "peticion": { "metodo": "GET", "ruta": "/v1/personas/1" },
+      "esperado": { "estado": 200, "json": { "id": "1", "nombre": "Ada Lovelace" } }
+    },
+    {
+      "nombre": "la v2 en la ruta separa nombre y apellido",
+      "peticion": { "metodo": "GET", "ruta": "/v2/personas/1" },
+      "esperado": { "estado": 200, "json": { "id": "1", "nombre": "Ada", "apellido": "Lovelace" } }
+    },
+    {
+      "nombre": "sin cabecera se sirve la v1: no romper al cliente antiguo",
+      "peticion": { "metodo": "GET", "ruta": "/personas/1" },
+      "esperado": { "estado": 200, "json": { "id": "1", "nombre": "Ada Lovelace" } }
+    },
+    {
+      "nombre": "con la cabecera se sirve la v2",
+      "peticion": { "metodo": "GET", "ruta": "/personas/1", "cabeceras": { "x-api-version": "2" } },
+      "esperado": { "estado": 200, "json": { "id": "1", "nombre": "Ada", "apellido": "Lovelace" } }
+    },
+    {
+      "nombre": "la respuesta declara qué versión sirvió",
+      "peticion": { "metodo": "GET", "ruta": "/personas/1", "cabeceras": { "x-api-version": "2" } },
+      "esperado": { "estado": 200, "cabeceras": { "x-api-version": "2" } }
+    },
+    {
+      "nombre": "una versión que no existe se rechaza, no se adivina",
+      "peticion": { "metodo": "GET", "ruta": "/personas/1", "cabeceras": { "x-api-version": "9" } },
+      "esperado": { "estado": 400, "json_contiene": { "code": "VERSION_DESCONOCIDA" } }
+    }
+  ]
 }

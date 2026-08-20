@@ -1,8 +1,53 @@
 {
   "clase": "046",
   "titulo": "Filtrado y ordenación",
-  "descripcion": "Filtro y orden por campos de una lista blanca; un campo desconocido responde 422.",
-  "estado": "esqueleto",
+  "descripcion": "Aceptar criterios del cliente contra una lista blanca, y rechazar lo que no está en ella.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "sin criterios devuelve todo",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "elementos": [{ "id": "1" }, { "id": "2" }, { "id": "3" }] }
+      }
+    },
+    {
+      "nombre": "filtra por un campo permitido",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?completada=true" },
+      "esperado": { "estado": 200, "json_contiene": { "elementos": [{ "id": "2" }] } }
+    },
+    {
+      "nombre": "ordena ascendente por un campo permitido",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?orden=titulo" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "elementos": [{ "titulo": "alfa" }, { "titulo": "beta" }, { "titulo": "gamma" }] }
+      }
+    },
+    {
+      "nombre": "y descendente con el prefijo",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?orden=-prioridad" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "elementos": [{ "prioridad": 3 }, { "prioridad": 2 }, { "prioridad": 1 }] }
+      }
+    },
+    {
+      "nombre": "un campo que no está en la lista blanca se rechaza",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?orden=id" },
+      "esperado": { "estado": 422, "json_contiene": { "code": "CAMPO_NO_ORDENABLE" } }
+    },
+    {
+      "nombre": "y filtrar por uno no permitido también",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?titulo=alfa" },
+      "esperado": { "estado": 422, "json_contiene": { "code": "CAMPO_NO_FILTRABLE" } }
+    },
+    {
+      "nombre": "un valor con el tipo equivocado se rechaza",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?completada=quizas" },
+      "esperado": { "estado": 422, "json_contiene": { "code": "VALOR_INVALIDO" } }
+    }
+  ]
 }

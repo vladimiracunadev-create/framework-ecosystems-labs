@@ -1,8 +1,37 @@
 {
   "clase": "048",
   "titulo": "ETags y caché condicional",
-  "descripcion": "If-None-Match responde 304; If-Match desactualizado responde 412.",
-  "estado": "esqueleto",
+  "descripcion": "Ahorrar ancho de banda con 304 y evitar sobrescrituras ciegas con 412.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la lectura devuelve el recurso y su etiqueta",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "titulo": "original" },
+        "cabecera_presente": ["etag"]
+      }
+    },
+    {
+      "nombre": "escribir sin declarar qué versión esperas se rechaza",
+      "peticion": { "metodo": "PUT", "ruta": "/tareas/1", "cuerpo": { "titulo": "nuevo" } },
+      "esperado": { "estado": 428, "json_contiene": { "code": "PRECONDICION_REQUERIDA" } }
+    },
+    {
+      "nombre": "escribir con una versión desactualizada se rechaza",
+      "peticion": {
+        "metodo": "PUT", "ruta": "/tareas/1",
+        "cabeceras": { "if-match": "\"desactualizada\"" },
+        "cuerpo": { "titulo": "nuevo" }
+      },
+      "esperado": { "estado": 412, "json_contiene": { "code": "PRECONDICION_FALLIDA" } }
+    },
+    {
+      "nombre": "y el recurso no cambió",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "titulo": "original" } }
+    }
+  ]
 }

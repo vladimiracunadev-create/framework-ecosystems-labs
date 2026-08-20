@@ -1,8 +1,59 @@
 {
   "clase": "045",
   "titulo": "Paginación",
-  "descripcion": "Paginación por desplazamiento y por cursor sobre el mismo conjunto de datos.",
-  "estado": "esqueleto",
+  "descripcion": "Por desplazamiento y por cursor sobre el mismo conjunto de 25 elementos.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "sin parámetros devuelve la primera página y el total",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 25 } }
+    },
+    {
+      "nombre": "el desplazamiento salta los primeros",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?desde=10&limite=2" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "elementos": [{ "id": "011" }, { "id": "012" }] }
+      }
+    },
+    {
+      "nombre": "el límite tiene tope: pedir mil se rechaza",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?limite=1000" },
+      "esperado": { "estado": 422, "json_contiene": { "code": "LIMITE_INVALIDO" } }
+    },
+    {
+      "nombre": "el cursor devuelve la primera página y por dónde seguir",
+      "peticion": { "metodo": "GET", "ruta": "/tareas-cursor?limite=3" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "elementos": [{ "id": "001" }, { "id": "002" }, { "id": "003" }],
+          "siguiente": "003"
+        }
+      }
+    },
+    {
+      "nombre": "seguir el cursor da lo que viene después, sin solaparse",
+      "peticion": { "metodo": "GET", "ruta": "/tareas-cursor?limite=3&cursor=003" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "elementos": [{ "id": "004" }, { "id": "005" }, { "id": "006" }],
+          "siguiente": "006"
+        }
+      }
+    },
+    {
+      "nombre": "al final, el cursor siguiente es nulo",
+      "peticion": { "metodo": "GET", "ruta": "/tareas-cursor?limite=3&cursor=022" },
+      "esperado": { "estado": 200, "json_contiene": { "siguiente": null } }
+    },
+    {
+      "nombre": "un cursor inventado se rechaza",
+      "peticion": { "metodo": "GET", "ruta": "/tareas-cursor?cursor=999" },
+      "esperado": { "estado": 422, "json_contiene": { "code": "CURSOR_INVALIDO" } }
+    }
+  ]
 }

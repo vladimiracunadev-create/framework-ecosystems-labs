@@ -77,6 +77,23 @@ function preparar(cmd, args) {
   return { comando: ruta, argumentos: args, opciones: { shell: false } };
 }
 
+/**
+ * Extrae de la salida de un compilador las líneas que sirven para diagnosticar.
+ *
+ * Un `mvn` o un `dotnet build` escriben cientos de líneas y solo unas pocas
+ * dicen qué falló y dónde. Quedarse con las primeras 160 letras de todo el
+ * volcado deja mensajes inútiles como «COMPILATION ERROR :».
+ */
+function lineasDeError(salida) {
+  const utiles = salida
+    .trim()
+    .split(/\r?\n/)
+    .filter((linea) => /error|Error|ERROR|\.java:|\.cs\(|\.go:|warning CS/.test(linea))
+    .slice(0, 8);
+  const texto = (utiles.length ? utiles : salida.trim().split(/\r?\n/).slice(0, 4)).join(" | ");
+  return texto.slice(0, 900);
+}
+
 function esperar(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
@@ -363,7 +380,13 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
         return {
           framework,
           estado: "error",
-          detalle: `la preparación falló en \`${paso.join(" ")}\`: ${(r.stderr || r.stdout || "").trim().slice(0, 160)}`,
+          // Se filtran las líneas que mencionan un error y se conservan hasta
+          // 900 caracteres. Truncar a 160 dejaba mensajes como «COMPILATION
+          // ERROR :» sin el archivo ni la línea, que obliga a abrir el registro
+          // completo de integración continua para saber qué pasó.
+          detalle:
+            `la preparación falló en \`${paso.join(" ")}\`: ` +
+            lineasDeError(r.stderr || r.stdout || ""),
         };
       }
     }

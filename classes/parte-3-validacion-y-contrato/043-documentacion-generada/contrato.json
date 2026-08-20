@@ -1,8 +1,39 @@
 {
   "clase": "043",
   "titulo": "Documentación generada",
-  "descripcion": "La documentación generada coincide con el comportamiento verificado.",
-  "estado": "esqueleto",
+  "descripcion": "Publicar una descripción de la API, y comprobar que coincide con el comportamiento real.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el documento declara las dos rutas",
+      "peticion": { "metodo": "GET", "ruta": "/openapi.json" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["/tareas", "/tareas/{id}"] }
+    },
+    {
+      "nombre": "y declara los códigos de error, no solo los de éxito",
+      "peticion": { "metodo": "GET", "ruta": "/openapi.json" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["\"404\"", "\"422\"", "\"201\""] }
+    },
+    {
+      "nombre": "el 201 documentado es el real",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "nueva" } },
+      "esperado": { "estado": 201 }
+    },
+    {
+      "nombre": "el 422 documentado es el real",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": { "estado": 422 }
+    },
+    {
+      "nombre": "el 404 documentado es el real",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/no-existe" },
+      "esperado": { "estado": 404 }
+    },
+    {
+      "nombre": "y el 200 también",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "id": "1" } }
+    }
+  ]
 }

@@ -1,8 +1,55 @@
 {
   "clase": "047",
   "titulo": "Idempotencia",
-  "descripcion": "Dos POST con la misma clave de idempotencia crean un solo recurso.",
-  "estado": "esqueleto",
+  "descripcion": "Hacer que reintentar no duplique, con una clave que el cliente envía.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el primer POST con clave crea",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cabeceras": { "idempotency-key": "abc-123" },
+        "cuerpo": { "titulo": "pagar" }
+      },
+      "esperado": { "estado": 201, "json_contiene": { "id": "1", "titulo": "pagar" } }
+    },
+    {
+      "nombre": "el reintento con la MISMA clave devuelve lo mismo, sin crear otra",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cabeceras": { "idempotency-key": "abc-123" },
+        "cuerpo": { "titulo": "pagar" }
+      },
+      "esperado": { "estado": 201, "json_contiene": { "id": "1" } }
+    },
+    {
+      "nombre": "y se declara que fue un reenvío",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cabeceras": { "idempotency-key": "abc-123" },
+        "cuerpo": { "titulo": "pagar" }
+      },
+      "esperado": { "estado": 201, "cabeceras": { "idempotent-replay": "true" } }
+    },
+    {
+      "nombre": "tras tres envíos, solo existe UNA tarea",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 1 } }
+    },
+    {
+      "nombre": "otra clave crea otra tarea",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cabeceras": { "idempotency-key": "def-456" },
+        "cuerpo": { "titulo": "otra" }
+      },
+      "esperado": { "estado": 201, "json_contiene": { "id": "2" } }
+    },
+    {
+      "nombre": "sin clave, POST vuelve a no ser idempotente",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "suelta" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": "3" } }
+    }
+  ]
 }

@@ -30,9 +30,17 @@ public class Aplicacion {
                 .body(cuerpo);
     }
 
+    private static Map<String, Object> mapa(Object... pares) {
+        Map<String, Object> m = new LinkedHashMap<>();
+        for (int i = 0; i < pares.length; i += 2) {
+            m.put(pares[i].toString(), pares[i + 1]);
+        }
+        return m;
+    }
+
     @GetMapping("/rapido")
     public ResponseEntity<Map<String, Object>> rapido() {
-        return ResponseEntity.ok(Map.of("ok", true));
+        return ResponseEntity.ok(mapa("ok", true));
     }
 
     /**
@@ -62,7 +70,9 @@ public class Aplicacion {
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
-                    return ResponseEntity.ok(Map.of("ok", true, "tarde", true));
+                    // `mapa(...)` y no `Map.of(...)`: este ultimo infiere
+                    // `Map<String, Boolean>` y el tipo del futuro no encaja.
+                    return ResponseEntity.ok(mapa("ok", true, "tarde", true));
                 })
                 .completeOnTimeout(plazoAgotado(), LIMITE_MS, TimeUnit.MILLISECONDS);
     }

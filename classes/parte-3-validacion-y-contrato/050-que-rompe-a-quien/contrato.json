@@ -1,8 +1,42 @@
 {
   "clase": "050",
   "titulo": "Qué rompe a quién",
-  "descripcion": "Seis cambios sobre el contrato, clasificados y verificados con el cliente antiguo.",
-  "estado": "esqueleto",
+  "descripcion": "Seis cambios sobre el contrato, clasificados y verificados con la petición del cliente antiguo.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el cliente antiguo funciona contra la v1",
+      "peticion": { "metodo": "POST", "ruta": "/v1/tareas", "cuerpo": { "titulo": "tarea" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": "1", "titulo": "tarea" } }
+    },
+    {
+      "nombre": "COMPATIBLE: el mismo cliente antiguo funciona contra la v2",
+      "peticion": { "metodo": "POST", "ruta": "/v2/tareas", "cuerpo": { "titulo": "tarea" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": "1", "titulo": "tarea" } }
+    },
+    {
+      "nombre": "y la v2 además trae campos nuevos que el antiguo ignora",
+      "peticion": { "metodo": "POST", "ruta": "/v2/tareas", "cuerpo": { "titulo": "tarea" } },
+      "esperado": { "estado": 201, "json_contiene": { "prioridad": 2, "estado": "pendiente" } }
+    },
+    {
+      "nombre": "INCOMPATIBLE: la v3 rechaza al cliente antiguo por un campo nuevo obligatorio",
+      "peticion": { "metodo": "POST", "ruta": "/v3/tareas", "cuerpo": { "titulo": "tarea" } },
+      "esperado": { "estado": 422, "json_contiene": { "campo": "prioridad" } }
+    },
+    {
+      "nombre": "INCOMPATIBLE: un título que la v1 aceptaba, la v3 lo rechaza",
+      "peticion": {
+        "metodo": "POST", "ruta": "/v3/tareas",
+        "cuerpo": { "prioridad": 1, "titulo": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }
+      },
+      "esperado": { "estado": 422, "json_contiene": { "campo": "titulo" } }
+    },
+    {
+      "nombre": "INCOMPATIBLE: el campo de salida cambió de nombre, y el cliente no se entera",
+      "peticion": { "metodo": "POST", "ruta": "/v3/tareas", "cuerpo": { "prioridad": 1, "titulo": "tarea" } },
+      "esperado": { "estado": 201, "json_contiene": { "nombre": "tarea" } }
+    }
+  ]
 }
