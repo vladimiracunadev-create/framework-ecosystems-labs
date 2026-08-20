@@ -1,8 +1,19 @@
 {
   "clase": "036",
   "titulo": "Inyección de dependencias",
-  "descripcion": "El mismo manejador funciona con una dependencia real y con una falsa, sin tocar su código.",
-  "estado": "esqueleto",
+  "descripcion": "El manejador recibe sus colaboraciones en lugar de construirlas.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el manejador usa la dependencia que le inyectaron",
+      "peticion": { "metodo": "GET", "ruta": "/ahora" },
+      "esperado": { "estado": 200, "json": { "ahora": "2026-01-01T00:00:00Z", "origen": "inyectado" } }
+    },
+    {
+      "nombre": "y el resultado es estable: la dependencia es la declarada, no una construida al vuelo",
+      "peticion": { "metodo": "GET", "ruta": "/ahora" },
+      "esperado": { "estado": 200, "json": { "ahora": "2026-01-01T00:00:00Z", "origen": "inyectado" } }
+    }
+  ]
 }

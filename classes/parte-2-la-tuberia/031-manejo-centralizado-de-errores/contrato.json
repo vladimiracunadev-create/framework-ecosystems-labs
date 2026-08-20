@@ -1,8 +1,45 @@
 {
   "clase": "031",
   "titulo": "Manejo centralizado de errores",
-  "descripcion": "Una excepción no controlada responde 500 en problem+json, sin filtrar la traza.",
-  "estado": "esqueleto",
+  "descripcion": "Convertir cualquier excepción en una respuesta del contrato, sin filtrar detalles internos.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "lo que funciona sigue funcionando",
+      "peticion": { "metodo": "GET", "ruta": "/ok" },
+      "esperado": { "estado": 200, "json": { "ok": true } }
+    },
+    {
+      "nombre": "una excepción no controlada responde 500",
+      "peticion": { "metodo": "GET", "ruta": "/roto" },
+      "esperado": { "estado": 500 }
+    },
+    {
+      "nombre": "el 500 usa el formato estándar de problema",
+      "peticion": { "metodo": "GET", "ruta": "/roto" },
+      "esperado": { "estado": 500, "cabeceras": { "content-type": "application/problem+json" } }
+    },
+    {
+      "nombre": "el 500 no filtra el mensaje interno",
+      "peticion": { "metodo": "GET", "ruta": "/roto" },
+      "esperado": {
+        "estado": 500,
+        "json": { "type": "about:blank", "title": "error interno", "status": 500, "code": "ERROR_INTERNO" }
+      }
+    },
+    {
+      "nombre": "un error de negocio sí dice qué pasó",
+      "peticion": { "metodo": "GET", "ruta": "/negocio" },
+      "esperado": {
+        "estado": 409,
+        "json": {
+          "type": "about:blank",
+          "title": "la tarea ya estaba completada",
+          "status": 409,
+          "code": "TAREA_YA_COMPLETADA"
+        }
+      }
+    }
+  ]
 }

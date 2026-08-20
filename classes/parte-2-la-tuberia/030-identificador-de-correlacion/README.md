@@ -2,31 +2,125 @@
 
 > [⬅️ 029](../029-registro-de-peticiones/README.md) · [📚 Parte 2](../README.md) · [🎓 Clases](../../README.md) · [031 ➡️](../031-manejo-centralizado-de-errores/README.md)
 >
-> Parte **2 — La tubería: middleware, filtros e interceptores** · Nivel **🟡 intermedio** · Pista **`backend`** (Backend y API)
+> Parte **2 — La tubería** · Nivel **🟡 intermedio** · Pista **`backend`**
 >
-> 🚧 **Clase en esqueleto.** El contrato y el elenco están fijados; la prosa y
-> las implementaciones se escriben en una pasada posterior. Lo que hay aquí ya
-> es exacto: no se ampliará con relleno.
+> ✅ **Clase construida** — 4 implementaciones verificadas contra [`contrato.json`](contrato.json).
 
 ## 🎯 Objetivo
 
-Seguir una petición a través de varios servicios.
+Poder seguir **una petición concreta** a través de varios servicios y varios
+registros. Es la diferencia entre «el sistema falló» y «esta petición falló aquí».
 
 ## 🧩 La situación
 
-Se respeta el identificador entrante o se genera uno, y se devuelve siempre.
+Si el cliente envía `x-request-id`, se **respeta**. Si no lo envía, se **genera**
+uno. En ambos casos se devuelve en la respuesta.
 
-## 🎬 Elenco
+Las dos mitades importan:
 
-Los frameworks para los que este problema tiene sentido. Cada uno lo resolverá a
-su manera, y esa diferencia es el contenido de la clase.
+- **Respetarlo** permite que el identificador atraviese servicios: el que crea la
+  petición inicial lo propaga a todos los que llama, y una sola búsqueda reúne
+  las líneas de todos.
+- **Generarlo** garantiza que ninguna petición se quede sin rastro, incluso si el
+  cliente no colabora.
 
-| Framework | Categoría | Ecosistema | Implementación |
-| --- | --- | --- | --- |
-| [Express](../../../atlas/fichas/express.md) | `web-framework` | Node.js | `implementaciones/express/` |
-| [FastAPI](../../../atlas/fichas/fastapi.md) | `web-framework` | Python | `implementaciones/fastapi/` |
-| [Spring Boot](../../../atlas/fichas/spring-boot.md) | `application-framework` | JVM | `implementaciones/spring-boot/` |
-| [ASP.NET Core](../../../atlas/fichas/aspnet-core.md) | `web-framework` | .NET | `implementaciones/aspnet-core/` |
+Y devolverlo al cliente permite que un usuario que informa de un error **te dé el
+identificador** de su petición concreta.
+
+## 🧮 El contrato
+
+| Petición | Respuesta |
+| --- | --- |
+| con `x-request-id: abc-123` | `{"correlacion":"abc-123","generado":false}` |
+| igual | `x-request-id: abc-123` en la respuesta |
+| sin cabecera | `{"generado":true}` y un identificador nuevo |
+
+El tercer caso usa comparación **parcial**: el identificador generado es
+aleatorio y exigirlo exacto sería pedir que se prediga lo impredecible. El
+verificador tiene una aserción para eso.
+
+## 🔒 El detalle de seguridad que casi nadie pone
+
+```javascript
+peticion.correlacion = entrante && entrante.length <= 128 ? entrante : randomUUID();
+```
+
+Ese límite de longitud no es adorno. **El identificador lo controla el cliente y
+acaba en tus registros**, así que sin tope es una vía directa para inflarlos: un
+atacante envía identificadores de un megabyte y llena el disco de registro.
+
+Merece tratarse igual que cualquier otra entrada del usuario: **validar antes de
+usar**. La misma regla que la clase 013 aplicaba a un número.
+
+En un sistema real conviene además no aceptar caracteres de control, para que un
+identificador no pueda inyectar saltos de línea en un registro de texto y
+falsificar entradas.
+
+## 🌐 Las implementaciones
+
+Las cuatro respetan el identificador entrante, generan uno si falta y lo
+devuelven. La diferencia está en si el framework lo propaga solo al registro, y
+ahí Spring aporta algo que los otros no.
+
+### Lo que Spring aporta: el contexto de diagnóstico
+
+```java
+MDC.put("correlacion", correlacion);
+try {
+    cadena.doFilter(peticion, respuesta);
+} finally {
+    MDC.remove("correlacion");
+}
+```
+
+A partir de ese `put`, **toda línea de registro emitida en ese hilo lleva el
+identificador**, sin que ningún método tenga que pasarlo como argumento. Es la
+diferencia entre propagar el contexto a mano por veinte funciones y tenerlo
+implícito.
+
+**Y el `finally` es obligatorio.** El hilo vuelve al grupo y se reutiliza: sin la
+limpieza, la petición siguiente hereda el identificador de la anterior y el
+registro miente de la peor forma posible — atribuyendo eventos a la petición
+equivocada.
+
+Es exactamente el mismo riesgo que el estado global de la clase 027, con otra
+cara: aquí el estado no es una variable del módulo, es una variable **atada al
+hilo** que sobrevive a la petición.
+
+En Node y en Python el equivalente es el almacenamiento local asíncrono, que
+resuelve el mismo problema para modelos sin hilos.
+
+## 🔬 Comparación
+
+| Framework | Almacén | Propagación automática al registro |
+| --- | --- | --- |
+| Spring Boot | atributo + contexto de diagnóstico | **sí**, con limpieza obligatoria |
+| ASP.NET Core | `contexto.Items` + ámbitos de registro | sí, con ámbitos |
+| FastAPI | `peticion.state` | no de serie |
+| Express | propiedad en `peticion` | no de serie |
+
+Los dos de arriba lo traen; los dos de abajo lo montan con almacenamiento local
+asíncrono. **Ninguno lo activa por omisión.**
+
+## 🌍 El estándar que conviene conocer
+
+Esta clase usa `x-request-id` por ser lo más extendido. El estándar del W3C para
+esto es **`traceparent`**, y es lo que usa OpenTelemetry
+[@opentelemetry-docs]: lleva identificador de traza, identificador de tramo y
+banderas, y permite reconstruir el árbol completo de llamadas, no solo agruparlas.
+
+La clase 132 lo desarrolla. Para empezar, `x-request-id` resuelve el 80 % del
+problema con el 10 % del trabajo.
+
+## ⚠️ Errores frecuentes
+
+- **Aceptar el identificador del cliente sin límite ni validación.**
+- **No limpiar el contexto del hilo.** La petición siguiente hereda el
+  identificador.
+- **Generarlo y no devolverlo.** El usuario no puede decirte cuál fue su petición.
+- **No propagarlo a los servicios que llamas.** Se pierde en el primer salto.
+- **Usar el identificador de sesión como correlación.** Mete un dato sensible en
+  todos los registros.
 
 ## ✅ Verificación
 
@@ -34,10 +128,21 @@ su manera, y esa diferencia es el contenido de la clase.
 node scripts/run-class.mjs 030
 ```
 
-Los casos están en [`contrato.json`](contrato.json). El verificador ejecuta las
-implementaciones que encuentre y declara las que omitió.
+## 🧪 Reto de transferencia
+
+Haz que la implementación de Express propague el identificador a **todas** sus
+líneas de registro sin pasarlo como argumento, usando `AsyncLocalStorage`. Es el
+equivalente del contexto de diagnóstico de Spring, y entender por qué hace falta
+un mecanismo especial en un modelo asíncrono es el objetivo.
 
 ## 🔗 Enlaces
 
-- [Por qué sí y por qué no](porque-si-porque-no.md) — dónde esta solución es natural y dónde es forzada
-- [Índice de la parte 2](../README.md)
+- [Por qué sí y por qué no](porque-si-porque-no.md)
+- [Clase 132 — Trazas](../../parte-10-calidad-y-operacion/132-trazas/README.md)
+- [Módulo 08 — Calidad, rendimiento y operación](../../../curriculum/08-calidad-rendimiento-y-operacion.md)
+
+## Fuentes
+
+- [@opentelemetry-docs] *OpenTelemetry Documentation*, CNCF — <https://opentelemetry.io/docs/>
+- [@majors-observability] Majors, Charity; Fong-Jones, Liz; Miranda, George. *Observability Engineering*. O'Reilly Media, 2022. ISBN 9781492076445 — <https://openlibrary.org/isbn/9781492076445>
+- [@newman-building-microservices] Newman, Sam. *Building Microservices*, 2.ª ed. O'Reilly Media, 2021. ISBN 9781492034025 — <https://openlibrary.org/isbn/9781492034025>

@@ -1,8 +1,39 @@
 {
   "clase": "035",
   "titulo": "Cabeceras de seguridad",
-  "descripcion": "La respuesta incluye el conjunto mínimo de cabeceras de seguridad verificado.",
-  "estado": "esqueleto",
+  "descripcion": "El conjunto mínimo de defensas que el navegador aplica si se las pides.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "prohíbe adivinar el tipo de contenido",
+      "peticion": { "metodo": "GET", "ruta": "/datos" },
+      "esperado": { "estado": 200, "cabeceras": { "x-content-type-options": "nosniff" } }
+    },
+    {
+      "nombre": "impide que la página se incruste en un marco ajeno",
+      "peticion": { "metodo": "GET", "ruta": "/datos" },
+      "esperado": { "estado": 200, "cabeceras": { "x-frame-options": "DENY" } }
+    },
+    {
+      "nombre": "obliga a HTTPS en visitas posteriores",
+      "peticion": { "metodo": "GET", "ruta": "/datos" },
+      "esperado": { "estado": 200, "cabecera_presente": ["strict-transport-security"] }
+    },
+    {
+      "nombre": "declara una política de contenido restrictiva",
+      "peticion": { "metodo": "GET", "ruta": "/datos" },
+      "esperado": { "estado": 200, "cabecera_presente": ["content-security-policy"] }
+    },
+    {
+      "nombre": "no filtra la URL completa a terceros",
+      "peticion": { "metodo": "GET", "ruta": "/datos" },
+      "esperado": { "estado": 200, "cabeceras": { "referrer-policy": "no-referrer" } }
+    },
+    {
+      "nombre": "no regala la firma del servidor",
+      "peticion": { "metodo": "GET", "ruta": "/datos" },
+      "esperado": { "estado": 200, "cabecera_ausente": ["x-powered-by"] }
+    }
+  ]
 }

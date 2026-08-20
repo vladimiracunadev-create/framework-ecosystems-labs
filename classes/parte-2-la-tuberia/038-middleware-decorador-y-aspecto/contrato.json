@@ -1,8 +1,24 @@
 {
   "clase": "038",
   "titulo": "Middleware, decorador y aspecto",
-  "descripcion": "El mismo registro de auditoría implementado de las tres formas.",
-  "estado": "esqueleto",
+  "descripcion": "Tres formas de envolver comportamiento. Cada framework las llama distinto; el orden es el mismo.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la acción se ejecuta",
+      "peticion": { "metodo": "GET", "ruta": "/accion" },
+      "esperado": { "estado": 200, "json": { "ok": true } }
+    },
+    {
+      "nombre": "las capas envuelven al manejador de fuera adentro y se deshacen al revés",
+      "peticion": { "metodo": "GET", "ruta": "/auditoria" },
+      "esperado": {
+        "estado": 200,
+        "json": {
+          "auditoria": ["externa:GET /accion", "interna:accion", "manejador", "interna:fin"]
+        }
+      }
+    }
+  ]
 }

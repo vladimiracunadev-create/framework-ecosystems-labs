@@ -225,6 +225,12 @@ async function comprobarCaso(baseUrl, caso) {
   // Comprobar que una cabecera NO está también es parte del contrato: la
   // ausencia de `Content-Length` es lo que distingue una respuesta troceada de
   // una construida entera antes de enviarla.
+  for (const k of e.cabecera_presente ?? []) {
+    if (res.headers.get(k) === null) {
+      fallos.push(`falta la cabecera ${k}`);
+    }
+  }
+
   for (const k of e.cabecera_ausente ?? []) {
     if (res.headers.get(k) !== null) {
       fallos.push(`cabecera ${k} presente ("${res.headers.get(k)}") y debía estar ausente`);

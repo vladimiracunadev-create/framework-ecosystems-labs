@@ -1,8 +1,24 @@
 {
   "clase": "037",
   "titulo": "Ciclo de vida de los objetos",
-  "descripcion": "Un contador por ámbito revela cuántas instancias se crearon en cada caso.",
-  "estado": "esqueleto",
+  "descripcion": "Única instancia frente a una por petición: un contador revela cuántas se crearon.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la primera petición ve la primera instancia de cada ámbito",
+      "peticion": { "metodo": "GET", "ruta": "/ambitos" },
+      "esperado": { "estado": 200, "json_contiene": { "unico": 1 } }
+    },
+    {
+      "nombre": "la de única instancia NO se vuelve a crear en la segunda petición",
+      "peticion": { "metodo": "GET", "ruta": "/ambitos" },
+      "esperado": { "estado": 200, "json_contiene": { "unico": 1 } }
+    },
+    {
+      "nombre": "y sigue siendo la misma en la tercera",
+      "peticion": { "metodo": "GET", "ruta": "/ambitos" },
+      "esperado": { "estado": 200, "json_contiene": { "unico": 1 } }
+    }
+  ]
 }

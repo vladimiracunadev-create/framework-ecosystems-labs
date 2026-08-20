@@ -585,7 +585,7 @@
             "rails",
             "gin"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 27,
@@ -601,7 +601,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 28,
@@ -617,7 +617,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 29,
@@ -633,7 +633,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 30,
@@ -649,7 +649,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 31,
@@ -665,7 +665,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 32,
@@ -681,7 +681,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 33,
@@ -697,7 +697,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 34,
@@ -713,7 +713,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 35,
@@ -729,7 +729,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 36,
@@ -746,7 +746,7 @@
             "fastapi",
             "laravel"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 37,
@@ -762,7 +762,7 @@
             "aspnet-core",
             "laravel"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 38,
@@ -778,7 +778,7 @@
             "aspnet-core",
             "fastapi"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         }
       ],
       "count": 13,

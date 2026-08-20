@@ -12,12 +12,10 @@ app.Use(async (contexto, siguiente) =>
 app.MapGet("/a", () => Results.Json(new { ruta = "a" }));
 app.MapGet("/b", () => Results.Json(new { ruta = "b" }));
 
-// El manejador final: si nada coincidió, la tubería llega aquí.
-app.Run(async contexto =>
-{
-    contexto.Response.StatusCode = 404;
-    contexto.Response.ContentType = "application/json";
-    await contexto.Response.WriteAsync("{\"error\":\"no existe\"}");
-});
+// `MapFallback` y NO `app.Run(manejador)`: `Run` registra una capa TERMINAL,
+// que corta la tuberia antes de llegar al enrutado. Con ella, incluso /a y /b
+// respondian 404. `MapFallback` registra una ruta comodin, que es lo que
+// corresponde: se evalua despues de las demas.
+app.MapFallback(() => Results.Json(new { error = "no existe" }, statusCode: 404));
 
 app.Run();

@@ -1,8 +1,24 @@
 {
   "clase": "032",
   "titulo": "Tiempos de espera",
-  "descripcion": "Un manejador que tarda más del límite responde 504 y libera el recurso.",
-  "estado": "esqueleto",
+  "descripcion": "Una petición lenta no puede retener un recurso para siempre.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "lo rápido pasa sin tocar el plazo",
+      "peticion": { "metodo": "GET", "ruta": "/rapido" },
+      "esperado": { "estado": 200, "json": { "ok": true } }
+    },
+    {
+      "nombre": "lo que tarda más del límite responde 504",
+      "peticion": { "metodo": "GET", "ruta": "/lento" },
+      "esperado": { "estado": 504 }
+    },
+    {
+      "nombre": "el servicio sigue atendiendo después del corte",
+      "peticion": { "metodo": "GET", "ruta": "/rapido" },
+      "esperado": { "estado": 200, "json": { "ok": true } }
+    }
+  ]
 }

@@ -36,7 +36,11 @@ def b(peticion):
     return JsonResponse({"ruta": "b"})
 
 
-def no_encontrado(peticion, excepcion=None):
+def no_encontrado(peticion, exception=None):
+    # El argumento DEBE llamarse `exception`: Django lo pasa por nombre
+    # (`callback(request, exception=...)`). Traducirlo produce un TypeError que
+    # se manifiesta como un 500 al pedir una ruta inexistente — un fallo que
+    # solo aparece en el camino de error, que es donde menos se prueba.
     return JsonResponse({"error": "no existe"}, status=404)
 
 

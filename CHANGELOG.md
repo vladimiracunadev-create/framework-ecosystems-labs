@@ -82,6 +82,51 @@ qué hay debajo del framework.
   type=int)` devuelve el valor por omisión cuando la conversión falla, no `None`.
   El fallo está documentado en la clase 013 porque es exactamente lo que enseña.
 
+## [0.10.0] — 2026-08-20
+
+**Parte 2 completa**: trece clases sobre la tubería, de reconocer el patrón
+middleware a distinguir middleware, decorador y aspecto.
+
+### Añadido
+
+- **13 clases nuevas** (026–038): el patrón middleware, el orden de ejecución,
+  terminación temprana, registro de peticiones, identificador de correlación,
+  manejo centralizado de errores, tiempos de espera, límite de cuerpo,
+  limitación de tasa, cabeceras de seguridad, inyección de dependencias, ciclo
+  de vida de los objetos y las tres alturas para envolver comportamiento.
+- **59 implementaciones nuevas**, hasta 162 en total, y **46 casos verificables
+  nuevos**, hasta 116.
+- **NestJS entra al elenco** con su propio andamiaje TypeScript en las clases
+  036, 037 y 038.
+- Tres aserciones nuevas en el verificador: `cabecera_presente`, `json_contiene`
+  para respuestas con valores no deterministas, y preparación en varios pasos en
+  `ejecutar.json`.
+
+### Corregido
+
+- **El verificador podía probar el servidor de la clase anterior.** En POSIX,
+  `go run`, `mvn` y `dotnet run` ejecutan el binario como proceso hijo: matar
+  solo al padre lo dejaba vivo con el puerto ocupado. Ahora se mata el grupo de
+  procesos entero, se espera a que el puerto se libere, y arrancar sobre un
+  puerto ocupado es un error declarado.
+- **ASP.NET Core devolvía 400 en lugar de 422** en la clase 013: el enlace
+  automático de parámetros rechaza antes de entrar al manejador.
+- **La compresión de .NET no tiene umbral de tamaño** y comprimía respuestas de
+  cinco letras. El umbral se trae de fuera derivando la tubería.
+- **`produces` no fija el tipo de contenido** cuando el cuerpo se escribe en el
+  flujo de salida (clase 022).
+- **El manejador de 404 de Django recibe el argumento por nombre**: llamarlo
+  distinto de `exception` produce un 500 al pedir una ruta inexistente.
+- **`app.Run(manejador)` en ASP.NET Core es terminal** y cortaba el enrutado: las
+  rutas dejaban de responder. Se sustituye por `MapFallback`.
+
+### Cambiado
+
+- Ante un origen no permitido, **Spring Boot responde 403** y los otros tres
+  responden 200 sin la cabecera de autorización. Las dos posturas son
+  defendibles, así que el contrato de la clase 024 exige la propiedad de
+  seguridad —que la cabecera no esté— y admite ambos códigos.
+
 ## [0.8.2] — 2026-08-20
 
 Rails cierra el elenco de la clase 011: **las diez implementaciones se verifican
