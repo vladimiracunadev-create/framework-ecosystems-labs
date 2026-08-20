@@ -58,17 +58,17 @@ nunca aparece en las comparativas.
 <!-- generado:tabla-ecosistema php -->
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **CakePHP** | `full-stack-framework` | 2005 | 🌱 Pionero | 🟢 activo | `MIT` | [oficial](https://book.cakephp.org/) |
-| **CodeIgniter** | `web-framework` | 2006 | 🌱 Pionero | 🟢 activo | `MIT` | [oficial](https://codeigniter.com/user_guide/) |
-| **Drupal** | `cms` | 2001 | 🏛️ Clásico | 🟢 activo | `GPL-2.0-or-later` | [oficial](https://www.drupal.org/docs) |
-| **Laminas** | `application-framework` | 2019 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.laminas.dev/) |
-| **Phalcon** | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.phalcon.io/latest/) |
-| **Slim** | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://www.slimframework.com/docs/v4/) |
+| [**CakePHP**](../fichas/cakephp.md) | `full-stack-framework` | 2005 | 🌱 Pionero | 🟢 activo | `MIT` | [oficial](https://book.cakephp.org/) |
+| [**CodeIgniter**](../fichas/codeigniter.md) | `web-framework` | 2006 | 🌱 Pionero | 🟢 activo | `MIT` | [oficial](https://codeigniter.com/user_guide/) |
+| [**Drupal**](../fichas/drupal.md) | `cms` | 2001 | 🏛️ Clásico | 🟢 activo | `GPL-2.0-or-later` | [oficial](https://www.drupal.org/docs) |
+| [**Laminas**](../fichas/laminas.md) | `application-framework` | 2019 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.laminas.dev/) |
+| [**Phalcon**](../fichas/phalcon.md) | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.phalcon.io/latest/) |
+| [**Slim**](../fichas/slim.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://www.slimframework.com/docs/v4/) |
 | [**Symfony**](../fichas/symfony.md) | `web-framework` | 2005 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://symfony.com/doc/current/) |
 | [**WordPress**](../fichas/wordpress.md) | `cms` | 2003 | 🏛️ Clásico | 🟢 activo | `GPL-2.0-or-later` | [oficial](https://developer.wordpress.org/) |
-| **Yii** | `full-stack-framework` | 2008 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://www.yiiframework.com/doc/guide/2.0/en) |
-| **Zend Framework** | `application-framework` | 2006 | 🏛️ Clásico | ⚪ histórico | `BSD-3-Clause` | [oficial](https://docs.laminas.dev/migration/) |
-| **Eloquent (Laravel)** | `orm` | 2011 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://laravel.com/docs/eloquent) |
+| [**Yii**](../fichas/yii.md) | `full-stack-framework` | 2008 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://www.yiiframework.com/doc/guide/2.0/en) |
+| [**Zend Framework**](../fichas/zend-framework.md) | `application-framework` | 2006 | 🏛️ Clásico | ⚪ histórico | `BSD-3-Clause` | [oficial](https://docs.laminas.dev/migration/) |
+| [**Eloquent (Laravel)**](../fichas/eloquent.md) | `orm` | 2011 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://laravel.com/docs/eloquent) |
 | [**Laravel**](../fichas/laravel.md) | `full-stack-framework` | 2011 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://laravel.com/docs) |
 <!-- fin -->
 

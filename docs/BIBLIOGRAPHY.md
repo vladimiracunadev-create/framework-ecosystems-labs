@@ -50,7 +50,7 @@ Banks, Alex; Porcello, Eve, *Learning React: Modern Patterns for Developing Reac
 
 - Localizador: <https://openlibrary.org/isbn/9781492051725>
 - Temas: react, frontend, componentes
-- Citada en: [`atlas/fichas/react.md`](../atlas/fichas/react.md)
+- Citada en: [`atlas/fichas/jetpack-compose.md`](../atlas/fichas/jetpack-compose.md), [`atlas/fichas/react.md`](../atlas/fichas/react.md)
 
 ### `bass-software-architecture-practice`
 
@@ -58,7 +58,7 @@ Bass, Len; Clements, Paul; Kazman, Rick, *Software Architecture in Practice*, 4.
 
 - Localizador: <https://openlibrary.org/isbn/9780136886099>
 - Temas: arquitectura, atributos de calidad, tácticas
-- Citada en: [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
+- Citada en: [`atlas/fichas/jakarta-faces.md`](../atlas/fichas/jakarta-faces.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
 
 ### `beck-tdd`
 
@@ -114,7 +114,7 @@ Casciaro, Mario; Mammino, Luciano, *Node.js Design Patterns*, 3.ª ed., Packt Pu
 
 - Localizador: <https://openlibrary.org/isbn/9781839214110>
 - Temas: node, patrones, asincronía
-- Citada en: [`atlas/fichas/express.md`](../atlas/fichas/express.md)
+- Citada en: [`atlas/fichas/express.md`](../atlas/fichas/express.md), [`atlas/fichas/ktor.md`](../atlas/fichas/ktor.md)
 
 ### `cohn-succeeding-agile`
 
@@ -154,7 +154,7 @@ Evans, Eric, *Domain-Driven Design: Tackling Complexity in the Heart of Software
 
 - Localizador: <https://openlibrary.org/isbn/9780321125217>
 - Temas: dominio, modelado, lenguaje ubicuo
-- Citada en: [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
+- Citada en: [`atlas/fichas/hibernate.md`](../atlas/fichas/hibernate.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
 ### `fain-moiseev-angular`
 
@@ -202,7 +202,7 @@ Ford, Neal; Parsons, Rebecca; Kua, Patrick; Sadalage, Pramod, *Building Evolutio
 
 - Localizador: <https://openlibrary.org/isbn/9781492097549>
 - Temas: evolución, funciones de aptitud, gobierno
-- Citada en: [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
+- Citada en: [`atlas/fichas/zend-framework.md`](../atlas/fichas/zend-framework.md), [`curriculum/11-seleccion-y-sostenibilidad.md`](../curriculum/11-seleccion-y-sostenibilidad.md)
 
 ### `forsgren-accelerate`
 
@@ -218,7 +218,7 @@ Fowler, Martin, *Patterns of Enterprise Application Architecture*, Addison-Wesle
 
 - Localizador: <https://openlibrary.org/isbn/9780321127426>
 - Temas: arquitectura, persistencia, dominio
-- Citada en: [`atlas/README.md`](../atlas/README.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
+- Citada en: [`atlas/README.md`](../atlas/README.md), [`atlas/fichas/eloquent.md`](../atlas/fichas/eloquent.md), [`atlas/fichas/hibernate.md`](../atlas/fichas/hibernate.md), [`atlas/fichas/yii.md`](../atlas/fichas/yii.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
 ### `fowler-refactoring`
 
@@ -250,7 +250,7 @@ Freeman, Steve; Pryce, Nat, *Growing Object-Oriented Software, Guided by Tests*,
 
 - Localizador: <https://openlibrary.org/isbn/9780321503626>
 - Temas: pruebas, diseño, dobles
-- Citada en: [`atlas/fichas/spring-boot.md`](../atlas/fichas/spring-boot.md)
+- Citada en: [`atlas/fichas/spring-boot.md`](../atlas/fichas/spring-boot.md), [`atlas/fichas/spring-framework.md`](../atlas/fichas/spring-framework.md)
 
 ### `frost-atomic-design`
 
@@ -290,7 +290,7 @@ Gregg, Brendan, *Systems Performance*, 2.ª ed., Pearson, 2020, ISBN 97801368201
 
 - Localizador: <https://openlibrary.org/isbn/9780136820154>
 - Temas: rendimiento, medición, metodología
-- Citada en: [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
+- Citada en: [`atlas/fichas/phalcon.md`](../atlas/fichas/phalcon.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
 
 ### `grigorik-hpbn`
 
@@ -354,7 +354,7 @@ Hohpe, Gregor; Woolf, Bobby, *Enterprise Integration Patterns: Designing, Buildi
 
 - Localizador: <https://openlibrary.org/isbn/9780321200686>
 - Temas: integración, mensajería, eventos
-- Citada en: [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md), [`curriculum/10-modernizacion-y-migracion.md`](../curriculum/10-modernizacion-y-migracion.md)
+- Citada en: [`atlas/fichas/vertx.md`](../atlas/fichas/vertx.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md), [`curriculum/10-modernizacion-y-migracion.md`](../curriculum/10-modernizacion-y-migracion.md)
 
 ### `humble-farley-continuous-delivery`
 
@@ -418,7 +418,7 @@ Lockhart, Josh, *Modern PHP: New Features and Good Practices*, O'Reilly Media, 2
 
 - Localizador: <https://openlibrary.org/isbn/9781491905180>
 - Temas: php, estándares, interoperabilidad
-- Citada en: [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md)
+- Citada en: [`atlas/fichas/codeigniter.md`](../atlas/fichas/codeigniter.md), [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md), [`atlas/fichas/slim.md`](../atlas/fichas/slim.md)
 
 ### `lubanovic-fastapi`
 
@@ -458,7 +458,7 @@ Martin, Robert C., *Clean Architecture: A Craftsman's Guide to Software Structur
 
 - Localizador: <https://openlibrary.org/isbn/9780134494166>
 - Temas: arquitectura, límites, dependencias
-- Citada en: [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
+- Citada en: [`atlas/fichas/compose-multiplatform.md`](../atlas/fichas/compose-multiplatform.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
 
 ### `martin-clean-code`
 
@@ -474,7 +474,7 @@ McCord, Chris; Tate, Bruce; Valim, José, *Programming Phoenix*, Pragmatic Books
 
 - Localizador: <https://openlibrary.org/isbn/9781680501452>
 - Temas: phoenix, elixir, tiempo real
-- Citada en: [`atlas/fichas/phoenix.md`](../atlas/fichas/phoenix.md)
+- Citada en: [`atlas/fichas/phoenix-liveview.md`](../atlas/fichas/phoenix-liveview.md), [`atlas/fichas/phoenix.md`](../atlas/fichas/phoenix.md)
 
 ### `meszaros-xunit`
 
@@ -490,7 +490,7 @@ Murphy, Niall Richard; Rensin, David K.; Kawahara, Kent; Thorne, Stephen, *The S
 
 - Localizador: <https://openlibrary.org/isbn/9781492029502>
 - Temas: operación, SLO, práctica
-- Citada en: [`atlas/fichas/kubernetes.md`](../atlas/fichas/kubernetes.md)
+- Citada en: [`atlas/fichas/dropwizard.md`](../atlas/fichas/dropwizard.md), [`atlas/fichas/kubernetes.md`](../atlas/fichas/kubernetes.md)
 
 ### `newman-building-microservices`
 
@@ -578,7 +578,7 @@ Poulton, Nigel, *Docker Deep Dive*, Packt Publishing, 2020, ISBN 9781800565135
 
 - Localizador: <https://openlibrary.org/isbn/9781800565135>
 - Temas: contenedores, imágenes, despliegue
-- Citada en: [`atlas/fichas/kubernetes.md`](../atlas/fichas/kubernetes.md)
+- Citada en: [`atlas/fichas/kubernetes.md`](../atlas/fichas/kubernetes.md), [`atlas/fichas/quarkus.md`](../atlas/fichas/quarkus.md)
 
 ### `powers-learning-node`
 
@@ -634,7 +634,7 @@ Ruby, Sam; Thomas, Dave, *Agile Web Development with Rails 7*, Pragmatic Bookshe
 
 - Localizador: <https://openlibrary.org/isbn/9781680509298>
 - Temas: rails, convenciones, full stack
-- Citada en: [`atlas/fichas/rails.md`](../atlas/fichas/rails.md)
+- Citada en: [`atlas/fichas/cakephp.md`](../atlas/fichas/cakephp.md), [`atlas/fichas/grails.md`](../atlas/fichas/grails.md), [`atlas/fichas/rails.md`](../atlas/fichas/rails.md)
 
 ### `seemann-deursen-di`
 
@@ -642,7 +642,7 @@ Seemann, Mark; van Deursen, Steven, *Dependency Injection Principles, Practices,
 
 - Localizador: <https://openlibrary.org/isbn/9781617294730>
 - Temas: inversión de control, inyección, ciclo de vida
-- Citada en: [`atlas/fichas/spring-boot.md`](../atlas/fichas/spring-boot.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
+- Citada en: [`atlas/fichas/micronaut.md`](../atlas/fichas/micronaut.md), [`atlas/fichas/spring-boot.md`](../atlas/fichas/spring-boot.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
 
 ### `shaughnessy-ruby-microscope`
 
@@ -682,7 +682,7 @@ Stauffer, Matt, *Laravel: Up & Running: A Framework for Building Modern PHP Apps
 
 - Localizador: <https://openlibrary.org/isbn/9781492041214>
 - Temas: laravel, php, full stack
-- Citada en: [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md)
+- Citada en: [`atlas/fichas/eloquent.md`](../atlas/fichas/eloquent.md), [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md)
 
 ### `sweller-cognitive-load-theory`
 
@@ -698,7 +698,7 @@ Thomas, Dave, *Programming Elixir*, Pragmatic Bookshelf, 2014, ISBN 978193778558
 
 - Localizador: <https://openlibrary.org/isbn/9781937785581>
 - Temas: elixir, concurrencia, beam
-- Citada en: [`atlas/fichas/phoenix.md`](../atlas/fichas/phoenix.md)
+- Citada en: [`atlas/fichas/phoenix-liveview.md`](../atlas/fichas/phoenix-liveview.md), [`atlas/fichas/phoenix.md`](../atlas/fichas/phoenix.md)
 
 ### `vernon-iddd`
 
@@ -738,7 +738,7 @@ Walls, Craig, *Spring in Action*, 6.ª ed., Manning Publications, 2022, ISBN 978
 
 - Localizador: <https://openlibrary.org/isbn/9781617297571>
 - Temas: spring, inyección, jvm
-- Citada en: [`atlas/fichas/spring-boot.md`](../atlas/fichas/spring-boot.md)
+- Citada en: [`atlas/fichas/quarkus.md`](../atlas/fichas/quarkus.md), [`atlas/fichas/spring-boot.md`](../atlas/fichas/spring-boot.md), [`atlas/fichas/spring-framework.md`](../atlas/fichas/spring-framework.md)
 
 ### `wiggins-mctighe-ubd`
 
@@ -1026,7 +1026,7 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 
 - Localizador: <https://www.php-fig.org/psr/>
 - Temas: php, interoperabilidad, middleware
-- Citada en: [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md)
+- Citada en: [`atlas/fichas/codeigniter.md`](../atlas/fichas/codeigniter.md), [`atlas/fichas/laminas.md`](../atlas/fichas/laminas.md), [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md), [`atlas/fichas/slim.md`](../atlas/fichas/slim.md)
 
 ### `semver`
 
@@ -1222,7 +1222,7 @@ Fowler, Martin, *Inversion of Control Containers and the Dependency Injection pa
 
 - Localizador: <https://martinfowler.com/articles/injection.html>
 - Temas: inversión de control, inyección
-- Citada en: [`atlas/ecosistemas/jvm.md`](../atlas/ecosistemas/jvm.md), [`atlas/fichas/spring-boot.md`](../atlas/fichas/spring-boot.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
+- Citada en: [`atlas/ecosistemas/jvm.md`](../atlas/ecosistemas/jvm.md), [`atlas/fichas/spring-boot.md`](../atlas/fichas/spring-boot.md), [`atlas/fichas/spring-framework.md`](../atlas/fichas/spring-framework.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
 
 ### `fowler-strangler-fig`
 
@@ -1374,7 +1374,7 @@ Harris, Rich, *Virtual DOM is pure overhead*, Svelte, 2018
 
 - Localizador: <https://12factor.net/>
 - Temas: configuración, despliegue, paridad de entornos
-- Citada en: [`atlas/ecosistemas/cloud.md`](../atlas/ecosistemas/cloud.md), [`curriculum/09-movil-escritorio-y-offline.md`](../curriculum/09-movil-escritorio-y-offline.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
+- Citada en: [`atlas/ecosistemas/cloud.md`](../atlas/ecosistemas/cloud.md), [`atlas/fichas/play-framework.md`](../atlas/fichas/play-framework.md), [`curriculum/09-movil-escritorio-y-offline.md`](../curriculum/09-movil-escritorio-y-offline.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
 
 ### `web-almanac`
 
@@ -1614,7 +1614,7 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://symfony.com/components>
 - Temas: php, componentes, reutilización
-- Citada en: [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md), [`atlas/fichas/symfony.md`](../atlas/fichas/symfony.md)
+- Citada en: [`atlas/fichas/drupal.md`](../atlas/fichas/drupal.md), [`atlas/fichas/laravel.md`](../atlas/fichas/laravel.md), [`atlas/fichas/symfony.md`](../atlas/fichas/symfony.md)
 
 ### `symfony-best-practices`
 
@@ -1670,4 +1670,4 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://wordpress.org/about/license/>
 - Temas: licencia, copyleft, cms
-- Citada en: [`atlas/fichas/wordpress.md`](../atlas/fichas/wordpress.md)
+- Citada en: [`atlas/fichas/drupal.md`](../atlas/fichas/drupal.md), [`atlas/fichas/wordpress.md`](../atlas/fichas/wordpress.md)

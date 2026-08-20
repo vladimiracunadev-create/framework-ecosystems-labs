@@ -51,7 +51,7 @@ framework.
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
 | [**Phoenix**](../fichas/phoenix.md) | `full-stack-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://hexdocs.pm/phoenix/overview.html) |
-| **Phoenix LiveView** | `realtime-ui-framework` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://hexdocs.pm/phoenix_live_view/) |
+| [**Phoenix LiveView**](../fichas/phoenix-liveview.md) | `realtime-ui-framework` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://hexdocs.pm/phoenix_live_view/) |
 <!-- fin -->
 
 ## Qué aportó cada una

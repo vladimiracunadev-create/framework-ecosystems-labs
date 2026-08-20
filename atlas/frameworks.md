@@ -171,17 +171,17 @@ Contexto y genealogía: [php.md](ecosistemas/php.md).
 
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
-| **CakePHP** | `full-stack-framework` | 2005 | 🌱 Pionero | 🟢 activo | `MIT` | [oficial](https://book.cakephp.org/) |
-| **CodeIgniter** | `web-framework` | 2006 | 🌱 Pionero | 🟢 activo | `MIT` | [oficial](https://codeigniter.com/user_guide/) |
-| **Drupal** | `cms` | 2001 | 🏛️ Clásico | 🟢 activo | `GPL-2.0-or-later` | [oficial](https://www.drupal.org/docs) |
-| **Laminas** | `application-framework` | 2019 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.laminas.dev/) |
-| **Phalcon** | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.phalcon.io/latest/) |
-| **Slim** | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://www.slimframework.com/docs/v4/) |
+| [**CakePHP**](fichas/cakephp.md) | `full-stack-framework` | 2005 | 🌱 Pionero | 🟢 activo | `MIT` | [oficial](https://book.cakephp.org/) |
+| [**CodeIgniter**](fichas/codeigniter.md) | `web-framework` | 2006 | 🌱 Pionero | 🟢 activo | `MIT` | [oficial](https://codeigniter.com/user_guide/) |
+| [**Drupal**](fichas/drupal.md) | `cms` | 2001 | 🏛️ Clásico | 🟢 activo | `GPL-2.0-or-later` | [oficial](https://www.drupal.org/docs) |
+| [**Laminas**](fichas/laminas.md) | `application-framework` | 2019 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.laminas.dev/) |
+| [**Phalcon**](fichas/phalcon.md) | `full-stack-framework` | 2012 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://docs.phalcon.io/latest/) |
+| [**Slim**](fichas/slim.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://www.slimframework.com/docs/v4/) |
 | [**Symfony**](fichas/symfony.md) | `web-framework` | 2005 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://symfony.com/doc/current/) |
 | [**WordPress**](fichas/wordpress.md) | `cms` | 2003 | 🏛️ Clásico | 🟢 activo | `GPL-2.0-or-later` | [oficial](https://developer.wordpress.org/) |
-| **Yii** | `full-stack-framework` | 2008 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://www.yiiframework.com/doc/guide/2.0/en) |
-| **Zend Framework** | `application-framework` | 2006 | 🏛️ Clásico | ⚪ histórico | `BSD-3-Clause` | [oficial](https://docs.laminas.dev/migration/) |
-| **Eloquent (Laravel)** | `orm` | 2011 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://laravel.com/docs/eloquent) |
+| [**Yii**](fichas/yii.md) | `full-stack-framework` | 2008 | 🏛️ Clásico | 🟢 activo | `BSD-3-Clause` | [oficial](https://www.yiiframework.com/doc/guide/2.0/en) |
+| [**Zend Framework**](fichas/zend-framework.md) | `application-framework` | 2006 | 🏛️ Clásico | ⚪ histórico | `BSD-3-Clause` | [oficial](https://docs.laminas.dev/migration/) |
+| [**Eloquent (Laravel)**](fichas/eloquent.md) | `orm` | 2011 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://laravel.com/docs/eloquent) |
 | [**Laravel**](fichas/laravel.md) | `full-stack-framework` | 2011 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://laravel.com/docs) |
 
 ### JVM — Java, Kotlin, Scala y Groovy
@@ -191,19 +191,19 @@ Contexto y genealogía: [jvm.md](ecosistemas/jvm.md).
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
 | [**Apache Struts**](fichas/struts.md) | `web-framework` | 2000 | 🌱 Pionero | 🟡 mantenimiento | `Apache-2.0` | [oficial](https://struts.apache.org/) |
-| **Dropwizard** | `application-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://www.dropwizard.io/en/stable/) |
-| **Grails** | `full-stack-framework` | 2006 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://docs.grails.org/latest/guide/index.html) |
-| **Hibernate ORM** | `orm` | 2001 | 🏛️ Clásico | 🟢 activo | `LGPL-2.1-or-later` | [oficial](https://hibernate.org/orm/documentation/) |
-| **Jakarta Faces (JSF)** | `component-framework` | 2004 | 🏛️ Clásico | 🟡 mantenimiento | `EPL-2.0` | [oficial](https://jakarta.ee/specifications/faces/) |
-| **Play Framework** | `web-framework` | 2007 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://www.playframework.com/documentation/latest/Home) |
-| **Spring Framework** | `application-framework` | 2003 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://docs.spring.io/spring-framework/reference/) |
-| **Eclipse Vert.x** | `reactive-toolkit` | 2012 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://vertx.io/docs/) |
-| **Jetpack Compose** | `ui-toolkit` | 2021 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://developer.android.com/compose) |
-| **Ktor** | `web-framework` | 2018 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://ktor.io/docs/) |
-| **Micronaut** | `application-framework` | 2018 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://docs.micronaut.io/latest/guide/) |
-| **Quarkus** | `application-framework` | 2019 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://quarkus.io/guides/) |
+| [**Dropwizard**](fichas/dropwizard.md) | `application-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://www.dropwizard.io/en/stable/) |
+| [**Grails**](fichas/grails.md) | `full-stack-framework` | 2006 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://docs.grails.org/latest/guide/index.html) |
+| [**Hibernate ORM**](fichas/hibernate.md) | `orm` | 2001 | 🏛️ Clásico | 🟢 activo | `LGPL-2.1-or-later` | [oficial](https://hibernate.org/orm/documentation/) |
+| [**Jakarta Faces (JSF)**](fichas/jakarta-faces.md) | `component-framework` | 2004 | 🏛️ Clásico | 🟡 mantenimiento | `EPL-2.0` | [oficial](https://jakarta.ee/specifications/faces/) |
+| [**Play Framework**](fichas/play-framework.md) | `web-framework` | 2007 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://www.playframework.com/documentation/latest/Home) |
+| [**Spring Framework**](fichas/spring-framework.md) | `application-framework` | 2003 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://docs.spring.io/spring-framework/reference/) |
+| [**Eclipse Vert.x**](fichas/vertx.md) | `reactive-toolkit` | 2012 | 🏛️ Clásico | 🟢 activo | `Apache-2.0` | [oficial](https://vertx.io/docs/) |
+| [**Jetpack Compose**](fichas/jetpack-compose.md) | `ui-toolkit` | 2021 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://developer.android.com/compose) |
+| [**Ktor**](fichas/ktor.md) | `web-framework` | 2018 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://ktor.io/docs/) |
+| [**Micronaut**](fichas/micronaut.md) | `application-framework` | 2018 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://docs.micronaut.io/latest/guide/) |
+| [**Quarkus**](fichas/quarkus.md) | `application-framework` | 2019 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://quarkus.io/guides/) |
 | [**Spring Boot**](fichas/spring-boot.md) | `application-framework` | 2014 | 🟢 Vigente | 🟢 activo | `Apache-2.0` | [oficial](https://spring.io/projects/spring-boot) |
-| **Compose Multiplatform** | `ui-toolkit` | 2021 | 🌊 Emergente | 🟢 activo | `Apache-2.0` | [oficial](https://www.jetbrains.com/compose-multiplatform/) |
+| [**Compose Multiplatform**](fichas/compose-multiplatform.md) | `ui-toolkit` | 2021 | 🌊 Emergente | 🟢 activo | `Apache-2.0` | [oficial](https://www.jetbrains.com/compose-multiplatform/) |
 
 ### .NET y C#
 
@@ -268,7 +268,7 @@ Contexto y genealogía: [beam.md](ecosistemas/beam.md).
 | Tecnología | Clasificación | Desde | Era | Estado | Licencia | Documentación |
 | --- | --- | ---: | --- | --- | --- | --- |
 | [**Phoenix**](fichas/phoenix.md) | `full-stack-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://hexdocs.pm/phoenix/overview.html) |
-| **Phoenix LiveView** | `realtime-ui-framework` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://hexdocs.pm/phoenix_live_view/) |
+| [**Phoenix LiveView**](fichas/phoenix-liveview.md) | `realtime-ui-framework` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://hexdocs.pm/phoenix_live_view/) |
 
 ### Dart
 
