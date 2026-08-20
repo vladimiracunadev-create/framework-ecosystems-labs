@@ -39,6 +39,9 @@ const required = [
   "scripts/generate-site.mjs",
   "scripts/generate-bibliography.mjs",
   "templates/LESSON_TEMPLATE.md",
+  "atlas/README.md",
+  "atlas/frameworks.md",
+  "scripts/generate-atlas.mjs",
 ];
 
 // Directorios que no forman parte del contenido: generados, dependencias o
@@ -58,16 +61,26 @@ function validateRequired() {
   if (missing.length) throw new Error(`Faltan archivos obligatorios: ${missing.join(", ")}`);
 }
 
+const ERAS = new Set(["pionero", "clasico", "vigente", "emergente"]);
+const ESTADOS = new Set(["activo", "mantenimiento", "historico"]);
+
 function validateCatalog() {
   const payload = JSON.parse(fs.readFileSync(path.join(root, "catalog/frameworks.json"), "utf8"));
   const entries = payload.entries;
   const ids = entries.map((entry) => entry.id);
-  if (entries.length < 30 || new Set(ids).size !== ids.length) {
-    throw new Error("El catálogo debe tener al menos 30 entradas con identificador único");
+  if (entries.length < 100 || new Set(ids).size !== ids.length) {
+    throw new Error(`El catálogo debe tener al menos 100 entradas con identificador único y tiene ${entries.length}`);
   }
   for (const entry of entries) {
     if (!entry.official_docs?.startsWith("https://")) throw new Error(`Sin documentación oficial: ${entry.id}`);
-    if (!entry.kind || !entry.ecosystem) throw new Error(`Clasificación incompleta: ${entry.id}`);
+    if (!entry.kind || !entry.ecosystem || !entry.language) throw new Error(`Clasificación incompleta: ${entry.id}`);
+    // El módulo 11 exige licencia y ciclo de vida para poder puntuar; sin estos
+    // campos la entrada no sirve para decidir, solo para presumir de cobertura.
+    if (!entry.license) throw new Error(`Sin licencia declarada: ${entry.id}`);
+    if (!ERAS.has(entry.era)) throw new Error(`Era no reconocida en ${entry.id}: ${entry.era}`);
+    if (!ESTADOS.has(entry.status)) throw new Error(`Estado no reconocido en ${entry.id}: ${entry.status}`);
+    if (!entry.family) throw new Error(`Sin familia de ecosistema: ${entry.id}`);
+    if (!entry.note || entry.note.length < 40) throw new Error(`Nota ausente o trivial en ${entry.id}`);
   }
 }
 

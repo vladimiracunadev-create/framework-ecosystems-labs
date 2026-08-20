@@ -10,7 +10,7 @@ import path from "node:path";
 import process from "node:process";
 import { root, markdownFiles, citationsOf, loadBibliography, formatCitation } from "./lib/sources.mjs";
 
-const AREAS = ["curriculum", "docs", "assessments", "projects"];
+const AREAS = ["curriculum", "docs", "assessments", "projects", "atlas"];
 const TIPOS = [
   ["book", "Libros", "Obras de referencia. El localizador apunta al registro del ISBN-13 concreto de la edición citada."],
   ["paper", "Artículos", "Investigación con revisión por pares. El localizador es el DOI, resoluble y con metadatos en Crossref."],

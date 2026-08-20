@@ -44,7 +44,7 @@ function relativo(file) {
 /** Todo documento del repositorio que debe publicarse, con sus metadatos. */
 function recolectar() {
   const documentos = [];
-  const areas = ["curriculum", "docs", "assessments", "projects", "labs", "templates", "contracts", "sources"];
+  const areas = ["curriculum", "docs", "assessments", "projects", "labs", "templates", "contracts", "sources", "atlas"];
   for (const file of markdownFiles(...areas)) {
     const bruto = fs.readFileSync(file, "utf8");
     const { data, body } = parseFrontMatter(bruto);
@@ -128,6 +128,7 @@ function cabecera(destino, { activo = "" } = {}) {
   <nav aria-label="Principal">
     ${enlace("index.html", "Portada", "inicio")}
     ${enlace("curriculum/index.html", "Programa", "curriculum")}
+    ${enlace("atlas/index.html", "Atlas", "atlas")}
     ${enlace("fuentes.html", "Fuentes", "fuentes")}
     ${enlace("docs/LEARNING-MODEL.html", "Modelo", "modelo")}
     ${enlace("labs/index.html", "Laboratorios", "labs")}
@@ -211,6 +212,8 @@ function portada() {
   const horas = modulos.reduce((total, doc) => total + Number(doc.meta.horas), 0);
   const catalogo = JSON.parse(fs.readFileSync(path.join(root, "catalog/frameworks.json"), "utf8"));
   const laboratorios = documentos.filter((doc) => doc.area === "labs" && doc.origen !== "labs/README.md").length;
+  const familias = new Set(catalogo.entries.map((entry) => entry.family)).size;
+  const fichas = documentos.filter((doc) => doc.origen.startsWith("atlas/fichas/")).length;
   const libros = bibliography.entries.filter((entry) => entry.type === "book").length;
 
   const cuerpo = `<section class="heroe">
@@ -225,13 +228,15 @@ function portada() {
     <li class="cifra"><strong>${horas}</strong><span>horas</span></li>
     <li class="cifra"><strong>${bibliography.entries.length}</strong><span>fuentes verificadas</span></li>
     <li class="cifra"><strong>${libros}</strong><span>libros con ISBN</span></li>
-    <li class="cifra"><strong>${catalogo.entries.length}</strong><span>tecnologías en catálogo</span></li>
+    <li class="cifra"><strong>${catalogo.entries.length}</strong><span>tecnologías en el Atlas</span></li>
+    <li class="cifra"><strong>${familias}</strong><span>ecosistemas</span></li>
     <li class="cifra"><strong>${laboratorios}</strong><span>laboratorios</span></li>
     <li class="cifra"><strong id="progreso">0/${modulos.length}</strong><span>tu progreso</span></li>
   </ul>
   <div class="acciones">
     <a class="boton boton-primario" href="curriculum/00-taxonomia-y-diagnostico.html">Empezar por el módulo 00</a>
     <a class="boton boton-fantasma" href="assessments/diagnostic.html">Hacer el diagnóstico</a>
+    <a class="boton boton-fantasma" href="atlas/index.html">Explorar el Atlas</a>
     <a class="boton boton-fantasma" href="fuentes.html">Ver las ${bibliography.entries.length} fuentes</a>
   </div>
 </section>
@@ -274,6 +279,34 @@ function portada() {
       documentos de IETF, W3C, WHATWG, NIST, OWASP y OpenSSF, enlazados a su fuente.</p></article>
       <article class="tarjeta"><h3>Sin bibliografía decorativa</h3><p>Una fuente que nadie cita hace
       fallar la validación. Las ${bibliography.entries.length} se usan en el texto.</p></article>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <h2>El Atlas</h2>
+    <p class="sub">La segunda capa: ${catalogo.entries.length} tecnologías situadas en su ecosistema y en su era.
+    El núcleo enseña un contrato en cinco ecosistemas; el Atlas enseña a reconocer la familia entera.</p>
+    <div class="rejilla">
+      ${Object.entries(
+        catalogo.entries.reduce((acumulado, entry) => {
+          (acumulado[entry.family] ??= []).push(entry);
+          return acumulado;
+        }, {}),
+      )
+        .sort((a, b) => b[1].length - a[1].length)
+        .map(([familia, lista]) => {
+          const pagina = documentos.find((doc) => doc.origen === `atlas/ecosistemas/${familia}.md`);
+          const titulo = pagina ? pagina.titulo : familia;
+          const eras = ["pionero", "clasico", "vigente", "emergente"]
+            .map((era) => [era, lista.filter((entry) => entry.era === era).length])
+            .filter(([, total]) => total > 0);
+          return `<article class="tarjeta">
+        <div class="meta"><span>${lista.length} tecnologías</span></div>
+        <h3>${pagina ? `<a href="${pagina.destino}">${escapeHtml(titulo)}</a>` : escapeHtml(titulo)}</h3>
+        <div class="etiquetas">${eras.map(([era, total]) => `<span class="etiqueta">${total} ${era}</span>`).join("")}</div>
+      </article>`;
+        })
+        .join("\n")}
     </div>
   </section>
 
@@ -326,6 +359,7 @@ function barraLateral(actual) {
          data-indice="${subir(actual.destino)}datos/indice.json" data-base="${subir(actual.destino)}">
   <ul class="resultados" id="resultados-doc"></ul>
   ${grupo("Programa", modulos)}
+  ${grupo("Atlas", documentos.filter((doc) => doc.area === "atlas"))}
   ${grupo("Fundamentos", documentos.filter((doc) => doc.area === "docs"))}
   ${grupo("Evaluación", documentos.filter((doc) => doc.area === "assessments"))}
   ${grupo("Proyectos", documentos.filter((doc) => doc.area === "projects"))}

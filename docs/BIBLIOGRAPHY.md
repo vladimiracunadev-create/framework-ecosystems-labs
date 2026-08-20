@@ -130,7 +130,7 @@ Fowler, Martin, *Patterns of Enterprise Application Architecture*, Addison-Wesle
 
 - Localizador: <https://openlibrary.org/isbn/9780321127426>
 - Temas: arquitectura, persistencia, dominio
-- Citada en: [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
+- Citada en: [`atlas/README.md`](../atlas/README.md), [`curriculum/00-taxonomia-y-diagnostico.md`](../curriculum/00-taxonomia-y-diagnostico.md), [`curriculum/06-persistencia-y-dominio.md`](../curriculum/06-persistencia-y-dominio.md)
 
 ### `fowler-refactoring`
 
@@ -662,7 +662,7 @@ Fowler, Martin, *Inversion of Control Containers and the Dependency Injection pa
 
 - Localizador: <https://martinfowler.com/articles/injection.html>
 - Temas: inversión de control, inyección
-- Citada en: [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
+- Citada en: [`atlas/ecosistemas/jvm.md`](../atlas/ecosistemas/jvm.md), [`curriculum/02-arquitectura-de-frameworks.md`](../curriculum/02-arquitectura-de-frameworks.md)
 
 ### `fowler-strangler-fig`
 
@@ -750,7 +750,7 @@ Fowler, Martin, *Microservice Trade-Offs*, martinfowler.com, 2015
 
 - Localizador: <https://12factor.net/>
 - Temas: configuración, despliegue, paridad de entornos
-- Citada en: [`curriculum/09-movil-escritorio-y-offline.md`](../curriculum/09-movil-escritorio-y-offline.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
+- Citada en: [`atlas/ecosistemas/cloud.md`](../atlas/ecosistemas/cloud.md), [`curriculum/09-movil-escritorio-y-offline.md`](../curriculum/09-movil-escritorio-y-offline.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
 
 ### `inkandswitch-local-first`
 

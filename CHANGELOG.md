@@ -3,6 +3,44 @@
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el
 versionado es [semántico](https://semver.org/lang/es/).
 
+## [0.4.0] — 2026-08-20
+
+Segunda capa del programa: el **Atlas**. El núcleo demuestra un contrato en cinco
+ecosistemas; el Atlas sitúa 138 tecnologías en su ecosistema y en su era.
+
+### Añadido
+
+- **Catálogo de 138 tecnologías** (antes 34), con esquema ampliado: clasificación,
+  familia de ecosistema, lenguaje, era, estado, año de aparición, licencia SPDX,
+  gobierno y una nota sobre qué aportó cada una. Entran por fin jQuery, Prototype,
+  MooTools, Dojo, Backbone, Knockout, AngularJS, Ember, Laravel, Symfony,
+  CodeIgniter, CakePHP, Yii, Zend, Struts, JSF, Web Forms, Astro, htmx, Alpine,
+  Turbo, LiveView, Sinatra, Rails y un centenar más.
+- **`atlas/`**: portada con las **cinco eras** del campo y el árbol de
+  **genealogía** —quién viene de quién—, **13 páginas de ecosistema** que explican
+  por qué cada lenguaje produce los frameworks que produce, y fichas a fondo de
+  **jQuery**, **Laravel** y **Astro**.
+- `scripts/generate-atlas.mjs`: genera el índice y las tablas por ecosistema desde
+  el catálogo; `--check` falla si el Atlas se desincroniza. La prosa se escribe a
+  mano —es lo que enseña— y las tablas se generan —es lo que se desincroniza.
+- `scripts/refresh-catalog.mjs`: comprueba en línea los 138 enlaces de
+  documentación oficial y contrasta cada identificador de licencia con la lista
+  oficial de SPDX. No bloquea la integración continua.
+- El sitio publica el Atlas: 67 páginas frente a 49.
+
+### Cambiado
+
+- `validate-repository.mjs` exige el esquema nuevo del catálogo: sin licencia,
+  era, estado, familia ni nota, una entrada no sirve para decidir y no se acepta.
+- El Atlas entra en las áreas con trazabilidad: sus citas se validan igual que las
+  del currículo.
+- Portada del sitio y `README.md` con la capa del Atlas y el reparto por ecosistema.
+
+### Verificado
+
+- Los **138 enlaces** de documentación oficial responden.
+- Las **9 licencias** usadas son identificadores SPDX válidos.
+
 ## [0.3.0] — 2026-08-19
 
 El repositorio deja de **describir** su tesis y pasa a **demostrarla**: el mismo

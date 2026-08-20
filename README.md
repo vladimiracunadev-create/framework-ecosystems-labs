@@ -4,6 +4,7 @@
 [![Aceptación](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/acceptance.yml/badge.svg)](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/acceptance.yml)
 [![Pages](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/pages.yml/badge.svg)](https://github.com/vladimiracunadev-create/framework-ecosystems-labs/actions/workflows/pages.yml)
 [![Fuentes verificadas](https://img.shields.io/badge/fuentes-97%20verificadas-0b5fd0)](docs/BIBLIOGRAPHY.md)
+[![Atlas](https://img.shields.io/badge/atlas-138%20tecnolog%C3%ADas-7b3fe4)](atlas/README.md)
 [![Licencia](https://img.shields.io/badge/licencia-MIT-informational)](LICENSE)
 
 **Programa comparativo de 180 horas para aprender a entender, comparar y elegir
@@ -100,6 +101,35 @@ Las desviaciones que una implementación necesita están **declaradas** en
 [`ACCEPTANCE.md`](contracts/taskflow/ACCEPTANCE.md). Una desviación declarada es
 información sobre el ecosistema; una silenciosa es un fallo de la comparación.
 
+## 🗺️ El Atlas — cada lenguaje tiene sus frameworks
+
+El programa tiene **dos capas**. El núcleo implementa un contrato en cinco
+ecosistemas y lo verifica en cada entrega. El [**Atlas**](atlas/README.md) sitúa
+**138 tecnologías** en su ecosistema y en su era, porque nadie aprende 138
+frameworks pero cualquiera puede aprender ocho ideas y verlas repetirse durante
+veinte años con nombres distintos.
+
+| Ecosistema | Tecnologías | Qué lo caracteriza |
+| --- | ---: | --- |
+| [JavaScript y TypeScript](atlas/ecosistemas/javascript.md) | 64 | El único que corre en cliente y servidor |
+| [JVM](atlas/ecosistemas/jvm.md) | 14 | Especificaciones con varias implementaciones |
+| [PHP](atlas/ecosistemas/php.md) | 12 | Nació dentro del servidor web |
+| [Python](atlas/ecosistemas/python.md) | 12 | De «baterías incluidas» al tipo como contrato |
+| [.NET](atlas/ecosistemas/dotnet.md) | 10 | Un proveedor marca el ritmo |
+| [Go](atlas/ecosistemas/go.md) | 7 | La biblioteca estándar hace opcional el framework |
+| [Rust](atlas/ecosistemas/rust.md) | 6 | El compilador es parte del diseño |
+| [Ruby](atlas/ecosistemas/ruby.md) | 5 | Origen de las convenciones que todos copiaron |
+| [BEAM](atlas/ecosistemas/beam.md), [Apple](atlas/ecosistemas/apple.md), [Dart](atlas/ecosistemas/dart.md), [nativo](atlas/ecosistemas/nativo.md), [plataformas](atlas/ecosistemas/cloud.md) | 8 | Casos donde el runtime decide la arquitectura |
+
+Incluye la **genealogía** —quién viene de quién— y las **cinco eras** del campo,
+de «el servidor lo hace todo» a las islas y el regreso del hipermedia. Con fichas
+a fondo de [jQuery](atlas/fichas/jquery.md), [Laravel](atlas/fichas/laravel.md) y
+[Astro](atlas/fichas/astro.md).
+
+Cada entrada declara clasificación, era, estado, licencia SPDX y documentación
+oficial. `node scripts/refresh-catalog.mjs` contrasta los 138 enlaces y los
+identificadores de licencia con su fuente.
+
 ## El programa
 
 | Módulo | Tema | Nivel | Horas | Fuentes |
@@ -144,6 +174,7 @@ node scripts/verify-sources.mjs                  # trazabilidad de las citas
 node scripts/verify-contract.mjs                 # contrato ↔ lecciones ↔ código
 node --test labs/01-http-contract/reference-node/server.test.mjs
 node scripts/run-acceptance.mjs reference-node   # el contrato, de punta a punta
+node scripts/generate-atlas.mjs --check           # el Atlas coincide con el catálogo
 node scripts/generate-site.mjs                   # genera site/ (no se versiona)
 ```
 
@@ -157,7 +188,8 @@ pnpm check
 ## Estructura
 
 ```text
-catalog/          Registro de frameworks, bibliotecas y plataformas
+atlas/            Atlas: ecosistemas, genealogía y fichas a fondo
+catalog/          Registro de 138 tecnologías con era, estado y licencia
 contracts/        Dominio y contrato TaskFlow compartido
 curriculum/       Los 13 módulos del programa
 docs/             Taxonomía, arquitectura, selección, seguridad, modelo pedagógico
@@ -171,12 +203,14 @@ scripts/          Validaciones, ejecutor de aceptación y generador del sitio
 
 ## Cobertura de «todos los frameworks»
 
-- **Núcleo ejecutable:** tecnologías representativas y mantenidas.
-- **Comparaciones guiadas:** implementaciones parciales bajo un contrato común.
-- **Catálogo evolutivo:** tecnologías históricas, actuales y emergentes con fuentes.
+- **Núcleo ejecutable:** cinco implementaciones del mismo contrato, probadas en CI.
+- **Atlas:** 138 tecnologías en 13 ecosistemas, con genealogía y eras.
+- **Fichas a fondo:** casos donde la historia enseña más que la documentación.
 - **Plantillas:** incorporación consistente de nuevos ecosistemas.
 
-Estar en el catálogo no equivale a una recomendación ni a dominio profesional.
+Estar en el catálogo no equivale a una recomendación ni a dominio profesional. Y
+el número de estrellas o descargas **no aparece en ninguna entrada**, porque no
+responde a ninguna de las preguntas del módulo 11.
 
 ## Proyectos canónicos
 

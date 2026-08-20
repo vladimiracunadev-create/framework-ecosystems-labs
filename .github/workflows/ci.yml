@@ -81,6 +81,11 @@ jobs:
       - name: El índice bibliográfico está al día
         run: node scripts/generate-bibliography.mjs --check
 
+      # Las tablas del Atlas se derivan del catálogo. Si alguien añade una
+      # tecnología y no regenera, el Atlas miente y esto lo detecta.
+      - name: El Atlas coincide con el catálogo
+        run: node scripts/generate-atlas.mjs --check
+
       - name: Resumen
         if: always()
         run: |
@@ -95,6 +100,9 @@ jobs:
             echo "| Módulos | $(find curriculum -maxdepth 1 -name '[0-9][0-9]-*.md' | wc -l) |"
             echo "| Citas en el currículo | $(grep -roE '\[@[a-z0-9-]+\]' curriculum docs assessments projects | wc -l) |"
             echo "| Casos de aceptación | $(grep -c '^test(' contracts/taskflow/acceptance.test.mjs) |"
+            echo "| Tecnologías en el Atlas | $(node -p "require('./catalog/frameworks.json').entries.length") |"
+            echo "| Ecosistemas | $(ls atlas/ecosistemas | wc -l) |"
+            echo "| Fichas del Atlas | $(ls atlas/fichas 2>/dev/null | wc -l) |"
             echo "| Palabras del currículo | $(cat curriculum/*.md | wc -w) |"
           } >> "$GITHUB_STEP_SUMMARY"
 
