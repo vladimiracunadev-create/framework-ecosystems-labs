@@ -1,8 +1,52 @@
 {
   "clase": "075",
   "titulo": "Secretos y configuración",
-  "descripcion": "La aplicación arranca con la configuración del entorno y falla claro si falta.",
-  "estado": "esqueleto",
+  "descripcion": "La aplicación arranca con la configuración del entorno, nunca la revela, y falla claro si falta.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "arranca con la configuración del entorno y la reporta",
+      "peticion": { "metodo": "GET", "ruta": "/configuracion" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "entorno": "pruebas", "secreto_presente": true }
+      }
+    },
+    {
+      "nombre": "y NUNCA revela el secreto: viene enmascarado",
+      "peticion": { "metodo": "GET", "ruta": "/configuracion" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_no_contiene": ["clave-de-produccion-nunca-en-el-repo"]
+      }
+    },
+    {
+      "nombre": "el mismo validador del arranque acepta una configuración completa",
+      "peticion": {
+        "metodo": "POST", "ruta": "/validar",
+        "cuerpo": { "APP_ENTORNO": "produccion", "APP_SECRETO": "algo" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "valida": true } }
+    },
+    {
+      "nombre": "si falta el secreto, falla CLARO y nombra la clave que falta",
+      "peticion": {
+        "metodo": "POST", "ruta": "/validar",
+        "cuerpo": { "APP_ENTORNO": "produccion" }
+      },
+      "esperado": {
+        "estado": 422,
+        "cuerpo_contiene": ["APP_SECRETO"]
+      }
+    },
+    {
+      "nombre": "sin nada, enumera TODO lo que falta, no solo lo primero",
+      "peticion": { "metodo": "POST", "ruta": "/validar", "cuerpo": {} },
+      "esperado": {
+        "estado": 422,
+        "cuerpo_contiene": ["APP_ENTORNO", "APP_SECRETO"]
+      }
+    }
+  ]
 }

@@ -1,0 +1,33 @@
+{
+  "framework": "aspnet-core",
+  "requiere": [
+    "dotnet"
+  ],
+  "comprobar": [
+    "dotnet",
+    "--version"
+  ],
+  "preparar": [
+    "dotnet",
+    "build",
+    "-c",
+    "Release",
+    "--nologo",
+    "-v",
+    "quiet"
+  ],
+  "env": {
+    "APP_ENTORNO": "pruebas",
+    "APP_SECRETO": "clave-de-produccion-nunca-en-el-repo"
+  },
+  "arrancar": [
+    "dotnet",
+    "run",
+    "-c",
+    "Release",
+    "--no-build",
+    "--urls",
+    "http://127.0.0.1:${PUERTO}"
+  ],
+  "espera_ms": 60000
+}

@@ -1,0 +1,26 @@
+{
+  "framework": "fastapi",
+  "requiere": [
+    "python"
+  ],
+  "comprobar": [
+    "python",
+    "-c",
+    "import fastapi, uvicorn"
+  ],
+  "env": {
+    "APP_ENTORNO": "pruebas",
+    "APP_SECRETO": "clave-de-produccion-nunca-en-el-repo"
+  },
+  "arrancar": [
+    "python",
+    "-m",
+    "uvicorn",
+    "main:app",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "${PUERTO}"
+  ],
+  "espera_ms": 20000
+}

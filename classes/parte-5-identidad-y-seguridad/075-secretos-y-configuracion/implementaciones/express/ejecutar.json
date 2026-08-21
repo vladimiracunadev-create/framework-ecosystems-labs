@@ -1,0 +1,26 @@
+{
+  "framework": "express",
+  "requiere": [
+    "node",
+    "pnpm"
+  ],
+  "comprobar": [
+    "pnpm",
+    "--version"
+  ],
+  "preparar": [
+    "pnpm",
+    "install",
+    "--silent",
+    "--ignore-scripts"
+  ],
+  "env": {
+    "APP_ENTORNO": "pruebas",
+    "APP_SECRETO": "clave-de-produccion-nunca-en-el-repo"
+  },
+  "arrancar": [
+    "node",
+    "server.mjs"
+  ],
+  "espera_ms": 15000
+}

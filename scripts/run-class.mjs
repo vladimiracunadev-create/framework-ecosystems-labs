@@ -593,7 +593,11 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
     }
   }
 
-  const env = { ...process.env, PORT: String(puerto), PUERTO: String(puerto) };
+  // Variables de entorno propias de la implementación. La clase 075 las
+  // necesita: su tesis es que la configuración entra por el entorno, y sin
+  // esto no habría forma de dárselas sin escribirlas en el código —
+  // exactamente lo que la clase enseña a no hacer.
+  const env = { ...process.env, ...(cfg.env ?? {}), PORT: String(puerto), PUERTO: String(puerto) };
   // Sustitución de marcadores: algunos servidores reciben el puerto por argumento
   // y no por variable de entorno.
   const arrancar = cfg.arrancar.map((a) =>
