@@ -207,10 +207,56 @@ function normalizarCabecera(v) {
   return String(v ?? "").split(";")[0].trim().toLowerCase();
 }
 
-async function comprobarCaso(baseUrl, caso) {
+/**
+ * Busca en los `Set-Cookie` de la respuesta la cookie con ese nombre.
+ *
+ * `Set-Cookie` no se puede leer con `headers.get`: es la única cabecera que
+ * puede aparecer varias veces sin que sus valores se puedan unir por comas
+ * —las fechas de `Expires` llevan comas dentro [@rfc6265]— y por eso `fetch`
+ * le dedica un método propio.
+ */
+function extraerCookie(res, nombre) {
+  for (const cruda of res.headers.getSetCookie()) {
+    const [par, ...resto] = cruda.split(";").map((s) => s.trim());
+    const separador = par.indexOf("=");
+    if (separador < 0 || par.slice(0, separador) !== nombre) continue;
+    return { valor: par.slice(separador + 1), atributos: resto.map((a) => a.toLowerCase()) };
+  }
+  return null;
+}
+
+/**
+ * Una cookie está «borrada» si el servidor le puso caducidad en el pasado.
+ *
+ * No hay una sola forma de hacerlo: unos frameworks envían `Max-Age=0` y
+ * otros `Expires` con una fecha de 1970. Las dos significan lo mismo para el
+ * navegador [@rfc6265], así que el contrato acepta las dos.
+ */
+function cookieBorrada(cookie) {
+  if (cookie.atributos.some((a) => /^max-age=(0|-\d+)$/.test(a))) return true;
+  const expira = cookie.atributos.find((a) => a.startsWith("expires="));
+  if (!expira) return false;
+  const fecha = Date.parse(expira.slice("expires=".length));
+  return !Number.isNaN(fecha) && fecha <= Date.now();
+}
+
+async function comprobarCaso(baseUrl, caso, tarro) {
   const p = caso.peticion ?? {};
   const url = new URL(p.ruta ?? "/", baseUrl);
   const init = { method: p.metodo ?? "GET", headers: p.cabeceras ?? {}, redirect: "manual" };
+
+  // Tarro de cookies EXPLÍCITO. `fetch` no guarda cookies entre peticiones, y
+  // eso aquí es una ventaja: cada caso declara si viaja con las cookies
+  // guardadas (`cookies: true`) y solo los casos marcados con
+  // `guardar_cookies` escriben en el tarro. Así un caso puede reenviar
+  // deliberadamente una cookie que el servidor ya dio por muerta — que es
+  // justo lo que hace un atacante con una cookie robada.
+  if (p.cookies && tarro?.size && init.headers.cookie === undefined) {
+    init.headers = {
+      ...init.headers,
+      cookie: [...tarro].map(([nombre, valor]) => `${nombre}=${valor}`).join("; "),
+    };
+  }
   if (p.cuerpo !== undefined) {
     init.body = typeof p.cuerpo === "string" ? p.cuerpo : JSON.stringify(p.cuerpo);
     init.headers = { "content-type": "application/json", ...init.headers };
@@ -241,8 +287,48 @@ async function comprobarCaso(baseUrl, caso) {
     return { ok: false, motivo: `la petición falló: ${error.message}` };
   }
 
+  if (caso.guardar_cookies && tarro) {
+    for (const cruda of res.headers.getSetCookie()) {
+      const [par] = cruda.split(";");
+      const separador = par.indexOf("=");
+      if (separador < 0) continue;
+      const nombre = par.slice(0, separador).trim();
+      const cookie = extraerCookie(res, nombre);
+      if (cookieBorrada(cookie)) tarro.delete(nombre);
+      else tarro.set(nombre, cookie.valor);
+    }
+  }
+
   const e = caso.esperado ?? {};
   const fallos = [];
+
+  // Comprobación de UNA cookie de la respuesta: que existe, qué atributos
+  // lleva, y qué NO lleva dentro. Los atributos son el contrato de seguridad
+  // —`HttpOnly` y `SameSite` no son decoración— y el valor no debe dejar leer
+  // ni el usuario ni la contraseña: la cookie identifica, no cuenta.
+  if (e.cookie !== undefined) {
+    const cookie = extraerCookie(res, e.cookie.nombre);
+    if (!cookie) {
+      fallos.push(`no hay Set-Cookie para "${e.cookie.nombre}"`);
+    } else {
+      for (const atributo of e.cookie.atributos ?? []) {
+        if (!cookie.atributos.includes(atributo)) {
+          fallos.push(`la cookie "${e.cookie.nombre}" no lleva el atributo ${atributo}`);
+        }
+      }
+      for (const fragmento of e.cookie.valor_no_contiene ?? []) {
+        if (cookie.valor.toLowerCase().includes(String(fragmento).toLowerCase())) {
+          fallos.push(`el valor de la cookie deja leer "${fragmento}"`);
+        }
+      }
+      if (e.cookie.valor_distinto !== undefined && cookie.valor === e.cookie.valor_distinto) {
+        fallos.push(`la cookie conserva el valor que trajo el cliente ("${e.cookie.valor_distinto}")`);
+      }
+      if (e.cookie.borrada && !cookieBorrada(cookie)) {
+        fallos.push(`la cookie "${e.cookie.nombre}" no se borra: sin Max-Age=0 ni Expires en el pasado`);
+      }
+    }
+  }
 
   if (e.estado !== undefined && res.status !== e.estado) {
     fallos.push(`estado ${res.status}, esperado ${e.estado}`);
@@ -435,8 +521,12 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
 
     const base = `http://127.0.0.1:${puerto}`;
     const fallos = [];
+    // Un tarro de cookies por implementación: los casos que declaran
+    // `guardar_cookies` escriben en él y los que declaran `cookies: true`
+    // viajan con su contenido. Nace vacío en cada arranque.
+    const tarro = new Map();
     for (const caso of contrato.casos) {
-      const r = await comprobarCaso(base, caso);
+      const r = await comprobarCaso(base, caso, tarro);
       if (!r.ok) fallos.push(`${caso.nombre}: ${r.motivo}`);
     }
     if (!fallos.length) {

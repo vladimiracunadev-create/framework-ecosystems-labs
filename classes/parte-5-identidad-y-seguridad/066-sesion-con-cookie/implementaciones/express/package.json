@@ -1,0 +1,9 @@
+{
+  "name": "clase-066-express",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-session": "^1.18.1"
+  }
+}

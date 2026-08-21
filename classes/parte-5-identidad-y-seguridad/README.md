@@ -8,7 +8,7 @@ Quién eres, qué puedes hacer, y las defensas que el framework trae o no trae p
 
 | # | Clase | Nivel | Pista | Elenco | Estado |
 | --- | --- | --- | --- | --- | --- |
-| [066](066-sesion-con-cookie/README.md) | [Sesión con cookie](066-sesion-con-cookie/README.md) | 🟡 intermedio | `backend` | 4 | 🚧 Esqueleto |
+| [066](066-sesion-con-cookie/README.md) | [Sesión con cookie](066-sesion-con-cookie/README.md) | 🟡 intermedio | `backend` | 4 | ✅ Construida |
 | [067](067-token-de-acceso/README.md) | [Token de acceso](067-token-de-acceso/README.md) | 🟡 intermedio | `backend` | 4 | 🚧 Esqueleto |
 | [068](068-contrasenas-bien-guardadas/README.md) | [Contraseñas bien guardadas](068-contrasenas-bien-guardadas/README.md) | 🟡 intermedio | `backend` | 4 | 🚧 Esqueleto |
 | [069](069-oauth-2-0-y-openid-connect/README.md) | [OAuth 2.0 y OpenID Connect](069-oauth-2-0-y-openid-connect/README.md) | 🔴 avanzado | `backend` | 4 | 🚧 Esqueleto |

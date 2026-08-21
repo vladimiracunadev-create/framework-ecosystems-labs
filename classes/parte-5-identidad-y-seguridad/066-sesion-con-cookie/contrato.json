@@ -1,8 +1,69 @@
 {
   "clase": "066",
   "titulo": "Sesión con cookie",
-  "descripcion": "Inicio de sesión, cookie con los atributos correctos, y cierre que la invalida.",
-  "estado": "esqueleto",
+  "descripcion": "Inicio de sesión, cookie con los atributos correctos, y cierre que la invalida también en el servidor.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "sin sesión, el perfil responde 401",
+      "peticion": { "metodo": "GET", "ruta": "/perfil" },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "credenciales incorrectas no crean sesión ni cookie",
+      "peticion": {
+        "metodo": "POST", "ruta": "/entrar",
+        "cuerpo": { "usuario": "ana", "clave": "incorrecta" }
+      },
+      "esperado": { "estado": 401, "cabecera_ausente": ["set-cookie"] }
+    },
+    {
+      "nombre": "entrar entrega la cookie con los atributos que la protegen",
+      "guardar_cookies": true,
+      "peticion": {
+        "metodo": "POST", "ruta": "/entrar",
+        "cuerpo": { "usuario": "ana", "clave": "secreta123" }
+      },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "usuario": "ana" },
+        "cookie": {
+          "nombre": "sesion",
+          "atributos": ["httponly", "samesite=lax", "path=/"],
+          "valor_no_contiene": ["secreta123"]
+        }
+      }
+    },
+    {
+      "nombre": "con la cookie, el servidor recuerda quién eres",
+      "peticion": { "metodo": "GET", "ruta": "/perfil", "cookies": true },
+      "esperado": { "estado": 200, "json": { "usuario": "ana" } }
+    },
+    {
+      "nombre": "el servidor no adopta un identificador que trae el cliente",
+      "peticion": {
+        "metodo": "POST", "ruta": "/entrar",
+        "cabeceras": { "cookie": "sesion=fijada-por-el-atacante" },
+        "cuerpo": { "usuario": "ana", "clave": "secreta123" }
+      },
+      "esperado": {
+        "estado": 200,
+        "cookie": { "nombre": "sesion", "valor_distinto": "fijada-por-el-atacante" }
+      }
+    },
+    {
+      "nombre": "salir borra la cookie en el navegador…",
+      "peticion": { "metodo": "POST", "ruta": "/salir", "cookies": true },
+      "esperado": {
+        "estado": 204,
+        "cookie": { "nombre": "sesion", "borrada": true }
+      }
+    },
+    {
+      "nombre": "…y mata la sesión en el servidor: la cookie robada ya no vale",
+      "peticion": { "metodo": "GET", "ruta": "/perfil", "cookies": true },
+      "esperado": { "estado": 401 }
+    }
+  ]
 }
