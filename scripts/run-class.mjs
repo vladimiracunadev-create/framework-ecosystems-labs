@@ -273,6 +273,18 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
   if (p.cuerpo !== undefined) {
     init.body = typeof p.cuerpo === "string" ? p.cuerpo : JSON.stringify(p.cuerpo);
     init.headers = { "content-type": "application/json", ...init.headers };
+  } else if (p.formulario !== undefined) {
+    // Cuerpo `application/x-www-form-urlencoded`. No todo es JSON: el
+    // endpoint de token de OAuth 2.0 recibe formulario por especificación
+    // [@rfc6749], y probarlo con JSON sería probar otro protocolo. Los
+    // valores se interpolan: el código de autorización llega de un caso
+    // anterior.
+    const campos = new URLSearchParams();
+    for (const [campo, valor] of Object.entries(p.formulario)) {
+      campos.set(campo, sustituir(valor));
+    }
+    init.body = campos.toString();
+    init.headers = { "content-type": "application/x-www-form-urlencoded", ...init.headers };
   } else if (p.multipart) {
     // El `content-type` de multipart lleva un delimitador generado: lo pone
     // `fetch` a partir del FormData, y ponerlo a mano lo rompería.
@@ -298,6 +310,25 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
     res = await fetch(url, init);
   } catch (error) {
     return { ok: false, motivo: `la petición falló: ${error.message}` };
+  }
+
+  // Captura desde la CONSULTA de la redirección: en el flujo de código de
+  // autorización, el dato que importa —el código— no viene en el cuerpo sino
+  // en los parámetros de la Location de un 302. El verificador hace aquí el
+  // papel del navegador que vuelve al cliente.
+  if (caso.guardar_consulta && variables) {
+    const destino = res.headers.get("location");
+    if (!destino) {
+      return { ok: false, motivo: "guardar_consulta: la respuesta no trae Location" };
+    }
+    const consulta = new URL(destino, baseUrl).searchParams;
+    for (const [nombre, parametro] of Object.entries(caso.guardar_consulta)) {
+      const valor = consulta.get(parametro);
+      if (valor === null) {
+        return { ok: false, motivo: `guardar_consulta: la Location no trae "${parametro}"` };
+      }
+      variables.set(nombre, valor);
+    }
   }
 
   if (caso.guardar && variables) {
@@ -404,6 +435,24 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
     const partes = crudo.split(",").map((x) => x.trim()).filter(Boolean);
     if (!partes.includes(String(v).toLowerCase())) {
       fallos.push(`cabecera ${k}: "${crudo}" no contiene la directiva "${v}"`);
+    }
+  }
+
+  // Comprobaciones sobre la cabecera Location, por subcadena en las dos
+  // direcciones: que la redirección lleve lo que el protocolo promete
+  // (el `state` de vuelta, el `error` declarado) y que NO lleve lo que no
+  // debe (un código de autorización junto a un error).
+  if (e.location_contiene !== undefined || e.location_no_contiene !== undefined) {
+    const destino = res.headers.get("location") ?? "";
+    for (const fragmento of e.location_contiene ?? []) {
+      if (!destino.includes(fragmento)) {
+        fallos.push(`la Location no contiene "${fragmento}"`);
+      }
+    }
+    for (const fragmento of e.location_no_contiene ?? []) {
+      if (destino.includes(fragmento)) {
+        fallos.push(`la Location contiene "${fragmento}" y no debía`);
+      }
     }
   }
 

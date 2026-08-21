@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Para el id_token. El ecosistema .NET no trae servidor de
+         autorización propio (Duende es comercial; OpenIddict, comunitario):
+         aquí se construye uno mínimo para que cada paso sea medible. -->
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.6.1" />
+  </ItemGroup>
+</Project>

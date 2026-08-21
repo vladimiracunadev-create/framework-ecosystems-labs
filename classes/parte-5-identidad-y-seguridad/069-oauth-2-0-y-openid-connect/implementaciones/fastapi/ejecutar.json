@@ -1,0 +1,22 @@
+{
+  "framework": "fastapi",
+  "requiere": [
+    "python"
+  ],
+  "comprobar": [
+    "python",
+    "-c",
+    "import fastapi, uvicorn, jwt"
+  ],
+  "arrancar": [
+    "python",
+    "-m",
+    "uvicorn",
+    "main:app",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "${PUERTO}"
+  ],
+  "espera_ms": 20000
+}

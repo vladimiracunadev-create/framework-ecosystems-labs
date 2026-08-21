@@ -1,8 +1,95 @@
 {
   "clase": "069",
   "titulo": "OAuth 2.0 y OpenID Connect",
-  "descripcion": "El flujo de código de autorización con PKCE, paso a paso.",
-  "estado": "esqueleto",
+  "descripcion": "El flujo de código de autorización con PKCE, paso a paso y con cada defensa medida.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "autorizar redirige al cliente con code y el state de vuelta",
+      "guardar_consulta": { "codigo": "code" },
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/autorizar?response_type=code&client_id=cliente-demo&redirect_uri=https%3A%2F%2Fapp.example%2Fcallback&scope=openid&state=xyz-123&code_challenge=nxdVX4gNgJFAcW44mRZDmxr10X6Y3fB42SIIJJh7SzI&code_challenge_method=S256"
+      },
+      "esperado": {
+        "estado": 302,
+        "location_contiene": ["https://app.example/callback", "code=", "state=xyz-123"]
+      }
+    },
+    {
+      "nombre": "el código más el verificador correcto entregan access_token e id_token",
+      "peticion": {
+        "metodo": "POST", "ruta": "/token",
+        "formulario": {
+          "grant_type": "authorization_code",
+          "code": "${codigo}",
+          "redirect_uri": "https://app.example/callback",
+          "client_id": "cliente-demo",
+          "code_verifier": "verificador-del-cliente-para-el-laboratorio-0123456789abcdef"
+        }
+      },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["access_token", "id_token", "Bearer"]
+      }
+    },
+    {
+      "nombre": "el mismo código no se canjea dos veces",
+      "peticion": {
+        "metodo": "POST", "ruta": "/token",
+        "formulario": {
+          "grant_type": "authorization_code",
+          "code": "${codigo}",
+          "redirect_uri": "https://app.example/callback",
+          "client_id": "cliente-demo",
+          "code_verifier": "verificador-del-cliente-para-el-laboratorio-0123456789abcdef"
+        }
+      },
+      "esperado": { "estado": 400 }
+    },
+    {
+      "nombre": "un segundo flujo entrega un código nuevo",
+      "guardar_consulta": { "codigo2": "code" },
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/autorizar?response_type=code&client_id=cliente-demo&redirect_uri=https%3A%2F%2Fapp.example%2Fcallback&scope=openid&state=otra-vez-9&code_challenge=nxdVX4gNgJFAcW44mRZDmxr10X6Y3fB42SIIJJh7SzI&code_challenge_method=S256"
+      },
+      "esperado": { "estado": 302, "location_contiene": ["code=", "state=otra-vez-9"] }
+    },
+    {
+      "nombre": "sin el verificador que casa con el reto, el código robado no vale nada",
+      "peticion": {
+        "metodo": "POST", "ruta": "/token",
+        "formulario": {
+          "grant_type": "authorization_code",
+          "code": "${codigo2}",
+          "redirect_uri": "https://app.example/callback",
+          "client_id": "cliente-demo",
+          "code_verifier": "otro-verificador-que-no-corresponde-al-reto-0123456789abcdef"
+        }
+      },
+      "esperado": { "estado": 400 }
+    },
+    {
+      "nombre": "una redirect_uri no registrada no recibe ningún código",
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/autorizar?response_type=code&client_id=cliente-demo&redirect_uri=https%3A%2F%2Fmalo.example%2Frobo&scope=openid&state=da-igual&code_challenge=nxdVX4gNgJFAcW44mRZDmxr10X6Y3fB42SIIJJh7SzI&code_challenge_method=S256"
+      },
+      "esperado": { "estado": 400, "cabecera_ausente": ["location"] }
+    },
+    {
+      "nombre": "sin PKCE no hay código: error de vuelta al cliente",
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/autorizar?response_type=code&client_id=cliente-demo&redirect_uri=https%3A%2F%2Fapp.example%2Fcallback&scope=openid&state=abc-777"
+      },
+      "esperado": {
+        "estado": 302,
+        "location_contiene": ["error=invalid_request", "state=abc-777"],
+        "location_no_contiene": ["code="]
+      }
+    }
+  ]
 }
