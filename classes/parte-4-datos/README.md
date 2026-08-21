@@ -8,7 +8,7 @@ Cómo habla cada framework con la base de datos, qué te ahorra y qué te oculta
 
 | # | Clase | Nivel | Pista | Elenco | Estado |
 | --- | --- | --- | --- | --- | --- |
-| [051](051-conectar-a-una-base-de-datos/README.md) | [Conectar a una base de datos](051-conectar-a-una-base-de-datos/README.md) | 🟢 introductorio | `datos` | 7 | 🚧 Esqueleto |
+| [051](051-conectar-a-una-base-de-datos/README.md) | [Conectar a una base de datos](051-conectar-a-una-base-de-datos/README.md) | 🟢 introductorio | `datos` | 7 | ✅ Construida |
 | [052](052-sql-a-mano/README.md) | [SQL a mano](052-sql-a-mano/README.md) | 🟢 introductorio | `datos` | 4 | 🚧 Esqueleto |
 | [053](053-active-record/README.md) | [Active Record](053-active-record/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |
 | [054](054-data-mapper/README.md) | [Data Mapper](054-data-mapper/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |

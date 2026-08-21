@@ -1,8 +1,34 @@
 {
   "clase": "051",
   "titulo": "Conectar a una base de datos",
-  "descripcion": "Una consulta trivial devuelve el resultado esperado y libera la conexión.",
-  "estado": "esqueleto",
+  "descripcion": "Abrir la conexión, escribir, leer de vuelta y liberar bien.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la conexión está viva, comprobada con una consulta",
+      "peticion": { "metodo": "GET", "ruta": "/salud" },
+      "esperado": { "estado": 200, "json_contiene": { "conectado": true } }
+    },
+    {
+      "nombre": "lo escrito recibe un identificador de la base",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "persistida" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 1, "titulo": "persistida" } }
+    },
+    {
+      "nombre": "y se puede leer de vuelta",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "id": 1, "titulo": "persistida" } }
+    },
+    {
+      "nombre": "una segunda escritura obtiene otro identificador",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "otra" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 2 } }
+    },
+    {
+      "nombre": "lo que no existe responde 404",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/999" },
+      "esperado": { "estado": 404, "json_contiene": { "code": "NO_EXISTE" } }
+    }
+  ]
 }
