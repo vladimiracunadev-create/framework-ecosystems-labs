@@ -1,8 +1,31 @@
 {
   "clase": "073",
   "titulo": "XSS y escapado",
-  "descripcion": "El mismo texto peligroso renderizado seguro y, deliberadamente, inseguro.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "El mismo texto peligroso, renderizado seguro por omisión y, por la puerta explícita, inseguro.",
+  "estado": "construida",
+  "tipo": "http",
+  "casos": [
+    {
+      "nombre": "la interpolación por omisión ESCAPA: el script no es un script",
+      "peticion": { "metodo": "GET", "ruta": "/seguro" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["&lt;script"],
+        "cuerpo_no_contiene": ["<script>"]
+      }
+    },
+    {
+      "nombre": "y el texto no se pierde: se neutraliza, no se recorta",
+      "peticion": { "metodo": "GET", "ruta": "/seguro" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["alerta(1)"] }
+    },
+    {
+      "nombre": "la puerta explícita NO escapa: el script llega vivo al navegador",
+      "peticion": { "metodo": "GET", "ruta": "/inseguro" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["<script>alerta(1)</script>"]
+      }
+    }
+  ]
 }

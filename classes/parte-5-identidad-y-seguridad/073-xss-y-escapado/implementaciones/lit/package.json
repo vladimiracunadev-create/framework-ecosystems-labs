@@ -1,0 +1,9 @@
+{
+  "name": "clase-073-lit",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@lit-labs/ssr": "^3.3.0",
+    "lit": "^3.2.0"
+  }
+}

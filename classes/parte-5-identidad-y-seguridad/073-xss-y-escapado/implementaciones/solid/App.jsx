@@ -1,0 +1,10 @@
+// Solid es un compilador de JSX: este archivo se compila con su preset real
+// de Babel (generate: "ssr") en el paso de preparación, y lo que el
+// servidor ejecuta es el código que Solid escribió.
+import { renderToString } from "solid-js/web";
+
+// La interpolación normal: {texto} escapa por omisión.
+export const seguro = (texto) => renderToString(() => <p>{texto}</p>);
+
+// La puerta explícita de Solid: la propiedad innerHTML, sin disfraz.
+export const inseguro = (texto) => renderToString(() => <div innerHTML={texto} />);
