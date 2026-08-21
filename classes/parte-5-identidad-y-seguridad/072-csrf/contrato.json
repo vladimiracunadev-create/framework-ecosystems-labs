@@ -1,8 +1,55 @@
 {
   "clase": "072",
   "titulo": "CSRF",
-  "descripcion": "Envío sin testigo responde 403; con testigo válido responde 200.",
-  "estado": "esqueleto",
+  "descripcion": "La cookie viaja sola: envío sin testigo 403, con testigo válido 200 — y las bloqueadas no ejecutaron nada.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "entrar entrega la sesión y el testigo",
+      "guardar_cookies": true,
+      "guardar": { "testigo": "csrf" },
+      "peticion": {
+        "metodo": "POST", "ruta": "/entrar",
+        "cuerpo": { "usuario": "ana", "clave": "secreta123" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "usuario": "ana" } }
+    },
+    {
+      "nombre": "sin sesión no hay saldo: 401",
+      "peticion": { "metodo": "GET", "ruta": "/saldo" },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "la petición del atacante: la cookie viaja sola, y no basta — 403",
+      "peticion": {
+        "metodo": "POST", "ruta": "/transferir", "cookies": true,
+        "cuerpo": { "importe": 10 }
+      },
+      "esperado": { "estado": 403 }
+    },
+    {
+      "nombre": "un testigo inventado tampoco: 403",
+      "peticion": {
+        "metodo": "POST", "ruta": "/transferir", "cookies": true,
+        "cabeceras": { "x-csrf-token": "testigo-inventado" },
+        "cuerpo": { "importe": 10 }
+      },
+      "esperado": { "estado": 403 }
+    },
+    {
+      "nombre": "con el testigo que entregó el servidor, la transferencia ocurre",
+      "peticion": {
+        "metodo": "POST", "ruta": "/transferir", "cookies": true,
+        "cabeceras": { "x-csrf-token": "${testigo}" },
+        "cuerpo": { "importe": 10 }
+      },
+      "esperado": { "estado": 200, "json": { "saldo": 90 } }
+    },
+    {
+      "nombre": "y los dos intentos bloqueados nunca movieron dinero",
+      "peticion": { "metodo": "GET", "ruta": "/saldo", "cookies": true },
+      "esperado": { "estado": 200, "json": { "saldo": 90 } }
+    }
+  ]
 }

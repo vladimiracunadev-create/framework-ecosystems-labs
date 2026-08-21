@@ -14,7 +14,7 @@ Quién eres, qué puedes hacer, y las defensas que el framework trae o no trae p
 | [069](069-oauth-2-0-y-openid-connect/README.md) | [OAuth 2.0 y OpenID Connect](069-oauth-2-0-y-openid-connect/README.md) | 🔴 avanzado | `backend` | 4 | ✅ Construida |
 | [070](070-autorizacion-por-rol/README.md) | [Autorización por rol](070-autorizacion-por-rol/README.md) | 🟡 intermedio | `backend` | 4 | ✅ Construida |
 | [071](071-autorizacion-por-recurso/README.md) | [Autorización por recurso](071-autorizacion-por-recurso/README.md) | 🔴 avanzado | `backend` | 4 | ✅ Construida |
-| [072](072-csrf/README.md) | [CSRF](072-csrf/README.md) | 🟡 intermedio | `backend` | 4 | 🚧 Esqueleto |
+| [072](072-csrf/README.md) | [CSRF](072-csrf/README.md) | 🟡 intermedio | `backend` | 4 | ✅ Construida |
 | [073](073-xss-y-escapado/README.md) | [XSS y escapado](073-xss-y-escapado/README.md) | 🟡 intermedio | `frontend` | 8 | 🚧 Esqueleto |
 | [074](074-inyeccion-sql/README.md) | [Inyección SQL](074-inyeccion-sql/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |
 | [075](075-secretos-y-configuracion/README.md) | [Secretos y configuración](075-secretos-y-configuracion/README.md) | 🟡 intermedio | `plataforma` | 4 | 🚧 Esqueleto |
