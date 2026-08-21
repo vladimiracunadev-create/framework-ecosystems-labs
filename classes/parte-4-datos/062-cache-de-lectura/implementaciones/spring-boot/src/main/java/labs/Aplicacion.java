@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.CacheManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,14 +37,18 @@ public class Aplicacion {
          * es que cada lectura CUESTA — por eso se cuentan.
          */
         private final Map<Integer, Map<String, Object>> filas = new HashMap<>();
+
+        /** Consultas al almacen. Solo sube cuando el cuerpo de `leer` se ejecuta. */
         private final AtomicInteger consultas = new AtomicInteger();
+
+        /** Lecturas que la cache resolvio sin llegar al almacen. */
         private final AtomicInteger aciertos = new AtomicInteger();
 
         public Almacen() {
             reiniciarDatos();
         }
 
-        public final void reiniciarDatos() {
+        public void reiniciarDatos() {
             filas.clear();
             Map<String, Object> tarea = new HashMap<>();
             tarea.put("id", 1);
@@ -57,6 +60,10 @@ public class Aplicacion {
 
         public Map<String, Object> metricas() {
             return Map.of("consultas", consultas.get(), "aciertos", aciertos.get());
+        }
+
+        public int consultas() {
+            return consultas.get();
         }
 
         public void contarAcierto() {
@@ -102,6 +109,11 @@ public class Aplicacion {
             return new HashMap<>(fila);
         }
 
+        /** Vaciar la cache entera. `allEntries` no necesita conocer las claves. */
+        @CacheEvict(cacheNames = "tareas", allEntries = true)
+        public void vaciarCache() {
+        }
+
         /**
          * ESCRIBIR Y OLVIDAR LA INVALIDACION: el mismo metodo SIN `@CacheEvict`.
          *
@@ -120,16 +132,14 @@ public class Aplicacion {
     public static class Controlador {
 
         private final Almacen almacen;
-        private final CacheManager gestor;
 
-        public Controlador(Almacen almacen, CacheManager gestor) {
+        public Controlador(Almacen almacen) {
             this.almacen = almacen;
-            this.gestor = gestor;
         }
 
         @GetMapping("/reiniciar")
         public Map<String, Object> reiniciar() {
-            gestor.getCache("tareas").clear();
+            almacen.vaciarCache();
             almacen.reiniciarDatos();
             return almacen.metricas();
         }
@@ -139,21 +149,28 @@ public class Aplicacion {
             return almacen.metricas();
         }
 
+        /**
+         * EL ACIERTO SE DEDUCE, NO SE CUENTA.
+         *
+         * `@Cacheable` no dice si acerto: o entra al metodo o no entra. Asi que
+         * la unica forma de saberlo es mirar si el contador de consultas subio.
+         *
+         * Es la contrapartida exacta de que la cache sea invisible en el codigo:
+         * comoda de escribir, opaca de observar.
+         */
         @GetMapping("/tareas/{id}")
         public ResponseEntity<Map<String, Object>> leer(@PathVariable("id") int id) {
-            // Para contar los aciertos hay que preguntarle a la cache ANTES:
-            // `@Cacheable` no dice si acerto o no. Es la contrapartida de que la
-            // cache sea invisible en el codigo.
-            boolean estaba = gestor.getCache("tareas").get(id) != null;
+            int antes = almacen.consultas();
             Map<String, Object> tarea = almacen.leer(id);
             if (tarea == null) {
                 return ResponseEntity.status(404).body(Map.of("code", "NO_EXISTE"));
             }
-            if (estaba) {
+            boolean acierto = almacen.consultas() == antes;
+            if (acierto) {
                 almacen.contarAcierto();
             }
             return ResponseEntity.ok()
-                    .header("X-Cache", estaba ? "HIT" : "MISS")
+                    .header("X-Cache", acierto ? "HIT" : "MISS")
                     .body(tarea);
         }
 
