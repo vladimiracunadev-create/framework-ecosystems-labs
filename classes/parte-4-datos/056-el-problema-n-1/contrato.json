@@ -2,7 +2,56 @@
   "clase": "056",
   "titulo": "El problema N+1",
   "descripcion": "La misma lectura con y sin carga anticipada, contando las consultas emitidas.",
-  "estado": "esqueleto",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "se parte del contador a cero",
+      "peticion": { "metodo": "GET", "ruta": "/reiniciar" },
+      "esperado": { "estado": 200, "json_contiene": { "ok": true } }
+    },
+    {
+      "nombre": "la forma ingenua devuelve los datos CORRECTOS",
+      "peticion": { "metodo": "GET", "ruta": "/tareas-n1" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "tareas": [
+            { "id": 1, "titulo": "una", "etiquetas": ["una-a", "una-b"] },
+            { "id": 2, "titulo": "dos", "etiquetas": ["dos-a", "dos-b"] },
+            { "id": 3, "titulo": "tres", "etiquetas": ["tres-a", "tres-b"] }
+          ]
+        }
+      }
+    },
+    {
+      "nombre": "y costó CUATRO consultas: una por las tareas y una por cada una",
+      "peticion": { "metodo": "GET", "ruta": "/consultas" },
+      "esperado": { "estado": 200, "json_contiene": { "consultas": 4 } }
+    },
+    {
+      "nombre": "se reinicia el contador",
+      "peticion": { "metodo": "GET", "ruta": "/reiniciar" },
+      "esperado": { "estado": 200 }
+    },
+    {
+      "nombre": "la carga anticipada devuelve EXACTAMENTE lo mismo",
+      "peticion": { "metodo": "GET", "ruta": "/tareas-anticipada" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "tareas": [
+            { "id": 1, "titulo": "una", "etiquetas": ["una-a", "una-b"] },
+            { "id": 2, "titulo": "dos", "etiquetas": ["dos-a", "dos-b"] },
+            { "id": 3, "titulo": "tres", "etiquetas": ["tres-a", "tres-b"] }
+          ]
+        }
+      }
+    },
+    {
+      "nombre": "con DOS consultas, y no crecerían aunque hubiera mil tareas",
+      "peticion": { "metodo": "GET", "ruta": "/consultas" },
+      "esperado": { "estado": 200, "json_contiene": { "consultas": 2 } }
+    }
+  ]
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
  * construye muy pronto, y sus dependencias tienen que existir antes que ella.
  */
 @SpringBootApplication
+// Los repositorios de abajo son interfaces ANIDADAS, y la busqueda de Spring Data
+// las ignora por omision: `considerNestedRepositories` es false. El sintoma es un
+// fallo al arrancar — "No qualifying bean of type 'Aplicacion$Tareas'" — que no
+// aparece hasta que el contexto se levanta.
+@EnableJpaRepositories(considerNestedRepositories = true)
 public class Aplicacion {
 
     @Entity
