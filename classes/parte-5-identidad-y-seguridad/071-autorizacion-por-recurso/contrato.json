@@ -1,8 +1,62 @@
 {
   "clase": "071",
   "titulo": "Autorización por recurso",
-  "descripcion": "Un usuario no puede leer la tarea de otro aunque tenga el rol.",
-  "estado": "esqueleto",
+  "descripcion": "La propiedad del dato, no el rol: la tarea ajena responde 404, indistinguible de la que no existe.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "sin identidad no hay tareas: 401",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "ana ve su tarea",
+      "peticion": {
+        "metodo": "GET", "ruta": "/tareas/1",
+        "cabeceras": { "authorization": "Basic YW5hOnNlY3JldGExMjM=" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "id": "1", "propietaria": "ana" } }
+    },
+    {
+      "nombre": "luis tiene EL MISMO rol y no la ve",
+      "peticion": {
+        "metodo": "GET", "ruta": "/tareas/1",
+        "cabeceras": { "authorization": "Basic bHVpczpzZWNyZXRhMTIz" }
+      },
+      "esperado": { "estado": 404 }
+    },
+    {
+      "nombre": "la tarea ajena responde EXACTAMENTE igual que la inexistente",
+      "peticion": {
+        "metodo": "GET", "ruta": "/tareas/999",
+        "cabeceras": { "authorization": "Basic bHVpczpzZWNyZXRhMTIz" }
+      },
+      "esperado": { "estado": 404 }
+    },
+    {
+      "nombre": "la lista solo trae lo tuyo",
+      "peticion": {
+        "metodo": "GET", "ruta": "/tareas",
+        "cabeceras": { "authorization": "Basic bHVpczpzZWNyZXRhMTIz" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "total": 1 } }
+    },
+    {
+      "nombre": "borrar la ajena tampoco existe: 404",
+      "peticion": {
+        "metodo": "DELETE", "ruta": "/tareas/1",
+        "cabeceras": { "authorization": "Basic bHVpczpzZWNyZXRhMTIz" }
+      },
+      "esperado": { "estado": 404 }
+    },
+    {
+      "nombre": "y la tarea de ana sigue existiendo",
+      "peticion": {
+        "metodo": "GET", "ruta": "/tareas/1",
+        "cabeceras": { "authorization": "Basic YW5hOnNlY3JldGExMjM=" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "id": "1" } }
+    }
+  ]
 }
