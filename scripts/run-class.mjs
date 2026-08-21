@@ -407,6 +407,37 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
     }
   }
 
+  // Comprobación NEGATIVA por subcadena: lo que la respuesta no debe dejar
+  // leer. Existe por la clase 068 —el registro devuelve el resumen de la
+  // contraseña y el contrato exige que la contraseña misma no aparezca— y se
+  // comprueba sobre una copia para no consumir el cuerpo de las demás.
+  for (const fragmento of e.cuerpo_no_contiene ?? []) {
+    const texto = await res.clone().text();
+    if (texto.includes(fragmento)) {
+      fallos.push(`el cuerpo deja leer "${fragmento}"`);
+    }
+  }
+
+  // Comprobación de DESIGUALDAD contra una variable guardada: el valor del
+  // campo debe ser distinto del interpolado. Es la forma de medir una sal
+  // aleatoria — la misma contraseña, registrada dos veces, tiene que producir
+  // resúmenes que no coinciden.
+  for (const [campo, valor] of Object.entries(e.json_distinto ?? {})) {
+    let cuerpo;
+    try {
+      cuerpo = await res.clone().json();
+    } catch {
+      fallos.push("json_distinto: la respuesta no es JSON válido");
+      continue;
+    }
+    const prohibido = sustituir(valor);
+    if (cuerpo?.[campo] === undefined) {
+      fallos.push(`json_distinto: la respuesta no trae el campo "${campo}"`);
+    } else if (String(cuerpo[campo]) === prohibido) {
+      fallos.push(`json.${campo} repite el valor que debía ser distinto`);
+    }
+  }
+
   if (e.cuerpo_contiene !== undefined) {
     // Comprobación por SUBCADENA. Hace falta cuando dos frameworks producen el
     // mismo hecho con estructuras distintas: en la clase 042, los cuatro

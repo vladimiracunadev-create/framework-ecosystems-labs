@@ -1,8 +1,66 @@
 {
   "clase": "068",
   "titulo": "Contraseñas bien guardadas",
-  "descripcion": "La misma contraseña produce resúmenes distintos y verifica correctamente.",
-  "estado": "esqueleto",
+  "descripcion": "La misma contraseña produce resúmenes distintos, verifica correctamente, y nunca vuelve a salir.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "registrar guarda un resumen, y la contraseña no vuelve a salir",
+      "guardar": { "resumen1": "resumen" },
+      "peticion": {
+        "metodo": "POST", "ruta": "/usuarios",
+        "cuerpo": { "usuario": "ana", "clave": "secreta123" }
+      },
+      "esperado": {
+        "estado": 201,
+        "json_contiene": { "usuario": "ana" },
+        "cuerpo_no_contiene": ["secreta123"]
+      }
+    },
+    {
+      "nombre": "la MISMA contraseña para otro usuario produce OTRO resumen",
+      "peticion": {
+        "metodo": "POST", "ruta": "/usuarios",
+        "cuerpo": { "usuario": "bea", "clave": "secreta123" }
+      },
+      "esperado": {
+        "estado": 201,
+        "json_contiene": { "usuario": "bea" },
+        "json_distinto": { "resumen": "${resumen1}" }
+      }
+    },
+    {
+      "nombre": "el mismo usuario no se registra dos veces",
+      "peticion": {
+        "metodo": "POST", "ruta": "/usuarios",
+        "cuerpo": { "usuario": "ana", "clave": "otra-cosa" }
+      },
+      "esperado": { "estado": 409 }
+    },
+    {
+      "nombre": "la contraseña correcta verifica contra el resumen",
+      "peticion": {
+        "metodo": "POST", "ruta": "/entrar",
+        "cuerpo": { "usuario": "ana", "clave": "secreta123" }
+      },
+      "esperado": { "estado": 200, "json": { "usuario": "ana" } }
+    },
+    {
+      "nombre": "la contraseña incorrecta no verifica",
+      "peticion": {
+        "metodo": "POST", "ruta": "/entrar",
+        "cuerpo": { "usuario": "ana", "clave": "secreta124" }
+      },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "un usuario inexistente responde igual que una clave mala",
+      "peticion": {
+        "metodo": "POST", "ruta": "/entrar",
+        "cuerpo": { "usuario": "nadie", "clave": "secreta123" }
+      },
+      "esperado": { "estado": 401 }
+    }
+  ]
 }

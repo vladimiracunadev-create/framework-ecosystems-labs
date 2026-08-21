@@ -1,0 +1,9 @@
+{
+  "name": "clase-068-express",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0"
+  }
+}
