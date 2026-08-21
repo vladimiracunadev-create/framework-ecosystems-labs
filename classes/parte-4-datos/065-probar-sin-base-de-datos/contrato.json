@@ -1,8 +1,77 @@
 {
   "clase": "065",
   "titulo": "Probar sin base de datos",
-  "descripcion": "La misma prueba con las tres estrategias y lo que detecta cada una.",
-  "estado": "esqueleto",
+  "descripcion": "La misma prueba con tres estrategias, y un fallo que solo dos de ellas detectan.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "las tres estrategias existen y son las mismas pruebas",
+      "peticion": { "metodo": "GET", "ruta": "/estrategias" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "estrategias": ["doble", "en-memoria", "real"],
+          "pruebas_por_estrategia": 4
+        }
+      }
+    },
+    {
+      "nombre": "con un DOBLE en memoria: rápido, y no toca ningún motor",
+      "peticion": { "metodo": "GET", "ruta": "/probar?estrategia=doble" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "estrategia": "doble",
+          "ejecutadas": 4,
+          "pasadas": 3,
+          "usa_motor": false
+        }
+      }
+    },
+    {
+      "nombre": "con una base EN MEMORIA: motor de verdad, esquema de verdad",
+      "peticion": { "metodo": "GET", "ruta": "/probar?estrategia=en-memoria" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "estrategia": "en-memoria",
+          "ejecutadas": 4,
+          "pasadas": 4,
+          "usa_motor": true
+        }
+      }
+    },
+    {
+      "nombre": "con la base REAL del servicio: mismas cuatro, mismo resultado",
+      "peticion": { "metodo": "GET", "ruta": "/probar?estrategia=real" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "estrategia": "real",
+          "ejecutadas": 4,
+          "pasadas": 4,
+          "usa_motor": true
+        }
+      }
+    },
+    {
+      "nombre": "el doble falla EXACTAMENTE en la prueba que necesita el motor",
+      "peticion": { "metodo": "GET", "ruta": "/que-se-escapa" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "prueba": "la restricción de unicidad la aplica la base, no el código",
+          "doble": false,
+          "en_memoria": true,
+          "real": true
+        }
+      }
+    },
+    {
+      "nombre": "y el doble es el más rápido de los tres, que es por lo que se usa",
+      "peticion": { "metodo": "GET", "ruta": "/comparacion" },
+      "esperado": { "estado": 200, "json_contiene": { "doble_es_el_mas_rapido": true } }
+    }
+  ]
 }

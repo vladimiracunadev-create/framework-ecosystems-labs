@@ -1,8 +1,82 @@
 {
   "clase": "064",
   "titulo": "Repositorio y dominio",
-  "descripcion": "Las mismas reglas probadas sin base de datos y luego integradas con ella.",
-  "estado": "esqueleto",
+  "descripcion": "Las mismas reglas de negocio ejecutadas contra un repositorio en memoria y contra uno real, sin cambiar una línea del dominio.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el dominio no menciona el ORM: se puede comprobar leyendo el archivo",
+      "peticion": { "metodo": "GET", "ruta": "/dominio" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "menciona_orm": false, "reglas": 3 }
+      }
+    },
+    {
+      "nombre": "un proyecto nuevo empieza vacío",
+      "peticion": { "metodo": "POST", "ruta": "/proyectos", "cuerpo": { "nombre": "casa" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 1, "nombre": "casa", "tareas": 0 } }
+    },
+    {
+      "nombre": "se le añade una tarea",
+      "peticion": {
+        "metodo": "POST", "ruta": "/proyectos/1/tareas",
+        "cuerpo": { "titulo": "comprar pan" }
+      },
+      "esperado": { "estado": 201, "json_contiene": { "tareas": 1, "cerrado": false } }
+    },
+    {
+      "nombre": "REGLA 1: no se puede cerrar un proyecto con tareas pendientes",
+      "peticion": { "metodo": "POST", "ruta": "/proyectos/1/cerrar" },
+      "esperado": { "estado": 409, "json_contiene": { "code": "QUEDAN_PENDIENTES" } }
+    },
+    {
+      "nombre": "se termina la tarea",
+      "peticion": { "metodo": "POST", "ruta": "/proyectos/1/tareas/1/terminar" },
+      "esperado": { "estado": 200, "json_contiene": { "pendientes": 0 } }
+    },
+    {
+      "nombre": "y ahora sí se cierra",
+      "peticion": { "metodo": "POST", "ruta": "/proyectos/1/cerrar" },
+      "esperado": { "estado": 200, "json_contiene": { "cerrado": true } }
+    },
+    {
+      "nombre": "REGLA 2: a un proyecto cerrado no se le añaden tareas",
+      "peticion": {
+        "metodo": "POST", "ruta": "/proyectos/1/tareas",
+        "cuerpo": { "titulo": "tarde" }
+      },
+      "esperado": { "estado": 409, "json_contiene": { "code": "PROYECTO_CERRADO" } }
+    },
+    {
+      "nombre": "REGLA 3: dos tareas con el mismo título en el mismo proyecto, no",
+      "peticion": { "metodo": "POST", "ruta": "/proyectos", "cuerpo": { "nombre": "otro" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 2 } }
+    },
+    {
+      "nombre": "la primera entra",
+      "peticion": {
+        "metodo": "POST", "ruta": "/proyectos/2/tareas",
+        "cuerpo": { "titulo": "repetida" }
+      },
+      "esperado": { "estado": 201 }
+    },
+    {
+      "nombre": "y la segunda no",
+      "peticion": {
+        "metodo": "POST", "ruta": "/proyectos/2/tareas",
+        "cuerpo": { "titulo": "repetida" }
+      },
+      "esperado": { "estado": 409, "json_contiene": { "code": "TITULO_REPETIDO" } }
+    },
+    {
+      "nombre": "LAS MISMAS TRES REGLAS contra un repositorio en memoria, sin base de datos",
+      "peticion": { "metodo": "GET", "ruta": "/pruebas-del-dominio" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "ejecutadas": 3, "pasadas": 3, "uso_base_de_datos": false }
+      }
+    }
+  ]
 }

@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./datos.db"
+}
+
+// El esquema es de la PERSISTENCIA, no del dominio. Se parece a las clases de
+// `dominio.mjs` porque este caso es sencillo, y no tiene por qué parecerse.
+model Proyecto {
+  id      Int     @id @default(autoincrement())
+  nombre  String
+  cerrado Boolean @default(false)
+  tareas  Tarea[]
+}
+
+model Tarea {
+  id         Int      @id @default(autoincrement())
+  titulo     String
+  hecha      Boolean  @default(false)
+  proyecto   Proyecto @relation(fields: [proyectoId], references: [id], onDelete: Cascade)
+  proyectoId Int
+}

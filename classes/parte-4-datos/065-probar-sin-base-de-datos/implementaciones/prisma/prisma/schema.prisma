@@ -1,0 +1,15 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./datos.db"
+}
+
+model Tarea {
+  id     Int    @id @default(autoincrement())
+  // LA RESTRICCIÓN QUE DECIDE LA CLASE. La aplica la BASE, no el código — y por
+  // eso un doble en memoria no la ve.
+  titulo String @unique
+}

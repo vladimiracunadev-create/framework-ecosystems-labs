@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- El archivo del dominio viaja junto al binario porque `/dominio` lo LEE:
+         la clase comprueba, sobre el texto, que no menciona el ORM. -->
+    <None Update="Dominio.cs" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
