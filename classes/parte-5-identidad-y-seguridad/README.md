@@ -19,5 +19,5 @@ Quién eres, qué puedes hacer, y las defensas que el framework trae o no trae p
 | [074](074-inyeccion-sql/README.md) | [Inyección SQL](074-inyeccion-sql/README.md) | 🟡 intermedio | `datos` | 4 | ✅ Construida |
 | [075](075-secretos-y-configuracion/README.md) | [Secretos y configuración](075-secretos-y-configuracion/README.md) | 🟡 intermedio | `plataforma` | 4 | ✅ Construida |
 | [076](076-auditoria/README.md) | [Auditoría](076-auditoria/README.md) | 🔴 avanzado | `backend` | 4 | ✅ Construida |
-| [077](077-politica-de-seguridad-de-contenido/README.md) | [Política de seguridad de contenido](077-politica-de-seguridad-de-contenido/README.md) | 🔴 avanzado | `frontend` | 4 | 🚧 Esqueleto |
+| [077](077-politica-de-seguridad-de-contenido/README.md) | [Política de seguridad de contenido](077-politica-de-seguridad-de-contenido/README.md) | 🔴 avanzado | `frontend` | 4 | ✅ Construida |
 | [078](078-dependencias-vulnerables/README.md) | [Dependencias vulnerables](078-dependencias-vulnerables/README.md) | 🟡 intermedio | `plataforma` | 4 | 🚧 Esqueleto |

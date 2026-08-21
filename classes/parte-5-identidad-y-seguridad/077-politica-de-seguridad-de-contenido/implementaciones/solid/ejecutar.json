@@ -1,0 +1,20 @@
+{
+  "framework": "solid",
+  "requiere": [
+    "node",
+    "pnpm"
+  ],
+  "comprobar": [
+    "pnpm",
+    "--version"
+  ],
+  "preparar": [
+    ["pnpm", "install", "--silent", "--ignore-scripts"],
+    ["pnpm", "exec", "babel", "App.jsx", "--out-file", "App.compilada.mjs"]
+  ],
+  "arrancar": [
+    "node",
+    "server.mjs"
+  ],
+  "espera_ms": 15000
+}

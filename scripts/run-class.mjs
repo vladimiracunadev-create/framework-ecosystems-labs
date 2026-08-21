@@ -331,6 +331,29 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
     }
   }
 
+  // Captura desde una CABECERA, con expresión regular. La clase 077 la
+  // necesita: el nonce de la política de seguridad de contenido viaja dentro
+  // de la cabecera, cambia en cada petición, y el caso siguiente tiene que
+  // comprobar que el marcado lleva ESE mismo nonce — un nonce en la cabecera
+  // que no coincide con el del script es una política que bloquea al bueno.
+  if (caso.guardar_cabecera && variables) {
+    for (const [nombre, spec] of Object.entries(caso.guardar_cabecera)) {
+      const cruda = res.headers.get(spec.cabecera);
+      if (cruda === null) {
+        return { ok: false, motivo: `guardar_cabecera: falta la cabecera ${spec.cabecera}` };
+      }
+      const encontrado = new RegExp(spec.patron).exec(cruda);
+      if (!encontrado) {
+        return {
+          ok: false,
+          motivo: `guardar_cabecera: "${spec.patron}" no casa con ${spec.cabecera}`,
+        };
+      }
+      // El grupo 1 si el patrón lo define; si no, la coincidencia entera.
+      variables.set(nombre, encontrado[1] ?? encontrado[0]);
+    }
+  }
+
   if (caso.guardar && variables) {
     let cuerpo;
     try {
@@ -438,6 +461,30 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
     }
   }
 
+  // Comprobaciones por SUBCADENA sobre el texto de una cabecera, en las dos
+  // direcciones. `cabeceras_contienen` no sirve para esto: parte por comas y
+  // exige que la directiva esté entera. Una política de seguridad de
+  // contenido se separa por puntos y comas, y lo que hay que comprobar en
+  // ella son fragmentos —que haya `'nonce-`, que NO haya `unsafe-inline`—,
+  // no directivas completas. Los fragmentos admiten `${variable}`.
+  for (const [cabecera, fragmentos] of Object.entries(e.cabeceras_contienen_texto ?? {})) {
+    const cruda = String(res.headers.get(cabecera) ?? "");
+    for (const fragmento of fragmentos) {
+      if (!cruda.includes(sustituir(fragmento))) {
+        fallos.push(`la cabecera ${cabecera} no contiene "${sustituir(fragmento)}"`);
+      }
+    }
+  }
+
+  for (const [cabecera, fragmentos] of Object.entries(e.cabeceras_no_contienen_texto ?? {})) {
+    const cruda = String(res.headers.get(cabecera) ?? "");
+    for (const fragmento of fragmentos) {
+      if (cruda.includes(sustituir(fragmento))) {
+        fallos.push(`la cabecera ${cabecera} contiene "${sustituir(fragmento)}" y no debía`);
+      }
+    }
+  }
+
   // Comprobaciones sobre la cabecera Location, por subcadena en las dos
   // direcciones: que la redirección lleve lo que el protocolo promete
   // (el `state` de vuelta, el `error` declarado) y que NO lleve lo que no
@@ -520,8 +567,11 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
     // mismo hecho con estructuras distintas: en la clase 042, los cuatro
     // publican el límite de longitud en su documento de OpenAPI y ninguno lo
     // anida igual. Lo que el contrato exige es que el límite ESTÉ, no dónde.
+    // Los fragmentos admiten `${variable}`: la clase 077 comprueba así que el
+    // nonce del marcado es EL MISMO que el de la cabecera.
     const texto = await res.text();
-    for (const fragmento of e.cuerpo_contiene) {
+    for (const crudo of e.cuerpo_contiene) {
+      const fragmento = sustituir(crudo);
       if (!texto.includes(fragmento)) {
         fallos.push(`el cuerpo no contiene "${fragmento}"`);
       }

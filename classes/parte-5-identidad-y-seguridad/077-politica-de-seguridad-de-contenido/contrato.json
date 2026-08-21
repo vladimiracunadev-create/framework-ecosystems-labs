@@ -1,8 +1,59 @@
 {
   "clase": "077",
   "titulo": "Política de seguridad de contenido",
-  "descripcion": "Con la política activa, un script en línea no se ejecuta.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "La red que atrapa al XSS que se escapó: nonce por petición, sin unsafe-inline, y coherente con el marcado.",
+  "estado": "construida",
+  "tipo": "http",
+  "casos": [
+    {
+      "nombre": "política de nonce, sin unsafe-inline, y el script legítimo lleva ESE nonce",
+      "guardar_cabecera": {
+        "nonce": { "cabecera": "content-security-policy", "patron": "'nonce-([A-Za-z0-9_-]+)'" }
+      },
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabecera_presente": ["content-security-policy"],
+        "cabeceras_contienen_texto": {
+          "content-security-policy": ["script-src", "'nonce-"]
+        },
+        "cabeceras_no_contienen_texto": {
+          "content-security-policy": ["unsafe-inline", "unsafe-eval"]
+        },
+        "cuerpo_contiene": ["nonce=\"${nonce}\""]
+      }
+    },
+    {
+      "nombre": "y cierra las puertas traseras conocidas del nonce",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras_contienen_texto": {
+          "content-security-policy": ["base-uri 'none'", "object-src 'none'"]
+        }
+      }
+    },
+    {
+      "nombre": "el XSS SÍ entró: el marcado trae un script sin nonce",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["<script>robar()</script>"] }
+    },
+    {
+      "nombre": "el nonce es de UN SOLO uso: la petición siguiente trae otro",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras_no_contienen_texto": { "content-security-policy": ["${nonce}"] }
+      }
+    },
+    {
+      "nombre": "sin política, la misma página entrega el script sin red debajo",
+      "peticion": { "metodo": "GET", "ruta": "/sin-politica" },
+      "esperado": {
+        "estado": 200,
+        "cabecera_ausente": ["content-security-policy"],
+        "cuerpo_contiene": ["<script>robar()</script>"]
+      }
+    }
+  ]
 }
