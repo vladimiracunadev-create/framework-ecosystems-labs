@@ -26,5 +26,5 @@
     "node",
     "server.mjs"
   ],
-  "espera_ms": 40000
+  "espera_ms": 60000
 }

@@ -169,7 +169,7 @@ jobs:
       - name: Dependencias de Python de las clases
         run: |
           python -m pip install --quiet --upgrade pip
-          python -m pip install --quiet fastapi uvicorn flask django sqlalchemy
+          python -m pip install --quiet fastapi uvicorn flask django sqlalchemy alembic
 
       # El ejecutor trae Ruby pero no siempre Bundler, y sin él la
       # implementación de Rails se omite en lugar de verificarse.

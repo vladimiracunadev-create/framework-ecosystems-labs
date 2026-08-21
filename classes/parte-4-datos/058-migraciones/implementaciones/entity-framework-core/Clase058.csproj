@@ -7,5 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
+    <!-- `Design` trae el motor de migraciones. Es el paquete que `dotnet ef`
+         necesita para GENERAR los archivos de `Migraciones/`; aplicarlos en
+         tiempo de ejecución con `Database.Migrate()` solo necesita el proveedor. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>

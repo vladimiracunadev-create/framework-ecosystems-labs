@@ -1,7 +1,22 @@
 {
   "framework": "sqlalchemy",
-  "requiere": ["python"],
-  "comprobar": ["python", "-c", "import fastapi, uvicorn, sqlalchemy"],
-  "arrancar": ["python", "-m", "uvicorn", "main:app", "--host", "127.0.0.1", "--port", "${PUERTO}"],
+  "requiere": [
+    "python"
+  ],
+  "comprobar": [
+    "python",
+    "-c",
+    "import fastapi, uvicorn, sqlalchemy, alembic"
+  ],
+  "arrancar": [
+    "python",
+    "-m",
+    "uvicorn",
+    "main:app",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "${PUERTO}"
+  ],
   "espera_ms": 25000
 }

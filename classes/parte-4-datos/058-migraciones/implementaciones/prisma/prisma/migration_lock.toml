@@ -1,0 +1,3 @@
+# Este archivo lo genera Prisma y hay que versionarlo: fija el motor con el que
+# se escribieron las migraciones, para que nadie las aplique contra otro.
+provider = "sqlite"

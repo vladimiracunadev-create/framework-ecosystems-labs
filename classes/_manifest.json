@@ -1114,7 +1114,7 @@
             "hibernate",
             "entity-framework-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 58,
@@ -1130,7 +1130,7 @@
             "hibernate",
             "entity-framework-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 59,

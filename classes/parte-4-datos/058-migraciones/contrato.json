@@ -1,8 +1,60 @@
 {
   "clase": "058",
   "titulo": "Migraciones",
-  "descripcion": "Añadir una columna, aplicar y revertir, con el estado verificado en cada paso.",
-  "estado": "esqueleto",
+  "descripcion": "Añadir una columna con historia, sin perder los datos que ya estaban y sin aplicarla dos veces.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el historial dice que se aplicaron dos migraciones",
+      "peticion": { "metodo": "GET", "ruta": "/historial" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 2 } }
+    },
+    {
+      "nombre": "y la columna nueva existe de verdad en la base, no solo en el modelo",
+      "peticion": { "metodo": "GET", "ruta": "/esquema" },
+      "esperado": { "estado": 200, "json_contiene": { "columnas": ["id", "prioridad", "titulo"] } }
+    },
+    {
+      "nombre": "la fila anterior a la migración sobrevivió, con el valor de relleno",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "tareas": [{ "id": 1, "titulo": "creada antes de la columna", "prioridad": 0 }]
+        }
+      }
+    },
+    {
+      "nombre": "y la columna nueva se puede usar",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cuerpo": { "titulo": "nueva", "prioridad": 5 }
+      },
+      "esperado": { "estado": 201, "json_contiene": { "id": 2, "prioridad": 5 } }
+    },
+    {
+      "nombre": "las dos filas conviven: la migrada y la nueva",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "tareas": [
+            { "id": 1, "prioridad": 0 },
+            { "id": 2, "prioridad": 5 }
+          ]
+        }
+      }
+    },
+    {
+      "nombre": "volver a migrar no aplica nada: la historia ya las tiene",
+      "peticion": { "metodo": "POST", "ruta": "/migrar" },
+      "esperado": { "estado": 200, "json_contiene": { "nuevas": 0, "total": 2 } }
+    },
+    {
+      "nombre": "y el esquema quedó igual: nada se duplicó",
+      "peticion": { "metodo": "GET", "ruta": "/esquema" },
+      "esperado": { "estado": 200, "json_contiene": { "columnas": ["id", "prioridad", "titulo"] } }
+    }
+  ]
 }

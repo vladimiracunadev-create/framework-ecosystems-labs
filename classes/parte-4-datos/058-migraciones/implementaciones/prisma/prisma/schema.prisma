@@ -1,0 +1,16 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./datos.db"
+}
+
+// El esquema describe el estado FINAL. Las migraciones de `prisma/migrations/`
+// describen el camino hasta él, y son las que se ejecutan.
+model Tarea {
+  id        Int    @id @default(autoincrement())
+  titulo    String
+  prioridad Int    @default(0)
+}

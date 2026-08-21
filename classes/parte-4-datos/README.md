@@ -14,8 +14,8 @@ Cómo habla cada framework con la base de datos, qué te ahorra y qué te oculta
 | [054](054-data-mapper/README.md) | [Data Mapper](054-data-mapper/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |
 | [055](055-relaciones/README.md) | [Relaciones](055-relaciones/README.md) | 🟡 intermedio | `datos` | 4 | ✅ Construida |
 | [056](056-el-problema-n-1/README.md) | [El problema N+1](056-el-problema-n-1/README.md) | 🔴 avanzado | `datos` | 4 | ✅ Construida |
-| [057](057-transacciones/README.md) | [Transacciones](057-transacciones/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |
-| [058](058-migraciones/README.md) | [Migraciones](058-migraciones/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |
+| [057](057-transacciones/README.md) | [Transacciones](057-transacciones/README.md) | 🟡 intermedio | `datos` | 4 | ✅ Construida |
+| [058](058-migraciones/README.md) | [Migraciones](058-migraciones/README.md) | 🟡 intermedio | `datos` | 4 | ✅ Construida |
 | [059](059-semillas-y-datos-de-prueba/README.md) | [Semillas y datos de prueba](059-semillas-y-datos-de-prueba/README.md) | 🟢 introductorio | `datos` | 4 | 🚧 Esqueleto |
 | [060](060-cuando-salir-del-orm/README.md) | [Cuándo salir del ORM](060-cuando-salir-del-orm/README.md) | 🔴 avanzado | `datos` | 4 | 🚧 Esqueleto |
 | [061](061-grupo-de-conexiones/README.md) | [Grupo de conexiones](061-grupo-de-conexiones/README.md) | 🔴 avanzado | `datos` | 4 | 🚧 Esqueleto |

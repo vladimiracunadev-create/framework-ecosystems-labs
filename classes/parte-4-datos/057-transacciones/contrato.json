@@ -1,8 +1,66 @@
 {
   "clase": "057",
   "titulo": "Transacciones",
-  "descripcion": "Un fallo a mitad deja la base exactamente como estaba.",
-  "estado": "esqueleto",
+  "descripcion": "Un fallo a mitad deja la base exactamente como estaba — y sin transacción, no.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el estado inicial son dos cuentas con 100 cada una",
+      "peticion": { "metodo": "GET", "ruta": "/reiniciar" },
+      "esperado": { "estado": 200, "json_contiene": { "cuentas": [100, 100], "total": 200 } }
+    },
+    {
+      "nombre": "una transferencia que cabe se aplica entera",
+      "peticion": {
+        "metodo": "POST", "ruta": "/transferir",
+        "cuerpo": { "de": 1, "a": 2, "monto": 30 }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "ok": true } }
+    },
+    {
+      "nombre": "y se ve en las dos cuentas: 70 y 130",
+      "peticion": { "metodo": "GET", "ruta": "/cuentas" },
+      "esperado": { "estado": 200, "json_contiene": { "cuentas": [70, 130], "total": 200 } }
+    },
+    {
+      "nombre": "una transferencia sin saldo se rechaza",
+      "peticion": {
+        "metodo": "POST", "ruta": "/transferir",
+        "cuerpo": { "de": 1, "a": 2, "monto": 999 }
+      },
+      "esperado": { "estado": 409, "json_contiene": { "code": "SALDO_INSUFICIENTE" } }
+    },
+    {
+      "nombre": "y no cambió nada: el rechazo ocurrió antes de escribir",
+      "peticion": { "metodo": "GET", "ruta": "/cuentas" },
+      "esperado": { "estado": 200, "json_contiene": { "cuentas": [70, 130], "total": 200 } }
+    },
+    {
+      "nombre": "transferir a una cuenta inexistente falla DESPUÉS de haber cobrado",
+      "peticion": {
+        "metodo": "POST", "ruta": "/transferir",
+        "cuerpo": { "de": 1, "a": 99, "monto": 10 }
+      },
+      "esperado": { "estado": 404, "json_contiene": { "code": "NO_EXISTE" } }
+    },
+    {
+      "nombre": "y aun así el saldo está intacto: la transacción deshizo el cobro",
+      "peticion": { "metodo": "GET", "ruta": "/cuentas" },
+      "esperado": { "estado": 200, "json_contiene": { "cuentas": [70, 130], "total": 200 } }
+    },
+    {
+      "nombre": "la misma operación sin transacción devuelve el mismo 404",
+      "peticion": {
+        "metodo": "POST", "ruta": "/transferir-sin-transaccion",
+        "cuerpo": { "de": 1, "a": 99, "monto": 10 }
+      },
+      "esperado": { "estado": 404, "json_contiene": { "code": "NO_EXISTE" } }
+    },
+    {
+      "nombre": "pero diez unidades desaparecieron: el total ya no es 200",
+      "peticion": { "metodo": "GET", "ruta": "/cuentas" },
+      "esperado": { "estado": 200, "json_contiene": { "cuentas": [60, 130], "total": 190 } }
+    }
+  ]
 }

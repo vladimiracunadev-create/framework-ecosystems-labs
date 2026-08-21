@@ -28,6 +28,13 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
+    <!-- Flyway es la herramienta de migración más usada del ecosistema JVM.
+         Spring Boot la detecta en el classpath y la ejecuta al arrancar, antes
+         de que Hibernate toque nada. -->
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
