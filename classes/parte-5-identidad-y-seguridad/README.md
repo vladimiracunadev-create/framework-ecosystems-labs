@@ -12,7 +12,7 @@ Quién eres, qué puedes hacer, y las defensas que el framework trae o no trae p
 | [067](067-token-de-acceso/README.md) | [Token de acceso](067-token-de-acceso/README.md) | 🟡 intermedio | `backend` | 4 | ✅ Construida |
 | [068](068-contrasenas-bien-guardadas/README.md) | [Contraseñas bien guardadas](068-contrasenas-bien-guardadas/README.md) | 🟡 intermedio | `backend` | 4 | ✅ Construida |
 | [069](069-oauth-2-0-y-openid-connect/README.md) | [OAuth 2.0 y OpenID Connect](069-oauth-2-0-y-openid-connect/README.md) | 🔴 avanzado | `backend` | 4 | ✅ Construida |
-| [070](070-autorizacion-por-rol/README.md) | [Autorización por rol](070-autorizacion-por-rol/README.md) | 🟡 intermedio | `backend` | 4 | 🚧 Esqueleto |
+| [070](070-autorizacion-por-rol/README.md) | [Autorización por rol](070-autorizacion-por-rol/README.md) | 🟡 intermedio | `backend` | 4 | ✅ Construida |
 | [071](071-autorizacion-por-recurso/README.md) | [Autorización por recurso](071-autorizacion-por-recurso/README.md) | 🔴 avanzado | `backend` | 4 | 🚧 Esqueleto |
 | [072](072-csrf/README.md) | [CSRF](072-csrf/README.md) | 🟡 intermedio | `backend` | 4 | 🚧 Esqueleto |
 | [073](073-xss-y-escapado/README.md) | [XSS y escapado](073-xss-y-escapado/README.md) | 🟡 intermedio | `frontend` | 8 | 🚧 Esqueleto |

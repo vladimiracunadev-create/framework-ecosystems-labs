@@ -1,8 +1,70 @@
 {
   "clase": "070",
   "titulo": "Autorización por rol",
-  "descripcion": "El mismo recurso permitido a un rol y denegado a otro con 403.",
-  "estado": "esqueleto",
+  "descripcion": "El mismo recurso permitido a un rol y denegado a otro con 403 — y 401 y 403 sin confundirse.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "sin identidad, el panel responde 401 y pide credenciales",
+      "peticion": { "metodo": "GET", "ruta": "/panel" },
+      "esperado": { "estado": 401, "cabecera_presente": ["www-authenticate"] }
+    },
+    {
+      "nombre": "credenciales malas también son 401: no sabemos quién eres",
+      "peticion": {
+        "metodo": "GET", "ruta": "/panel",
+        "cabeceras": { "authorization": "Basic YW5hOm1hbGE=" }
+      },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "la administradora entra al panel",
+      "peticion": {
+        "metodo": "GET", "ruta": "/panel",
+        "cabeceras": { "authorization": "Basic YW5hOnNlY3JldGExMjM=" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "usuario": "ana" } }
+    },
+    {
+      "nombre": "el lector NO: 403, sabemos quién es y no puede",
+      "peticion": {
+        "metodo": "GET", "ruta": "/panel",
+        "cabeceras": { "authorization": "Basic bHVpczpzZWNyZXRhMTIz" }
+      },
+      "esperado": { "estado": 403 }
+    },
+    {
+      "nombre": "el mismo lector SÍ lee las tareas: el rol corta por recurso, no por persona",
+      "peticion": {
+        "metodo": "GET", "ruta": "/tareas",
+        "cabeceras": { "authorization": "Basic bHVpczpzZWNyZXRhMTIz" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "total": 2 } }
+    },
+    {
+      "nombre": "borrar exige el rol administrador: el lector recibe 403",
+      "peticion": {
+        "metodo": "DELETE", "ruta": "/tareas/1",
+        "cabeceras": { "authorization": "Basic bHVpczpzZWNyZXRhMTIz" }
+      },
+      "esperado": { "estado": 403 }
+    },
+    {
+      "nombre": "la administradora borra: 204",
+      "peticion": {
+        "metodo": "DELETE", "ruta": "/tareas/1",
+        "cabeceras": { "authorization": "Basic YW5hOnNlY3JldGExMjM=" }
+      },
+      "esperado": { "estado": 204 }
+    },
+    {
+      "nombre": "y la tarea ya no está: quedaba una",
+      "peticion": {
+        "metodo": "GET", "ruta": "/tareas",
+        "cabeceras": { "authorization": "Basic YW5hOnNlY3JldGExMjM=" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "total": 1 } }
+    }
+  ]
 }

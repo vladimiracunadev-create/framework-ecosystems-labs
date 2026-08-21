@@ -8,7 +8,7 @@ import hashlib
 import secrets
 import time
 from base64 import urlsafe_b64encode
-from urllib.parse import urlencode
+from urllib.parse import parse_qsl, urlencode
 
 import jwt
 from fastapi import FastAPI, Request
@@ -77,7 +77,9 @@ def autorizar(request: Request):
 @app.post("/token")
 async def token(request: Request):
     # Formulario, no JSON: lo dice la especificación del endpoint de token.
-    f = await request.form()
+    # Se analiza a mano con la biblioteca estándar: el `request.form()` de
+    # Starlette exige `python-multipart` aunque el cuerpo sea urlencoded.
+    f = dict(parse_qsl((await request.body()).decode()))
     entrada = codigos.get(str(f.get("code", "")))
 
     invalido = (
