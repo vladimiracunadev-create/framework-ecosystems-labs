@@ -1,0 +1,21 @@
+{
+  "framework": "prisma",
+  "requiere": [
+    "node",
+    "pnpm"
+  ],
+  "comprobar": [
+    "pnpm",
+    "--version"
+  ],
+  "preparar": [
+    ["pnpm", "install", "--silent", "--ignore-scripts"],
+    ["pnpm", "exec", "prisma", "db", "push", "--skip-generate", "--accept-data-loss"],
+    ["pnpm", "exec", "prisma", "generate"]
+  ],
+  "arrancar": [
+    "node",
+    "server.mjs"
+  ],
+  "espera_ms": 40000
+}

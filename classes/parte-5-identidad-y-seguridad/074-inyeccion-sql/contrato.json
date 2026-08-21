@@ -1,8 +1,49 @@
 {
   "clase": "074",
   "titulo": "Inyección SQL",
-  "descripcion": "La entrada maliciosa se guarda como texto, no se ejecuta.",
-  "estado": "esqueleto",
+  "descripcion": "La entrada maliciosa se guarda como texto y no se ejecuta: la tabla sobrevive y el título vuelve literal.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "se parte de dos tareas",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 2 } }
+    },
+    {
+      "nombre": "el clásico ' OR '1'='1 no devuelve toda la tabla",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?titulo=' OR '1'='1" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 0 } }
+    },
+    {
+      "nombre": "el intento de DROP se guarda como un título más",
+      "guardar": { "id_bomba": "id" },
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cuerpo": { "titulo": "'); DROP TABLE tareas; --" }
+      },
+      "esperado": {
+        "estado": 201,
+        "json_contiene": { "titulo": "'); DROP TABLE tareas; --" }
+      }
+    },
+    {
+      "nombre": "la tabla sigue viva: ahora hay tres",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 3 } }
+    },
+    {
+      "nombre": "y la bomba vuelve LITERAL cuando se lee por id",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/${id_bomba}" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "titulo": "'); DROP TABLE tareas; --" }
+      }
+    },
+    {
+      "nombre": "buscar ese título exacto lo encuentra: se guardó tal cual",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?titulo=%27%29%3B%20DROP%20TABLE%20tareas%3B%20--" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 1 } }
+    }
+  ]
 }
