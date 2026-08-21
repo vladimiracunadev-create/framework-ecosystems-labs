@@ -25,6 +25,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -88,10 +89,12 @@ public class Aplicacion {
     public static class Almacen {
 
         private final Tareas tareas;
+        private final JdbcTemplate jdbc;
         private final Statistics estadisticas;
 
-        public Almacen(Tareas tareas, EntityManagerFactory fabrica) {
+        public Almacen(Tareas tareas, JdbcTemplate jdbc, EntityManagerFactory fabrica) {
             this.tareas = tareas;
+            this.jdbc = jdbc;
             // Hibernate lleva su propio contador de sentencias preparadas. Se
             // activa con `hibernate.generate_statistics` y es la forma nativa de
             // medir esto — mucho mejor que contar lineas del registro.
@@ -112,6 +115,16 @@ public class Aplicacion {
             // `deleteAll` y no `deleteAllInBatch`: el borrado en lote se salta la
             // cascada, y dejaria las etiquetas apuntando a tareas que ya no estan.
             tareas.deleteAll();
+            // `flush` antes del DDL: sin el, los borrados siguen en el contexto
+            // de persistencia y la sentencia de abajo se ejecutaria contra una
+            // tabla que la base todavia ve llena.
+            tareas.flush();
+            // Borrar las filas NO reinicia el contador de la identidad: la
+            // siguiente tarea seria la 4, no la 1, y el contrato dejaria de ser
+            // reproducible. Es el mismo detalle que la clase 059 encuentra en
+            // SQLite con `sqlite_sequence`, aqui en H2.
+            jdbc.execute("ALTER TABLE tareas ALTER COLUMN id RESTART WITH 1");
+            jdbc.execute("ALTER TABLE etiquetas ALTER COLUMN id RESTART WITH 1");
             for (int i = 0; i < cuantas; i++) {
                 Tarea tarea = new Tarea();
                 tarea.titulo = TITULOS[i];

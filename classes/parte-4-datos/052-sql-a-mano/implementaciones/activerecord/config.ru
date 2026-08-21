@@ -3,17 +3,6 @@
 require "action_controller/railtie"
 require "active_record/railtie"
 
-ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: "datos.db")
-
-conexion = ActiveRecord::Base.connection
-conexion.execute("DROP TABLE IF EXISTS tareas")
-conexion.execute(<<~SQL)
-  CREATE TABLE tareas (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    titulo TEXT NOT NULL
-  )
-SQL
-
 class Tarea < ActiveRecord::Base
   self.table_name = "tareas"
 end
@@ -79,4 +68,16 @@ class TareasController < ActionController::Base
 end
 
 Aplicacion.initialize!
+
+# El esquema se crea DESPUES de inicializar: antes de eso la conexion que
+# describe `config/database.yml` todavia no existe.
+conexion = ActiveRecord::Base.connection
+conexion.execute("DROP TABLE IF EXISTS tareas")
+conexion.execute(<<~SQL)
+  CREATE TABLE tareas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL
+  )
+SQL
+
 run Aplicacion

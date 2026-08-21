@@ -1,0 +1,17 @@
+# Rails 8 EXIGE este archivo aunque la conexión se establezca a mano: railties lo
+# lee al arrancar y aborta si no está. El error que da —«Could not load database
+# configuration»— no menciona que baste con crearlo.
+default: &por_omision
+  adapter: sqlite3
+  database: datos.db
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *por_omision
+
+test:
+  <<: *por_omision
+
+production:
+  <<: *por_omision
