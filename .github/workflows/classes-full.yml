@@ -61,7 +61,7 @@ jobs:
       - name: Dependencias de Python de las clases
         run: |
           python -m pip install --quiet --upgrade pip
-          python -m pip install --quiet fastapi uvicorn flask django
+          python -m pip install --quiet fastapi uvicorn flask django pyjwt
 
       - name: Bundler para las clases de Ruby
         run: sudo gem install bundler --no-document

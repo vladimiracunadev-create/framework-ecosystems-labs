@@ -1,0 +1,9 @@
+{
+  "name": "clase-067-express",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

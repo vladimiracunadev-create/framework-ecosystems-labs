@@ -240,10 +240,23 @@ function cookieBorrada(cookie) {
   return !Number.isNaN(fecha) && fecha <= Date.now();
 }
 
-async function comprobarCaso(baseUrl, caso, tarro) {
+async function comprobarCaso(baseUrl, caso, tarro, variables) {
   const p = caso.peticion ?? {};
-  const url = new URL(p.ruta ?? "/", baseUrl);
-  const init = { method: p.metodo ?? "GET", headers: p.cabeceras ?? {}, redirect: "manual" };
+
+  // Variables entre casos. Hay respuestas que no se pueden predecir —un token
+  // recién firmado lleva dentro el instante de emisión— y que el caso
+  // siguiente necesita enviar de vuelta. Un caso las captura con `guardar`
+  // ({variable: campo del JSON}) y cualquier caso posterior las interpola con
+  // `${variable}` en sus cabeceras o en la ruta. Como el tarro de cookies:
+  // explícito, y vacío en cada arranque.
+  const sustituir = (texto) =>
+    String(texto).replaceAll(/\$\{([a-z0-9_-]+)\}/gi, (_, nombre) => variables?.get(nombre) ?? "");
+
+  const url = new URL(sustituir(p.ruta ?? "/"), baseUrl);
+  const cabeceras = Object.fromEntries(
+    Object.entries(p.cabeceras ?? {}).map(([k, v]) => [k, sustituir(v)]),
+  );
+  const init = { method: p.metodo ?? "GET", headers: cabeceras, redirect: "manual" };
 
   // Tarro de cookies EXPLÍCITO. `fetch` no guarda cookies entre peticiones, y
   // eso aquí es una ventaja: cada caso declara si viaja con las cookies
@@ -285,6 +298,23 @@ async function comprobarCaso(baseUrl, caso, tarro) {
     res = await fetch(url, init);
   } catch (error) {
     return { ok: false, motivo: `la petición falló: ${error.message}` };
+  }
+
+  if (caso.guardar && variables) {
+    let cuerpo;
+    try {
+      // Se lee sobre una copia: el cuerpo de una respuesta solo se puede
+      // consumir una vez y las comprobaciones de más abajo también lo quieren.
+      cuerpo = await res.clone().json();
+    } catch {
+      return { ok: false, motivo: "guardar: la respuesta no es JSON válido" };
+    }
+    for (const [nombre, campo] of Object.entries(caso.guardar)) {
+      if (cuerpo?.[campo] === undefined) {
+        return { ok: false, motivo: `guardar: la respuesta no trae el campo "${campo}"` };
+      }
+      variables.set(nombre, String(cuerpo[campo]));
+    }
   }
 
   if (caso.guardar_cookies && tarro) {
@@ -525,8 +555,9 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
     // `guardar_cookies` escriben en él y los que declaran `cookies: true`
     // viajan con su contenido. Nace vacío en cada arranque.
     const tarro = new Map();
+    const variables = new Map();
     for (const caso of contrato.casos) {
-      const r = await comprobarCaso(base, caso, tarro);
+      const r = await comprobarCaso(base, caso, tarro, variables);
       if (!r.ok) fallos.push(`${caso.nombre}: ${r.motivo}`);
     }
     if (!fallos.length) {

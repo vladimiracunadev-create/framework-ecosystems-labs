@@ -1,8 +1,71 @@
 {
   "clase": "067",
   "titulo": "Token de acceso",
-  "descripcion": "Token válido responde 200, alterado responde 401, caducado responde 401.",
-  "estado": "esqueleto",
+  "descripcion": "Firmar y verificar una credencial sin estado: válido 200, alterado 401, caducado 401.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "sin token, el recurso responde 401",
+      "peticion": { "metodo": "GET", "ruta": "/informe" },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "credenciales incorrectas no entregan token",
+      "peticion": {
+        "metodo": "POST", "ruta": "/token",
+        "cuerpo": { "usuario": "ana", "clave": "incorrecta" }
+      },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "credenciales correctas entregan un token portador",
+      "guardar": { "token": "token" },
+      "peticion": {
+        "metodo": "POST", "ruta": "/token",
+        "cuerpo": { "usuario": "ana", "clave": "secreta123" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "tipo": "Bearer" } }
+    },
+    {
+      "nombre": "el token recién emitido abre el recurso",
+      "peticion": {
+        "metodo": "GET", "ruta": "/informe",
+        "cabeceras": { "authorization": "Bearer ${token}" }
+      },
+      "esperado": { "estado": 200, "json": { "usuario": "ana" } }
+    },
+    {
+      "nombre": "el mismo token con la firma alterada responde 401",
+      "peticion": {
+        "metodo": "GET", "ruta": "/informe",
+        "cabeceras": { "authorization": "Bearer ${token}AA" }
+      },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "un token caducado responde 401 aunque la firma sea buena",
+      "peticion": {
+        "metodo": "GET", "ruta": "/informe",
+        "cabeceras": { "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmEiLCJleHAiOjEwMDAwMDAwMDB9.BIRKBW1LcD6ofPT3h9bXr9i1f5R6h8D12FiiseTYiGo" }
+      },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "un token firmado con otra clave responde 401",
+      "peticion": {
+        "metodo": "GET", "ruta": "/informe",
+        "cabeceras": { "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmEiLCJleHAiOjQxMDI0NDQ4MDB9.UPL_WVwKqBkfhbTKACPWVnN8IfgBSQXFrBw9XaWqzFU" }
+      },
+      "esperado": { "estado": 401 }
+    },
+    {
+      "nombre": "el ataque alg:none —sin firma— responde 401",
+      "peticion": {
+        "metodo": "GET", "ruta": "/informe",
+        "cabeceras": { "authorization": "Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJhbmEiLCJleHAiOjQxMDI0NDQ4MDB9." }
+      },
+      "esperado": { "estado": 401 }
+    }
+  ]
 }
