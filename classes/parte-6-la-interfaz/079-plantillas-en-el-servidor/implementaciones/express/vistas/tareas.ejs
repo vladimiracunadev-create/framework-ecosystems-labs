@@ -1,0 +1,9 @@
+<%# La interpolacion normal de EJS ESCAPA, y es la que se teclea sin pensar:
+    la via segura es la via corta. (Este comentario no puede contener los
+    delimitadores de EJS: el analizador los tomaria por codigo y fallaria al
+    compilar la plantilla.) %>
+<ul>
+<% for (const tarea of tareas) { %>
+  <li data-id="<%= tarea.id %>"><%= tarea.titulo %></li>
+<% } %>
+</ul>

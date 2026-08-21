@@ -8,7 +8,7 @@ Cómo se pinta una pantalla y dónde vive el estado. Aquí el elenco cambia por 
 
 | # | Clase | Nivel | Pista | Elenco | Estado |
 | --- | --- | --- | --- | --- | --- |
-| [079](079-plantillas-en-el-servidor/README.md) | [Plantillas en el servidor](079-plantillas-en-el-servidor/README.md) | 🟢 introductorio | `backend` | 6 | 🚧 Esqueleto |
+| [079](079-plantillas-en-el-servidor/README.md) | [Plantillas en el servidor](079-plantillas-en-el-servidor/README.md) | 🟢 introductorio | `backend` | 6 | ✅ Construida |
 | [080](080-formularios-que-funcionan-sin-javascript/README.md) | [Formularios que funcionan sin JavaScript](080-formularios-que-funcionan-sin-javascript/README.md) | 🟢 introductorio | `backend` | 4 | 🚧 Esqueleto |
 | [081](081-mejora-progresiva/README.md) | [Mejora progresiva](081-mejora-progresiva/README.md) | 🟡 intermedio | `frontend` | 4 | 🚧 Esqueleto |
 | [082](082-el-primer-componente/README.md) | [El primer componente](082-el-primer-componente/README.md) | 🟢 introductorio | `frontend` | 8 | 🚧 Esqueleto |

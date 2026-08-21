@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- `th:utext` es la puerta cruda de Thymeleaf: la `u` es de «unescaped».
+     Una letra de diferencia con `th:text`, como el guion de EJS. -->
+<ul>
+  <li th:each="tarea : ${tareas}" th:attr="data-id=${tarea.id}" th:utext="${tarea.titulo}">
+    marcador de posición que el motor sustituye
+  </li>
+</ul>
+</body>
+</html>

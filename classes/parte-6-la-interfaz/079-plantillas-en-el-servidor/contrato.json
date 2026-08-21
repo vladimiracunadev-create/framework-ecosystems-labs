@@ -1,8 +1,48 @@
 {
   "clase": "079",
   "titulo": "Plantillas en el servidor",
-  "descripcion": "La misma lista renderizada en el servidor, con escapado por omisión.",
-  "estado": "esqueleto",
+  "descripcion": "La misma lista recorrida por seis motores de plantillas, con escapado por omisión y una puerta cruda con nombre.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la plantilla recorre la lista: tres elementos, no uno",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-id=\"1\"", "data-id=\"2\"", "data-id=\"3\""]
+      }
+    },
+    {
+      "nombre": "y pinta los datos donde están: en el servidor",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["comprar pan", "regar las plantas"]
+      }
+    },
+    {
+      "nombre": "la interpolación por omisión ESCAPA lo que escribió el usuario",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["&lt;script"],
+        "cuerpo_no_contiene": ["<script>alerta(1)</script>"]
+      }
+    },
+    {
+      "nombre": "y neutraliza sin recortar: el texto sigue entero",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["alerta(1)"] }
+    },
+    {
+      "nombre": "la puerta cruda de cada motor NO escapa: el script llega vivo",
+      "peticion": { "metodo": "GET", "ruta": "/tareas-crudo" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["<script>alerta(1)</script>", "data-id=\"3\""]
+      }
+    }
+  ]
 }

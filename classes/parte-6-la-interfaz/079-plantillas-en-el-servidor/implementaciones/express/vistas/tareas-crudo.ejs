@@ -1,0 +1,8 @@
+<%# La puerta cruda de EJS NO escapa, y se diferencia de la segura en UN
+    guion. Es el nombre mas discreto del elenco: nada en el simbolo avisa de
+    lo que hace. %>
+<ul>
+<% for (const tarea of tareas) { %>
+  <li data-id="<%= tarea.id %>"><%- tarea.titulo %></li>
+<% } %>
+</ul>

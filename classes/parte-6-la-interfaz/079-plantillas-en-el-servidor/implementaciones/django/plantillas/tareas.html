@@ -1,0 +1,14 @@
+<ul>
+{% comment %}
+La interpolación normal ESCAPA. En Django el autoescapado es del MOTOR, no de
+una configuración que alguien pueda olvidar activar: viene encendido y hay que
+pedir explícitamente que se apague.
+
+(Este comentario va en un bloque `comment` y no en `{# #}`: la forma corta de
+Django es de UNA línea, y un comentario de varias con llaves dentro es un
+error de sintaxis de plantilla, no un comentario.)
+{% endcomment %}
+{% for tarea in tareas %}
+  <li data-id="{{ tarea.id }}">{{ tarea.titulo }}</li>
+{% endfor %}
+</ul>

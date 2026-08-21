@@ -1,0 +1,9 @@
+<ul>
+{# `{{ }}` ESCAPA — pero solo porque Flask activa el autoescapado de Jinja
+   para los archivos .html. Jinja SUELTO no escapa por omisión: es Flask
+   quien pone esa política, y es la diferencia entre `render_template` y
+   usar Jinja a pelo en un script. #}
+{% for tarea in tareas %}
+  <li data-id="{{ tarea.id }}">{{ tarea.titulo }}</li>
+{% endfor %}
+</ul>

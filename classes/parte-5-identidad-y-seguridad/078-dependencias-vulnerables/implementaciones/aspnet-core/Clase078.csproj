@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Los datos congelados se copian junto al binario. -->
-    <Content Include="datos\**" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Los datos congelados se copian junto al binario. `Update` y no
+         `Include`: el SDK de .NET ya incluye los .json del proyecto como
+         `Content` por omisión, y volver a incluirlos es el error NETSDK1022
+         —«Duplicate Content items»— que rompe la compilación. Lo que hace
+         falta es cambiarles una propiedad, no añadirlos otra vez. -->
+    <Content Update="datos\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

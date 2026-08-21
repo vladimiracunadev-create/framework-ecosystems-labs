@@ -1,0 +1,9 @@
+<ul>
+{% comment %}
+`|safe` es la puerta cruda de Django, con el mismo nombre engañoso que la de
+Jinja: dice «seguro» y significa «no lo revises».
+{% endcomment %}
+{% for tarea in tareas %}
+  <li data-id="{{ tarea.id }}">{{ tarea.titulo|safe }}</li>
+{% endfor %}
+</ul>

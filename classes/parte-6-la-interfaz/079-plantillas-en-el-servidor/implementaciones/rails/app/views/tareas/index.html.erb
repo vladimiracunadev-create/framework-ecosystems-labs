@@ -1,0 +1,9 @@
+<%# ERB escapa en `<%=` porque Rails envuelve la salida en su tipo SafeBuffer:
+    una cadena normal se escapa al interpolarse y solo lo marcado como
+    html_safe pasa entero. El escapado no es del motor de plantillas — es del
+    TIPO del dato, y esa es la diferencia de Rails con el resto del elenco. %>
+<ul>
+<% @tareas.each do |tarea| %>
+  <li data-id="<%= tarea[:id] %>"><%= tarea[:titulo] %></li>
+<% end %>
+</ul>

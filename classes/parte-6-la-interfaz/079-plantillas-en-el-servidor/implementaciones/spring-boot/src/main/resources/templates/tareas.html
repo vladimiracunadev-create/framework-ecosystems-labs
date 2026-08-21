@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- `th:text` ESCAPA. Y una diferencia de fondo con el resto del elenco:
+     una plantilla de Thymeleaf es HTML VÁLIDO — se abre en un navegador y se
+     ve la maqueta, con los atributos th: ignorados. El resto del elenco
+     produce ficheros que solo el motor entiende. -->
+<ul>
+  <li th:each="tarea : ${tareas}" th:attr="data-id=${tarea.id}" th:text="${tarea.titulo}">
+    marcador de posición que el motor sustituye
+  </li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<ul>
+{# `|safe` es la puerta cruda de Jinja. El nombre es el más engañoso del
+   elenco: dice «seguro» cuando significa «no lo revises». #}
+{% for tarea in tareas %}
+  <li data-id="{{ tarea.id }}">{{ tarea.titulo|safe }}</li>
+{% endfor %}
+</ul>

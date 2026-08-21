@@ -1,0 +1,8 @@
+<%# `raw` es la puerta cruda de Rails: marca la cadena como html_safe y el
+    SafeBuffer la deja pasar entera. Su primo `html_safe` hace lo mismo con un
+    nombre que MIENTE — no vuelve segura la cadena, declara que ya lo era. %>
+<ul>
+<% @tareas.each do |tarea| %>
+  <li data-id="<%= tarea[:id] %>"><%= raw tarea[:titulo] %></li>
+<% end %>
+</ul>
