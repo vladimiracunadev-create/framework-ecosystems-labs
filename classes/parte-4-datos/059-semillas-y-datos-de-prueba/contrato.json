@@ -1,8 +1,64 @@
 {
   "clase": "059",
   "titulo": "Semillas y datos de prueba",
-  "descripcion": "El mismo conjunto de datos cargado de forma reproducible.",
-  "estado": "esqueleto",
+  "descripcion": "Sembrar dos veces no duplica nada, y reiniciar devuelve exactamente el mismo estado.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la primera siembra crea las tres tareas del catálogo",
+      "peticion": { "metodo": "POST", "ruta": "/sembrar" },
+      "esperado": { "estado": 200, "json_contiene": { "creadas": 3, "total": 3 } }
+    },
+    {
+      "nombre": "con identificadores fijos, no con los que toque el autoincremento",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "total": 3,
+          "tareas": [
+            { "id": 1, "titulo": "comprar pan" },
+            { "id": 2, "titulo": "regar" },
+            { "id": 3, "titulo": "llamar" }
+          ]
+        }
+      }
+    },
+    {
+      "nombre": "alguien añade una tarea a mano, como haría un usuario",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "a mano" } },
+      "esperado": { "estado": 201 }
+    },
+    {
+      "nombre": "y ahora hay cuatro",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 4 } }
+    },
+    {
+      "nombre": "sembrar OTRA VEZ no crea nada nuevo y no se lleva por delante lo añadido",
+      "peticion": { "metodo": "POST", "ruta": "/sembrar" },
+      "esperado": { "estado": 200, "json_contiene": { "creadas": 0, "total": 4 } }
+    },
+    {
+      "nombre": "reiniciar es OTRA operación: borra y vuelve a sembrar",
+      "peticion": { "metodo": "POST", "ruta": "/reiniciar" },
+      "esperado": { "estado": 200, "json_contiene": { "creadas": 3, "total": 3 } }
+    },
+    {
+      "nombre": "y deja exactamente el mismo estado que la primera vez, identificadores incluidos",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "total": 3,
+          "tareas": [
+            { "id": 1, "titulo": "comprar pan" },
+            { "id": 2, "titulo": "regar" },
+            { "id": 3, "titulo": "llamar" }
+          ]
+        }
+      }
+    }
+  ]
 }

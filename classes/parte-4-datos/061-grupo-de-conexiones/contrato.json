@@ -1,8 +1,49 @@
 {
   "clase": "061",
   "titulo": "Grupo de conexiones",
-  "descripcion": "Con el grupo agotado, la petición espera o falla de forma declarada.",
-  "estado": "esqueleto",
+  "descripcion": "Con el grupo agotado la petición espera, y si la espera se acaba falla de forma declarada — no cuelga.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el grupo declara su tamaño, y es pequeño a propósito",
+      "peticion": { "metodo": "GET", "ruta": "/grupo" },
+      "esperado": { "estado": 200, "json_contiene": { "tamano": 2, "en_uso": 0 } }
+    },
+    {
+      "nombre": "una consulta corriente devuelve la conexión al grupo al terminar",
+      "peticion": { "metodo": "GET", "ruta": "/consulta" },
+      "esperado": { "estado": 200, "json_contiene": { "ok": true } }
+    },
+    {
+      "nombre": "y el grupo vuelve a estar entero: prestada, no regalada",
+      "peticion": { "metodo": "GET", "ruta": "/grupo" },
+      "esperado": { "estado": 200, "json_contiene": { "en_uso": 0 } }
+    },
+    {
+      "nombre": "con las dos conexiones ocupadas, la tercera ESPERA y acaba entrando",
+      "peticion": { "metodo": "GET", "ruta": "/tres-a-la-vez" },
+      "esperado": { "estado": 200, "json_contiene": { "completadas": 3, "espero_alguna": true } }
+    },
+    {
+      "nombre": "si el préstamo se retiene más que la espera, falla de forma DECLARADA",
+      "peticion": { "metodo": "GET", "ruta": "/agotar" },
+      "esperado": { "estado": 503, "json_contiene": { "code": "GRUPO_AGOTADO" } }
+    },
+    {
+      "nombre": "y el grupo se recupera solo: el fallo no lo dejó roto",
+      "peticion": { "metodo": "GET", "ruta": "/grupo" },
+      "esperado": { "estado": 200, "json_contiene": { "en_uso": 0 } }
+    },
+    {
+      "nombre": "una fuga —pedir prestado y no devolver— deja el grupo tocado",
+      "peticion": { "metodo": "GET", "ruta": "/fugar" },
+      "esperado": { "estado": 200, "json_contiene": { "fugadas": 1 } }
+    },
+    {
+      "nombre": "y se ve: queda una conexión en uso que nadie está usando",
+      "peticion": { "metodo": "GET", "ruta": "/grupo" },
+      "esperado": { "estado": 200, "json_contiene": { "en_uso": 1 } }
+    }
+  ]
 }

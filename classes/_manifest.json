@@ -1146,7 +1146,7 @@
             "hibernate",
             "entity-framework-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 60,
@@ -1162,7 +1162,7 @@
             "hibernate",
             "entity-framework-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 61,
@@ -1173,12 +1173,10 @@
           "objetivo": "Entender el recurso escaso que hay detrás de cada consulta.",
           "contrato": "Con el grupo agotado, la petición espera o falla de forma declarada.",
           "elenco": [
-            "prisma",
             "sqlalchemy",
-            "hibernate",
-            "entity-framework-core"
+            "hibernate"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 62,

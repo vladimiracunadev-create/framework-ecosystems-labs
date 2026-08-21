@@ -1,8 +1,65 @@
 {
   "clase": "060",
   "titulo": "Cuándo salir del ORM",
-  "descripcion": "Un informe agregado escrito en SQL dentro del mismo proyecto.",
-  "estado": "esqueleto",
+  "descripcion": "El mismo informe agregado, calculado en memoria y calculado en SQL — con el mismo resultado y muy distinto coste.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el estado de partida son cuatro tareas repartidas en tres proyectos",
+      "peticion": { "metodo": "GET", "ruta": "/reiniciar" },
+      "esperado": { "estado": 200, "json_contiene": { "tareas": 4, "proyectos": 3 } }
+    },
+    {
+      "nombre": "el informe calculado con el ORM, trayéndose las filas a memoria",
+      "peticion": { "metodo": "GET", "ruta": "/informe-orm" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "filas": [
+            { "proyecto": "casa", "total": 2, "hechas": 1 },
+            { "proyecto": "trabajo", "total": 1, "hechas": 1 },
+            { "proyecto": "viaje", "total": 1, "hechas": 0 }
+          ]
+        }
+      }
+    },
+    {
+      "nombre": "y trajo las cuatro filas para devolver tres",
+      "peticion": { "metodo": "GET", "ruta": "/filas-leidas" },
+      "esperado": { "estado": 200, "json_contiene": { "filas_leidas": 4 } }
+    },
+    {
+      "nombre": "el mismo informe en SQL devuelve EXACTAMENTE lo mismo",
+      "peticion": { "metodo": "GET", "ruta": "/informe-sql" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "filas": [
+            { "proyecto": "casa", "total": 2, "hechas": 1 },
+            { "proyecto": "trabajo", "total": 1, "hechas": 1 },
+            { "proyecto": "viaje", "total": 1, "hechas": 0 }
+          ]
+        }
+      }
+    },
+    {
+      "nombre": "y solo trajo las tres filas del resultado: la agregación la hizo el motor",
+      "peticion": { "metodo": "GET", "ruta": "/filas-leidas" },
+      "esperado": { "estado": 200, "json_contiene": { "filas_leidas": 3 } }
+    },
+    {
+      "nombre": "el SQL crudo sigue siendo parametrizado: el filtro es un valor, no código",
+      "peticion": { "metodo": "GET", "ruta": "/informe-sql?minimo=2" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "filas": [{ "proyecto": "casa", "total": 2, "hechas": 1 }] }
+      }
+    },
+    {
+      "nombre": "y una inyección por ese filtro no devuelve nada: es un número, no una condición",
+      "peticion": { "metodo": "GET", "ruta": "/informe-sql?minimo=0%20OR%201%3D1" },
+      "esperado": { "estado": 400, "json_contiene": { "code": "MINIMO_INVALIDO" } }
+    }
+  ]
 }
