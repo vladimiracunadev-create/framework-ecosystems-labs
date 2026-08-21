@@ -1,0 +1,11 @@
+{
+  "name": "clase-053-typeorm",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0",
+    "reflect-metadata": "^0.2.2",
+    "sql.js": "^1.13.0",
+    "typeorm": "^1.1.0"
+  }
+}

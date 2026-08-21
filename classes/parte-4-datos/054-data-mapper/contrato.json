@@ -1,8 +1,52 @@
 {
   "clase": "054",
   "titulo": "Data Mapper",
-  "descripcion": "El mismo alta y consulta con un repositorio que traduce objeto y tabla.",
-  "estado": "esqueleto",
+  "descripcion": "El mismo comportamiento, con un dominio que no sabe que existe una base de datos.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el repositorio guarda una entidad que no sabe guardarse",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "comprar pan" } },
+      "esperado": {
+        "estado": 201,
+        "json_contiene": { "id": 1, "titulo": "comprar pan", "hecha": false }
+      }
+    },
+    {
+      "nombre": "y el repositorio la recupera",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "id": 1, "titulo": "comprar pan" } }
+    },
+    {
+      "nombre": "la regla vive en el dominio y se comprueba antes de tocar el repositorio",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": { "estado": 422, "json_contiene": { "code": "TITULO_REQUERIDO" } }
+    },
+    {
+      "nombre": "y no llegó a guardarse: sigue habiendo una sola",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 1 } }
+    },
+    {
+      "nombre": "el método del dominio cambia el estado; el repositorio lo persiste",
+      "peticion": { "metodo": "PATCH", "ruta": "/tareas/1", "cuerpo": { "hecha": true } },
+      "esperado": { "estado": 200, "json_contiene": { "id": 1, "hecha": true } }
+    },
+    {
+      "nombre": "y el cambio quedó guardado",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "hecha": true } }
+    },
+    {
+      "nombre": "el repositorio borra",
+      "peticion": { "metodo": "DELETE", "ruta": "/tareas/1" },
+      "esperado": { "estado": 204 }
+    },
+    {
+      "nombre": "y ya no está",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 404, "json_contiene": { "code": "NO_EXISTE" } }
+    }
+  ]
 }

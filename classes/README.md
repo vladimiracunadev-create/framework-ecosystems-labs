@@ -5,7 +5,7 @@
 Aprende el problema una vez. Reconoce cómo lo resuelve cada framework, y por qué sí o por qué no.
 
 **149 clases** en **12 partes**, de lo más simple a lo más
-avanzado. 45 construidas, 104 en esqueleto.
+avanzado. 48 construidas, 101 en esqueleto.
 
 ## 🧭 El método
 

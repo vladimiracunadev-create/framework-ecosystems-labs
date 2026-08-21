@@ -88,7 +88,12 @@ function lineasDeError(salida) {
   const utiles = salida
     .trim()
     .split(/\r?\n/)
-    .filter((linea) => /error|Error|ERROR|\.java:|\.cs\(|\.go:|warning CS/.test(linea))
+    // `Exception` y `Traceback` no llevan la palabra «error» y son justo lo que
+    // imprime un servidor al morirse. Sin ellas, un cierre a mitad de la
+    // ejecución llegaba al informe como cuatro líneas de `info:` inútiles.
+    .filter((linea) =>
+      /error|Error|ERROR|xception|Traceback|FAIL|Fatal|\.java:|\.cs\(|\.go:|warning CS/.test(linea),
+    )
     .slice(0, 8);
   const texto = (utiles.length ? utiles : salida.trim().split(/\r?\n/).slice(0, 4)).join(" | ");
   return texto.slice(0, 900);
@@ -434,9 +439,18 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
       const r = await comprobarCaso(base, caso);
       if (!r.ok) fallos.push(`${caso.nombre}: ${r.motivo}`);
     }
-    return fallos.length
-      ? { framework, estado: "fallo", detalle: fallos.join(" | ") }
-      : { framework, estado: "ok", detalle: `${contrato.casos.length} casos` };
+    if (!fallos.length) {
+      return { framework, estado: "ok", detalle: `${contrato.casos.length} casos` };
+    }
+
+    // Si el servidor se murió a mitad, los casos solo saben decir «la petición
+    // falló». Lo que explica por qué está en SU salida, y hasta ahora se tiraba
+    // a la basura: solo se leía cuando fallaba el arranque.
+    const murio = hijo.exitCode !== null || hijo.signalCode !== null;
+    const contexto = murio
+      ? ` || el servidor terminó por su cuenta (código ${hijo.exitCode}): ${lineasDeError(salida)}`
+      : "";
+    return { framework, estado: "fallo", detalle: fallos.join(" | ") + contexto };
   } finally {
     matarArbol(hijo);
     // No basta con pedir la muerte: hay que esperar a que el puerto se libere,

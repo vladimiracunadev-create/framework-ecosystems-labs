@@ -1,17 +1,17 @@
 {
   "clase": "056",
   "titulo": "El problema N+1",
-  "descripcion": "La misma lectura con y sin carga anticipada, contando las consultas emitidas.",
+  "descripcion": "Medir las consultas, y medir cómo crecen — que es lo único que distingue el problema.",
   "estado": "construida",
   "tipo": "http",
   "casos": [
     {
-      "nombre": "se parte del contador a cero",
+      "nombre": "el contador arranca a cero con tres tareas sembradas",
       "peticion": { "metodo": "GET", "ruta": "/reiniciar" },
-      "esperado": { "estado": 200, "json_contiene": { "ok": true } }
+      "esperado": { "estado": 200, "json_contiene": { "consultas": 0, "tareas": 3 } }
     },
     {
-      "nombre": "la forma ingenua devuelve los datos CORRECTOS",
+      "nombre": "la forma ingenua devuelve los datos correctos",
       "peticion": { "metodo": "GET", "ruta": "/tareas-n1" },
       "esperado": {
         "estado": 200,
@@ -25,17 +25,17 @@
       }
     },
     {
-      "nombre": "y costó CUATRO consultas: una por las tareas y una por cada una",
+      "nombre": "y costó cuatro consultas: una para las tareas y una por cada tarea",
       "peticion": { "metodo": "GET", "ruta": "/consultas" },
       "esperado": { "estado": 200, "json_contiene": { "consultas": 4 } }
     },
     {
-      "nombre": "se reinicia el contador",
+      "nombre": "la forma anticipada devuelve EXACTAMENTE los mismos datos",
       "peticion": { "metodo": "GET", "ruta": "/reiniciar" },
-      "esperado": { "estado": 200 }
+      "esperado": { "estado": 200, "json_contiene": { "consultas": 0 } }
     },
     {
-      "nombre": "la carga anticipada devuelve EXACTAMENTE lo mismo",
+      "nombre": "el resultado no distingue el problema: es idéntico",
       "peticion": { "metodo": "GET", "ruta": "/tareas-anticipada" },
       "esperado": {
         "estado": 200,
@@ -49,9 +49,14 @@
       }
     },
     {
-      "nombre": "con DOS consultas, y no crecerían aunque hubiera mil tareas",
-      "peticion": { "metodo": "GET", "ruta": "/consultas" },
-      "esperado": { "estado": 200, "json_contiene": { "consultas": 2 } }
+      "nombre": "al pasar de tres tareas a seis, la ingenua necesita TRES consultas más",
+      "peticion": { "metodo": "GET", "ruta": "/crecimiento?ruta=tareas-n1" },
+      "esperado": { "estado": 200, "json_contiene": { "con_3": 4, "con_6": 7, "crecimiento": 3 } }
+    },
+    {
+      "nombre": "y la anticipada necesita las mismas, sean tres tareas o seis o mil",
+      "peticion": { "metodo": "GET", "ruta": "/crecimiento?ruta=tareas-anticipada" },
+      "esperado": { "estado": 200, "json_contiene": { "crecimiento": 0 } }
     }
   ]
 }

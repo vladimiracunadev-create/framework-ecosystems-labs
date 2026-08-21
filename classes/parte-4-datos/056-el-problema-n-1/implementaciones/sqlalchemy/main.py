@@ -1,12 +1,11 @@
-from collections.abc import Iterator
-from typing import Annotated
+from collections.abc import Callable
 
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from sqlalchemy import ForeignKey, Integer, String, create_engine, event, select
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import (
-    DeclarativeBase, Mapped, Session, mapped_column, relationship, selectinload, sessionmaker,
+    DeclarativeBase, Mapped, mapped_column, relationship, selectinload, sessionmaker,
 )
 
 app = FastAPI()
@@ -53,26 +52,67 @@ Base.metadata.drop_all(motor)
 Base.metadata.create_all(motor)
 CrearSesion = sessionmaker(bind=motor, expire_on_commit=False)
 
-with CrearSesion() as inicial:
-    for titulo in ("una", "dos", "tres"):
-        inicial.add(Tarea(titulo=titulo, etiquetas=[
-            Etiqueta(nombre=f"{titulo}-a"), Etiqueta(nombre=f"{titulo}-b"),
-        ]))
-    inicial.commit()
+TITULOS = ("una", "dos", "tres", "cuatro", "cinco", "seis")
 
 
-def sesion() -> Iterator[Session]:
-    s = CrearSesion()
-    try:
-        yield s
-    finally:
-        s.close()
+def sembrar(cuantas: int) -> int:
+    """Cada tarea con dos etiquetas. El numero de tareas es el parametro."""
+    with CrearSesion() as s:
+        s.query(Etiqueta).delete()
+        s.query(Tarea).delete()
+        for titulo in TITULOS[:cuantas]:
+            s.add(Tarea(titulo=titulo, etiquetas=[
+                Etiqueta(nombre=f"{titulo}-a"), Etiqueta(nombre=f"{titulo}-b"),
+            ]))
+        s.commit()
+    consultas["total"] = 0
+    return cuantas
+
+
+def ingenua() -> list[dict]:
+    """LA FORMA INGENUA.
+
+    Una consulta para las tareas. Y despues, al tocar `tarea.etiquetas`, una
+    consulta MAS POR TAREA — sin que nada en este codigo lo insinue. Ese es el
+    problema: el bucle parece que solo lee memoria.
+    """
+    with CrearSesion() as s:
+        tareas = s.scalars(select(Tarea).order_by(Tarea.id)).all()
+        return [
+            {"id": t.id, "titulo": t.titulo, "etiquetas": sorted(e.nombre for e in t.etiquetas)}
+            for t in tareas
+        ]
+
+
+def anticipada() -> list[dict]:
+    """LA FORMA ANTICIPADA.
+
+    `selectinload` trae todas las etiquetas en UNA segunda consulta, sea cual sea
+    el numero de tareas. `joinedload` haria lo mismo en UNA sola con union — y
+    duplicaria las filas de la tarea, una por etiqueta.
+    """
+    with CrearSesion() as s:
+        tareas = s.scalars(
+            select(Tarea).options(selectinload(Tarea.etiquetas)).order_by(Tarea.id)
+        ).all()
+        return [
+            {"id": t.id, "titulo": t.titulo, "etiquetas": sorted(e.nombre for e in t.etiquetas)}
+            for t in tareas
+        ]
+
+
+RUTAS: dict[str, Callable[[], list[dict]]] = {
+    "tareas-n1": ingenua,
+    "tareas-anticipada": anticipada,
+}
+
+sembrar(3)
 
 
 @app.get("/reiniciar")
 def reiniciar() -> JSONResponse:
-    consultas["total"] = 0
-    return JSONResponse({"ok": True})
+    tareas = sembrar(3)
+    return JSONResponse({"consultas": consultas["total"], "tareas": tareas})
 
 
 @app.get("/consultas")
@@ -81,26 +121,36 @@ def ver() -> JSONResponse:
 
 
 @app.get("/tareas-n1")
-def n_mas_uno(s: Annotated[Session, Depends(sesion)]) -> JSONResponse:
-    """LA FORMA INGENUA.
-
-    Una consulta para las tareas. Y despues, al tocar `tarea.etiquetas`, una
-    consulta MAS POR TAREA — sin que nada en este codigo lo insinue. Ese es el
-    problema: el bucle parece que solo lee memoria.
-    """
-    tareas = s.scalars(select(Tarea)).all()
-    return JSONResponse({"tareas": [
-        {"id": t.id, "titulo": t.titulo, "etiquetas": [e.nombre for e in t.etiquetas]}
-        for t in tareas
-    ]})
+def n_mas_uno() -> JSONResponse:
+    return JSONResponse({"tareas": ingenua()})
 
 
 @app.get("/tareas-anticipada")
-def anticipada(s: Annotated[Session, Depends(sesion)]) -> JSONResponse:
-    """LA FORMA ANTICIPADA. `selectinload` trae todas las etiquetas en UNA
-    segunda consulta, sea cual sea el numero de tareas."""
-    tareas = s.scalars(select(Tarea).options(selectinload(Tarea.etiquetas))).all()
-    return JSONResponse({"tareas": [
-        {"id": t.id, "titulo": t.titulo, "etiquetas": [e.nombre for e in t.etiquetas]}
-        for t in tareas
-    ]})
+def anticipada_http() -> JSONResponse:
+    return JSONResponse({"tareas": anticipada()})
+
+
+@app.get("/crecimiento")
+def crecimiento(ruta: str = "") -> JSONResponse:
+    """LO UNICO QUE DISTINGUE EL PROBLEMA.
+
+    Un numero absoluto de consultas no dice nada: la carga anticipada cuesta una
+    consulta con union y dos con segunda consulta, y las dos estan bien. Lo que
+    importa es si ese numero CRECE con el numero de filas.
+
+    Aqui se mide: se ejecuta la misma ruta con tres tareas y con seis, y se resta.
+    """
+    funcion = RUTAS.get(ruta)
+    if funcion is None:
+        return JSONResponse({"code": "RUTA_DESCONOCIDA"}, status_code=404)
+
+    sembrar(3)
+    funcion()
+    con_3 = consultas["total"]
+
+    sembrar(6)
+    funcion()
+    con_6 = consultas["total"]
+
+    sembrar(3)
+    return JSONResponse({"con_3": con_3, "con_6": con_6, "crecimiento": con_6 - con_3})

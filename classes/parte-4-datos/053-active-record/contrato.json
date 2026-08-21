@@ -1,8 +1,52 @@
 {
   "clase": "053",
   "titulo": "Active Record",
-  "descripcion": "El mismo alta y consulta con el objeto como puerta a la tabla.",
-  "estado": "esqueleto",
+  "descripcion": "El objeto es la puerta a la tabla: sabe guardarse, buscarse y validarse.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el objeto se guarda a sí mismo",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "comprar pan" } },
+      "esperado": {
+        "estado": 201,
+        "json_contiene": { "id": 1, "titulo": "comprar pan", "hecha": false }
+      }
+    },
+    {
+      "nombre": "y se lee de vuelta por identificador",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "id": 1, "titulo": "comprar pan" } }
+    },
+    {
+      "nombre": "la validación vive en el propio modelo, no en el controlador",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": { "estado": 422, "json_contiene": { "code": "TITULO_REQUERIDO" } }
+    },
+    {
+      "nombre": "y no llegó a guardarse: sigue habiendo una sola",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 1 } }
+    },
+    {
+      "nombre": "el objeto sabe modificarse",
+      "peticion": { "metodo": "PATCH", "ruta": "/tareas/1", "cuerpo": { "hecha": true } },
+      "esperado": { "estado": 200, "json_contiene": { "id": 1, "hecha": true } }
+    },
+    {
+      "nombre": "y el cambio quedó guardado",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "hecha": true } }
+    },
+    {
+      "nombre": "el objeto sabe borrarse",
+      "peticion": { "metodo": "DELETE", "ruta": "/tareas/1" },
+      "esperado": { "estado": 204 }
+    },
+    {
+      "nombre": "y ya no está",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 404, "json_contiene": { "code": "NO_EXISTE" } }
+    }
+  ]
 }

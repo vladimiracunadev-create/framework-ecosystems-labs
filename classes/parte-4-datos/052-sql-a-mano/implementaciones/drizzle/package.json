@@ -1,0 +1,10 @@
+{
+  "name": "clase-052-drizzle",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@libsql/client": "^0.15.4",
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.1.0"
+  }
+}

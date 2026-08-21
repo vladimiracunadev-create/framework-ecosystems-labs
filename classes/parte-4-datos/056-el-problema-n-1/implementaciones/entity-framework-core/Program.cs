@@ -15,36 +15,45 @@ constructor.Services.AddDbContext<Contexto>(opciones => opciones
 
 var app = constructor.Build();
 
-using (var ambito = app.Services.CreateScope())
-{
-    var contexto = ambito.ServiceProvider.GetRequiredService<Contexto>();
-    contexto.Database.EnsureDeleted();
-    contexto.Database.EnsureCreated();
+string[] titulos = ["una", "dos", "tres", "cuatro", "cinco", "seis"];
 
-    foreach (var titulo in new[] { "una", "dos", "tres" })
+// Cada tarea con dos etiquetas. El numero de tareas es el parametro del
+// experimento, y es lo que permite medir el CRECIMIENTO en lugar de un numero
+// suelto que no dice nada.
+async Task<int> Sembrar(Contexto contexto, int cuantas)
+{
+    await contexto.Etiquetas.ExecuteDeleteAsync();
+    await contexto.Tareas.ExecuteDeleteAsync();
+    contexto.ChangeTracker.Clear();
+
+    var siguiente = 1;
+    foreach (var titulo in titulos.Take(cuantas))
     {
-        var tarea = new Tarea { Titulo = titulo };
+        var tarea = new Tarea { Id = siguiente++, Titulo = titulo };
         tarea.Etiquetas.Add(new Etiqueta { Nombre = $"{titulo}-a" });
         tarea.Etiquetas.Add(new Etiqueta { Nombre = $"{titulo}-b" });
         contexto.Tareas.Add(tarea);
     }
     await contexto.SaveChangesAsync();
+    contexto.ChangeTracker.Clear();
+    contador.Reiniciar();
+    return cuantas;
 }
 
-app.MapGet("/reiniciar", () =>
+using (var ambito = app.Services.CreateScope())
 {
-    contador.Reiniciar();
-    return Results.Json(new { ok = true });
-});
-
-app.MapGet("/consultas", () => Results.Json(new { consultas = contador.Total }));
+    var inicial = ambito.ServiceProvider.GetRequiredService<Contexto>();
+    await inicial.Database.EnsureDeletedAsync();
+    await inicial.Database.EnsureCreatedAsync();
+    await Sembrar(inicial, 3);
+}
 
 // LA FORMA INGENUA. EF Core no carga la relacion sola, asi que reproducir el
 // N+1 exige pedirla una por una — que es exactamente lo que hace un bucle que
 // consulta por elemento.
-app.MapGet("/tareas-n1", async (Contexto contexto) =>
+async Task<List<object>> Ingenua(Contexto contexto)
 {
-    var tareas = await contexto.Tareas.ToListAsync();
+    var tareas = await contexto.Tareas.OrderBy(t => t.Id).ToListAsync();
     var resultado = new List<object>();
     foreach (var tarea in tareas)
     {
@@ -55,22 +64,62 @@ app.MapGet("/tareas-n1", async (Contexto contexto) =>
             .ToListAsync();
         resultado.Add(new { id = tarea.Id, titulo = tarea.Titulo, etiquetas });
     }
-    return Results.Json(new { tareas = resultado });
+    return resultado;
+}
+
+// LA FORMA ANTICIPADA. `Include` trae todo de una vez, y en EF Core lo hace con
+// una UNION: UNA sola consulta. `AsSplitQuery()` daria dos. Las dos estan bien,
+// y ninguna crece con el numero de filas — que es lo unico que importa.
+async Task<List<object>> Anticipada(Contexto contexto)
+{
+    var tareas = await contexto.Tareas
+        .Include(t => t.Etiquetas)
+        .OrderBy(t => t.Id)
+        .ToListAsync();
+    return tareas.Select(t => (object)new
+    {
+        id = t.Id,
+        titulo = t.Titulo,
+        etiquetas = t.Etiquetas.Select(e => e.Nombre).OrderBy(n => n).ToList(),
+    }).ToList();
+}
+
+app.MapGet("/reiniciar", async (Contexto contexto) =>
+{
+    var tareas = await Sembrar(contexto, 3);
+    return Results.Json(new { consultas = contador.Total, tareas });
 });
 
-// LA FORMA ANTICIPADA: `Include` trae todo de una vez.
+app.MapGet("/consultas", () => Results.Json(new { consultas = contador.Total }));
+
+app.MapGet("/tareas-n1", async (Contexto contexto) =>
+    Results.Json(new { tareas = await Ingenua(contexto) }));
+
 app.MapGet("/tareas-anticipada", async (Contexto contexto) =>
+    Results.Json(new { tareas = await Anticipada(contexto) }));
+
+// LO UNICO QUE DISTINGUE EL PROBLEMA: si el numero de consultas CRECE con el
+// numero de filas. Se mide con tres tareas y con seis, y se resta.
+app.MapGet("/crecimiento", async (Contexto contexto, string? ruta) =>
 {
-    var tareas = await contexto.Tareas.Include(t => t.Etiquetas).ToListAsync();
-    return Results.Json(new
+    Func<Contexto, Task<List<object>>>? funcion = ruta switch
     {
-        tareas = tareas.Select(t => new
-        {
-            id = t.Id,
-            titulo = t.Titulo,
-            etiquetas = t.Etiquetas.Select(e => e.Nombre).OrderBy(n => n).ToList(),
-        }),
-    });
+        "tareas-n1" => Ingenua,
+        "tareas-anticipada" => Anticipada,
+        _ => null,
+    };
+    if (funcion is null) return Results.Json(new { code = "RUTA_DESCONOCIDA" }, statusCode: 404);
+
+    await Sembrar(contexto, 3);
+    await funcion(contexto);
+    var con3 = contador.Total;
+
+    await Sembrar(contexto, 6);
+    await funcion(contexto);
+    var con6 = contador.Total;
+
+    await Sembrar(contexto, 3);
+    return Results.Json(new { con_3 = con3, con_6 = con6, crecimiento = con6 - con3 });
 });
 
 app.Run();
@@ -114,6 +163,10 @@ class Contexto(DbContextOptions<Contexto> opciones) : DbContext(opciones)
 
     protected override void OnModelCreating(ModelBuilder constructor)
     {
+        // El identificador se fija a mano en la semilla: el contrato habla de las
+        // tareas 1, 2 y 3, y con autoincremento se correrian en cada resiembra.
+        constructor.Entity<Tarea>().Property(t => t.Id).ValueGeneratedNever();
+
         constructor.Entity<Tarea>()
             .HasMany(t => t.Etiquetas)
             .WithOne(e => e.Tarea!)

@@ -29,4 +29,17 @@ public class AnadirPrioridad : Migration
         // Existe, y no devuelve los datos: quitar la columna los borra.
         constructor.DropColumn(name: "Prioridad", table: "Tareas");
     }
+
+    /// <summary>El modelo tal como queda tras esta migración: ya con prioridad.</summary>
+    protected override void BuildTargetModel(ModelBuilder constructor)
+    {
+        constructor.Entity("Tarea", b =>
+        {
+            b.Property<int>("Id").ValueGeneratedOnAdd().HasColumnType("INTEGER");
+            b.Property<string>("Titulo").IsRequired().HasColumnType("TEXT");
+            b.Property<int>("Prioridad").HasColumnType("INTEGER").HasDefaultValue(0);
+            b.HasKey("Id");
+            b.ToTable("Tareas");
+        });
+    }
 }

@@ -3,6 +3,7 @@ package labs;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -18,22 +19,21 @@ import jakarta.persistence.Table;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.stat.Statistics;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 // Los repositorios de abajo son interfaces ANIDADAS, y la busqueda de Spring Data
-// las ignora por omision: `considerNestedRepositories` es false. El sintoma es un
-// fallo al arrancar — "No qualifying bean of type 'Aplicacion$Tareas'" — que no
-// aparece hasta que el contexto se levanta.
+// las ignora por omision: `considerNestedRepositories` es false.
 @EnableJpaRepositories(considerNestedRepositories = true)
 public class Aplicacion {
 
@@ -71,35 +71,26 @@ public class Aplicacion {
     }
 
     public interface Tareas extends JpaRepository<Tarea, Long> {
+        /**
+         * `@EntityGraph` declara QUE cargar de una vez. Hibernate lo resuelve con
+         * una UNION: una sola consulta, y las filas de la tarea duplicadas — una
+         * por etiqueta. Es la estrategia opuesta al `selectinload` de SQLAlchemy.
+         */
         @EntityGraph(attributePaths = "etiquetas")
-        List<Tarea> findAllWithEtiquetasBy();
+        List<Tarea> findAllWithEtiquetasByOrderById();
+
+        List<Tarea> findAllByOrderById();
     }
 
-    /** Tres tareas con dos etiquetas cada una. */
-    @Bean
-    public CommandLineRunner semilla(Tareas tareas) {
-        return args -> {
-            for (String titulo : new String[] { "una", "dos", "tres" }) {
-                Tarea tarea = new Tarea();
-                tarea.titulo = titulo;
-                for (String sufijo : new String[] { "a", "b" }) {
-                    Etiqueta etiqueta = new Etiqueta();
-                    etiqueta.nombre = titulo + "-" + sufijo;
-                    etiqueta.tarea = tarea;
-                    tarea.etiquetas.add(etiqueta);
-                }
-                tareas.save(tarea);
-            }
-        };
-    }
+    private static final String[] TITULOS = { "una", "dos", "tres", "cuatro", "cinco", "seis" };
 
-    @RestController
-    public static class Controlador {
+    @Service
+    public static class Almacen {
 
         private final Tareas tareas;
         private final Statistics estadisticas;
 
-        public Controlador(Tareas tareas, EntityManagerFactory fabrica) {
+        public Almacen(Tareas tareas, EntityManagerFactory fabrica) {
             this.tareas = tareas;
             // Hibernate lleva su propio contador de sentencias preparadas. Se
             // activa con `hibernate.generate_statistics` y es la forma nativa de
@@ -107,20 +98,32 @@ public class Aplicacion {
             this.estadisticas = fabrica.unwrap(SessionFactory.class).getStatistics();
         }
 
-        @GetMapping("/reiniciar")
-        public Map<String, Object> reiniciar() {
+        public long consultas() {
+            return estadisticas.getPrepareStatementCount();
+        }
+
+        public void reiniciarContador() {
             estadisticas.clear();
-            return Map.of("ok", true);
         }
 
-        @GetMapping("/consultas")
-        public Map<String, Object> consultas() {
-            return Map.of("consultas", (int) estadisticas.getPrepareStatementCount());
-        }
-
-        private static Map<String, Object> salida(Tarea tarea) {
-            List<String> nombres = tarea.etiquetas.stream().map(e -> e.nombre).sorted().toList();
-            return Map.of("id", tarea.id.intValue(), "titulo", tarea.titulo, "etiquetas", nombres);
+        /** Cada tarea con dos etiquetas. El numero de tareas es el parametro. */
+        @Transactional
+        public int sembrar(int cuantas) {
+            // `deleteAll` y no `deleteAllInBatch`: el borrado en lote se salta la
+            // cascada, y dejaria las etiquetas apuntando a tareas que ya no estan.
+            tareas.deleteAll();
+            for (int i = 0; i < cuantas; i++) {
+                Tarea tarea = new Tarea();
+                tarea.titulo = TITULOS[i];
+                for (String sufijo : new String[] { "a", "b" }) {
+                    Etiqueta etiqueta = new Etiqueta();
+                    etiqueta.nombre = tarea.titulo + "-" + sufijo;
+                    etiqueta.tarea = tarea;
+                    tarea.etiquetas.add(etiqueta);
+                }
+                tareas.save(tarea);
+            }
+            return cuantas;
         }
 
         /**
@@ -128,24 +131,93 @@ public class Aplicacion {
          *
          * Una consulta para las tareas. Y despues, al tocar `tarea.etiquetas`,
          * una consulta MAS POR TAREA — sin que nada en este codigo lo insinue.
-         * Ese es el problema: el bucle parece que solo lee memoria.
          *
          * `@Transactional` hace falta para que la sesion siga abierta y la carga
          * perezosa funcione. Sin el, esto lanzaria una excepcion en lugar de ser
          * lento — que es, curiosamente, el fallo menos malo de los dos.
          */
-        @GetMapping("/tareas-n1")
         @Transactional(readOnly = true)
-        public Map<String, Object> nMasUno() {
-            return Map.of("tareas", tareas.findAll().stream().map(Controlador::salida).toList());
+        public List<Map<String, Object>> ingenua() {
+            return tareas.findAllByOrderById().stream().map(Almacen::salida).toList();
         }
 
         /** LA FORMA ANTICIPADA: el grafo declara que traiga las etiquetas. */
-        @GetMapping("/tareas-anticipada")
         @Transactional(readOnly = true)
+        public List<Map<String, Object>> anticipada() {
+            return tareas.findAllWithEtiquetasByOrderById().stream()
+                    .map(Almacen::salida).toList();
+        }
+
+        private static Map<String, Object> salida(Tarea tarea) {
+            List<String> nombres = tarea.etiquetas.stream().map(e -> e.nombre).sorted().toList();
+            return Map.of("id", tarea.id.intValue(), "titulo", tarea.titulo, "etiquetas", nombres);
+        }
+    }
+
+    @RestController
+    public static class Controlador {
+
+        private final Almacen almacen;
+
+        public Controlador(Almacen almacen) {
+            this.almacen = almacen;
+        }
+
+        @GetMapping("/reiniciar")
+        public Map<String, Object> reiniciar() {
+            int tareas = almacen.sembrar(3);
+            almacen.reiniciarContador();
+            return Map.of("consultas", (int) almacen.consultas(), "tareas", tareas);
+        }
+
+        @GetMapping("/consultas")
+        public Map<String, Object> consultas() {
+            return Map.of("consultas", (int) almacen.consultas());
+        }
+
+        @GetMapping("/tareas-n1")
+        public Map<String, Object> nMasUno() {
+            return Map.of("tareas", almacen.ingenua());
+        }
+
+        @GetMapping("/tareas-anticipada")
         public Map<String, Object> anticipada() {
-            return Map.of("tareas",
-                    tareas.findAllWithEtiquetasBy().stream().map(Controlador::salida).toList());
+            return Map.of("tareas", almacen.anticipada());
+        }
+
+        /**
+         * LO UNICO QUE DISTINGUE EL PROBLEMA.
+         *
+         * Un numero absoluto de consultas no dice nada: la carga anticipada
+         * cuesta UNA con union —lo que hace Hibernate— y DOS con segunda
+         * consulta, y las dos estan bien. Lo que importa es si ese numero CRECE
+         * con el numero de filas.
+         */
+        @GetMapping("/crecimiento")
+        public ResponseEntity<Map<String, Object>> crecimiento(
+                @RequestParam(name = "ruta", defaultValue = "") String ruta) {
+            Supplier<List<Map<String, Object>>> funcion = switch (ruta) {
+                case "tareas-n1" -> almacen::ingenua;
+                case "tareas-anticipada" -> almacen::anticipada;
+                default -> null;
+            };
+            if (funcion == null) {
+                return ResponseEntity.status(404).body(Map.of("code", "RUTA_DESCONOCIDA"));
+            }
+
+            int con3 = medir(funcion, 3);
+            int con6 = medir(funcion, 6);
+            almacen.sembrar(3);
+
+            return ResponseEntity.ok(Map.of(
+                    "con_3", con3, "con_6", con6, "crecimiento", con6 - con3));
+        }
+
+        private int medir(Supplier<List<Map<String, Object>>> funcion, int cuantas) {
+            almacen.sembrar(cuantas);
+            almacen.reiniciarContador();
+            funcion.get();
+            return (int) almacen.consultas();
         }
     }
 

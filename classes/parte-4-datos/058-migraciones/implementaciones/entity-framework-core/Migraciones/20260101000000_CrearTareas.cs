@@ -39,4 +39,21 @@ public class CrearTareas : Migration
     {
         constructor.DropTable(name: "Tareas");
     }
+
+    /// <summary>
+    /// El modelo TAL COMO QUEDA tras esta migración. Es lo que `dotnet ef`
+    /// escribe en el archivo `.Designer.cs` que acompaña a cada migración, y
+    /// EF Core lo necesita para generar el SQL: sin él, `Migrate()` trabaja
+    /// sobre un modelo vacío.
+    /// </summary>
+    protected override void BuildTargetModel(ModelBuilder constructor)
+    {
+        constructor.Entity("Tarea", b =>
+        {
+            b.Property<int>("Id").ValueGeneratedOnAdd().HasColumnType("INTEGER");
+            b.Property<string>("Titulo").IsRequired().HasColumnType("TEXT");
+            b.HasKey("Id");
+            b.ToTable("Tareas");
+        });
+    }
 }

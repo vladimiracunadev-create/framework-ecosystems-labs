@@ -9,6 +9,11 @@
 | [SQLAlchemy](../../../atlas/fichas/sqlalchemy.md) | `selectinload` usa dos consultas: nunca multiplica filas | Perezosa por omisión: el N+1 aparece sin escribirlo | Vigilar cada acceso a una relación |
 | [Hibernate](../../../atlas/fichas/hibernate.md) | Contador de sentencias nativo; grafos declarativos | Perezosa por omisión, y **fuera de la sesión lanza excepción** | Dos fallos distintos según dónde toques la relación |
 
+Ninguna de las cuatro te encierra en su estrategia de carga anticipada:
+`AsSplitQuery()` en EF Core, `joinedload` en SQLAlchemy y
+`@Fetch(FetchMode.SUBSELECT)` en Hibernate cambian de unión a segunda consulta o
+al revés con una llamada.
+
 ## 🧭 Los dos valores por omisión, y sus fallos
 
 **No cargar** —Prisma, EF Core— convierte el olvido en **datos ausentes**. La
@@ -38,6 +43,12 @@ la intuición sobre dónde está el tiempo casi siempre se equivoca
 
 Y explica por qué el contrato de esta clase cuenta consultas en lugar de medir
 tiempo: **el tiempo depende de la máquina; el número de consultas, no**.
+
+Con un matiz que costó una ejecución de integración continua descubrir: el
+número absoluto **sí depende del ORM** —una consulta con unión, dos con segunda
+consulta—, así que lo que se fija en la prueba no puede ser ese número. Lo que se
+fija es que **no crezca con las filas**, que es lo único que separa un N+1 de una
+carga anticipada.
 
 ## Fuentes
 

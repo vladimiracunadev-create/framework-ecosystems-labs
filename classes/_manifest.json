@@ -1034,7 +1034,7 @@
             "drizzle",
             "activerecord"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 53,
@@ -1050,7 +1050,7 @@
             "django",
             "typeorm"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 54,
@@ -1066,7 +1066,7 @@
             "entity-framework-core",
             "typeorm"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 55,

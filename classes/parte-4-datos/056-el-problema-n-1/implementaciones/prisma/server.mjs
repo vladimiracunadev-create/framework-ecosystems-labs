@@ -23,19 +23,21 @@ await prisma.$executeRawUnsafe(
     "tareaId INTEGER NOT NULL REFERENCES Tarea(id) ON DELETE CASCADE)",
 );
 
-// Tres tareas con dos etiquetas cada una.
-for (const titulo of ["una", "dos", "tres"]) {
-  await prisma.tarea.create({
-    data: { titulo, etiquetas: { create: [{ nombre: `${titulo}-a` }, { nombre: `${titulo}-b` }] } },
-  });
-}
+const TITULOS = ["una", "dos", "tres", "cuatro", "cinco", "seis"];
 
-app.get("/reiniciar", (peticion, respuesta) => {
+/** Cada tarea con dos etiquetas. El número de tareas es el parámetro del experimento. */
+async function sembrar(cuantas) {
+  await prisma.$executeRawUnsafe("DELETE FROM Etiqueta");
+  await prisma.$executeRawUnsafe("DELETE FROM Tarea");
+  await prisma.$executeRawUnsafe("DELETE FROM sqlite_sequence WHERE name IN ('Tarea','Etiqueta')");
+  for (const titulo of TITULOS.slice(0, cuantas)) {
+    await prisma.tarea.create({
+      data: { titulo, etiquetas: { create: [{ nombre: `${titulo}-a` }, { nombre: `${titulo}-b` }] } },
+    });
+  }
   consultas = 0;
-  respuesta.json({ ok: true });
-});
-
-app.get("/consultas", (peticion, respuesta) => respuesta.json({ consultas }));
+  return cuantas;
+}
 
 /**
  * LA FORMA INGENUA. En Prisma la relación no viene por omisión, así que
@@ -44,26 +46,78 @@ app.get("/consultas", (peticion, respuesta) => respuesta.json({ consultas }));
  *
  * Una consulta para las tareas, más una por cada tarea: 1 + N.
  */
-app.get("/tareas-n1", async (peticion, respuesta) => {
-  const tareas = await prisma.tarea.findMany();
+async function ingenua() {
+  const tareas = await prisma.tarea.findMany({ orderBy: { id: "asc" } });
   const resultado = [];
   for (const tarea of tareas) {
     const etiquetas = await prisma.etiqueta.findMany({ where: { tareaId: tarea.id } });
-    resultado.push({ id: tarea.id, titulo: tarea.titulo, etiquetas: etiquetas.map((e) => e.nombre) });
+    resultado.push({
+      id: tarea.id,
+      titulo: tarea.titulo,
+      etiquetas: etiquetas.map((e) => e.nombre).sort(),
+    });
   }
-  respuesta.json({ tareas: resultado });
-});
+  return resultado;
+}
 
 /** LA FORMA ANTICIPADA. `include` trae todo en una sola operación. */
-app.get("/tareas-anticipada", async (peticion, respuesta) => {
-  const tareas = await prisma.tarea.findMany({ include: { etiquetas: true } });
-  respuesta.json({
-    tareas: tareas.map((t) => ({
-      id: t.id,
-      titulo: t.titulo,
-      etiquetas: t.etiquetas.map((e) => e.nombre),
-    })),
+async function anticipada() {
+  const tareas = await prisma.tarea.findMany({
+    include: { etiquetas: true },
+    orderBy: { id: "asc" },
   });
+  return tareas.map((t) => ({
+    id: t.id,
+    titulo: t.titulo,
+    etiquetas: t.etiquetas.map((e) => e.nombre).sort(),
+  }));
+}
+
+const RUTAS = { "tareas-n1": ingenua, "tareas-anticipada": anticipada };
+
+await sembrar(3);
+
+app.get("/reiniciar", async (peticion, respuesta) => {
+  const tareas = await sembrar(3);
+  respuesta.json({ consultas, tareas });
+});
+
+app.get("/consultas", (peticion, respuesta) => respuesta.json({ consultas }));
+
+app.get("/tareas-n1", async (peticion, respuesta) =>
+  respuesta.json({ tareas: await ingenua() }),
+);
+
+app.get("/tareas-anticipada", async (peticion, respuesta) =>
+  respuesta.json({ tareas: await anticipada() }),
+);
+
+/**
+ * LO ÚNICO QUE DISTINGUE EL PROBLEMA.
+ *
+ * Un número absoluto de consultas no dice nada: la carga anticipada cuesta una
+ * consulta con unión y dos con segunda consulta, y las dos están bien. Lo que
+ * importa es si ese número CRECE con el número de filas.
+ *
+ * Aquí se mide: se ejecuta la misma ruta con tres tareas y con seis, y se resta.
+ */
+app.get("/crecimiento", async (peticion, respuesta) => {
+  const funcion = RUTAS[String(peticion.query.ruta ?? "")];
+  if (!funcion) {
+    respuesta.status(404).json({ code: "RUTA_DESCONOCIDA" });
+    return;
+  }
+
+  await sembrar(3);
+  await funcion();
+  const con3 = consultas;
+
+  await sembrar(6);
+  await funcion();
+  const con6 = consultas;
+
+  await sembrar(3);
+  respuesta.json({ con_3: con3, con_6: con6, crecimiento: con6 - con3 });
 });
 
 const servidor = app.listen(Number(process.env.PORT ?? 3000));

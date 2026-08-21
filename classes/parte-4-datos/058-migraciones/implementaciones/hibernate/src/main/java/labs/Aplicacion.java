@@ -1,5 +1,6 @@
 package labs;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.MigrationInfo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -66,12 +68,20 @@ public class Aplicacion {
             this.flyway = flyway;
         }
 
-        /** El historial vive en una tabla de la propia base. */
+        /**
+         * El historial vive en una tabla de la propia base —`flyway_schema_history`—
+         * pero se lee por la API en lugar de por SQL.
+         *
+         * No es pereza: Flyway crea esa tabla con los identificadores ENTRECOMILLADOS
+         * en minusculas, y H2 pasa a mayusculas los que no lo estan. Un
+         * `SELECT script FROM flyway_schema_history` falla por eso, y el fallo no
+         * dice nada util. La API no depende del motor.
+         */
         private List<String> aplicadas() {
-            return jdbc.queryForList(
-                    "SELECT script FROM flyway_schema_history WHERE success = TRUE "
-                            + "AND type = 'SQL' ORDER BY installed_rank",
-                    String.class);
+            return Arrays.stream(flyway.info().applied())
+                    .map(MigrationInfo::getScript)
+                    .filter(guion -> guion != null && guion.endsWith(".sql"))
+                    .toList();
         }
 
         @GetMapping("/historial")

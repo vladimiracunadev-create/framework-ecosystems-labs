@@ -1,8 +1,60 @@
 {
   "clase": "052",
   "titulo": "SQL a mano",
-  "descripcion": "Insertar y leer una tarea con SQL parametrizado.",
-  "estado": "esqueleto",
+  "descripcion": "Insertar y leer con SQL parametrizado — y comprobar que el parámetro nunca es código.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "se inserta una tarea y vuelve con su identificador",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "comprar pan" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 1, "titulo": "comprar pan" } }
+    },
+    {
+      "nombre": "y otra más",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "regar" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 2, "titulo": "regar" } }
+    },
+    {
+      "nombre": "se lee de vuelta por identificador",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "id": 1, "titulo": "comprar pan" } }
+    },
+    {
+      "nombre": "una que no existe da 404, no una fila vacía",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/999" },
+      "esperado": { "estado": 404, "json_contiene": { "code": "NO_EXISTE" } }
+    },
+    {
+      "nombre": "la búsqueda por título encuentra exactamente una",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?titulo=regar" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "total": 1, "tareas": [{ "id": 2, "titulo": "regar" }] }
+      }
+    },
+    {
+      "nombre": "y con una inyección clásica encuentra CERO: el parámetro es un valor, no código",
+      "peticion": { "metodo": "GET", "ruta": "/tareas?titulo=%27%20OR%20%271%27%3D%271" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 0, "tareas": [] } }
+    },
+    {
+      "nombre": "un DROP TABLE se guarda como texto, igual que cualquier otro título",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cuerpo": { "titulo": "'; DROP TABLE tareas; --" }
+      },
+      "esperado": { "estado": 201, "json_contiene": { "id": 3 } }
+    },
+    {
+      "nombre": "y la tabla sigue ahí, con las tres filas",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 3 } }
+    },
+    {
+      "nombre": "guardado tal cual, sin escapar ni recortar",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/3" },
+      "esperado": { "estado": 200, "json_contiene": { "titulo": "'; DROP TABLE tareas; --" } }
+    }
+  ]
 }
