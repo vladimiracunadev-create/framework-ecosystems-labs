@@ -1,0 +1,14 @@
+{
+  "descripcion": "Instantánea CONGELADA de la base de avisos. En producción esto se consulta en línea (OSV, GHSA, el catálogo KEV de CISA) y cambia cada día; congelarla aquí es lo que hace repetible el contrato.",
+  "instantanea": "2026-08-21",
+  "avisos": [
+    {
+      "id": "CVE-2017-5638",
+      "paquete": "struts2-core",
+      "fijada_en": "2.5.10.1",
+      "gravedad": "critica",
+      "resumen": "Ejecución remota de código en el analizador de Jakarta Multipart de Apache Struts 2.",
+      "explotada_activamente": true
+    }
+  ]
+}

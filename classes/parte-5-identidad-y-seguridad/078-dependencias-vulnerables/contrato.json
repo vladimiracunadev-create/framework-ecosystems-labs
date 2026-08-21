@@ -1,8 +1,53 @@
 {
   "clase": "078",
   "titulo": "Dependencias vulnerables",
-  "descripcion": "El árbol de dependencias auditado y una vulnerabilidad conocida localizada.",
-  "estado": "esqueleto",
+  "descripcion": "El árbol es mayor que lo declarado, la afectada es transitiva, y la comparación de versiones es numérica.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el árbol es mayor que lo que declaraste: 2 directas, 6 en total",
+      "peticion": { "metodo": "GET", "ruta": "/dependencias" },
+      "esperado": { "estado": 200, "json_contiene": { "directas": 2, "total": 6 } }
+    },
+    {
+      "nombre": "la biblioteca del aviso nunca se eligió: la trajo otra",
+      "peticion": { "metodo": "GET", "ruta": "/dependencias/struts2-core" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "nombre": "struts2-core", "directa": false, "traida_por": ["portal-base"] }
+      }
+    },
+    {
+      "nombre": "la auditoría localiza el aviso conocido y lo nombra",
+      "peticion": { "metodo": "GET", "ruta": "/auditoria" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "afectadas": 1 },
+        "cuerpo_contiene": ["CVE-2017-5638", "2.5.10.1"]
+      }
+    },
+    {
+      "nombre": "y dice que la afectada es TRANSITIVA: no está en tu manifiesto",
+      "peticion": { "metodo": "GET", "ruta": "/auditoria" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "hallazgos": [
+            { "paquete": "struts2-core", "instalada": "2.5.10", "directa": false }
+          ]
+        }
+      }
+    },
+    {
+      "nombre": "con la versión corregida, el aviso deja de aplicar",
+      "peticion": { "metodo": "GET", "ruta": "/auditoria?version=2.5.13" },
+      "esperado": { "estado": 200, "json_contiene": { "afectadas": 0 } }
+    },
+    {
+      "nombre": "2.5.9 SÍ está afectada, aunque el orden alfabético diga lo contrario",
+      "peticion": { "metodo": "GET", "ruta": "/auditoria?version=2.5.9" },
+      "esperado": { "estado": 200, "json_contiene": { "afectadas": 1 } }
+    }
+  ]
 }
