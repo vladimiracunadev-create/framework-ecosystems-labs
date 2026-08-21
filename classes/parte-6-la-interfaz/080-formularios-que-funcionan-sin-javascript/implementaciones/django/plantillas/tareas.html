@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html><body>
+{% comment %}
+Un formulario HTML de verdad: `method="post"`, `action` a una ruta del
+servidor y un `<input name>`. Sin una línea de JavaScript, el navegador ya
+sabe recogerlo, codificarlo y enviarlo — hace treinta años que lo sabe.
+
+`{% csrf_token %}` pinta el campo oculto con el testigo de la clase 072. Va
+el PRIMERO del formulario a propósito: es la pieza que un formulario real
+nunca omite.
+{% endcomment %}
+<form method="post" action="/tareas">
+  {% csrf_token %}
+  <input name="titulo" value="">
+  <button type="submit">Crear</button>
+</form>
+
+<ul>
+{% for tarea in tareas %}
+  <li data-id="{{ tarea.id }}">{{ tarea.titulo }}</li>
+{% endfor %}
+</ul>
+</body></html>

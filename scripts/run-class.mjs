@@ -281,7 +281,10 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
     // anterior.
     const campos = new URLSearchParams();
     for (const [campo, valor] of Object.entries(p.formulario)) {
-      campos.set(campo, sustituir(valor));
+      // Se interpola también el NOMBRE del campo, no solo su valor: es lo que
+      // permite enviar el testigo CSRF que cada framework nombra a su manera
+      // sin escribir cuatro contratos.
+      campos.set(sustituir(campo), sustituir(valor));
     }
     init.body = campos.toString();
     init.headers = { "content-type": "application/x-www-form-urlencoded", ...init.headers };
@@ -350,6 +353,23 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
         };
       }
       // El grupo 1 si el patrón lo define; si no, la coincidencia entera.
+      variables.set(nombre, encontrado[1] ?? encontrado[0]);
+    }
+  }
+
+  // Captura desde el CUERPO, con expresión regular. Hermana de
+  // `guardar_cabecera`, y la necesita la clase 080: el testigo CSRF de un
+  // formulario viaja dentro del marcado, y cada framework nombra su campo
+  // distinto —`csrfmiddlewaretoken`, `_token`, `authenticity_token`,
+  // `__RequestVerificationToken`—. Capturando el NOMBRE y el VALOR del
+  // marcado, el mismo contrato sirve para los cuatro sin adaptadores.
+  if (caso.guardar_cuerpo && variables) {
+    const texto = await res.clone().text();
+    for (const [nombre, spec] of Object.entries(caso.guardar_cuerpo)) {
+      const encontrado = new RegExp(spec.patron).exec(texto);
+      if (!encontrado) {
+        return { ok: false, motivo: `guardar_cuerpo: "${spec.patron}" no casa con el cuerpo` };
+      }
       variables.set(nombre, encontrado[1] ?? encontrado[0]);
     }
   }

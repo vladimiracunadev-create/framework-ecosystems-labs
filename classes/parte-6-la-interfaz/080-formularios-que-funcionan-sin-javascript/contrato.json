@@ -1,8 +1,65 @@
 {
   "clase": "080",
   "titulo": "Formularios que funcionan sin JavaScript",
-  "descripcion": "Alta de una tarea con un formulario HTML puro y redirección posterior.",
-  "estado": "esqueleto",
+  "descripcion": "Formulario HTML puro, testigo incluido, y el patrón enviar-redirigir-mostrar que evita el reenvío.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la página trae un formulario HTML de verdad: método POST y campo con nombre",
+      "guardar_cookies": true,
+      "guardar_cuerpo": {
+        "campo_testigo": { "patron": "name=\"([^\"]+)\"[^>]*value=\"" },
+        "valor_testigo": { "patron": "name=\"[^\"]+\"[^>]*value=\"([^\"]+)\"" }
+      },
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["method=\"post\"", "name=\"titulo\"", "type=\"hidden\""]
+      }
+    },
+    {
+      "nombre": "sin el testigo del formulario, el envío se rechaza",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas", "cookies": true,
+        "formulario": { "titulo": "sin testigo" }
+      },
+      "esperado": { "estado_en": [403, 419, 400] }
+    },
+    {
+      "nombre": "con el testigo, el alta NO devuelve HTML: redirige",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas", "cookies": true,
+        "formulario": { "titulo": "pagar la luz", "${campo_testigo}": "${valor_testigo}" }
+      },
+      "esperado": {
+        "estado_en": [302, 303],
+        "cabecera_presente": ["location"],
+        "location_contiene": ["/tareas"]
+      }
+    },
+    {
+      "nombre": "y al seguir la redirección, la tarea está",
+      "peticion": { "metodo": "GET", "ruta": "/tareas", "cookies": true },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["pagar la luz"] }
+    },
+    {
+      "nombre": "el envío también escapa: el formulario no es una puerta trasera al XSS",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas", "cookies": true,
+        "formulario": { "titulo": "<script>alerta(1)</script>", "${campo_testigo}": "${valor_testigo}" }
+      },
+      "esperado": { "estado_en": [302, 303] }
+    },
+    {
+      "nombre": "lo que entró por el formulario sale escapado",
+      "peticion": { "metodo": "GET", "ruta": "/tareas", "cookies": true },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["&lt;script"],
+        "cuerpo_no_contiene": ["<script>alerta(1)</script>"]
+      }
+    }
+  ]
 }

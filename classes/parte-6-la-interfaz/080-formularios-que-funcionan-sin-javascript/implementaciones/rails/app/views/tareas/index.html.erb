@@ -1,0 +1,18 @@
+<%# Un formulario HTML de verdad. `form_authenticity_token` pinta el testigo
+    de la clase 072 en un campo oculto, el PRIMERO del formulario: es la pieza
+    que un formulario real nunca omite. Los ayudantes de Rails (`form_with`)
+    lo ponen solos — aquí va explícito para que se vea. %>
+<!DOCTYPE html>
+<html><body>
+<form method="post" action="/tareas">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input name="titulo" value="">
+  <button type="submit">Crear</button>
+</form>
+
+<ul>
+<% @tareas.each do |tarea| %>
+  <li data-id="<%= tarea[:id] %>"><%= tarea[:titulo] %></li>
+<% end %>
+</ul>
+</body></html>

@@ -1,0 +1,23 @@
+@page "/tareas"
+@model TareasModel
+@*
+  Un formulario HTML de verdad: method="post" y un input con nombre. El tag
+  helper de formulario de Razor añade solo el campo oculto
+  __RequestVerificationToken — el testigo de la clase 072, puesto por el
+  framework sin que la página lo pida.
+*@
+<!DOCTYPE html>
+<html><body>
+<form method="post">
+  <input name="titulo" value="">
+  <button type="submit">Crear</button>
+</form>
+
+<ul>
+@foreach (var tarea in TareasModel.Tareas)
+{
+  @* `@` escapa por omisión: lo que entró por el formulario sale neutralizado. *@
+  <li data-id="@tarea.Id">@tarea.Titulo</li>
+}
+</ul>
+</body></html>
