@@ -1,8 +1,56 @@
 {
   "clase": "076",
   "titulo": "Auditoría",
-  "descripcion": "Cada cambio deja un registro con actor, acción, recurso e instante.",
-  "estado": "esqueleto",
+  "descripcion": "Cada cambio deja un registro con actor, acción, recurso e instante — y las lecturas no lo ensucian.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el registro empieza vacío",
+      "peticion": { "metodo": "GET", "ruta": "/auditoria" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 0 } }
+    },
+    {
+      "nombre": "crear un recurso deja su rastro",
+      "guardar": { "id_tarea": "id" },
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cabeceras": { "x-actor": "ana" },
+        "cuerpo": { "titulo": "pagar" }
+      },
+      "esperado": { "estado": 201, "json_contiene": { "titulo": "pagar" } }
+    },
+    {
+      "nombre": "leer NO deja rastro: la auditoría registra cambios, no consultas",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/${id_tarea}" },
+      "esperado": { "estado": 200 }
+    },
+    {
+      "nombre": "borrar deja el segundo rastro",
+      "peticion": {
+        "metodo": "DELETE", "ruta": "/tareas/${id_tarea}",
+        "cabeceras": { "x-actor": "luis" }
+      },
+      "esperado": { "estado": 204 }
+    },
+    {
+      "nombre": "hay exactamente DOS registros: la creación y el borrado, no la lectura",
+      "peticion": { "metodo": "GET", "ruta": "/auditoria" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 2 } }
+    },
+    {
+      "nombre": "el primer registro nombra actor, acción, recurso e instante",
+      "peticion": { "metodo": "GET", "ruta": "/auditoria" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "registros": [
+            { "actor": "ana", "accion": "crear", "recurso": "tarea" },
+            { "actor": "luis", "accion": "borrar", "recurso": "tarea" }
+          ]
+        },
+        "json_campos_presentes": ["registros.0.instante", "registros.1.instante"]
+      }
+    }
+  ]
 }

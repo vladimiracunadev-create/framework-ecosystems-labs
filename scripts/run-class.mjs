@@ -456,6 +456,34 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
     }
   }
 
+  // Comprobación de PRESENCIA de campos en el JSON, a cualquier profundidad
+  // por notación de puntos, sin fijar su valor. Existe por la clase 076: un
+  // registro de auditoría lleva un instante que no se puede predecir, y lo
+  // que el contrato exige es que el campo ESTÉ y no esté vacío, no cuál es.
+  for (const ruta of e.json_campos_presentes ?? []) {
+    let cuerpo;
+    try {
+      cuerpo = await res.clone().json();
+    } catch {
+      fallos.push("json_campos_presentes: la respuesta no es JSON válido");
+      break;
+    }
+    let actual = cuerpo;
+    let existe = true;
+    for (const parte of ruta.split(".")) {
+      // Un índice numérico recorre un array; cualquier otra cosa, un objeto.
+      if (actual !== null && typeof actual === "object" && parte in actual) {
+        actual = actual[parte];
+      } else {
+        existe = false;
+        break;
+      }
+    }
+    if (!existe || actual === null || actual === undefined || actual === "") {
+      fallos.push(`falta el campo "${ruta}" o está vacío`);
+    }
+  }
+
   // Comprobación NEGATIVA por subcadena: lo que la respuesta no debe dejar
   // leer. Existe por la clase 068 —el registro devuelve el resumen de la
   // contraseña y el contrato exige que la contraseña misma no aparezca— y se
