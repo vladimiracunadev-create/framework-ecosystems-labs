@@ -421,7 +421,11 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
   try {
     const listo = await esperarPuerto(puerto, cfg.espera_ms ?? 30_000);
     if (!listo) {
-      return { framework, estado: "error", detalle: `no escuchó en el puerto ${puerto}: ${salida.trim().slice(0, 200)}` };
+      return {
+        framework,
+        estado: "error",
+        detalle: `no escuchó en el puerto ${puerto}: ${lineasDeError(salida)}`,
+      };
     }
 
     const base = `http://127.0.0.1:${puerto}`;

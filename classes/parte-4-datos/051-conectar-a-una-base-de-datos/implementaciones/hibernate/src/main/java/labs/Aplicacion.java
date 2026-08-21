@@ -19,8 +19,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * El controlador va en una clase APARTE de la de arranque.
+ *
+ * Poner `@RestController` sobre la propia clase `@SpringBootApplication` y darle
+ * un constructor con dependencias funciona en casos simples y crea un problema
+ * de orden en cuanto entran repositorios de JPA: la clase de arranque se
+ * construye muy pronto, y sus dependencias tienen que existir antes que ella.
+ */
 @SpringBootApplication
-@RestController
 public class Aplicacion {
 
     @Entity
@@ -43,41 +50,48 @@ public class Aplicacion {
     public interface Tareas extends JpaRepository<Tarea, Long> {
     }
 
-    private final Tareas tareas;
-    private final JdbcTemplate jdbc;
+    @RestController
+    public static class Controlador {
 
-    public Aplicacion(Tareas tareas, JdbcTemplate jdbc) {
-        this.tareas = tareas;
-        this.jdbc = jdbc;
-    }
+        private final Tareas tareas;
+        private final JdbcTemplate jdbc;
 
-    @GetMapping("/salud")
-    public ResponseEntity<Map<String, Boolean>> salud() {
-        try {
-            jdbc.queryForObject("SELECT 1", Integer.class);
-            return ResponseEntity.ok(Map.of("conectado", true));
-        } catch (Exception e) {
-            return ResponseEntity.status(503).body(Map.of("conectado", false));
+        public Controlador(Tareas tareas, JdbcTemplate jdbc) {
+            this.tareas = tareas;
+            this.jdbc = jdbc;
         }
-    }
 
-    @PostMapping("/tareas")
-    public ResponseEntity<Map<String, Object>> crear(
-            @RequestBody(required = false) Map<String, Object> cuerpo) {
-        Tarea tarea = new Tarea();
-        Object titulo = cuerpo == null ? null : cuerpo.get("titulo");
-        tarea.titulo = titulo == null ? "" : titulo.toString();
-        Tarea guardada = tareas.save(tarea);
-        return ResponseEntity.status(201)
-                .body(Map.of("id", guardada.id.intValue(), "titulo", guardada.titulo));
-    }
+        @GetMapping("/salud")
+        public ResponseEntity<Map<String, Boolean>> salud() {
+            try {
+                // Una consulta de verdad. Comprobar que el objeto existe no
+                // prueba nada: se construye sin conectar.
+                jdbc.queryForObject("SELECT 1", Integer.class);
+                return ResponseEntity.ok(Map.of("conectado", true));
+            } catch (Exception e) {
+                return ResponseEntity.status(503).body(Map.of("conectado", false));
+            }
+        }
 
-    @GetMapping("/tareas/{id}")
-    public ResponseEntity<Map<String, Object>> obtener(@PathVariable("id") Long id) {
-        return tareas.findById(id)
-                .<ResponseEntity<Map<String, Object>>>map(t -> ResponseEntity.ok(
-                        Map.of("id", t.id.intValue(), "titulo", t.titulo)))
-                .orElseGet(() -> ResponseEntity.status(404).body(Map.of("code", "NO_EXISTE")));
+        @PostMapping("/tareas")
+        public ResponseEntity<Map<String, Object>> crear(
+                @RequestBody(required = false) Map<String, Object> cuerpo) {
+            Tarea tarea = new Tarea();
+            Object titulo = cuerpo == null ? null : cuerpo.get("titulo");
+            tarea.titulo = titulo == null ? "" : titulo.toString();
+            Tarea guardada = tareas.save(tarea);
+            return ResponseEntity.status(201)
+                    .body(Map.of("id", guardada.id.intValue(), "titulo", guardada.titulo));
+        }
+
+        @GetMapping("/tareas/{id}")
+        public ResponseEntity<Map<String, Object>> obtener(@PathVariable("id") Long id) {
+            return tareas.findById(id)
+                    .<ResponseEntity<Map<String, Object>>>map(t -> ResponseEntity.ok(
+                            Map.of("id", t.id.intValue(), "titulo", t.titulo)))
+                    .orElseGet(() -> ResponseEntity.status(404)
+                            .body(Map.of("code", "NO_EXISTE")));
+        }
     }
 
     public static void main(String[] args) {

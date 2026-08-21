@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./datos.db"
+}
+
+model Tarea {
+  id        Int        @id @default(autoincrement())
+  titulo    String
+  // La relación se declara en los DOS lados. Prisma usa el lado con `fields` y
+  // `references` para saber dónde está la clave ajena.
+  etiquetas Etiqueta[]
+}
+
+model Etiqueta {
+  id      Int    @id @default(autoincrement())
+  nombre  String
+  tarea   Tarea  @relation(fields: [tareaId], references: [id], onDelete: Cascade)
+  tareaId Int
+}

@@ -1082,7 +1082,7 @@
             "hibernate",
             "entity-framework-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 56,

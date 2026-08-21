@@ -12,7 +12,7 @@ Cómo habla cada framework con la base de datos, qué te ahorra y qué te oculta
 | [052](052-sql-a-mano/README.md) | [SQL a mano](052-sql-a-mano/README.md) | 🟢 introductorio | `datos` | 4 | 🚧 Esqueleto |
 | [053](053-active-record/README.md) | [Active Record](053-active-record/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |
 | [054](054-data-mapper/README.md) | [Data Mapper](054-data-mapper/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |
-| [055](055-relaciones/README.md) | [Relaciones](055-relaciones/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |
+| [055](055-relaciones/README.md) | [Relaciones](055-relaciones/README.md) | 🟡 intermedio | `datos` | 4 | ✅ Construida |
 | [056](056-el-problema-n-1/README.md) | [El problema N+1](056-el-problema-n-1/README.md) | 🔴 avanzado | `datos` | 4 | 🚧 Esqueleto |
 | [057](057-transacciones/README.md) | [Transacciones](057-transacciones/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |
 | [058](058-migraciones/README.md) | [Migraciones](058-migraciones/README.md) | 🟡 intermedio | `datos` | 4 | 🚧 Esqueleto |

@@ -1,8 +1,45 @@
 {
   "clase": "055",
   "titulo": "Relaciones",
-  "descripcion": "Una tarea con etiquetas: alta, lectura y borrado en cascada declarado.",
-  "estado": "esqueleto",
+  "descripcion": "Uno a muchos: crear con hijos, leerlos de vuelta y borrar en cascada.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "se crea la tarea con sus etiquetas en una sola operación",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cuerpo": { "titulo": "con etiquetas", "etiquetas": ["casa", "urgente"] }
+      },
+      "esperado": {
+        "estado": 201,
+        "json_contiene": { "id": 1, "titulo": "con etiquetas", "etiquetas": ["casa", "urgente"] }
+      }
+    },
+    {
+      "nombre": "se leen de vuelta con la tarea",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "etiquetas": ["casa", "urgente"] } }
+    },
+    {
+      "nombre": "una tarea sin etiquetas devuelve una lista vacía, no nulo",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "sola" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 2, "etiquetas": [] } }
+    },
+    {
+      "nombre": "en total hay dos etiquetas",
+      "peticion": { "metodo": "GET", "ruta": "/etiquetas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 2 } }
+    },
+    {
+      "nombre": "borrar la tarea responde 204",
+      "peticion": { "metodo": "DELETE", "ruta": "/tareas/1" },
+      "esperado": { "estado": 204 }
+    },
+    {
+      "nombre": "y se llevó sus etiquetas por delante: la cascada funcionó",
+      "peticion": { "metodo": "GET", "ruta": "/etiquetas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 0 } }
+    }
+  ]
 }
