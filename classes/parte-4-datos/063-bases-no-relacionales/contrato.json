@@ -1,8 +1,93 @@
 {
   "clase": "063",
   "titulo": "Bases no relacionales",
-  "descripcion": "La misma tarea guardada como documento, con sus compromisos declarados.",
-  "estado": "esqueleto",
+  "descripcion": "La misma tarea guardada como documento: una lectura sin uniones, forma libre, y el coste de duplicar lo que se incrusta.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "una tarea entera —etiquetas y autor incluidos— se guarda como UN documento",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cuerpo": {
+          "titulo": "comprar pan",
+          "etiquetas": ["casa", "urgente"],
+          "autor": { "nombre": "Ana", "correo": "ana@ejemplo.test" }
+        }
+      },
+      "esperado": { "estado": 201, "json_contiene": { "id": 1, "titulo": "comprar pan" } }
+    },
+    {
+      "nombre": "y vuelve entera en UNA lectura, sin uniones",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "id": 1,
+          "titulo": "comprar pan",
+          "etiquetas": ["casa", "urgente"],
+          "autor": { "nombre": "Ana", "correo": "ana@ejemplo.test" }
+        }
+      }
+    },
+    {
+      "nombre": "una sola consulta: en el modelo relacional harían falta tres tablas",
+      "peticion": { "metodo": "GET", "ruta": "/consultas" },
+      "esperado": { "estado": 200, "json_contiene": { "consultas": 1 } }
+    },
+    {
+      "nombre": "el segundo documento tiene OTRA FORMA, y el almacén no protesta",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cuerpo": {
+          "titulo": "regar",
+          "prioridad": 5,
+          "autor": { "nombre": "Ana", "correo": "ana@ejemplo.test" }
+        }
+      },
+      "esperado": { "estado": 201, "json_contiene": { "id": 2 } }
+    },
+    {
+      "nombre": "vuelve con los campos que tenía: sin etiquetas y con prioridad",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/2" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "id": 2, "titulo": "regar", "prioridad": 5 }
+      }
+    },
+    {
+      "nombre": "el esquema de la tabla no sabe nada de todo esto: una columna y ya",
+      "peticion": { "metodo": "GET", "ruta": "/esquema" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "columnas": ["documento", "id"], "campos_declarados": 0 }
+      }
+    },
+    {
+      "nombre": "se puede buscar DENTRO del documento",
+      "peticion": { "metodo": "GET", "ruta": "/por-etiqueta?nombre=casa" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 1, "ids": [1] } }
+    },
+    {
+      "nombre": "y una etiqueta que nadie tiene no devuelve nada",
+      "peticion": { "metodo": "GET", "ruta": "/por-etiqueta?nombre=oficina" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 0, "ids": [] } }
+    },
+    {
+      "nombre": "el autor está INCRUSTADO en los dos documentos: cambiarlo toca los dos",
+      "peticion": {
+        "metodo": "POST", "ruta": "/renombrar-autor",
+        "cuerpo": { "correo": "ana@ejemplo.test", "nombre": "Ana Pérez" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "documentos_tocados": 2 } }
+    },
+    {
+      "nombre": "y ninguno se quedó con el nombre viejo",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/2" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "autor": { "nombre": "Ana Pérez", "correo": "ana@ejemplo.test" } }
+      }
+    }
+  ]
 }

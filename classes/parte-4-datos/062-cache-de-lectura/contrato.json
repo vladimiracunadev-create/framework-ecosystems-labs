@@ -1,8 +1,67 @@
 {
   "clase": "062",
   "titulo": "Caché de lectura",
-  "descripcion": "Segunda lectura servida de caché; tras la escritura, la caché ya no miente.",
-  "estado": "esqueleto",
+  "descripcion": "La segunda lectura no consulta; tras la escritura la caché ya no miente — y si olvidas invalidar, sí.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el estado de partida: caché vacía y contadores a cero",
+      "peticion": { "metodo": "GET", "ruta": "/reiniciar" },
+      "esperado": { "estado": 200, "json_contiene": { "consultas": 0, "aciertos": 0 } }
+    },
+    {
+      "nombre": "la primera lectura va al almacén",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "id": 1, "titulo": "comprar pan" } }
+    },
+    {
+      "nombre": "y se nota: una consulta, ningún acierto",
+      "peticion": { "metodo": "GET", "ruta": "/metricas" },
+      "esperado": { "estado": 200, "json_contiene": { "consultas": 1, "aciertos": 0 } }
+    },
+    {
+      "nombre": "la segunda lectura devuelve exactamente lo mismo",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "id": 1, "titulo": "comprar pan" } }
+    },
+    {
+      "nombre": "pero NO consultó: el número de consultas no subió",
+      "peticion": { "metodo": "GET", "ruta": "/metricas" },
+      "esperado": { "estado": 200, "json_contiene": { "consultas": 1, "aciertos": 1 } }
+    },
+    {
+      "nombre": "una escritura que sí invalida",
+      "peticion": { "metodo": "PATCH", "ruta": "/tareas/1", "cuerpo": { "titulo": "regar" } },
+      "esperado": { "estado": 200, "json_contiene": { "titulo": "regar" } }
+    },
+    {
+      "nombre": "y la lectura siguiente ya no miente",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "titulo": "regar" } }
+    },
+    {
+      "nombre": "porque volvió a consultar: la invalidación vació la entrada",
+      "peticion": { "metodo": "GET", "ruta": "/metricas" },
+      "esperado": { "estado": 200, "json_contiene": { "consultas": 2, "aciertos": 1 } }
+    },
+    {
+      "nombre": "ahora una escritura que OLVIDA invalidar",
+      "peticion": {
+        "metodo": "POST", "ruta": "/escribir-sin-invalidar",
+        "cuerpo": { "titulo": "fantasma" }
+      },
+      "esperado": { "estado": 200, "json_contiene": { "ok": true } }
+    },
+    {
+      "nombre": "y la caché miente: devuelve un valor que ya no existe en ninguna parte",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "titulo": "regar" } }
+    },
+    {
+      "nombre": "el almacén dice otra cosa, y lleva razón",
+      "peticion": { "metodo": "GET", "ruta": "/sin-cache/tareas/1" },
+      "esperado": { "estado": 200, "json_contiene": { "titulo": "fantasma" } }
+    }
+  ]
 }

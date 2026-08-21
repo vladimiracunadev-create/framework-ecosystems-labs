@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./datos.db"
+}
+
+// TODO EL ESQUEMA. Un identificador y un texto.
+//
+// La forma de la tarea —título, etiquetas, autor— no está aquí: está en cada
+// documento. Es literalmente el cambio del que trata la clase.
+model Documento {
+  id        Int    @id @default(autoincrement())
+  documento String
+}

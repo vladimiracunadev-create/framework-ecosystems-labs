@@ -1192,7 +1192,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 63,
@@ -1207,7 +1207,7 @@
             "sqlalchemy",
             "hibernate"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 64,
