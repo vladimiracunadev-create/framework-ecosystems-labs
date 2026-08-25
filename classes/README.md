@@ -1,11 +1,16 @@
 # 🎓 Clases
 
-> [⬅️ Repositorio](../README.md) · [🗺️ Atlas](../atlas/README.md) · [📚 Programa](../curriculum/README.md)
+> [⬅️ Repositorio](../README.md) · [🚀 Empezar](../empezar/README.md) · [🗺️ Atlas](../atlas/README.md) · [📚 Programa](../curriculum/README.md)
 
 Aprende el problema una vez. Reconoce cómo lo resuelve cada framework, y por qué sí o por qué no.
 
 **149 clases** en **12 partes**, de lo más simple a lo más
 avanzado. 71 construidas, 78 en esqueleto.
+
+Antes de la primera: [**empezar/**](../empezar/README.md) instala las cadenas de
+herramientas y explica los conocimientos previos que estas clases dan por
+sabidos. `node scripts/doctor.mjs` dice cuántas implementaciones puedes
+ejecutar hoy en tu máquina.
 
 ## 🧭 El método
 

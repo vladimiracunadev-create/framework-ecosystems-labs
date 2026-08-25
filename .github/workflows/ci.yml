@@ -81,6 +81,12 @@ jobs:
       - name: El índice bibliográfico está al día
         run: node scripts/generate-bibliography.mjs --check
 
+      # La tabla de cadenas de herramientas se deriva de los ejecutar.json. Si
+      # una clase estrena un ecosistema y nadie regenera, la guía de instalación
+      # se calla una cadena y esto lo detecta.
+      - name: La guía de instalación coincide con las implementaciones
+        run: node scripts/doctor.mjs --check
+
       # Las tablas del Atlas se derivan del catálogo. Si alguien añade una
       # tecnología y no regenera, el Atlas miente y esto lo detecta.
       - name: El Atlas coincide con el catálogo

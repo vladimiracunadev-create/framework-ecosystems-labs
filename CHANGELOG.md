@@ -3,6 +3,41 @@
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el
 versionado es [semántico](https://semver.org/lang/es/).
 
+## [0.12.0] — 2026-08-25
+
+El programa deja de empezar por la mitad. Hasta aquí, la primera instrucción
+ejecutable del repositorio daba por instalados Node, Python, Java, .NET, PHP,
+Ruby y Go; quien no los tuviera recibía siete líneas de `⊘ falta la herramienta`
+sin ninguna indicación de qué hacer con ellas.
+
+### Añadido
+
+- **`empezar/`** — el prólogo del programa, para una máquina vacía: qué hay que
+  saber antes, cómo se instala cada cadena de herramientas, cómo se ejecuta el
+  primer contrato y cómo se lee una clase. Con la **ruta completa de la
+  instalación al nivel experto**, nivel a nivel.
+- **`empezar/conocimientos-previos.md`** — las seis cosas que el resto del
+  programa da por sabidas, explicadas sin dar por supuesto nada: terminal y
+  código de salida, cliente/servidor/puerto, petición y respuesta HTTP, JSON,
+  gestores de dependencias y archivos de bloqueo, y git.
+- **`scripts/doctor.mjs`** — diagnóstico de la máquina: qué cadenas hay, cuántas
+  de las 340 implementaciones puedes ejecutar hoy y con qué comando exacto se
+  recupera cada una. Distingue tres estados, no dos: instalada, ausente y
+  **en el PATH pero no operativa** — un envoltorio roto resuelve, arranca y
+  falla, y contarlo como lista sería el verde falso que este repositorio evita.
+- **`scripts/lib/cadenas.mjs`** — catálogo de las ocho cadenas con su receta de
+  instalación por sistema, su comprobación y su fuente oficial.
+- **10 fuentes nuevas** en el registro: las páginas oficiales de instalación de
+  las ocho cadenas, el registro de puertos de la IANA y *Pro Git*.
+
+### Cambiado
+
+- La tabla de cadenas de `empezar/README.md` **se genera** desde los
+  `ejecutar.json` de todas las implementaciones, y `doctor.mjs --check` entra en
+  la cadena de validación y en CI: si una clase estrena un ecosistema y nadie
+  regenera, la guía de instalación deja de mentir por omisión.
+- `README.md`, `classes/README.md`, `llms.txt` y el sitio abren por `empezar/`.
+
 ## [0.8.0] — 2026-08-20
 
 Nace `classes/`: el mismo problema resuelto **en todos los frameworks a la vez**,

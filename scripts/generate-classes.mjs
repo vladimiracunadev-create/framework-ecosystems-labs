@@ -100,12 +100,17 @@ function indiceGeneral() {
 
   return `# 🎓 Clases
 
-> [⬅️ Repositorio](../README.md) · [🗺️ Atlas](../atlas/README.md) · [📚 Programa](../curriculum/README.md)
+> [⬅️ Repositorio](../README.md) · [🚀 Empezar](../empezar/README.md) · [🗺️ Atlas](../atlas/README.md) · [📚 Programa](../curriculum/README.md)
 
 ${manifest.tagline}
 
 **${total} clases** en **${manifest.partes.length} partes**, de lo más simple a lo más
 avanzado. ${construidas} construidas, ${total - construidas} en esqueleto.
+
+Antes de la primera: [**empezar/**](../empezar/README.md) instala las cadenas de
+herramientas y explica los conocimientos previos que estas clases dan por
+sabidos. \`node scripts/doctor.mjs\` dice cuántas implementaciones puedes
+ejecutar hoy en tu máquina.
 
 ## 🧭 El método
 

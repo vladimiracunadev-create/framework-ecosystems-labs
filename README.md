@@ -15,6 +15,32 @@ ecosistemas.
 
 📖 **Sitio del programa:** <https://vladimiracunadev-create.github.io/framework-ecosystems-labs/>
 
+## 🚀 Empezar aquí
+
+El programa cubre **de la instalación al nivel experto**, y empieza por una
+máquina vacía: [**`empezar/`**](empezar/README.md) instala las ocho cadenas de
+herramientas, explica [los seis conocimientos previos](empezar/conocimientos-previos.md)
+que el resto da por sabidos —terminal, puertos, HTTP, JSON, dependencias y
+git— y lleva hasta el primer contrato en verde.
+
+```bash
+node scripts/doctor.mjs   # qué cadenas tienes y cuánto del laboratorio puedes ejecutar hoy
+```
+
+El informe dice **cuántas de las 340 implementaciones puedes ejecutar en tu
+máquina**, cuáles no y con qué comando exacto se recupera cada una. No hace
+falta instalarlas todas: lo que no se ejecute en local se ejecuta en la
+integración continua, y una implementación omitida se declara omitida.
+
+| Nivel | Dónde | Qué sabes hacer al salir |
+| --- | --- | --- |
+| Instalación | [`empezar/`](empezar/README.md) | Ejecutar el laboratorio y leer su informe |
+| Fundamentos | [Parte 0](classes/parte-0-el-metodo/README.md) · [módulo 00](curriculum/00-taxonomia-y-diagnostico.md) | Distinguir biblioteca de framework y qué hace comparable una comparación |
+| Básico 🟢 | [Partes 1–3](classes/README.md) | Responder, encadenar, validar y contratar |
+| Intermedio 🟡 | [Partes 4–7](classes/README.md) | Persistir, autenticar, renderizar donde toque |
+| Avanzado 🔴 | [Partes 8–10](classes/README.md) | Tiempo real, móvil y escritorio, calidad y operación |
+| Experto | [Parte 11](classes/parte-11-legado-migracion-y-decision/README.md) · [módulos 11–12](curriculum/README.md) | Migrar sin parar, elegir con criterio declarado y saber salir |
+
 ---
 
 ## La regla que gobierna este repositorio
@@ -237,6 +263,7 @@ donde cada decisión pedagógica se apoya en su propia fuente.
 Requiere Node.js 22 o superior. **Sin instalar dependencias:**
 
 ```bash
+node scripts/doctor.mjs                          # qué puedes ejecutar en esta máquina
 node scripts/validate-repository.mjs             # estructura, catálogo, enlaces
 node scripts/verify-sources.mjs                  # trazabilidad de las citas
 node scripts/verify-contract.mjs                 # contrato ↔ lecciones ↔ código
@@ -256,6 +283,7 @@ pnpm check
 ## Estructura
 
 ```text
+empezar/          Prólogo: instalación, conocimientos previos y primer verde
 atlas/            Atlas: ecosistemas, genealogía y fichas a fondo
 catalog/          Registro de 138 tecnologías con era, estado y licencia
 classes/          149 clases: el mismo problema resuelto en todos los frameworks

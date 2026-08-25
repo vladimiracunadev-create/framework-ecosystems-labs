@@ -3204,6 +3204,133 @@
         "movil"
       ],
       "locator": "https://openlibrary.org/isbn/9781491961650"
+    },
+    {
+      "id": "nodejs-downloads",
+      "type": "reference",
+      "title": "Download Node.js",
+      "publisher": "OpenJS Foundation",
+      "locator": "https://nodejs.org/en/download",
+      "topics": [
+        "entorno",
+        "javascript",
+        "herramientas"
+      ]
+    },
+    {
+      "id": "pnpm-installation",
+      "type": "reference",
+      "title": "pnpm — Installation",
+      "publisher": "pnpm",
+      "locator": "https://pnpm.io/installation",
+      "topics": [
+        "entorno",
+        "javascript",
+        "dependencias"
+      ]
+    },
+    {
+      "id": "python-downloads",
+      "type": "reference",
+      "title": "Download Python",
+      "publisher": "Python Software Foundation",
+      "locator": "https://www.python.org/downloads/",
+      "topics": [
+        "entorno",
+        "python",
+        "herramientas"
+      ]
+    },
+    {
+      "id": "adoptium-temurin",
+      "type": "reference",
+      "title": "Eclipse Temurin Releases",
+      "publisher": "Eclipse Foundation",
+      "locator": "https://adoptium.net/temurin/releases/",
+      "topics": [
+        "entorno",
+        "jvm",
+        "herramientas"
+      ]
+    },
+    {
+      "id": "dotnet-sdk-downloads",
+      "type": "reference",
+      "title": "Download .NET",
+      "publisher": "Microsoft",
+      "locator": "https://dotnet.microsoft.com/download",
+      "topics": [
+        "entorno",
+        "dotnet",
+        "herramientas"
+      ]
+    },
+    {
+      "id": "composer-download",
+      "type": "reference",
+      "title": "Composer — Download",
+      "publisher": "Composer",
+      "locator": "https://getcomposer.org/download/",
+      "topics": [
+        "entorno",
+        "php",
+        "dependencias"
+      ]
+    },
+    {
+      "id": "ruby-installation",
+      "type": "reference",
+      "title": "Installing Ruby",
+      "publisher": "Ruby",
+      "locator": "https://www.ruby-lang.org/en/documentation/installation/",
+      "topics": [
+        "entorno",
+        "ruby",
+        "herramientas"
+      ]
+    },
+    {
+      "id": "go-downloads",
+      "type": "reference",
+      "title": "Download and install Go",
+      "publisher": "Google",
+      "locator": "https://go.dev/doc/install",
+      "topics": [
+        "entorno",
+        "go",
+        "herramientas"
+      ]
+    },
+    {
+      "id": "chacon-straub-pro-git",
+      "type": "book",
+      "authors": [
+        "Chacon, Scott",
+        "Straub, Ben"
+      ],
+      "title": "Pro Git",
+      "edition": "2.ª",
+      "publisher": "Apress",
+      "published": "2014",
+      "isbn13": "9781484200773",
+      "locator": "https://openlibrary.org/isbn/9781484200773",
+      "topics": [
+        "herramientas",
+        "control-de-versiones",
+        "entorno"
+      ]
+    },
+    {
+      "id": "iana-port-numbers",
+      "type": "standard",
+      "title": "Service Name and Transport Protocol Port Number Registry",
+      "publisher": "IANA",
+      "locator": "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml",
+      "topics": [
+        "red",
+        "entorno",
+        "http"
+      ]
     }
   ]
 }

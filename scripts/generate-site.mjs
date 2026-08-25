@@ -44,7 +44,7 @@ function relativo(file) {
 /** Todo documento del repositorio que debe publicarse, con sus metadatos. */
 function recolectar() {
   const documentos = [];
-  const areas = ["curriculum", "docs", "assessments", "projects", "labs", "templates", "contracts", "sources", "atlas", "classes"];
+  const areas = ["empezar", "curriculum", "docs", "assessments", "projects", "labs", "templates", "contracts", "sources", "atlas", "classes"];
   for (const file of markdownFiles(...areas)) {
     const bruto = fs.readFileSync(file, "utf8");
     const { data, body } = parseFrontMatter(bruto);
@@ -127,6 +127,7 @@ function cabecera(destino, { activo = "" } = {}) {
   </a>
   <nav aria-label="Principal">
     ${enlace("index.html", "Portada", "inicio")}
+    ${enlace("empezar/index.html", "Empezar", "empezar")}
     ${enlace("curriculum/index.html", "Programa", "curriculum")}
     ${enlace("atlas/index.html", "Atlas", "atlas")}
     ${enlace("fuentes.html", "Fuentes", "fuentes")}
@@ -234,7 +235,8 @@ function portada() {
     <li class="cifra"><strong id="progreso">0/${modulos.length}</strong><span>tu progreso</span></li>
   </ul>
   <div class="acciones">
-    <a class="boton boton-primario" href="curriculum/00-taxonomia-y-diagnostico.html">Empezar por el módulo 00</a>
+    <a class="boton boton-primario" href="empezar/index.html">Empezar desde cero</a>
+    <a class="boton boton-fantasma" href="curriculum/00-taxonomia-y-diagnostico.html">Ir al módulo 00</a>
     <a class="boton boton-fantasma" href="assessments/diagnostic.html">Hacer el diagnóstico</a>
     <a class="boton boton-fantasma" href="atlas/index.html">Explorar el Atlas</a>
     <a class="boton boton-fantasma" href="fuentes.html">Ver las ${bibliography.entries.length} fuentes</a>
@@ -358,6 +360,7 @@ function barraLateral(actual) {
   <input class="buscador" id="buscador-doc" type="search" placeholder="Buscar en todo el sitio…"
          data-indice="${subir(actual.destino)}datos/indice.json" data-base="${subir(actual.destino)}">
   <ul class="resultados" id="resultados-doc"></ul>
+  ${grupo("Empezar", documentos.filter((doc) => doc.area === "empezar"))}
   ${grupo("Programa", modulos)}
   ${grupo("Atlas", documentos.filter((doc) => doc.area === "atlas"))}
   ${grupo("Clases", documentos.filter((doc) => doc.area === "classes"))}

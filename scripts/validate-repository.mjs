@@ -20,6 +20,8 @@ const required = [
   "pnpm-workspace.yaml",
   "catalog/frameworks.json",
   "curriculum/README.md",
+  "empezar/README.md",
+  "empezar/conocimientos-previos.md",
   "docs/TAXONOMY.md",
   "docs/SOURCES.md",
   "docs/LEARNING-MODEL.md",
@@ -42,6 +44,8 @@ const required = [
   "atlas/README.md",
   "atlas/frameworks.md",
   "scripts/generate-atlas.mjs",
+  "scripts/doctor.mjs",
+  "scripts/lib/cadenas.mjs",
 ];
 
 // Directorios que no forman parte del contenido: generados, dependencias o

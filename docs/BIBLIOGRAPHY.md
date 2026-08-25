@@ -2,7 +2,7 @@
 
 Documento generado por `node scripts/generate-bibliography.mjs`. No editar a mano.
 
-Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **210** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
+Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **220** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
 
 Cada entrada declara un localizador resoluble y es citada al menos una vez en el programa;
 `node scripts/verify-sources.mjs` falla si deja de cumplirse cualquiera de las dos condiciones.
@@ -11,10 +11,10 @@ Cada entrada declara un localizador resoluble y es citada al menos una vez en el
 
 | Tipo | Entradas | Verificación |
 | --- | ---: | --- |
-| Libros | 99 | `https://openlibrary.org/isbn/{isbn13}.json` |
+| Libros | 100 | `https://openlibrary.org/isbn/{isbn13}.json` |
 | Artículos | 7 | `https://api.crossref.org/works/{doi}` |
-| Normas y especificaciones | 32 | `GET a la URL declarada` |
-| Documentación oficial y referencias | 72 | `GET a la URL declarada` |
+| Normas y especificaciones | 33 | `GET a la URL declarada` |
+| Documentación oficial y referencias | 80 | `GET a la URL declarada` |
 
 ## Libros
 
@@ -131,6 +131,14 @@ Casciaro, Mario; Mammino, Luciano, *Node.js Design Patterns*, 3.ª ed., Packt Pu
 - Localizador: <https://openlibrary.org/isbn/9781839214110>
 - Temas: node, patrones, asincronía
 - Citada en: [`atlas/fichas/adonisjs.md`](../atlas/fichas/adonisjs.md), [`atlas/fichas/express.md`](../atlas/fichas/express.md), [`atlas/fichas/fastify.md`](../atlas/fichas/fastify.md), [`atlas/fichas/hapi.md`](../atlas/fichas/hapi.md), [`atlas/fichas/koa.md`](../atlas/fichas/koa.md), [`atlas/fichas/ktor.md`](../atlas/fichas/ktor.md), [`atlas/fichas/sails.md`](../atlas/fichas/sails.md)
+
+### `chacon-straub-pro-git`
+
+Chacon, Scott; Straub, Ben, *Pro Git*, 2.ª ed., Apress, 2014, ISBN 9781484200773
+
+- Localizador: <https://openlibrary.org/isbn/9781484200773>
+- Temas: herramientas, control-de-versiones, entorno
+- Citada en: 
 
 ### `cohn-succeeding-agile`
 
@@ -884,6 +892,14 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 - Temas: javascript, lenguaje, estándar
 - Citada en: [`atlas/fichas/dojo.md`](../atlas/fichas/dojo.md), [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md), [`atlas/fichas/prototype-js.md`](../atlas/fichas/prototype-js.md), [`atlas/fichas/rollup.md`](../atlas/fichas/rollup.md), [`atlas/fichas/typeorm.md`](../atlas/fichas/typeorm.md)
 
+### `iana-port-numbers`
+
+*Service Name and Transport Protocol Port Number Registry*, IANA
+
+- Localizador: <https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml>
+- Temas: red, entorno, http
+- Citada en: 
+
 ### `rfc9110`
 
 *RFC 9110 — HTTP Semantics*, IETF, 2022
@@ -1200,6 +1216,14 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 - Temas: despliegue, operación
 - Citada en: [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
 
+### `composer-download`
+
+*Composer — Download*, Composer
+
+- Localizador: <https://getcomposer.org/download/>
+- Temas: entorno, php, dependencias
+- Citada en: 
+
 ### `deno-v1`
 
 *Deno 1.0*, Deno
@@ -1215,6 +1239,14 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 - Localizador: <https://docs.djangoproject.com/en/stable/releases/>
 - Temas: versiones, soporte, django
 - Citada en: [`atlas/fichas/django.md`](../atlas/fichas/django.md)
+
+### `adoptium-temurin`
+
+*Eclipse Temurin Releases*, Eclipse Foundation
+
+- Localizador: <https://adoptium.net/temurin/releases/>
+- Temas: entorno, jvm, herramientas
+- Citada en: 
 
 ### `ember-rfcs`
 
@@ -1311,6 +1343,14 @@ Fowler, Martin, *Microservice Trade-Offs*, martinfowler.com, 2015
 - Localizador: <https://google.github.io/eng-practices/>
 - Temas: revisión de código, proceso
 - Citada en: [`atlas/fichas/docusaurus.md`](../atlas/fichas/docusaurus.md), [`curriculum/08-calidad-rendimiento-y-operacion.md`](../curriculum/08-calidad-rendimiento-y-operacion.md)
+
+### `go-downloads`
+
+*Download and install Go*, Google
+
+- Localizador: <https://go.dev/doc/install>
+- Temas: entorno, go, herramientas
+- Citada en: 
 
 ### `angular-signals`
 
@@ -1504,6 +1544,14 @@ Kleppmann, Martin; Wiggins, Adam; van Hardenberg, Peter; McGranaghan, Mark, *Loc
 - Temas: migración, web forms, blazor
 - Citada en: [`atlas/fichas/aspnet-webforms.md`](../atlas/fichas/aspnet-webforms.md), [`atlas/fichas/blazor.md`](../atlas/fichas/blazor.md)
 
+### `dotnet-sdk-downloads`
+
+*Download .NET*, Microsoft
+
+- Localizador: <https://dotnet.microsoft.com/download>
+- Temas: entorno, dotnet, herramientas
+- Citada en: 
+
 ### `jasonformat-islands`
 
 Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
@@ -1568,6 +1616,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Temas: gobierno, fundación, javascript
 - Citada en: [`atlas/fichas/jquery.md`](../atlas/fichas/jquery.md)
 
+### `nodejs-downloads`
+
+*Download Node.js*, OpenJS Foundation
+
+- Localizador: <https://nodejs.org/en/download>
+- Temas: entorno, javascript, herramientas
+- Citada en: 
+
 ### `electron-security`
 
 *Electron Security*, OpenJS Foundation — Electron
@@ -1608,6 +1664,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Temas: patrones, renderizado, frontend
 - Citada en: [`atlas/fichas/astro.md`](../atlas/fichas/astro.md)
 
+### `pnpm-installation`
+
+*pnpm — Installation*, pnpm
+
+- Localizador: <https://pnpm.io/installation>
+- Temas: entorno, javascript, dependencias
+- Citada en: 
+
 ### `postgresql-docs`
 
 *PostgreSQL Documentation*, PostgreSQL Global Development Group
@@ -1624,6 +1688,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Temas: preact, tamaño, compatibilidad
 - Citada en: [`atlas/fichas/preact.md`](../atlas/fichas/preact.md)
 
+### `python-downloads`
+
+*Download Python*, Python Software Foundation
+
+- Localizador: <https://www.python.org/downloads/>
+- Temas: entorno, python, herramientas
+- Citada en: 
+
 ### `qwik-resumability`
 
 *Resumable*, Qwik
@@ -1631,6 +1703,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Localizador: <https://qwik.dev/docs/concepts/resumable/>
 - Temas: qwik, hidratación, reanudación
 - Citada en: [`atlas/fichas/qwik.md`](../atlas/fichas/qwik.md)
+
+### `ruby-installation`
+
+*Installing Ruby*, Ruby
+
+- Localizador: <https://www.ruby-lang.org/en/documentation/installation/>
+- Temas: entorno, ruby, herramientas
+- Citada en: 
 
 ### `solid-reactivity`
 
