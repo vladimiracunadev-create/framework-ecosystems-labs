@@ -187,11 +187,134 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro declaran la lista blanca **antes que ninguna otra cosa**, y las cuatro
-la traducen a algo que tú escribiste. El código está en
-[`implementaciones/`](implementaciones/).
+Las cuatro hacen lo mismo y en el mismo orden: **declarar la lista blanca antes
+que ninguna otra cosa**, y traducirla a algo que tú escribiste.
+
+Esa segunda mitad es la que se olvida. Comprobar que el campo está en la lista y
+luego **construir la cláusula con el texto del cliente** no protege de nada: la
+lista blanca solo sirve si lo que llega a la consulta es un objeto tuyo.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
+
+```javascript
+const CAMPOS_ORDENABLES = new Set(["titulo", "prioridad"]);
+const CAMPOS_FILTRABLES = new Set(["completada", "prioridad"]);
+```
+
+Dos listas y no una, porque **son permisos distintos**. Un campo puede ser
+filtrable y no ordenable, y al revés. Aquí `titulo` se ordena pero no se filtra, y
+`completada` se filtra pero no se ordena.
+
+```javascript
+    if (!CAMPOS_FILTRABLES.has(campo)) {
+      return respuesta.status(422).json({ code: "CAMPO_NO_FILTRABLE", campo });
+    }
+```
+
+```javascript
+    if (campo === "prioridad") {
+      const n = Number(valor);
+      if (!Number.isInteger(n)) {
+        return respuesta.status(422).json({ code: "VALOR_INVALIDO", campo });
+      }
+      resultado = resultado.filter((t) => t.prioridad === n);
+    }
+```
+
+Dos comprobaciones por filtro, no una: **el campo tiene que estar permitido y el
+valor tiene que ser del tipo correcto**. Un `prioridad=abc` que llegue hasta la
+comparación devuelve una lista vacía en lugar de un error, y el cliente no se
+entera de que se equivocó.
+
+```javascript
+    const descendente = orden.startsWith("-");
+    const campo = descendente ? orden.slice(1) : orden;
+    if (!CAMPOS_ORDENABLES.has(campo)) {
+      return respuesta.status(422).json({ code: "CAMPO_NO_ORDENABLE", campo });
+    }
+```
+
+`-campo` para descendente: una convención extendida y suficiente, y sobre todo
+**una sola cosa que analizar**. Un `?orden=titulo&direccion=desc` tiene dos
+parámetros que pueden contradecirse.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+```python
+    for campo, valor in peticion.query_params.items():
+        if campo == "orden":
+            continue
+        if campo not in CAMPOS_FILTRABLES:
+            return JSONResponse(
+                {"code": "CAMPO_NO_FILTRABLE", "campo": campo}, status_code=422)
+```
+
+```python
+        resultado.sort(key=lambda t: t[campo], reverse=descendente)
+```
+
+Aquí `campo` sí entra en el acceso al diccionario — y es seguro **porque acaba de
+pasar la lista blanca**: solo puede valer `"titulo"` o `"prioridad"`. Es la
+diferencia entre usar la entrada del cliente después de haberla acotado y usarla
+directamente.
+
+Nótese que esta clase **no** declara los filtros en la firma, a diferencia de las
+013 y 045. No podría: los nombres de los filtros son variables, y la firma sirve
+justo para lo contrario — declarar lo que se conoce de antemano.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — la traducción, explícita
+
+```java
+    private static final Set<String> ORDENABLES = Set.of("titulo", "prioridad");
+    private static final Set<String> FILTRABLES = Set.of("completada", "prioridad");
+```
+
+```java
+            Comparator<Tarea> comparador = "titulo".equals(campo)
+                    ? Comparator.comparing(Tarea::titulo)
+                    : Comparator.comparingInt(Tarea::prioridad);
+            resultado.sort(descendente ? comparador.reversed() : comparador);
+```
+
+**Este bloque es el corazón de la clase.** La lista blanca no se usa para
+autorizar un texto: se usa para **elegir entre comparadores que ya existen en el
+código**. `Tarea::titulo` es una referencia a un método real; no hay ningún punto
+donde el texto del cliente se convierta en una expresión.
+
+La alternativa —construir la cláusula de ordenación concatenando el nombre del
+campo— es la versión de este problema que acaba en inyección, y la clase 074 la
+mide.
+
+`comparingInt` y no `comparing` para el número: evita empaquetar cada entero en
+un objeto al comparar. Un detalle de rendimiento sin consecuencias aquí y con
+ellas en una lista grande.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+        Func<Tarea, object> clave = campo == "titulo" ? t => t.Titulo : t => t.Prioridad;
+        resultado = descendente
+            ? resultado.OrderByDescending(clave)
+            : resultado.OrderBy(clave);
+```
+
+Exactamente lo mismo que Spring con otra sintaxis: **la lista blanca se traduce a
+un selector conocido**, no a una expresión construida con el texto del cliente.
+
+```csharp
+    IEnumerable<Tarea> resultado = tareas;
+```
+
+```csharp
+            resultado = resultado.Where(t => t.Completada == esperado);
+```
+
+`IEnumerable` y `Where` encadenados: los filtros **se componen sin ejecutarse**.
+Sobre una consulta a base de datos, LINQ acumula las condiciones y emite **una
+sola** consulta con todos los `WHERE` — que es la propiedad que hace que este
+patrón sirva en producción y no solo con tres elementos en memoria.
 
 ## 📖 Y el paso que casi nadie da
 

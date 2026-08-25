@@ -212,28 +212,164 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
+
+Las cuatro sirven **las dos paginaciones a la vez**: por desplazamiento en
+`/tareas` y por cursor en `/tareas-cursor`. Ponerlas juntas es lo que deja ver
+que no son dos formas de escribir lo mismo, sino dos compromisos distintos.
+
+Los datos son 25 tareas con identificador ordenado, para que el cursor sea
+comprobable:
+
+```javascript
+const TAREAS = Array.from({ length: 25 }, (nada, i) => ({
+  id: String(i + 1).padStart(3, "0"),
+  titulo: `tarea ${i + 1}`,
+}));
+```
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
+
+**Por desplazamiento:**
+
+```javascript
+  respuesta.json({
+    elementos: TAREAS.slice(desde, desde + limite),
+    total: TAREAS.length,
+  });
+```
+
+Fácil de implementar y de entender, y con dos problemas que el comentario del
+archivo nombra: **la página se desplaza si alguien inserta mientras paginas**, y
+**el coste crece con el desplazamiento** — la base tiene que contar y descartar
+todo lo anterior antes de devolver la página 400.
+
+Devuelve `total`, que es lo que permite pintar «página 3 de 17». Es la ventaja
+real de esta forma y la razón de que siga usándose.
+
+**Por cursor:**
+
+```javascript
+  const cursor = peticion.query.cursor;
+  const inicio = cursor === undefined ? 0 : TAREAS.findIndex((t) => t.id === cursor) + 1;
+```
+
+El cursor apunta al **último elemento devuelto**, así que la página siguiente es
+«lo que viene después de este». Insertar no desplaza nada y el coste no crece con
+la profundidad.
+
+Sobre un array esto es una búsqueda lineal; **sobre una tabla con índice es
+`WHERE id > ? ORDER BY id LIMIT ?`**, que es exactamente la razón de que el
+cursor escale. Lo que aquí parece un `findIndex` caro, en una base de datos es la
+consulta más barata posible.
+
+Y lo que **no** devuelve: `total`. No se puede saltar a la página 37 ni decir
+cuántas hay. Ese es el precio.
+
+```javascript
+function limiteDe(consulta) {
+  const bruto = consulta.limite;
+  if (bruto === undefined) return LIMITE_OMISION;
+  const n = Number(bruto);
+  if (!Number.isInteger(n) || n < 1 || n > LIMITE_MAX) return null;
+  return n;
+}
+```
+
+El **máximo no es opcional**. Sin `LIMITE_MAX`, un cliente pide un millón de
+filas y el servidor lo intenta.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — el rango en la firma
 
 ```python
-# FastAPI — el rango en la firma. El máximo NO es opcional.
 def listar(
     desde: int = Query(default=0, ge=0),
     limite: int = Query(default=10, ge=1, le=50),
 ) -> JSONResponse:
 ```
 
-Una línea por parámetro, con su valor por omisión y su rango. FastAPI rechaza por
-su cuenta lo que se salga — y la implementación traduce su error al código del
-contrato, porque **el código estable lo decide la API, no la biblioteca de
-validación**.
+Una línea por parámetro con su valor por omisión y su rango, y el manejador
+recibe valores ya comprobados. Es la misma virtud de la clase 013, aplicada a
+dos parámetros que **no** son opcionales de verdad: el rango es parte del
+contrato.
 
-```javascript
-// Express — el cursor busca la posición del identificador
-const inicio = cursor === undefined ? 0 : TAREAS.findIndex((t) => t.id === cursor) + 1;
+```python
+    codigos = {"limite": "LIMITE_INVALIDO", "desde": "DESDE_INVALIDO"}
+    return JSONResponse({"code": codigos.get(campo, "PARAMETRO_INVALIDO")}, status_code=422)
 ```
 
-Sobre un array es una búsqueda lineal; sobre una tabla con índice es
-`WHERE id > ? ORDER BY id LIMIT ?`, que es la razón de que el cursor escale.
+Y esta traducción existe por un principio que conviene tener claro: **el código
+de error estable lo decide la API, no la biblioteca de validación**. FastAPI
+rechaza por su cuenta con su formato; lo que sale por el cable es lo que el
+contrato dijo.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+    public ResponseEntity<Map<String, Object>> listar(
+            @RequestParam(defaultValue = "0") int desde,
+            @RequestParam(defaultValue = "10") int limite) {
+        if (desde < 0) {
+            return ResponseEntity.status(422).body(Map.of("code", "DESDE_INVALIDO"));
+        }
+        if (limite < 1 || limite > 50) {
+            return ResponseEntity.status(422).body(Map.of("code", "LIMITE_INVALIDO"));
+        }
+```
+
+El valor por omisión se declara y **el rango se comprueba a mano**. Se podría
+declarar con `@Min` y `@Max` —la clase 040 lo hace—, y aquí va explícito para que
+el código de error salga del contrato sin pasar por el apaño del mensaje.
+
+```java
+        int fin = Math.min(desde + limite, TAREAS.size());
+        List<Map<String, String>> pagina = desde >= TAREAS.size() ? List.of()
+                : TAREAS.subList(desde, fin);
+```
+
+Ese `Math.min` y esa comparación previa son el detalle que Java obliga a
+escribir: `subList` **lanza** si los índices se salen, mientras el `slice` de
+JavaScript y el corte de Python devuelven una lista vacía sin protestar.
+
+Pedir la página 100 de una lista de 25 elementos es una petición perfectamente
+legítima, y en un lenguaje devuelve vacío y en otro rompe.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+static bool TryLeer(HttpRequest peticion, string nombre, int omision, int min, int max, out int valor)
+{
+    valor = omision;
+    var crudo = peticion.Query[nombre].FirstOrDefault();
+    if (string.IsNullOrEmpty(crudo)) return true;
+    if (!int.TryParse(crudo, out valor)) return false;
+    return valor >= min && valor <= max;
+}
+```
+
+Una función que hace las tres cosas —valor por omisión, conversión y rango— y
+devuelve si el valor sirve. Es el patrón `Try…` de .NET: **el fallo es un valor
+de retorno, no una excepción**.
+
+```csharp
+    return Results.Json(new
+    {
+        elementos = tareas.Skip(desde).Take(limite),
+        total = tareas.Count,
+    });
+```
+
+`Skip` y `Take` de LINQ, que sobre una consulta a base de datos se traducen a
+`OFFSET` y `LIMIT` sin cambiar una línea — la misma expresión sirve para la lista
+en memoria y para la tabla.
+
+```csharp
+    var siguiente = inicio + limite < tareas.Count ? pagina[^1].id : null;
+```
+
+`pagina[^1]` es el último elemento. Y la condición decide si hay siguiente
+página: devolver un cursor cuando ya no queda nada haría que el cliente pidiera
+una página vacía de más.
 
 ## 🔬 Comparación
 

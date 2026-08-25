@@ -203,34 +203,143 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Lo interesante es cómo se separa el código de cada versión:
+Los cuatro sirven **el mismo recurso en dos representaciones** y lo hacen por dos
+vías a la vez: la versión en la ruta y la versión en una cabecera. Lo que hay que
+mirar es **cómo se separa el código de cada versión**, porque de eso depende que
+la v1 pueda congelarse mientras la v2 evoluciona.
 
-```java
-// Spring — enruta POR LA CABECERA: dos métodos distintos, misma ruta
-@GetMapping(value = "/personas/1", headers = "X-Api-Version=2")
-public ResponseEntity<Map<String, String>> porCabeceraV2() { }
+El cambio incompatible del ejemplo es el más común que existe:
+
+```javascript
+const PERSONA = { id: "1", nombre: "Ada", apellido: "Lovelace" };
 ```
 
-Es más limpio que un `if` dentro de un método: cada versión es **un método
-independiente** que se puede congelar, probar y borrar por separado.
+La v1 tenía un solo campo `nombre`; la v2 lo partió en dos. Cualquier cliente que
+leyera `nombre` esperando el nombre completo se rompe.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
+
+```javascript
+app.get("/v1/personas/1", (peticion, respuesta) => {
+  respuesta.json({ id: PERSONA.id, nombre: `${PERSONA.nombre} ${PERSONA.apellido}` });
+});
+
+app.get("/v2/personas/1", (peticion, respuesta) => {
+  respuesta.json(PERSONA);
+});
+```
+
+Dos rutas, dos manejadores, **cero acoplamiento**. Tocar la v2 no puede romper la
+v1 porque no comparten una línea.
+
+Y la segunda vía, en la misma aplicación:
+
+```javascript
+app.get("/personas/1", (peticion, respuesta) => {
+  const version = peticion.get("x-api-version") ?? "1";
+  respuesta.set("x-api-version", version);
+
+  if (version === "2") return respuesta.json(PERSONA);
+```
+
+Aquí sí hay un `if`. El argumento de quien defiende la cabecera está en el
+comentario del propio archivo: **la identidad del recurso no cambia porque cambie
+su representación**, así que la URL debería ser una sola.
+
+Fíjate en que la versión se **devuelve** en la respuesta. Sin esa cabecera, un
+cliente que pide la 2 y recibe la 1 —porque el servidor todavía no la soporta— no
+tiene forma de saberlo.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — un enrutador por versión
 
 ```python
-# FastAPI — un enrutador por versión
 v1 = APIRouter(prefix="/v1")
 v2 = APIRouter(prefix="/v2")
 ```
 
-```csharp
-// ASP.NET Core — un grupo por versión
-var v1 = app.MapGroup("/v1");
+```python
+app.include_router(v1)
+app.include_router(v2)
 ```
 
-Los tres persiguen lo mismo: **que la v1 pueda congelarse mientras la v2
-evoluciona**. Un `if (version == 2)` dentro de un manejador compartido consigue
-lo contrario — las dos versiones acopladas en el mismo código, y tocar una
-arriesga la otra.
+Un **enrutador** por versión, no dos rutas sueltas. La diferencia importa cuando
+la API tiene cuarenta rutas: el prefijo se declara una vez, y congelar la v1 es
+dejar de tocar un objeto entero.
+
+```python
+def persona(
+    x_api_version: Annotated[str, Header()] = "1",
+) -> JSONResponse:
+```
+
+Y la cabecera llega **por la firma**, con su valor por omisión declarado — la
+misma virtud de la clase 016.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — un grupo por versión
+
+```csharp
+var v1 = app.MapGroup("/v1");
+var v2 = app.MapGroup("/v2");
+
+v1.MapGet("/personas/1", () => Results.Json(ComoV1()));
+v2.MapGet("/personas/1", () => Results.Json(persona));
+```
+
+`MapGroup` es el equivalente exacto del `APIRouter` de FastAPI, y tiene una
+ventaja que aparece pronto: al grupo se le pueden colgar filtros, autorización y
+metadatos **que se aplican a todas sus rutas**. Congelar la v1 puede llegar a ser
+literal — un filtro que rechace escrituras en todo el grupo.
+
+```csharp
+    return version switch
+    {
+        "2" => Results.Json(persona),
+        "1" => Results.Json(ComoV1()),
+        _ => Results.Json(new { code = "VERSION_DESCONOCIDA" }, statusCode: 400),
+    };
+```
+
+Y el `switch` de expresión obliga a cubrir el caso por omisión, así que la
+versión desconocida no se puede olvidar.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — enruta **por la cabecera**
+
+```java
+    @GetMapping(value = "/personas/1", headers = "X-Api-Version=2")
+    public ResponseEntity<Map<String, String>> porCabeceraV2() {
+        return ResponseEntity.ok().header("X-Api-Version", "2").body(PERSONA);
+    }
+```
+
+Esto es lo más interesante de la clase. `headers = "X-Api-Version=2"` hace que
+**Spring enrute por la cabecera**: son dos métodos distintos para la misma ruta y
+el despachador elige cuál llamar.
+
+Es más limpio que un `if` dentro de un método compartido, y por un motivo
+concreto: **cada versión es un método independiente que se puede congelar, probar
+y borrar por separado**. Retirar la v1 es borrar un método; en Express y FastAPI
+es editar una condición dentro de un manejador que la v2 también usa.
+
+```java
+    public ResponseEntity<Map<String, String>> porCabecera(
+            @RequestHeader(name = "X-Api-Version", required = false, defaultValue = "1")
+            String version) {
+```
+
+El método sin `headers` queda como el caso por omisión: recoge todo lo que no
+declare la versión 2, y decide entre servir la 1 o rechazar.
+
+### Lo que los cuatro persiguen
+
+Un `if (version == 2)` dentro de un manejador compartido consigue lo contrario de
+lo que se busca: **las dos versiones acopladas en el mismo código**, donde tocar
+una arriesga la otra y retirar la vieja es cirugía.
+
+Las tres formas que se ven aquí —prefijo de ruta, enrutador o grupo, y enrutado
+por cabecera— tienen en común que **el código de cada versión vive aparte**. Esa
+es la propiedad, no la sintaxis.
 
 ## 🔬 Comparación
 
