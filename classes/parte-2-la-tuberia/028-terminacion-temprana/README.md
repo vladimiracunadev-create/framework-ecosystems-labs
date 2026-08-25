@@ -36,50 +36,111 @@ Y la cabecera `www-authenticate` no es adorno: el estándar la exige en toda
 respuesta 401 [@rfc9110]. Sin ella, el cliente sabe que le falta autenticación y
 no sabe de qué tipo.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro cortan la cadena de la misma forma —responder sin continuar— y el
-contador del manejador demuestra que la ejecución nunca llegó allí. La regla es
-la misma en los cuatro: **responder sin continuar**.
+Las cuatro cortan la cadena de la misma forma —**responder sin continuar**— y el
+contador del manejador es lo que demuestra que la ejecución nunca llegó allí.
+
+Ninguna necesita un mecanismo especial. Eso es el hallazgo: **cortar es
+simplemente no llamar a la siguiente**.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
 
 ```javascript
-// Express — devolver sin llamar a siguiente()
-if (autorizacion !== "Bearer valido") {
-  return respuesta.status(401).set("www-authenticate", "Bearer").json({ ... });
-}
-siguiente();
+app.use((peticion, respuesta, siguiente) => {
+  if (peticion.path === "/publico") return siguiente();
+
+  const autorizacion = peticion.get("authorization");
+  if (autorizacion !== "Bearer valido") {
+    return respuesta
+      .status(401)
+      .set("www-authenticate", "Bearer")
+      .json({ error: "no autorizado", manejador: manejadorLlamado });
+  }
+  siguiente();
+});
 ```
+
+```javascript
+app.get("/privado", (peticion, respuesta) => {
+  manejadorLlamado += 1;
+  respuesta.json({ ok: true, manejador: manejadorLlamado });
+});
+```
+
+El `return` delante de `respuesta.…` no es estilo: es lo que impide que la
+ejecución siga y llame a `siguiente()` después de haber respondido. Ese error
+—responder y continuar— produce el clásico *cannot set headers after they are
+sent*, y es el fallo más frecuente de la clase.
+
+El contador es la prueba: si el corte no funcionara, el `401` devolvería
+`manejador: 1` en vez de `manejador: 0`.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
 
 ```python
-# FastAPI — devolver una respuesta sin await siguiente(peticion)
-if peticion.headers.get("authorization") != "Bearer valido":
-    return JSONResponse({...}, status_code=401, headers={"www-authenticate": "Bearer"})
-return await siguiente(peticion)
+    if peticion.headers.get("authorization") != "Bearer valido":
+        return JSONResponse(
+            {"error": "no autorizado", "manejador": estado["manejador"]},
+            status_code=401,
+            headers={"www-authenticate": "Bearer"},
+        )
+    return await siguiente(peticion)
 ```
+
+Aquí el corte es **estructuralmente imposible de hacer mal**, y merece notarlo:
+la capa **devuelve una respuesta**, así que o devuelves la tuya o devuelves la de
+`siguiente`. No hay forma de hacer las dos cosas.
+
+Es el contraste exacto con Express, donde la capa no devuelve nada y responder y
+continuar son dos acciones independientes que se pueden ejecutar las dos.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
 
 ```csharp
-// ASP.NET Core — escribir la respuesta y no llamar a siguiente()
-if (contexto.Request.Headers.Authorization != "Bearer valido")
-{
-    contexto.Response.StatusCode = 401;
-    await contexto.Response.WriteAsJsonAsync(new { ... });
-    return;
-}
-await siguiente();
+    if (contexto.Request.Headers.Authorization != "Bearer valido")
+    {
+        contexto.Response.StatusCode = 401;
+        contexto.Response.Headers.WWWAuthenticate = "Bearer";
+        await contexto.Response.WriteAsJsonAsync(
+            new { error = "no autorizado", manejador = manejadorLlamado });
+        return;
+    }
+
+    await siguiente();
 ```
+
+El mismo modelo que Express —escribir en la respuesta y no continuar— con
+`return` en lugar de `return respuesta.…`. La respuesta se **modifica**, no se
+devuelve.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
 
 ```java
-// Spring Boot — no llamar a cadena.doFilter
-if (!"Bearer valido".equals(p.getHeader("Authorization"))) {
-    r.setStatus(401);
-    r.getWriter().write("...");
-    return;
-}
-cadena.doFilter(peticion, respuesta);
+            if (!"Bearer valido".equals(p.getHeader("Authorization"))) {
+                r.setStatus(401);
+                r.setHeader("WWW-Authenticate", "Bearer");
+                r.setContentType("application/json");
+                r.getWriter().write(
+                        "{\"error\":\"no autorizado\",\"manejador\":" + MANEJADOR.get() + "}");
+                return;
+            }
+
+            cadena.doFilter(peticion, respuesta);
 ```
 
-**Los cuatro son la misma idea con cuatro sintaxis.** Y ninguno necesita un
-mecanismo especial: cortar es simplemente no continuar.
+Igual: **no llamar a `cadena.doFilter` corta**. Y una diferencia que salta a la
+vista y no es casual — el JSON se escribe **a mano, como texto**.
+
+Un filtro de servlet vive *por debajo* de Spring MVC: cuando corta, el
+despachador y sus convertidores de mensajes todavía no han entrado en juego, así
+que no hay nadie que serialice un objeto. Es el precio de estar tan abajo en la
+pila, y también su ventaja: **nada de lo que hay por encima puede saltárselo**.
+
+Fíjate en el orden de la comparación, `!"Bearer valido".equals(...)`: la
+constante primero, para que un `null` en la cabecera no reviente. Es un modismo
+de Java que aquí evita un caso real — una petición sin cabecera de autorización
+es exactamente la que quieres rechazar.
 
 ## 🧭 Por qué esto pertenece a la tubería y no al manejador
 

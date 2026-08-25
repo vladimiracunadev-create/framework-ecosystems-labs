@@ -60,11 +60,128 @@ Es un ejemplo pequeño de algo importante: **una prueba verde no significa que e
 código sea correcto**, significa que en esa ejecución se comportó como se
 esperaba.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
 Las cuatro registran **al terminar**, no al entrar, y las cuatro excluyen la
-consulta del propio registro. El código está en
-[`implementaciones/`](implementaciones/).
+consulta del propio registro. Las dos decisiones son el contenido de la clase, y
+las dos se ven en el código.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — el registro va en un evento
+
+```javascript
+app.use((peticion, respuesta, siguiente) => {
+  const inicio = process.hrtime.bigint();
+  respuesta.on("finish", () => {
+```
+
+```javascript
+    if (peticion.path === "/registro") return;
+```
+
+```javascript
+    registro.push({
+      metodo: peticion.method,
+      ruta: peticion.path,
+      estado: respuesta.statusCode,
+```
+
+**`respuesta.on("finish", …)` y no una línea después de `siguiente()`.** Esa es
+la diferencia que define la implementación de Express, y viene de su modelo: la
+capa devuelve el control antes de que la respuesta se haya enviado, así que
+`respuesta.statusCode` leído justo después de `siguiente()` todavía no es el
+definitivo.
+
+El estado **no se conoce al entrar**. Registrar al entrar produce un registro que
+dice qué se pidió y no dice qué pasó, que es la mitad inútil de la información.
+
+Y `process.hrtime.bigint()` en vez de `Date.now()`: es un reloj monótono, así que
+un ajuste de hora del sistema a mitad de la petición no produce duraciones
+negativas.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — el registro va después del await
+
+```python
+    inicio = time.perf_counter()
+    respuesta = await siguiente(peticion)
+    duracion = time.perf_counter() - inicio
+```
+
+```python
+    if peticion.url.path != "/registro":
+        registro.append({
+            "metodo": peticion.method,
+            "ruta": peticion.url.path,
+            "estado": respuesta.status_code,
+            "medido": duracion >= 0,
+        })
+    return respuesta
+```
+
+Aquí **no hace falta un evento**, y es consecuencia directa de la clase 028: la
+capa de Starlette *devuelve* la respuesta, así que después del `await` el objeto
+respuesta ya existe y su estado es el definitivo.
+
+`time.perf_counter()` es el reloj monótono de Python — mismo criterio que
+`hrtime` en Node.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+            long inicio = System.nanoTime();
+            cadena.doFilter(peticion, respuesta);
+            long duracion = System.nanoTime() - inicio;
+```
+
+```java
+            if (!"/registro".equals(p.getRequestURI())) {
+                Map<String, Object> linea = new LinkedHashMap<>();
+                linea.put("metodo", p.getMethod());
+                linea.put("ruta", p.getRequestURI());
+                linea.put("estado", ((HttpServletResponse) respuesta).getStatus());
+```
+
+Lo mismo, con la estructura de un filtro: lo que va después de `doFilter` se
+ejecuta al volver, y ahí `getStatus()` ya es el definitivo.
+
+`System.nanoTime()` completa el trío de relojes monótonos. **Los tres
+ecosistemas tienen uno y los tres lo usan aquí**: cuando algo se repite en los
+cuatro, casi siempre es que el problema lo impone el dominio.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+    var reloj = Stopwatch.StartNew();
+    await siguiente();
+    reloj.Stop();
+```
+
+```csharp
+    if (contexto.Request.Path != "/registro")
+    {
+        registro.Add(new
+        {
+            metodo = contexto.Request.Method,
+            ruta = contexto.Request.Path.Value,
+            estado = contexto.Response.StatusCode,
+```
+
+`Stopwatch` es el reloj monótono de .NET, y es el único de los cuatro que tiene
+**nombre de objeto en lugar de nombre de función**. Da igual para el resultado y
+dice algo del estilo de cada plataforma.
+
+### Las dos decisiones, y por qué están
+
+**Registrar al terminar.** Sin el estado, el registro no responde a la pregunta
+para la que se escribió: *qué salió mal*.
+
+**No registrar la consulta del registro.** Mirar el registro no es tráfico de la
+aplicación. Contarlo lo ensucia — y en un sistema real, una sonda que consulta
+cada cinco segundos acaba siendo la ruta más frecuente del informe.
+
+Y una declaración honesta sobre el campo `medido`: el contrato comprueba que la
+duración **se midió**, no cuánto. Afirmar un número concreto haría el contrato
+dependiente de la máquina, y este repositorio prefiere medir el mecanismo antes
+que fingir que mide el rendimiento — la clase 007 desarrolla por qué.
 
 ## 🔬 Comparación
 

@@ -71,25 +71,24 @@ cualquier dato que pertenezca a una petición concreta** — el usuario
 autenticado, el identificador de correlación de la clase 030, el inquilino en una
 aplicación multiempresa.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro registran tres capas y guardan la traza **en la petición**. El código
-está en [`implementaciones/`](implementaciones/); lo que sigue destaca cómo
-declara el orden cada una.
+Las cuatro registran tres capas y guardan la traza **en la petición**. Y las
+cuatro declaran el orden de una manera distinta — una de ellas al revés de lo
+que parece.
 
-### ASP.NET Core — el orden es el de registro
+Antes de mirar el orden, mira dónde vive la traza, porque es la parte que este
+contrato destapó en el primer intento.
 
-```csharp
-Capa("uno");
-Capa("dos");
-Capa("tres");
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — el orden es el de registro
+
+```javascript
+function capa(nombre) {
+  return (peticion, respuesta, siguiente) => {
+    peticion.traza ??= [];
+    peticion.traza.push(`entra:${nombre}`);
+    siguiente();
 ```
-
-Lo que se lee de arriba abajo se ejecuta de fuera adentro. **El modelo más
-predecible de los cuatro**, y por eso su documentación insiste tanto en el orden
-de las llamadas `Use`.
-
-### Express — igual
 
 ```javascript
 app.use(capa("uno"));
@@ -97,7 +96,45 @@ app.use(capa("dos"));
 app.use(capa("tres"));
 ```
 
-### FastAPI — **al revés**
+Lo que se lee de arriba abajo se ejecuta de fuera adentro.
+
+Y el detalle que importa más que el orden: **la traza vive en la petición**, no
+en una variable del módulo. Con estado global, dos peticiones simultáneas
+mezclarían sus trazas — y este contrato lo destapó en el primer intento del
+laboratorio, que es exactamente el tipo de fallo que en producción aparece solo
+bajo carga.
+
+Lo que se escriba **después** de `siguiente()` se ejecuta al volver, en orden
+inverso. No entra en el cuerpo de la respuesta porque para entonces ya salió.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — igual, y el más explícito
+
+```csharp
+void Capa(string nombre) => app.Use(async (contexto, siguiente) =>
+{
+    if (!contexto.Items.TryGetValue("traza", out var valor))
+    {
+        valor = new List<string>();
+        contexto.Items["traza"] = valor;
+    }
+    ((List<string>)valor!).Add($"entra:{nombre}");
+    await siguiente();
+```
+
+```csharp
+Capa("uno");
+Capa("dos");
+Capa("tres");
+```
+
+Mismo modelo que Express: **el orden es el de las llamadas**. `contexto.Items`
+es el almacén por petición — nace y muere con ella, igual que `peticion.traza`.
+
+Es el modelo más predecible de los cuatro, y por eso la documentación de ASP.NET
+Core insiste tanto en el orden de las llamadas `Use`: es la única declaración que
+hay.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — **al revés**
 
 ```python
 app.middleware("http")(capa("tres"))
@@ -105,25 +142,67 @@ app.middleware("http")(capa("dos"))
 app.middleware("http")(capa("uno"))
 ```
 
+Léelo dos veces: para obtener el orden observable `uno, dos, tres` hay que
+**registrarlas al revés**.
+
 Las capas de Starlette **se apilan**: la última registrada envuelve a las
-anteriores, así que se ejecuta primero. Para obtener el orden `uno, dos, tres`
-hay que registrarlas al revés.
+anteriores, así que se ejecuta primero. No es un capricho — es la consecuencia
+natural de construir la pila envolviendo la aplicación una y otra vez.
 
-No es un capricho: es la consecuencia natural de construir la pila envolviendo la
-aplicación una y otra vez. Y es **la trampa número uno** de quien viene de
-Express.
+Y es **la trampa número uno** de quien viene de Express. Lo peor es que no
+produce un error: produce un orden distinto, silencioso, que solo se nota cuando
+la capa de autenticación acaba ejecutándose después de la que necesitaba saber
+quién eres.
 
-### Spring Boot — ni una cosa ni la otra
-
-```java
-FilterRegistrationBean<Filter> registro = new FilterRegistrationBean<>(new Capa(nombre));
-registro.setOrder(orden);
+```python
+        if not hasattr(peticion.state, "traza"):
+            peticion.state.traza = []
+        peticion.state.traza.append(f"entra:{nombre}")
 ```
 
-El orden **se declara con un número**, no se deduce de nada. Es más verboso y
-elimina una dependencia peligrosa: el orden en que Spring descubre los
-componentes **no está garantizado**, así que dejar el orden implícito sería dejar
-el comportamiento al azar.
+`peticion.state` es el almacén por petición de Starlette. Mismo papel,
+tercer nombre.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — ni una cosa ni la otra
+
+```java
+    private static FilterRegistrationBean<Filter> registrar(String nombre, int orden) {
+        FilterRegistrationBean<Filter> registro = new FilterRegistrationBean<>(new Capa(nombre));
+        registro.setOrder(orden);
+        return registro;
+    }
+```
+
+```java
+    @Bean
+    public FilterRegistrationBean<Filter> uno() {
+        return registrar("uno", 1);
+    }
+```
+
+**El orden se declara con un número**, no se deduce de nada — ni de la posición
+en el archivo, ni del momento del registro.
+
+Es más verboso y elimina una dependencia peligrosa: **el orden en que Spring
+descubre los componentes no está garantizado**. Dejar el orden implícito sería
+dejar el comportamiento al azar, y la clase 002 ya avisó de que en Spring el
+descubrimiento es un examen del classpath y no una secuencia de llamadas.
+
+```java
+            List<String> traza = (List<String>) peticion.getAttribute("traza");
+            if (traza == null) {
+                traza = new ArrayList<>();
+                peticion.setAttribute("traza", traza);
+            }
+            traza.add("entra:" + nombre);
+            cadena.doFilter(peticion, respuesta);
+```
+
+Los atributos de la petición son el almacén por petición del mundo de los
+servlets. **Cuarto nombre para lo mismo**: `peticion.traza`, `contexto.Items`,
+`peticion.state` y `getAttribute`. Cuando cuatro frameworks de cuatro
+ecosistemas inventan la misma pieza, es que el problema es del dominio y no de
+ninguno de ellos.
 
 ## 🔬 Comparación
 

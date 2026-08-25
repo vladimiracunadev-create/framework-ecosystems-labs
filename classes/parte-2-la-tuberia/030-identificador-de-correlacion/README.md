@@ -56,39 +56,103 @@ En un sistema real conviene además no aceptar caracteres de control, para que u
 identificador no pueda inyectar saltos de línea en un registro de texto y
 falsificar entradas.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro respetan el identificador entrante, generan uno si falta y lo
-devuelven. La diferencia está en si el framework lo propaga solo al registro, y
-ahí Spring aporta algo que los otros no.
+Las cuatro hacen lo mismo en tres gestos: **respetar** el identificador que
+llega, **generar** uno si falta y **devolverlo** en la respuesta. Lo que separa
+al elenco es si el framework además lo propaga al registro por su cuenta.
 
-### Lo que Spring aporta: el contexto de diagnóstico
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
 
-```java
-MDC.put("correlacion", correlacion);
-try {
-    cadena.doFilter(peticion, respuesta);
-} finally {
-    MDC.remove("correlacion");
-}
+```javascript
+app.use((peticion, respuesta, siguiente) => {
+  const entrante = peticion.get("x-request-id");
+  peticion.correlacion = entrante && entrante.length <= 128 ? entrante : randomUUID();
+  respuesta.set("x-request-id", peticion.correlacion);
+  siguiente();
+});
 ```
 
-A partir de ese `put`, **toda línea de registro emitida en ese hilo lleva el
-identificador**, sin que ningún método tenga que pasarlo como argumento. Es la
-diferencia entre propagar el contexto a mano por veinte funciones y tenerlo
-implícito.
+Cinco líneas y las tres decisiones dentro. Las dos mitades importan por motivos
+distintos: **respetarlo** permite seguir una petición a través de varios
+servicios; **generarlo** garantiza que ninguna se quede sin rastro.
+
+El `length <= 128` no es adorno defensivo: **el identificador entra en los
+registros y lo controla el cliente**. Sin tope, es una vía directa para inflarlos
+— y quien paga el almacenamiento de registros sabe lo que eso significa.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+```python
+    entrante = peticion.headers.get("x-request-id")
+    correlacion = entrante if entrante and len(entrante) <= 128 else str(uuid.uuid4())
+    peticion.state.correlacion = correlacion
+
+    respuesta = await siguiente(peticion)
+    respuesta.headers["x-request-id"] = correlacion
+    return respuesta
+```
+
+Idéntico en intención. Y una diferencia estructural obligada: **la cabecera se
+pone después del `await`**, porque hasta entonces la respuesta no existe. En
+Express se pone antes, sobre un objeto que ya está.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+    var entrante = contexto.Request.Headers["X-Request-Id"].FirstOrDefault();
+    var correlacion = !string.IsNullOrEmpty(entrante) && entrante.Length <= 128
+        ? entrante
+        : Guid.NewGuid().ToString();
+
+    contexto.Items["correlacion"] = correlacion;
+    contexto.Response.Headers["X-Request-Id"] = correlacion;
+```
+
+`FirstOrDefault()` porque **una cabecera puede venir repetida**: `Headers[...]`
+devuelve una colección, no una cadena. Es el único de los cuatro donde el tipo
+recuerda ese hecho de HTTP en vez de esconderlo.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — y lo que aporta de más
+
+```java
+            String correlacion = (entrante != null && !entrante.isEmpty() && entrante.length() <= 128)
+                    ? entrante
+                    : UUID.randomUUID().toString();
+
+            p.setAttribute("correlacion", correlacion);
+            ((HttpServletResponse) respuesta).setHeader("X-Request-Id", correlacion);
+```
+
+Hasta aquí, lo mismo que los otros tres. Lo que sigue no lo tiene ninguno:
+
+```java
+            MDC.put("correlacion", correlacion);
+            try {
+                cadena.doFilter(peticion, respuesta);
+            } finally {
+                MDC.remove("correlacion");
+            }
+```
+
+**El contexto de diagnóstico.** A partir de ese `put`, toda línea de registro
+emitida en ese hilo lleva el identificador **sin que ningún método tenga que
+pasarlo como argumento**. Es la diferencia entre propagar el contexto a mano por
+veinte funciones y tenerlo implícito.
 
 **Y el `finally` es obligatorio.** El hilo vuelve al grupo y se reutiliza: sin la
 limpieza, la petición siguiente hereda el identificador de la anterior y el
-registro miente de la peor forma posible — atribuyendo eventos a la petición
-equivocada.
+registro miente **de la peor forma posible** — atribuyendo eventos a la petición
+equivocada, que es peor que no tener identificador.
 
-Es exactamente el mismo riesgo que el estado global de la clase 027, con otra
-cara: aquí el estado no es una variable del módulo, es una variable **atada al
-hilo** que sobrevive a la petición.
+Es el mismo riesgo que el estado global de la clase 027 con otra cara: aquí el
+estado no es una variable del módulo, es una variable **atada al hilo** que
+sobrevive a la petición.
 
-En Node y en Python el equivalente es el almacenamiento local asíncrono, que
-resuelve el mismo problema para modelos sin hilos.
+En Node y en Python el equivalente existe —el almacenamiento local asíncrono—
+y resuelve el mismo problema para modelos sin hilos. No está en estas
+implementaciones a propósito: lo que la clase compara es lo que cada framework
+trae puesto, y en tres de los cuatro esto hay que traerlo.
 
 ## 🔬 Comparación
 
