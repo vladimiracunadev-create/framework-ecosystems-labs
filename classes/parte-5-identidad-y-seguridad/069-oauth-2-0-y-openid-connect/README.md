@@ -83,14 +83,152 @@ prueba de identidad. El `access_token` dice que puedes; el `id_token` dice
 quién eres — y su `aud` dice **a quién** se lo dice, que es lo que impide
 reutilizarlo en otra aplicación.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro son deliberadamente **la misma lógica**: registro de clientes con
-`redirect_uri` fija, códigos de un solo uso con su reto PKCE guardado, y el
-canje que compara `S256(verificador)` contra ese reto. El protocolo no deja
-margen creativo, y eso también enseña — la creatividad en un protocolo de
-seguridad es el fallo. Cambia solo la pieza que firma el `id_token`: las
-mismas cuatro bibliotecas de la clase 067.
+Las cuatro son deliberadamente **la misma lógica**, y esa coincidencia es el
+contenido: en un protocolo de seguridad, **la creatividad es el fallo**. Lo que
+cambia entre ellas es la biblioteca que firma el `id_token` —las mismas cuatro
+de la clase 067— y el idioma en que se escribe el mismo resumen SHA-256.
+
+Se lee una vez el flujo completo en Express y después, framework a framework, la
+pieza que sí cambia.
+
+### El flujo, en Express · [`express/server.mjs`](implementaciones/express/server.mjs)
+
+**Registro de clientes.** La `redirect_uri` se declara por adelantado:
+
+```javascript
+const CLIENTES = new Map([["cliente-demo", { redireccion: "https://app.example/callback" }]]);
+```
+
+**La primera defensa, y la que más se rompe en la vida real:**
+
+```javascript
+  if (!cliente || q.redirect_uri !== cliente.redireccion) {
+    return respuesta.status(400).json({ error: "invalid_request" });
+  }
+```
+
+Cliente desconocido o URI no registrada: error **directo**, sin redirigir.
+Redirigir el error a una URI no verificada sería entregar datos al sitio del
+atacante — el *open redirect* clásico. Fíjate en que la comprobación es de
+igualdad exacta, no «que empiece por»: un prefijo se puede extender.
+
+**El código y su reto PKCE:**
+
+```javascript
+  const codigo = crypto.randomBytes(24).toString("base64url");
+  codigos.set(codigo, {
+    reto: q.code_challenge,
+    redireccion: q.redirect_uri,
+    cliente: q.client_id,
+    usado: false,
+  });
+```
+
+```javascript
+  if (q.state) destino.searchParams.set("state", q.state);
+```
+
+El `state` vuelve **tal cual**: es el testigo anti-CSRF *del cliente*, y el
+servidor de autorización ni lo interpreta ni lo recuerda.
+
+**El canje, donde PKCE hace su trabajo:**
+
+```javascript
+  const resumen = crypto
+    .createHash("sha256")
+    .update(String(f.code_verifier ?? ""))
+    .digest("base64url");
+
+  if (invalido || resumen !== entrada.reto) {
+    if (entrada) entrada.usado = true;
+    return respuesta.status(400).json({ error: "invalid_grant" });
+  }
+```
+
+El resumen del verificador que llega ahora tiene que casar con el reto que
+llegó al principio. **Solo quien inició el flujo tiene el verificador**, así que
+un código interceptado por el camino no se puede canjear. Y un código que llega
+dos veces se quema: `usado = true` también en la rama de error.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+```python
+def _resumen_s256(verificador: str) -> str:
+    digesto = hashlib.sha256(verificador.encode()).digest()
+    return urlsafe_b64encode(digesto).rstrip(b"=").decode()
+```
+
+```python
+    id_token = jwt.encode(
+        {
+            "iss": "http://laboratorio.local",
+            "sub": "ana",
+            "aud": f.get("client_id"),
+            "exp": int(time.time()) + 3600,
+        },
+        SECRETO,
+        algorithm="HS256",
+    )
+```
+
+`rstrip(b"=")` no es cosmética: **base64url sin relleno** es lo que exige la
+especificación de PKCE, y dejar los `=` produce un reto que no casa con el que
+calcula cualquier cliente conforme. Los cuatro lenguajes tienen que quitarlo, y
+los cuatro lo hacen de una forma distinta.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+            byte[] digesto = MessageDigest.getInstance("SHA-256")
+                    .digest(verificador.getBytes(StandardCharsets.UTF_8));
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(digesto);
+```
+
+```java
+        String idToken = Jwts.builder()
+                .issuer("http://laboratorio.local")
+                .subject("ana")
+                .audience().add(f.get("client_id")).and()
+                .expiration(new Date(System.currentTimeMillis() + 3_600_000))
+                .signWith(CLAVE, Jwts.SIG.HS256)
+                .compact();
+```
+
+`withoutPadding()` resuelve lo mismo que el `rstrip` de Python, con nombre
+propio. Y `audience().add(…).and()` delata una decisión del formato: **`aud`
+puede ser una lista**, así que la API obliga a añadir en lugar de asignar.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+    var digesto = SHA256.HashData(Encoding.UTF8.GetBytes(verificador));
+    return Convert.ToBase64String(digesto).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+```
+
+```csharp
+    var idToken = manejador.CreateToken(new SecurityTokenDescriptor
+    {
+        Issuer = "http://laboratorio.local",
+        Audience = f["client_id"].FirstOrDefault(),
+        Claims = new Dictionary<string, object> { ["sub"] = "ana" },
+        Expires = DateTime.UtcNow.AddHours(1),
+        SigningCredentials = new SigningCredentials(clave, SecurityAlgorithms.HmacSha256),
+    });
+```
+
+Es el único de los cuatro donde **base64url hay que construirlo a mano**:
+`Convert.ToBase64String` produce base64 estándar y los tres reemplazos lo
+convierten. Node lo tiene como codificación (`"base64url"`), Python y Java
+traen la variante en la biblioteca estándar; .NET obliga a saber la diferencia
+entre los dos alfabetos, que es exactamente el tipo de detalle que produce un
+«funciona en mi cliente y no en el suyo».
+
+> ⚠️ Estos cuatro servidores de autorización existen **para poder medir el
+> protocolo**, no para usarlos. En producción no se escribe uno: se despliega
+> uno probado —Keycloak, Authentik— o se contrata. Escribir el propio es la
+> decisión que esta clase enseña a no tomar.
 
 ## 📊 Comparación
 

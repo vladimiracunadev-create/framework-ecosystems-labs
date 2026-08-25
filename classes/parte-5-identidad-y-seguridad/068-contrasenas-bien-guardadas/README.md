@@ -61,27 +61,105 @@ Los cuatro algoritmos de esta clase escriben la sal y sus parámetros **dentro
 del propio resumen** — por eso verificar no necesita configuración, y por eso
 se puede subir el coste mañana sin romper los resúmenes de ayer.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Como en la 067, ningún framework hace esto solo — y otra vez la pieza dice
-de quién es el problema:
+Como en la 067, **ningún framework hace esto solo**: la pieza siempre es una
+biblioteca. Y otra vez la elección de biblioteca dice de quién es el problema —
+aquí las cuatro usan una **función de derivación lenta** distinta, y las cuatro
+escriben los parámetros *dentro* del resumen.
 
-- **Express** — `bcryptjs`, coste 12. La variante pura de JavaScript: sin
-  compilación nativa, sin scripts de instalación (que este repositorio
-  bloquea deliberadamente).
-- **FastAPI** — `argon2-cffi`: **Argon2id**, el ganador del Password Hashing
-  Competition y la primera opción de OWASP [@owasp-cheatsheets].
-  `PasswordHasher()` trae parámetros sensatos sin decidir nada.
-- **Spring Boot** — `spring-security-crypto`, solo el módulo de criptografía:
-  `BCryptPasswordEncoder(12)` sin arrastrar filtros ni sesiones.
-- **ASP.NET Core** — `PasswordHasher<T>` de Identity: PBKDF2 con sal
-  aleatoria, y la versión del formato dentro del resumen —
-  `SuccessRehashNeeded` avisa cuando un resumen viejo merece actualizarse.
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — bcrypt, coste 12
 
-Las cuatro verifican contra un **resumen señuelo** cuando el usuario no
-existe: rechazar sin verificar tardaría microsegundos frente a los cien
-milisegundos de una verificación real, y ese delta de tiempo también es un
-oráculo de enumeración.
+```javascript
+const COSTE = 12;
+```
+
+```javascript
+  const resumen = bcrypt.hashSync(clave, COSTE);
+  usuarios.set(usuario, resumen);
+```
+
+El coste es el parámetro que **envejece bien**: subirlo encarece cada intento
+del atacante sin tocar el código. El resumen lo lleva escrito
+(`$2a$12$…`), así que se puede subir mañana y re-resumir al entrar.
+
+Se usa `bcryptjs` —la variante en JavaScript puro— y no `bcrypt`, que compila
+código nativo mediante un script de instalación: este repositorio instala con
+`--ignore-scripts` a propósito, y esa restricción de la cadena de suministro
+también decide qué biblioteca acaba en el proyecto.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — Argon2id
+
+```python
+ph = PasswordHasher()
+```
+
+```python
+    resumen = ph.hash(credenciales.clave)
+```
+
+**Argon2id**, ganador del Password Hashing Competition y primera opción de
+OWASP [@owasp-cheatsheets]. Lo notable es lo que *no* aparece: ningún
+parámetro. `PasswordHasher()` trae memoria, tiempo y paralelismo sensatos y los
+escribe dentro del resumen, así que verificar no necesita configuración — la
+lee del propio resumen. Subirlos mañana no rompe los de ayer:
+`check_needs_rehash` dice cuáles re-resumir al siguiente inicio de sesión.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — BCrypt
+
+```java
+    private final BCryptPasswordEncoder codificador = new BCryptPasswordEncoder(12);
+```
+
+```java
+        String resumen = codificador.encode(clave);
+        usuarios.put(usuario, resumen);
+```
+
+La dependencia es `spring-security-crypto`, **solo el módulo de criptografía**.
+Es una distinción que merece la pena: se puede usar el resumidor de Spring
+Security sin arrastrar sus filtros, su cadena de seguridad ni su modelo de
+sesión. La biblioteca grande no obliga a comprarlo todo.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — PBKDF2 con versión
+
+```csharp
+var hasher = new PasswordHasher<string>();
+```
+
+```csharp
+    var veredicto = hasher.VerifyHashedPassword(usuario, resumen, clave);
+    if (veredicto == PasswordVerificationResult.Failed || !usuarios.ContainsKey(usuario))
+```
+
+PBKDF2 con sal aleatoria por resumen, y **la versión del formato escrita dentro
+del propio resumen**. Por eso `VerifyHashedPassword` no devuelve un booleano
+sino tres valores: correcto, fallido, y `SuccessRehashNeeded` — «la contraseña
+es buena, pero este resumen se hizo con parámetros viejos y conviene
+rehacerlo». Es el único del elenco que convierte la migración de parámetros en
+parte del tipo de retorno en lugar de en una llamada aparte que hay que
+recordar.
+
+### Lo que hacen las cuatro igual: el señuelo
+
+```javascript
+const SENUELO = bcrypt.hashSync("senuelo-que-nunca-coincide", COSTE);
+```
+
+```javascript
+  const resumen = usuarios.get(usuario) ?? SENUELO;
+  const coincide = bcrypt.compareSync(clave ?? "", resumen);
+```
+
+Cuando el usuario no existe, las cuatro implementaciones **verifican igualmente
+contra un resumen señuelo**. Rechazar sin verificar tardaría microsegundos
+frente a los cien milisegundos de una verificación real, y ese delta de tiempo
+es un oráculo de enumeración tan bueno como un mensaje distinto: se pregunta
+por mil nombres y se apunta cuáles tardaron.
+
+Y por eso también el 401 dice lo mismo en los dos casos. **La respuesta y el
+tiempo que tarda son las dos mitades del mismo mensaje**; cuidar una y olvidar
+la otra no protege nada.
 
 ## 📊 Comparación
 

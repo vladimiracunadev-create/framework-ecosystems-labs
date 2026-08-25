@@ -69,27 +69,166 @@ Set-Cookie: sesion=k3o0…Zw; Path=/; HttpOnly; SameSite=Lax
   en `127.0.0.1`, así que exigirlo en el contrato sería afirmar sin medir: se
   queda en la prosa, pero **en producción no es opcional** [@owasp-cheatsheets].
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Tres frameworks traen la pieza de serie y uno no la trae — y esa asimetría es
-el hallazgo de la clase:
+Tres frameworks traen la pieza de serie y uno no la trae, y esa asimetría es el
+hallazgo de la clase. Cada bloque es el archivo real del directorio
+[`implementaciones/`](implementaciones/).
 
-- **Express** — `express-session`: almacén en el servidor, identificador
-  firmado en la cookie. `session.regenerate()` en el inicio de sesión (contra
-  la fijación) y `session.destroy()` + `clearCookie()` en el cierre.
-- **FastAPI** — **no hay sesiones de servidor en el framework.** Lo que su
-  ecosistema ofrece —el `SessionMiddleware` de Starlette— guarda los datos
-  *dentro* de la cookie, firmados; ese diseño no puede pasar el último caso
-  del contrato, porque tras cerrar sesión no hay nada en el servidor que
-  borrar. La implementación compone la pieza: `secrets.token_urlsafe(32)` como
-  identificador y un diccionario como almacén.
-- **Spring Boot** — `HttpSession`, que lleva el contenedor (Tomcat):
-  `getSession(true)` + `changeSessionId()` al entrar, `invalidate()` al salir.
-  El detalle: `invalidate()` borra el almacén pero **no** ordena al navegador
-  tirar la cookie; esa cabecera de borrado se emite a mano.
-- **ASP.NET Core** — `AddSession()` sobre `IDistributedCache`: el
-  identificador viaja protegido con Data Protection, y un valor que el
-  servidor no emitió no descifra — la fijación muere ahí.
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
+
+```javascript
+app.use(
+  session({
+    name: "sesion",
+    secret: "clave-de-firma-solo-para-el-laboratorio",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { httpOnly: true, sameSite: "lax", path: "/" },
+  }),
+);
+```
+
+`express-session` guarda la sesión **en el servidor** y a la cookie solo viaja
+el identificador, firmado con el secreto. Por eso cerrar sesión puede invalidar
+de verdad.
+
+`saveUninitialized: false` es la línea que más se olvida: sin ella, **una visita
+anónima crea sesión y recibe cookie**. Menos estado y menos superficie.
+
+Los dos gestos que exige el contrato:
+
+```javascript
+  peticion.session.regenerate((error) => {
+    if (error) return respuesta.status(500).json({ error: "sesion" });
+    peticion.session.usuario = usuario;
+```
+
+```javascript
+  peticion.session.destroy(() => {
+    respuesta.clearCookie("sesion", { path: "/" });
+    respuesta.status(204).end();
+  });
+```
+
+`regenerate` descarta el identificador con el que llegó la petición y emite uno
+nuevo: es la defensa contra la **fijación de sesión**. `destroy` borra la
+entrada del almacén y `clearCookie` le dice al navegador que tire la suya —
+hacen falta los dos, y el orden de importancia es ese.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+**FastAPI no trae sesiones de servidor.** Lo que ofrece su ecosistema —el
+`SessionMiddleware` de Starlette— guarda los datos *dentro* de la cookie,
+firmados, y ese diseño **no puede pasar el último caso del contrato**: tras
+cerrar sesión no hay nada en el servidor que borrar. Así que la implementación
+compone la pieza que falta:
+
+```python
+sesiones: dict[str, str] = {}
+```
+
+```python
+    identificador = secrets.token_urlsafe(32)
+    sesiones[identificador] = credenciales.usuario
+
+    respuesta = JSONResponse({"usuario": credenciales.usuario})
+    respuesta.set_cookie(
+        key="sesion",
+        value=identificador,
+        httponly=True,   # el script de la página no puede leerla
+        samesite="lax",  # no viaja en peticiones que otra página provoca
+        path="/",
+    )
+```
+
+Se ignora cualquier cookie que traiga la petición y se emite un identificador
+**nuevo** en cada inicio: la fijación muere ahí. `token_urlsafe` sale del
+generador criptográfico del sistema; un contador o un `random` corriente serían
+adivinables.
+
+Y el cierre, que es donde se ve por qué el estado tiene que vivir en el
+servidor:
+
+```python
+    if sesion:
+        sesiones.pop(sesion, None)
+    respuesta = Response(status_code=204)
+    respuesta.delete_cookie(key="sesion", path="/")
+```
+
+Sin el `pop`, una copia robada de la cookie seguiría abriendo la puerta.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+        HttpSession sesion = peticion.getSession(true);
+        peticion.changeSessionId();
+        sesion.setAttribute("usuario", usuario);
+```
+
+El almacén no lo pone Spring: lo pone **el contenedor**, Tomcat. `HttpSession`
+es la API de Servlet, anterior a Spring y compartida por todo el ecosistema
+JVM. `changeSessionId()` es el equivalente exacto del `regenerate` de Express.
+
+`getSession(true)` crea si no existe; en `/perfil` se usa `getSession(false)`
+justo por lo contrario:
+
+```java
+        HttpSession sesion = peticion.getSession(false);
+        Object usuario = sesion == null ? null : sesion.getAttribute("usuario");
+```
+
+Y el detalle que esta clase existe para enseñar:
+
+```java
+        if (sesion != null) {
+            sesion.invalidate();
+        }
+        Cookie borrado = new Cookie("sesion", "");
+        borrado.setMaxAge(0);
+        borrado.setPath("/");
+        respuesta.addCookie(borrado);
+```
+
+`invalidate()` borra el almacén, **pero no ordena al navegador tirar la
+cookie**. Esa cabecera de borrado se emite a mano. Es la única de las cuatro
+implementaciones donde el framework hace medio trabajo y no avisa.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+constructor.Services.AddDistributedMemoryCache();
+constructor.Services.AddSession(opciones =>
+{
+    opciones.Cookie.Name = "sesion";
+    opciones.Cookie.HttpOnly = true;
+    opciones.Cookie.SameSite = SameSiteMode.Lax;
+    opciones.Cookie.Path = "/";
+    opciones.Cookie.IsEssential = true;
+});
+```
+
+La sesión se apoya en `IDistributedCache`: aquí una caché en memoria, en
+producción una compartida. `IsEssential = true` es la trampa propia de este
+framework — sin ella la cookie queda sujeta a la política de consentimiento y
+**el middleware puede decidir no emitirla**.
+
+```csharp
+    contexto.Session.SetString("usuario", usuario);
+```
+
+No hay `regenerate` porque no hace falta: el identificador viaja protegido con
+Data Protection, y **un valor que este servidor no emitió no descifra**. La
+fijación se cierra por construcción, no por un gesto que haya que acordarse de
+escribir.
+
+```csharp
+    contexto.Session.Clear();
+    contexto.Response.Cookies.Delete("sesion", new CookieOptions { Path = "/" });
+```
+
+Los mismos dos gestos que en Express, con los mismos dos motivos.
 
 ## 📊 Comparación
 

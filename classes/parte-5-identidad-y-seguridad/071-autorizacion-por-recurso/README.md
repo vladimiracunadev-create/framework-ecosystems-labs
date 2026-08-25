@@ -60,21 +60,125 @@ No es «buscar y luego comprobar»: es que para este usuario, la tarea ajena
 3. **El 404 sale gratis**: no encontrado y no autorizado son, literalmente,
    el mismo camino de código.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-A diferencia de la 070, aquí los cuatro frameworks están **igual de
-desnudos** — y eso es el hallazgo: la configuración declarativa
-(`hasRole`, políticas, middleware) no puede responder «¿es tuyo?», porque la
-respuesta depende del dato, no de la ruta. Spring Security y las políticas
-de ASP.NET siguen ahí, pero solo contestan la primera pregunta (quién eres);
-la segunda vive en `buscar(id, usuario)` en los cuatro códigos, casi
-idéntica.
+A diferencia de la 070, aquí los cuatro frameworks están **igual de desnudos**,
+y eso es el hallazgo. La configuración declarativa —`hasRole`, políticas,
+middleware— **no puede responder «¿es tuyo?»**, porque la respuesta depende del
+dato y no de la ruta. Spring Security y las políticas de ASP.NET siguen ahí,
+pero solo contestan la primera pregunta.
 
-Existen mecanismos declarativos para esto —`@PostAuthorize` en Spring,
-`IAuthorizationHandler` con requisitos de recurso en ASP.NET— y comparten un
-defecto: comprueban **después de cargar** el dato, uno a uno. Sirven para el
-detalle; para la lista, la única respuesta que escala es el filtro en la
-consulta.
+La segunda vive en una función de cuatro líneas que es casi idéntica en los
+cuatro lenguajes. Léelas seguidas: la coincidencia es el argumento.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
+
+```javascript
+function buscar(id, usuario) {
+  const tarea = tareas.get(id);
+  return tarea && tarea.propietaria === usuario ? tarea : null;
+}
+```
+
+```javascript
+  const tarea = buscar(peticion.params.id, peticion.usuario);
+  if (!tarea) return respuesta.status(404).json({ error: "no-encontrada" });
+```
+
+**No es «buscar y luego comprobar»**: para este usuario, la tarea ajena
+directamente *no se encuentra*. En una base de datos sería `WHERE id = ? AND
+propietaria = ?`, el mismo gesto — y esa es la razón de que este patrón escale
+y el otro no.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+```python
+def buscar(identificador: str, usuario: str) -> dict[str, str] | None:
+```
+
+```python
+    tarea = tareas.get(identificador)
+    return tarea if tarea and tarea["propietaria"] == usuario else None
+```
+
+```python
+    mias = [t for t in tareas.values() if t["propietaria"] == usuario]
+    return JSONResponse({"total": len(mias), "tareas": mias})
+```
+
+Y la lista es el otro lado de la misma moneda: **el filtro por propietaria está
+en la consulta**, no después. Una lista que se trae todo y luego filtra en
+memoria funciona con diez tareas y se cae con diez mil — y mientras tanto ya
+sacó de la base datos que no debía salir.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+    private Tarea buscar(String id, String usuario) {
+        Tarea tarea = tareas.get(id);
+        return tarea != null && tarea.propietaria().equals(usuario) ? tarea : null;
+    }
+```
+
+```java
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(reglas -> reglas.anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults());
+```
+
+Compara esa cadena de filtros con la de la clase 070: **ha adelgazado a una
+sola regla**. Todo lo que Spring Security sabía decir sobre `/panel` no sirve
+aquí, porque la pregunta ya no es sobre la ruta.
+
+```java
+        List<Tarea> mias = tareas.values().stream()
+                .filter(t -> t.propietaria().equals(actual.getName())).toList();
+```
+
+`Principal` es la pieza que Spring sí aporta: el usuario autenticado llega como
+argumento del método, sin buscarlo en ningún sitio.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+Tarea? Buscar(string id, string usuario) =>
+    tareas.TryGetValue(id, out var tarea) && tarea.Propietaria == usuario ? tarea : null;
+```
+
+```csharp
+        var tarea = Buscar(id, actual.Identity!.Name!);
+        return tarea is null
+            ? Results.Json(new { error = "no-encontrada" }, statusCode: 404)
+            : Results.Json(tarea);
+```
+
+`RequireAuthorization()` sigue en todas las rutas —sin política, solo
+autenticación— y `ClaimsPrincipal` cumple el papel del `Principal` de Spring.
+La política con nombre de la clase anterior **no aparece**, y no por descuido:
+no hay política que pueda expresar «suya».
+
+### Por qué el 404 y no el 403
+
+Los cuatro devuelven `404` para la tarea ajena, y es la decisión más discutida
+de la clase:
+
+```javascript
+  // 404 y no 403: un 403 confirmaría que la tarea EXISTE, y los
+```
+
+Un `403` diría «existe, pero no es tuya». Con identificadores enumerables, eso
+convierte el endpoint en un censo: se recorren los números y se anota cuáles
+dan 403. **La tarea ajena y la inexistente tienen que ser indistinguibles.**
+
+El precio está declarado: se pierde el matiz que ayudaría a diagnosticar un
+error legítimo de permisos. Es el mismo trato que en la clase 068 —un solo 401
+para «no existe» y «clave mala»—, y por la misma razón.
+
+> Existen mecanismos declarativos para esta pregunta: `@PostAuthorize` en
+> Spring, `IAuthorizationHandler` con requisitos de recurso en ASP.NET. Los dos
+> comparten un defecto que los deja fuera del elenco de esta clase: comprueban
+> **después de cargar** el dato, uno a uno. Sirven para el detalle; para la
+> lista, la única respuesta que escala es el filtro en la consulta.
 
 ## 📊 Comparación
 

@@ -63,22 +63,114 @@ eyJhbGciOiJIUzI1NiJ9 . eyJzdWIiOiJhbmEiLCJleHAiOjQxMDI0NDQ4MDB9 . BIRKBW…
   que sí vive en el servidor — es decir, volver a tener estado, solo que menos
   a menudo [@rfc9700].
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Ningún framework de los cuatro firma tokens por sí mismo — en los cuatro la
-pieza es una biblioteca, y eso ya es el hallazgo:
+**Ninguno de los cuatro frameworks firma tokens por sí mismo.** En los cuatro
+la pieza es una biblioteca externa, y eso ya es el hallazgo: emitir y verificar
+un JWT no es trabajo del framework web. Lo que sí cambia entre ellos es qué te
+deja hacer mal esa biblioteca.
 
-- **Express** — `jsonwebtoken`: `sign()` y `verify()` con `algorithms`
-  fijado.
-- **FastAPI** — `PyJWT`: `encode()` y `decode(…, algorithms=["HS256"])`, que
-  verifica `exp` por omisión.
-- **Spring Boot** — `jjwt`: `parseSignedClaims()` solo acepta tokens
-  *firmados* — `alg: none` se rechaza por tipo, no por caso especial. Y exige
-  256 bits de clave para HS256: una clave corta no arranca.
-- **ASP.NET Core** — `Microsoft.IdentityModel.JsonWebTokens`:
-  `TokenValidationParameters` con `ValidAlgorithms` y un detalle que hay que
-  saber: **el margen de reloj por omisión es de cinco minutos** — un token
-  caducado hace tres minutos sigue entrando. El contrato lo pone a cero.
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — con `jsonwebtoken`
+
+```javascript
+  const token = jwt.sign({ sub: usuario }, SECRETO, {
+    algorithm: "HS256",
+    expiresIn: "1h",
+  });
+  respuesta.json({ token, tipo: "Bearer", expira_en: 3600 });
+```
+
+El token lleva lo que el servidor necesitará saber **sin consultar nada**:
+quién (`sub`) y hasta cuándo (`exp`). No lleva secretos — el cuerpo de un JWT
+va codificado, **no cifrado**: cualquiera que lo tenga puede leerlo.
+
+```javascript
+    const datos = jwt.verify(token, SECRETO, { algorithms: ["HS256"] });
+```
+
+Esa lista `algorithms` es la línea que separa esta clase de un titular de
+seguridad. **Sin ella, la biblioteca acepta lo que declare la cabecera del
+token — y la cabecera la escribe quien ataca.** El ataque `alg: none` fue
+exactamente eso.
+
+```javascript
+  } catch {
+    respuesta.status(401).json({ error: "token-invalido" });
+  }
+```
+
+Alterado, caducado, de otra clave o ausente: **un solo 401 para todo**. Al
+cliente legítimo le da igual el matiz, y al atacante no hay que dárselo.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — con PyJWT
+
+```python
+    token = jwt.encode(
+        {"sub": credenciales.usuario, "exp": int(time.time()) + 3600},
+        SECRETO,
+        algorithm="HS256",
+    )
+```
+
+Aquí la caducidad se calcula a mano —`int(time.time()) + 3600`— en lugar de
+declararse como en Express. Mismo resultado, un recordatorio menos que el
+framework te da.
+
+```python
+        datos = jwt.decode(token, SECRETO, algorithms=["HS256"])
+    except jwt.InvalidTokenError:
+        return JSONResponse({"error": "token-invalido"}, status_code=401)
+```
+
+`InvalidTokenError` es la **clase base** de toda la jerarquía de errores de
+PyJWT: firma mala, formato roto y caducidad caen ahí. Es lo que permite el 401
+único sin enumerar casos. Y `decode` verifica `exp` por omisión.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — con jjwt
+
+```java
+    private static final SecretKey CLAVE = Keys.hmacShaKeyFor(
+            "clave-de-firma-solo-para-el-laboratorio".getBytes(StandardCharsets.UTF_8));
+```
+
+`hmacShaKeyFor` **exige al menos 256 bits para HS256**: una clave corta no
+arranca. El framework convierte una mala práctica en un error de ejecución, que
+es la forma más eficaz de documentación que existe.
+
+```java
+            Claims datos = Jwts.parser().verifyWith(CLAVE).build()
+                    .parseSignedClaims(token).getPayload();
+```
+
+Y aquí está la mejor decisión de diseño del elenco: **`parseSignedClaims` solo
+acepta tokens firmados**. `alg: none` no es un caso especial que haya que
+acordarse de bloquear con una lista; es un token *no firmado*, y se rechaza por
+tipo. Express y FastAPI lo evitan porque el programador escribió la lista;
+Spring lo evita porque la API no ofrece la otra opción.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — con Microsoft.IdentityModel
+
+```csharp
+    var resultado = await manejador.ValidateTokenAsync(token, new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        IssuerSigningKey = clave,
+        ValidAlgorithms = [SecurityAlgorithms.HmacSha256],
+        ClockSkew = TimeSpan.Zero,
+    });
+```
+
+Un objeto de parámetros en lugar de argumentos sueltos: cada cosa que se valida
+—o que se decide no validar— queda escrita. `ValidateIssuer = false` no es
+descuido, es una decisión declarada, y eso es mejor que un valor por omisión
+invisible.
+
+Y el detalle que hay que saber antes de escribir el contrato: **`ClockSkew` vale
+cinco minutos por omisión**. Un token caducado hace tres minutos seguiría
+entrando. Es una tolerancia razonable para relojes desincronizados entre
+servidores y una trampa para cualquiera que intente *medir* la caducidad; por
+eso aquí se pone a cero.
 
 ## 📊 Comparación
 

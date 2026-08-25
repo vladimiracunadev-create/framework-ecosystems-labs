@@ -57,25 +57,133 @@ basta con que los ataques reciban 403 — hay que comprobar que **el estado no
 cambió**. Un 403 emitido después de transferir también pasaría los casos
 anteriores.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-El reparto más nítido de la parte hasta ahora:
+El reparto más nítido de la parte: **en dos frameworks la protección no se
+escribe, se usa; en los otros dos se compone a mano.** Y la diferencia no es de
+gusto — es de cuántas líneas tuyas se interponen entre un atacante y el dinero.
 
-- **Spring Boot** — la protección **no se escribe: se usa**. El `CsrfFilter`
-  de Spring Security guarda el testigo en la sesión, exige `X-CSRF-TOKEN` en
-  todo lo que muta y responde 403 él solo — el código de la ruta ni se
-  entera de los ataques. El login solo lee el testigo y lo entrega.
-- **ASP.NET Core** — igual de serio: `AddAntiforgery` emite un **par**
-  (cookie firmada + testigo) y `ValidateRequestAsync` comprueba que casan.
-  Es el patrón *double-submit* con firma, la variante sin estado del
-  testigo.
-- **Express** — el middleware histórico, `csurf`, está **retirado**. La
-  defensa se compone a mano sobre `express-session`: quince líneas con
-  `timingSafeEqual`. Que el paquete de referencia de un ataque del top de
-  OWASP quedara sin mantenimiento es un dato sobre el ecosistema, no una
-  anécdota.
-- **FastAPI** — nunca lo tuvo: se compone sobre la sesión de la clase 066,
-  con `secrets.compare_digest`.
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — no se escribe, se activa
+
+```java
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/entrar"))
+```
+
+Esa línea **es toda la defensa**. El `CsrfFilter` de Spring Security guarda el
+testigo en la sesión, exige `X-CSRF-TOKEN` en todo lo que muta y responde `403`
+él solo: el código de las rutas no se entera de que existe un ataque llamado
+CSRF. Lo único que escribe la aplicación es la entrega del testigo:
+
+```java
+        CsrfToken testigo = (CsrfToken) peticion.getAttribute("_csrf");
+        return ResponseEntity.ok(Map.of("usuario", usuario, "csrf", testigo.getToken()));
+```
+
+Fíjate también en lo que la línea *excluye*: `/entrar` queda fuera porque es
+donde el cliente consigue su primer testigo — no puede exigirse uno a quien
+todavía no tiene ninguno. Y es la primera clase de la parte que **no apaga** el
+CSRF; las anteriores lo desactivaban porque eran API sin cookies, y ahí no hay
+nada que proteger.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — el par firmado
+
+```csharp
+constructor.Services.AddAntiforgery(opciones =>
+{
+    opciones.HeaderName = "x-csrf-token";
+});
+```
+
+```csharp
+    var testigos = antiforgery.GetAndStoreTokens(contexto);
+    return Results.Json(new { usuario, csrf = testigos.RequestToken });
+```
+
+```csharp
+        await antiforgery.ValidateRequestAsync(contexto);
+    }
+    catch (AntiforgeryValidationException)
+    {
+        return Results.Json(new { error = "testigo-invalido" }, statusCode: 403);
+```
+
+Emite un **par**: una cookie firmada que se queda en el navegador y un testigo
+que el cliente debe repetir en el encabezado. Es el patrón *double-submit* con
+firma — la variante **sin estado** del testigo, que no necesita guardar nada en
+el servidor. La página del atacante tiene la cookie (el navegador la adjunta
+sola) pero **no puede leer el testigo**, y sin los dos no pasa.
+
+La única diferencia práctica con Spring es que aquí la validación se invoca:
+`ValidateRequestAsync` está en el cuerpo de la ruta, no en un filtro anterior.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — quince líneas, y por qué
+
+```javascript
+    peticion.session.csrf = crypto.randomBytes(24).toString("base64url");
+    respuesta.json({ usuario, csrf: peticion.session.csrf });
+```
+
+```javascript
+function conTestigo(peticion, respuesta, siguiente) {
+  const recibido = peticion.get("x-csrf-token") ?? "";
+  const esperado = peticion.session.csrf ?? "";
+  const iguales =
+    recibido.length === esperado.length &&
+    crypto.timingSafeEqual(Buffer.from(recibido), Buffer.from(esperado));
+  if (!esperado || !iguales) {
+    return respuesta.status(403).json({ error: "testigo-invalido" });
+  }
+  siguiente();
+}
+```
+
+```javascript
+app.post("/transferir", conSesion, conTestigo, (peticion, respuesta) => {
+```
+
+El testigo vive **en la sesión** y viaja en el cuerpo de la respuesta, nunca en
+una cookie sola: una cookie el navegador también la adjuntaría sola, y entonces
+el atacante la tendría igual que tiene la de sesión.
+
+`timingSafeEqual` es la comparación en tiempo constante de la clase 068,
+tercera aparición. Y la comprobación de longitud antes es obligatoria, no
+cosmética: `timingSafeEqual` **lanza** si los dos búferes miden distinto.
+
+El dato que importa de esta implementación no está en el código: **el
+middleware histórico de Express para esto, `csurf`, está retirado**. Que el
+paquete de referencia para un ataque del top de OWASP quedara sin
+mantenimiento es información sobre el ecosistema, no una anécdota — y es
+exactamente la pregunta que el módulo 11 enseña a hacer antes de elegir.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — sobre la sesión de la 066
+
+```python
+    testigo = secrets.token_urlsafe(24)
+    sesiones[identificador] = {"usuario": credenciales.usuario, "csrf": testigo}
+    respuesta = JSONResponse({"usuario": credenciales.usuario, "csrf": testigo})
+```
+
+```python
+    if not x_csrf_token or not secrets.compare_digest(actual["csrf"], x_csrf_token):
+        return JSONResponse({"error": "testigo-invalido"}, status_code=403)
+```
+
+Nunca lo tuvo, y se compone sobre la sesión que la clase 066 ya había tenido
+que construir a mano. `compare_digest` acepta cadenas de distinta longitud sin
+lanzar, así que aquí no hace falta la comprobación previa de Express — una
+diferencia pequeña de la biblioteca estándar que ahorra un fallo real.
+
+### Lo que los cuatro dejan sin testigo
+
+```javascript
+app.get("/saldo", conSesion, (peticion, respuesta) => {
+```
+
+`GET` no lleva testigo en ninguna de las cuatro implementaciones, **a
+propósito**: la defensa protege las escrituras. Y eso solo es seguro si el `GET`
+cumple lo que la clase 014 exige de él — no mutar nada. Un `GET` que
+transfiriera dinero sería indefendible: el atacante no necesitaría un
+formulario, le bastaría una etiqueta `<img>`.
 
 ## 📊 Comparación
 

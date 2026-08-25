@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 68,
+  "pendientes": 61,
   "clases": [
     {
       "clase": "014",
@@ -540,76 +540,6 @@
         "hibernate",
         "prisma",
         "sqlalchemy"
-      ]
-    },
-    {
-      "clase": "066",
-      "slug": "066-sesion-con-cookie",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "067",
-      "slug": "067-token-de-acceso",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "068",
-      "slug": "068-contrasenas-bien-guardadas",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "069",
-      "slug": "069-oauth-2-0-y-openid-connect",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "070",
-      "slug": "070-autorizacion-por-rol",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "071",
-      "slug": "071-autorizacion-por-recurso",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "072",
-      "slug": "072-csrf",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
       ]
     },
     {
