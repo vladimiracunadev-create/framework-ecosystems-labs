@@ -55,9 +55,10 @@ puede instanciar en una prueba, y la regla del título vive ahí.
 Y el mapeo está fuera, en una sola línea:
 
 ```python
-# main.py — la ÚNICA línea que une el dominio con el almacenamiento
 mapeador.map_imperatively(Tarea, tabla_tareas)
 ```
+
+Esa línea de `main.py` es **la única** que une el dominio con el almacenamiento.
 
 Eso es mapeo imperativo, y es la forma más pura del patrón que existe en un ORM
 de uso corriente.

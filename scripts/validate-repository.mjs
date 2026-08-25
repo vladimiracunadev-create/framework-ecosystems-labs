@@ -45,6 +45,8 @@ const required = [
   "atlas/frameworks.md",
   "scripts/generate-atlas.mjs",
   "scripts/doctor.mjs",
+  "scripts/verify-excerpts.mjs",
+  "classes/_codigo-a-la-vista.json",
   "scripts/lib/cadenas.mjs",
 ];
 

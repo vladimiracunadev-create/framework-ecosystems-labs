@@ -121,13 +121,22 @@ sea el fácil.
 ### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
 
 ```csharp
-return Results.Created($"/tareas/{id}", new { id });
-...
-return Results.NoContent();
+    return Results.Created($"/tareas/{id}", new { id });
+
+app.MapDelete("/tareas/{id}", (string id) =>
+    tareas.TryRemove(id, out _)
+        ? Results.NoContent()
+        : Results.Json(new { error = "no existe" }, statusCode: 404));
 ```
 
-Misma idea: `Results.Created` pide la ruta como primer argumento, y
+Misma idea que en Spring: `Results.Created` pide la ruta como primer argumento —
+no hay forma de emitir el 201 con ese método y olvidarse del `Location`— y
 `Results.NoContent()` no admite contenido.
+
+Y el borrado enseña de paso el otro reparto de esta clase: `TryRemove` devuelve
+si había algo, y **esa respuesta booleana es la que decide entre 204 y 404**. El
+código de estado no describe lo que quiso hacer el cliente, describe lo que
+encontró el servidor.
 
 ### Laravel · [`laravel/routes/api.php`](implementaciones/laravel/routes/api.php)
 

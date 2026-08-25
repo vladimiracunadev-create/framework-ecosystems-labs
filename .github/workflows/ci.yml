@@ -102,6 +102,12 @@ jobs:
       - name: Las clases construidas cumplen su contrato
         run: node scripts/verify-classes.mjs
 
+      # El código de cada implementación se lee EN la clase, y cada extracto es
+      # literal: si el archivo cambia y el texto se queda atrás, esto lo detecta.
+      # La deuda pendiente está declarada y no puede crecer en silencio.
+      - name: El código está a la vista y los extractos coinciden con su archivo
+        run: node scripts/verify-excerpts.mjs
+
       - name: Resumen
         if: always()
         run: |

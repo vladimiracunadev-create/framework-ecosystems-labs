@@ -66,7 +66,7 @@ rechaza tanto `NaN` como los decimales.
 const esquema = {
   querystring: {
     type: "object",
-    properties: { limite: { type: "integer", minimum: 1, maximum: 100, default: 20 } },
+    properties: { limite: { type: "integer", minimum: 1, maximum: 100, default: POR_OMISION } },
   },
 };
 
@@ -109,7 +109,7 @@ except ValueError:
 
 Este código nació de un fallo real al construir la clase. La primera versión era:
 
-```python
+```python no-extracto
 limite = request.args.get("limite", default=POR_OMISION, type=int)
 ```
 
@@ -156,16 +156,37 @@ error del servidor — que es mentir en la respuesta.
 ### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
 
 ```csharp
-app.MapGet("/tareas", (int? limite) =>
+app.MapGet("/tareas", (HttpRequest peticion) =>
 {
-    var valor = limite ?? 20;
-    ...
+    if (!peticion.Query.TryGetValue("limite", out var crudo) || string.IsNullOrEmpty(crudo))
+    {
+        return Results.Json(new { limite = 20 });
+    }
+
+    if (!int.TryParse(crudo, out var limite) || limite < 1 || limite > 100)
+    {
+        return Results.Json(
+            new { error = "limite debe ser un entero entre 1 y 100" }, statusCode: 422);
+    }
+
+    return Results.Json(new { limite });
 });
 ```
 
-El `int?` anulable es el truco: si el texto no se puede convertir, el valor llega
-nulo en lugar de reventar. Distinguir «ausente» de «inválido» exigiría mirar la
-colección de consulta directamente.
+Lo tentador aquí era declarar el parámetro como `int? limite` y dejar que el
+enlace automático hiciera el trabajo:
+
+```csharp no-extracto
+app.MapGet("/tareas", (int? limite) => { /* … */ });
+```
+
+**No sirve para este contrato.** Con enlace automático, un texto no convertible
+produce un `400` **del framework**, antes de entrar al manejador — y esta clase
+distingue el `400` («no te entiendo») del `422` («te entiendo y no vale»). Para
+poder decidir ese matiz hay que leer de `peticion.Query` a mano.
+
+Es la primera aparición de una tensión que vuelve en la clase 040: **cuanto más
+hace el framework por ti, menos control tienes sobre el mensaje de error**.
 
 ### Laravel · [`laravel/routes/web.php`](implementaciones/laravel/routes/web.php)
 

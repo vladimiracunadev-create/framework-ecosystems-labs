@@ -1,0 +1,709 @@
+{
+  "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
+  "pendientes": 68,
+  "clases": [
+    {
+      "clase": "014",
+      "slug": "014-verbos-http-y-su-semantica",
+      "faltan": [
+        "aspnet-core",
+        "fastify",
+        "flask"
+      ]
+    },
+    {
+      "clase": "015",
+      "slug": "015-codigos-de-estado",
+      "faltan": [
+        "django",
+        "fastify",
+        "flask"
+      ]
+    },
+    {
+      "clase": "016",
+      "slug": "016-cabeceras-leer-y-escribir",
+      "faltan": [
+        "aspnet-core",
+        "django",
+        "express",
+        "fastapi",
+        "fastify",
+        "flask",
+        "gin",
+        "laravel",
+        "rails",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "017",
+      "slug": "017-cuerpo-json-recibir-y-devolver",
+      "faltan": [
+        "aspnet-core",
+        "django",
+        "express",
+        "fastapi",
+        "fastify",
+        "flask",
+        "gin",
+        "laravel",
+        "rails",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "018",
+      "slug": "018-negociacion-de-contenido",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "019",
+      "slug": "019-redirecciones",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "020",
+      "slug": "020-servir-archivos-estaticos",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "021",
+      "slug": "021-subida-de-archivos",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "022",
+      "slug": "022-respuesta-en-flujo",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "023",
+      "slug": "023-compresion",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "024",
+      "slug": "024-cors",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "025",
+      "slug": "025-que-hace-tu-framework-con-el-socket",
+      "faltan": [
+        "express",
+        "fastapi",
+        "gin",
+        "nodejs",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "026",
+      "slug": "026-el-patron-middleware",
+      "faltan": [
+        "aspnet-core",
+        "django",
+        "express",
+        "fastapi",
+        "fastify",
+        "flask",
+        "gin",
+        "laravel",
+        "rails",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "027",
+      "slug": "027-el-orden-importa",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "028",
+      "slug": "028-terminacion-temprana",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "029",
+      "slug": "029-registro-de-peticiones",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "030",
+      "slug": "030-identificador-de-correlacion",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "031",
+      "slug": "031-manejo-centralizado-de-errores",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "032",
+      "slug": "032-tiempos-de-espera",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "033",
+      "slug": "033-limite-de-tamano-del-cuerpo",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "034",
+      "slug": "034-limitacion-de-tasa",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "035",
+      "slug": "035-cabeceras-de-seguridad",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "036",
+      "slug": "036-inyeccion-de-dependencias",
+      "faltan": [
+        "aspnet-core",
+        "fastapi",
+        "laravel",
+        "nestjs",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "037",
+      "slug": "037-ciclo-de-vida-de-los-objetos",
+      "faltan": [
+        "aspnet-core",
+        "laravel",
+        "nestjs",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "038",
+      "slug": "038-middleware-decorador-y-aspecto",
+      "faltan": [
+        "aspnet-core",
+        "fastapi",
+        "nestjs",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "039",
+      "slug": "039-validar-la-entrada",
+      "faltan": [
+        "aspnet-core",
+        "django",
+        "express",
+        "fastapi",
+        "fastify",
+        "flask",
+        "gin",
+        "laravel",
+        "rails",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "040",
+      "slug": "040-errores-por-campo-con-rfc-9457",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "041",
+      "slug": "041-esquemas",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "042",
+      "slug": "042-un-esquema-tres-usos",
+      "faltan": [
+        "aspnet-core",
+        "fastapi",
+        "nestjs",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "043",
+      "slug": "043-documentacion-generada",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "044",
+      "slug": "044-versionado-de-api",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "045",
+      "slug": "045-paginacion",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "046",
+      "slug": "046-filtrado-y-ordenacion",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "047",
+      "slug": "047-idempotencia",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "048",
+      "slug": "048-etags-y-cache-condicional",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "049",
+      "slug": "049-el-contrato-como-prueba",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "050",
+      "slug": "050-que-rompe-a-quien",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "051",
+      "slug": "051-conectar-a-una-base-de-datos",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "052",
+      "slug": "052-sql-a-mano",
+      "faltan": [
+        "activerecord",
+        "dapper",
+        "drizzle",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "053",
+      "slug": "053-active-record",
+      "faltan": [
+        "activerecord",
+        "django",
+        "eloquent",
+        "typeorm"
+      ]
+    },
+    {
+      "clase": "054",
+      "slug": "054-data-mapper",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "typeorm"
+      ]
+    },
+    {
+      "clase": "055",
+      "slug": "055-relaciones",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "056",
+      "slug": "056-el-problema-n-1",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "057",
+      "slug": "057-transacciones",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "058",
+      "slug": "058-migraciones",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "059",
+      "slug": "059-semillas-y-datos-de-prueba",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "060",
+      "slug": "060-cuando-salir-del-orm",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "061",
+      "slug": "061-grupo-de-conexiones",
+      "faltan": [
+        "hibernate",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "062",
+      "slug": "062-cache-de-lectura",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "063",
+      "slug": "063-bases-no-relacionales",
+      "faltan": [
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "064",
+      "slug": "064-repositorio-y-dominio",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "065",
+      "slug": "065-probar-sin-base-de-datos",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "066",
+      "slug": "066-sesion-con-cookie",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "067",
+      "slug": "067-token-de-acceso",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "068",
+      "slug": "068-contrasenas-bien-guardadas",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "069",
+      "slug": "069-oauth-2-0-y-openid-connect",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "070",
+      "slug": "070-autorizacion-por-rol",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "071",
+      "slug": "071-autorizacion-por-recurso",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "072",
+      "slug": "072-csrf",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "073",
+      "slug": "073-xss-y-escapado",
+      "faltan": [
+        "lit",
+        "react",
+        "solid",
+        "svelte",
+        "vue"
+      ]
+    },
+    {
+      "clase": "074",
+      "slug": "074-inyeccion-sql",
+      "faltan": [
+        "entity-framework-core",
+        "hibernate",
+        "prisma",
+        "sqlalchemy"
+      ]
+    },
+    {
+      "clase": "075",
+      "slug": "075-secretos-y-configuracion",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "076",
+      "slug": "076-auditoria",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "077",
+      "slug": "077-politica-de-seguridad-de-contenido",
+      "faltan": [
+        "react",
+        "solid",
+        "svelte",
+        "vue"
+      ]
+    },
+    {
+      "clase": "078",
+      "slug": "078-dependencias-vulnerables",
+      "faltan": [
+        "aspnet-core",
+        "express",
+        "fastapi",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "079",
+      "slug": "079-plantillas-en-el-servidor",
+      "faltan": [
+        "django",
+        "express",
+        "flask",
+        "laravel",
+        "rails",
+        "spring-boot"
+      ]
+    },
+    {
+      "clase": "080",
+      "slug": "080-formularios-que-funcionan-sin-javascript",
+      "faltan": [
+        "aspnet-core",
+        "django",
+        "laravel",
+        "rails"
+      ]
+    },
+    {
+      "clase": "081",
+      "slug": "081-mejora-progresiva",
+      "faltan": [
+        "alpinejs",
+        "htmx",
+        "react",
+        "svelte"
+      ]
+    }
+  ]
+}

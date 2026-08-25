@@ -22,13 +22,15 @@
     "test:reference": "node --test labs/01-http-contract/reference-node/server.test.mjs",
     "acceptance": "node scripts/run-acceptance.mjs",
     "acceptance:reference": "node scripts/run-acceptance.mjs reference-node",
-    "check": "pnpm validate && pnpm sources && pnpm contract && pnpm bibliography:check && pnpm doctor:check && pnpm atlas:check && pnpm classes:check && pnpm classes:verify && pnpm test:reference && pnpm acceptance:reference && pnpm site",
+    "check": "pnpm validate && pnpm sources && pnpm contract && pnpm bibliography:check && pnpm doctor:check && pnpm atlas:check && pnpm classes:check && pnpm classes:verify && pnpm classes:excerpts && pnpm test:reference && pnpm acceptance:reference && pnpm site",
     "atlas": "node scripts/generate-atlas.mjs",
     "atlas:check": "node scripts/generate-atlas.mjs --check",
     "catalog:refresh": "node scripts/refresh-catalog.mjs",
     "classes": "node scripts/generate-classes.mjs",
     "classes:check": "node scripts/generate-classes.mjs --check",
     "classes:verify": "node scripts/verify-classes.mjs",
+    "classes:excerpts": "node scripts/verify-excerpts.mjs",
+    "classes:excerpts:write": "node scripts/verify-excerpts.mjs --escribir",
     "classes:run": "node scripts/run-class.mjs"
   }
 }

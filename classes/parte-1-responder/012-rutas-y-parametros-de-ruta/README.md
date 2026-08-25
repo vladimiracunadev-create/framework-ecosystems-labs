@@ -61,7 +61,7 @@ El valor siempre es texto: Express no sabe ni pregunta qué tipo esperas.
 
 ```javascript
 app.get("/tareas/:id", (peticion, respuesta) => {
-  respuesta.send({ params: peticion.params.id });
+  respuesta.send({ id: peticion.params.id });
 });
 ```
 
