@@ -1,13 +1,3 @@
----
-modulo: "05"
-titulo: Backend y API
-nivel: intermedio
-horas: 20
-prerrequisitos: ["01", "02"]
-verificado: 2026-08-19
-fuentes: [geewax-api-design-patterns, richardson-amundsen-restful, openapi-spec, json-schema, rfc9457, rfc8259, newman-building-microservices, fowler-microservice-tradeoffs]
----
-
 # Módulo 05 — Backend y API
 
 > Este es el módulo donde el mismo contrato se implementa en dos ecosistemas y

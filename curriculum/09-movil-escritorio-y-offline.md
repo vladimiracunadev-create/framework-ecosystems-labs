@@ -1,13 +1,3 @@
----
-modulo: "09"
-titulo: Móvil, escritorio y offline
-nivel: avanzado
-horas: 12
-prerrequisitos: ["03", "05", "06"]
-verificado: 2026-08-19
-fuentes: [w3c-service-worker, webdev-offline-cookbook, inkandswitch-local-first, kleppmann-ddia, twelve-factor, mdn-web-docs]
----
-
 # Módulo 09 — Móvil, escritorio y offline
 
 > Trabajar sin conexión no es guardar una copia. Es aceptar que habrá dos

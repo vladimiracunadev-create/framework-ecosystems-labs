@@ -1,13 +1,3 @@
----
-modulo: "07"
-titulo: Identidad y seguridad
-nivel: avanzado
-horas: 16
-prerrequisitos: ["01", "05", "06"]
-verificado: 2026-08-19
-fuentes: [shostack-threat-modeling, hoffman-web-application-security, adkins-building-secure-reliable, owasp-asvs, owasp-top10, owasp-cheatsheets, nist-800-63b, rfc6749, rfc9700, rfc7519, rfc6265, rfc8446]
----
-
 # Módulo 07 — Identidad y seguridad
 
 > Regla del programa: no se enseña a escribir autenticación propia para

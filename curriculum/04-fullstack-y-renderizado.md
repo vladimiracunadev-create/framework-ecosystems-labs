@@ -1,13 +1,3 @@
----
-modulo: "04"
-titulo: Full stack y renderizado
-nivel: intermedio
-horas: 14
-prerrequisitos: ["01", "03"]
-verificado: 2026-08-19
-fuentes: [webdev-rendering, webdev-vitals, grigorik-hpbn, rfc9111, richards-ford-fundamentals, mdn-web-docs]
----
-
 # Módulo 04 — Full stack y renderizado
 
 > «Renderizar en el servidor» no es una mejora: es mover trabajo de sitio. El

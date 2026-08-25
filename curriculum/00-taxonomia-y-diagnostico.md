@@ -1,13 +1,3 @@
----
-modulo: "00"
-titulo: Taxonomía y diagnóstico
-nivel: introductorio
-horas: 6
-prerrequisitos: []
-verificado: 2026-08-19
-fuentes: [richards-ford-fundamentals, fowler-poeaa, martin-clean-architecture, hunt-thomas-pragmatic, semver, spdx-licenses, osi-licenses, anderson-krathwohl-taxonomy, nodejs-docs]
----
-
 # Módulo 00 — Taxonomía y diagnóstico
 
 > El módulo no enseña ningún framework. Enseña a nombrar con precisión lo que

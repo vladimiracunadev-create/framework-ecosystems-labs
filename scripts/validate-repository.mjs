@@ -20,6 +20,7 @@ const required = [
   "pnpm-workspace.yaml",
   "catalog/frameworks.json",
   "curriculum/README.md",
+  "curriculum/_modulos.json",
   "empezar/README.md",
   "empezar/conocimientos-previos.md",
   "glosario/README.md",

@@ -1,13 +1,3 @@
----
-modulo: "10"
-titulo: Modernización y migración
-nivel: avanzado
-horas: 14
-prerrequisitos: ["05", "06", "08"]
-verificado: 2026-08-19
-fuentes: [fowler-strangler-fig, feathers-legacy-code, fowler-refactoring, hohpe-woolf-eip, ambler-sadalage-refactoring-databases, nygard-release-it]
----
-
 # Módulo 10 — Modernización y migración
 
 > La reescritura completa es la decisión más cara del oficio y casi siempre se

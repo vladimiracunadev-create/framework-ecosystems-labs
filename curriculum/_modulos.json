@@ -1,0 +1,307 @@
+{
+  "schema_version": 1,
+  "proposito": "Metadatos de los trece módulos del programa. Vivían en el front matter de cada archivo, que GitHub renderiza como una tabla encima del título; aquí son datos y allí queda el documento. verify-sources.mjs los lee de aquí y comprueba que el texto del módulo no los contradiga.",
+  "modulos": [
+    {
+      "modulo": "00",
+      "archivo": "00-taxonomia-y-diagnostico.md",
+      "titulo": "Taxonomía y diagnóstico",
+      "nivel": "introductorio",
+      "horas": 6,
+      "prerrequisitos": [],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "richards-ford-fundamentals",
+        "fowler-poeaa",
+        "martin-clean-architecture",
+        "hunt-thomas-pragmatic",
+        "semver",
+        "spdx-licenses",
+        "osi-licenses",
+        "anderson-krathwohl-taxonomy",
+        "nodejs-docs"
+      ]
+    },
+    {
+      "modulo": "01",
+      "archivo": "01-http-eventos-y-contratos.md",
+      "titulo": "HTTP, eventos y contratos",
+      "nivel": "introductorio",
+      "horas": 16,
+      "prerrequisitos": [
+        "\"00\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "rfc9110",
+        "rfc9111",
+        "rfc9112",
+        "rfc9113",
+        "rfc9114",
+        "rfc8259",
+        "rfc5789",
+        "rfc6902",
+        "rfc9457",
+        "grigorik-hpbn",
+        "richardson-amundsen-restful",
+        "whatwg-fetch",
+        "nodejs-docs",
+        "mdn-web-docs",
+        "openapi-spec"
+      ]
+    },
+    {
+      "modulo": "02",
+      "archivo": "02-arquitectura-de-frameworks.md",
+      "titulo": "Arquitectura de frameworks",
+      "nivel": "intermedio",
+      "horas": 14,
+      "prerrequisitos": [
+        "\"00\"",
+        "\"01\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "fowler-injection",
+        "seemann-deursen-di",
+        "gof-design-patterns",
+        "martin-clean-architecture",
+        "hohpe-woolf-eip"
+      ]
+    },
+    {
+      "modulo": "03",
+      "archivo": "03-frontend-componentes-y-estado.md",
+      "titulo": "Frontend, componentes y estado",
+      "nivel": "intermedio",
+      "horas": 18,
+      "prerrequisitos": [
+        "\"00\"",
+        "\"01\"",
+        "\"02\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "osmani-js-design-patterns",
+        "pickering-inclusive-components",
+        "kalbag-accessibility-for-everyone",
+        "norman-design-everyday-things",
+        "w3c-wcag22",
+        "w3c-aria-apg",
+        "whatwg-html",
+        "mdn-web-docs"
+      ]
+    },
+    {
+      "modulo": "04",
+      "archivo": "04-fullstack-y-renderizado.md",
+      "titulo": "Full stack y renderizado",
+      "nivel": "intermedio",
+      "horas": 14,
+      "prerrequisitos": [
+        "\"01\"",
+        "\"03\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "webdev-rendering",
+        "webdev-vitals",
+        "grigorik-hpbn",
+        "rfc9111",
+        "richards-ford-fundamentals",
+        "mdn-web-docs"
+      ]
+    },
+    {
+      "modulo": "05",
+      "archivo": "05-backend-y-api.md",
+      "titulo": "Backend y API",
+      "nivel": "intermedio",
+      "horas": 20,
+      "prerrequisitos": [
+        "\"01\"",
+        "\"02\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "geewax-api-design-patterns",
+        "richardson-amundsen-restful",
+        "openapi-spec",
+        "json-schema",
+        "rfc9457",
+        "rfc8259",
+        "newman-building-microservices",
+        "fowler-microservice-tradeoffs"
+      ]
+    },
+    {
+      "modulo": "06",
+      "archivo": "06-persistencia-y-dominio.md",
+      "titulo": "Persistencia y dominio",
+      "nivel": "intermedio",
+      "horas": 14,
+      "prerrequisitos": [
+        "\"02\"",
+        "\"05\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "kleppmann-ddia",
+        "evans-ddd",
+        "vernon-iddd",
+        "khononov-learning-ddd",
+        "fowler-poeaa",
+        "ambler-sadalage-refactoring-databases",
+        "postgresql-docs",
+        "fowler-cqrs"
+      ]
+    },
+    {
+      "modulo": "07",
+      "archivo": "07-identidad-y-seguridad.md",
+      "titulo": "Identidad y seguridad",
+      "nivel": "avanzado",
+      "horas": 16,
+      "prerrequisitos": [
+        "\"01\"",
+        "\"05\"",
+        "\"06\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "shostack-threat-modeling",
+        "hoffman-web-application-security",
+        "adkins-building-secure-reliable",
+        "owasp-asvs",
+        "owasp-top10",
+        "owasp-cheatsheets",
+        "nist-800-63b",
+        "rfc6749",
+        "rfc9700",
+        "rfc7519",
+        "rfc6265",
+        "rfc8446"
+      ]
+    },
+    {
+      "modulo": "08",
+      "archivo": "08-calidad-rendimiento-y-operacion.md",
+      "titulo": "Calidad, rendimiento y operación",
+      "nivel": "avanzado",
+      "horas": 16,
+      "prerrequisitos": [
+        "\"05\"",
+        "\"06\"",
+        "\"07\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "beck-tdd",
+        "meszaros-xunit",
+        "cohn-succeeding-agile",
+        "fowler-test-pyramid",
+        "humble-farley-continuous-delivery",
+        "forsgren-accelerate",
+        "dora-research",
+        "beyer-sre",
+        "google-sre-books",
+        "gregg-systems-performance",
+        "majors-observability",
+        "opentelemetry-docs",
+        "webdev-vitals",
+        "nygard-release-it",
+        "google-eng-practices"
+      ]
+    },
+    {
+      "modulo": "09",
+      "archivo": "09-movil-escritorio-y-offline.md",
+      "titulo": "Móvil, escritorio y offline",
+      "nivel": "avanzado",
+      "horas": 12,
+      "prerrequisitos": [
+        "\"03\"",
+        "\"05\"",
+        "\"06\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "w3c-service-worker",
+        "webdev-offline-cookbook",
+        "inkandswitch-local-first",
+        "kleppmann-ddia",
+        "twelve-factor",
+        "mdn-web-docs"
+      ]
+    },
+    {
+      "modulo": "10",
+      "archivo": "10-modernizacion-y-migracion.md",
+      "titulo": "Modernización y migración",
+      "nivel": "avanzado",
+      "horas": 14,
+      "prerrequisitos": [
+        "\"05\"",
+        "\"06\"",
+        "\"08\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "fowler-strangler-fig",
+        "feathers-legacy-code",
+        "fowler-refactoring",
+        "hohpe-woolf-eip",
+        "ambler-sadalage-refactoring-databases",
+        "nygard-release-it"
+      ]
+    },
+    {
+      "modulo": "11",
+      "archivo": "11-seleccion-y-sostenibilidad.md",
+      "titulo": "Selección y sostenibilidad",
+      "nivel": "avanzado",
+      "horas": 10,
+      "prerrequisitos": [
+        "\"08\"",
+        "\"10\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "ford-evolutionary-architectures",
+        "bass-software-architecture-practice",
+        "richards-ford-fundamentals",
+        "adr-github",
+        "nist-ssdf",
+        "slsa",
+        "spdx-licenses",
+        "osi-licenses",
+        "semver",
+        "forsgren-accelerate"
+      ]
+    },
+    {
+      "modulo": "12",
+      "archivo": "12-producto-final.md",
+      "titulo": "Producto final",
+      "nivel": "avanzado",
+      "horas": 10,
+      "prerrequisitos": [
+        "\"05\"",
+        "\"07\"",
+        "\"08\"",
+        "\"11\""
+      ],
+      "verificado": "2026-08-19",
+      "fuentes": [
+        "bass-software-architecture-practice",
+        "richards-ford-fundamentals",
+        "adr-github",
+        "nygard-release-it",
+        "humble-farley-continuous-delivery",
+        "twelve-factor",
+        "kubernetes-docs",
+        "wiggins-mctighe-ubd"
+      ]
+    }
+  ]
+}

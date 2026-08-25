@@ -1,13 +1,3 @@
----
-modulo: "02"
-titulo: Arquitectura de frameworks
-nivel: intermedio
-horas: 14
-prerrequisitos: ["00", "01"]
-verificado: 2026-08-19
-fuentes: [fowler-injection, seemann-deursen-di, gof-design-patterns, martin-clean-architecture, hohpe-woolf-eip]
----
-
 # Módulo 02 — Arquitectura de frameworks
 
 > Todos los frameworks web resuelven el mismo problema: cómo dejar que tú

@@ -1,13 +1,3 @@
----
-modulo: "08"
-titulo: Calidad, rendimiento y operación
-nivel: avanzado
-horas: 16
-prerrequisitos: ["05", "06", "07"]
-verificado: 2026-08-19
-fuentes: [beck-tdd, meszaros-xunit, cohn-succeeding-agile, fowler-test-pyramid, humble-farley-continuous-delivery, forsgren-accelerate, dora-research, beyer-sre, google-sre-books, gregg-systems-performance, majors-observability, opentelemetry-docs, webdev-vitals, nygard-release-it, google-eng-practices]
----
-
 # Módulo 08 — Calidad, rendimiento y operación
 
 > Una comparación de rendimiento sin protocolo de medición declarado no es un

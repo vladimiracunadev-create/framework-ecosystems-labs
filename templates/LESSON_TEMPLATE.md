@@ -1,12 +1,6 @@
----
-modulo: "NN"
-titulo: Título del módulo
-nivel: introductorio
-horas: 0
-prerrequisitos: []
-verificado: AAAA-MM-DD
-fuentes: []
----
+<!-- Los metadatos de un módulo NO van aquí: viven en `curriculum/_modulos.json`.
+     El front matter YAML lo renderiza GitHub como una tabla encima del título,
+     y es ruido delante de lo primero que alguien lee. -->
 
 # Módulo NN — Título
 

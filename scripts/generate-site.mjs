@@ -41,14 +41,24 @@ function relativo(file) {
   return path.relative(root, file).replace(/\\/g, "/");
 }
 
+/** Metadatos de los módulos: nivel, horas, prerrequisitos y fuentes declaradas. */
+const metadatosDeModulo = new Map(
+  JSON.parse(fs.readFileSync(path.join(root, "curriculum/_modulos.json"), "utf8")).modulos.map(
+    (m) => [m.archivo, m],
+  ),
+);
+
 /** Todo documento del repositorio que debe publicarse, con sus metadatos. */
 function recolectar() {
   const documentos = [];
   const areas = ["empezar", "glosario", "curriculum", "docs", "assessments", "projects", "labs", "templates", "contracts", "sources", "atlas", "classes"];
   for (const file of markdownFiles(...areas)) {
     const bruto = fs.readFileSync(file, "utf8");
-    const { data, body } = parseFrontMatter(bruto);
+    const { data: delFrente, body } = parseFrontMatter(bruto);
     const origen = relativo(file);
+    // Los metadatos de un módulo ya no viven en su front matter —GitHub lo
+    // pintaba como una tabla encima del título— sino en `curriculum/_modulos.json`.
+    const data = metadatosDeModulo.get(path.basename(file)) ?? delFrente;
     const titulo = (/^#\s+(.*)$/m.exec(body)?.[1] ?? data?.titulo ?? path.basename(file, ".md")).trim();
     documentos.push({
       origen,

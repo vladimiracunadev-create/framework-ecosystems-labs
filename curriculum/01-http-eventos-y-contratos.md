@@ -1,13 +1,3 @@
----
-modulo: "01"
-titulo: HTTP, eventos y contratos
-nivel: introductorio
-horas: 16
-prerrequisitos: ["00"]
-verificado: 2026-08-19
-fuentes: [rfc9110, rfc9111, rfc9112, rfc9113, rfc9114, rfc8259, rfc5789, rfc6902, rfc9457, grigorik-hpbn, richardson-amundsen-restful, whatwg-fetch, nodejs-docs, mdn-web-docs, openapi-spec]
----
-
 # Módulo 01 — HTTP, eventos y contratos
 
 > Todo framework web es una forma de escribir menos HTTP a mano. Quien no sabe

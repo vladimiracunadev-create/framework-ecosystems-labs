@@ -61,8 +61,10 @@ Mantén rutas para:
 Cada lección debe contener, con estos títulos exactos.
 `node scripts/verify-sources.mjs` lo comprueba y falla si falta cualquiera:
 
-1. front matter con `modulo`, `titulo`, `nivel`, `horas`, `prerrequisitos`,
-   `verificado` y `fuentes`;
+1. su entrada en `curriculum/_modulos.json` con `modulo`, `titulo`, `nivel`,
+   `horas`, `prerrequisitos`, `verificado` y `fuentes` — **no** en front matter,
+   que GitHub renderiza como una tabla encima del título; y el texto del módulo
+   debe declarar el mismo nivel y las mismas horas, o la validación falla;
 2. `Prerrequisitos y nivel`;
 3. `Objetivos observables`, con verbos observables y su evidencia;
 4. `Concepto independiente del framework`;
@@ -77,7 +79,7 @@ Cada lección debe contener, con estos títulos exactos.
 13. `Fuentes`, con la referencia completa y el localizador de cada una.
 
 Mínimo cuatro citas `[@identificador]` en la exposición, todas declaradas en el
-front matter y todas existentes en el registro. Las citas de la sección `Fuentes`
+`curriculum/_modulos.json` y todas existentes en el registro. Las citas de la sección `Fuentes`
 no cuentan: listar una obra no equivale a apoyarse en ella.
 
 Las decisiones pedagógicas del programa —alineamiento constructivo, diseño

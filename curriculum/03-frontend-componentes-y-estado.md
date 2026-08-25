@@ -1,13 +1,3 @@
----
-modulo: "03"
-titulo: Frontend, componentes y estado
-nivel: intermedio
-horas: 18
-prerrequisitos: ["00", "01", "02"]
-verificado: 2026-08-19
-fuentes: [osmani-js-design-patterns, pickering-inclusive-components, kalbag-accessibility-for-everyone, norman-design-everyday-things, w3c-wcag22, w3c-aria-apg, whatwg-html, mdn-web-docs]
----
-
 # Módulo 03 — Frontend, componentes y estado
 
 > Un componente es una función de estado a interfaz. Todo lo demás —sintaxis,

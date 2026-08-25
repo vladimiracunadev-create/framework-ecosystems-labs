@@ -1,13 +1,3 @@
----
-modulo: "12"
-titulo: Producto final
-nivel: avanzado
-horas: 10
-prerrequisitos: ["05", "07", "08", "11"]
-verificado: 2026-08-19
-fuentes: [bass-software-architecture-practice, richards-ford-fundamentals, adr-github, nygard-release-it, humble-farley-continuous-delivery, twelve-factor, kubernetes-docs, wiggins-mctighe-ubd]
----
-
 # Módulo 12 — Producto final
 
 > El proyecto final no es «una aplicación más grande». Es la demostración de que

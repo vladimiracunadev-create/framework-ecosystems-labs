@@ -1,13 +1,3 @@
----
-modulo: "06"
-titulo: Persistencia y dominio
-nivel: intermedio
-horas: 14
-prerrequisitos: ["02", "05"]
-verificado: 2026-08-19
-fuentes: [kleppmann-ddia, evans-ddd, vernon-iddd, khononov-learning-ddd, fowler-poeaa, ambler-sadalage-refactoring-databases, postgresql-docs, fowler-cqrs]
----
-
 # Módulo 06 — Persistencia y dominio
 
 > El ORM no es el enemigo ni la solución. Es un mapeador entre dos modelos que

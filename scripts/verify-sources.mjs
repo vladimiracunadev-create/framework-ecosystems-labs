@@ -12,7 +12,6 @@ import process from "node:process";
 import {
   root,
   markdownFiles,
-  parseFrontMatter,
   citationsOf,
   headings,
   loadBibliography,
@@ -50,6 +49,12 @@ function fail(file, message) {
 // ---------------------------------------------------------------- bibliografía
 
 const { bibliography, index } = loadBibliography();
+
+/** Metadatos de los módulos, fuera del documento para que no se rendericen. */
+const registroModulos = JSON.parse(
+  fs.readFileSync(path.join(root, "curriculum/_modulos.json"), "utf8"),
+);
+const modulos = new Map(registroModulos.modulos.map((m) => [m.archivo, m]));
 
 function validateBibliography() {
   const file = path.join(root, "sources/bibliography.json");
@@ -95,15 +100,44 @@ function isbn13IsValid(isbn) {
 
 function validateLesson(file) {
   const content = fs.readFileSync(file, "utf8");
-  const { data, body } = parseFrontMatter(content);
-  if (!data) return fail(file, "sin front matter; toda lección debe declarar metadatos y fuentes");
+  const body = content;
+
+  // Los metadatos vivían en el front matter de cada módulo, y GitHub lo pinta
+  // como una tabla encima del título — ruido delante de lo primero que alguien
+  // lee. Ahora son datos en `curriculum/_modulos.json` y el archivo empieza por
+  // su título. Las comprobaciones son las mismas.
+  const nombre = path.basename(file);
+  const data = modulos.get(nombre);
+  if (!data) {
+    return fail(file, "no está declarado en curriculum/_modulos.json");
+  }
+  if (content.startsWith("---")) {
+    fail(file, "conserva front matter: los metadatos van en curriculum/_modulos.json");
+  }
 
   for (const key of FRONT_MATTER_KEYS) {
-    if (data[key] === undefined) fail(file, `front matter sin '${key}'`);
+    if (data[key] === undefined) fail(file, `los metadatos no declaran '${key}'`);
   }
   if (data.nivel && !NIVELES.has(data.nivel)) fail(file, `nivel no reconocido: ${data.nivel}`);
-  if (data.horas && !/^\d+$/.test(String(data.horas))) fail(file, "las horas deben ser un entero");
+  if (data.horas === undefined || !Number.isInteger(data.horas)) {
+    fail(file, "las horas deben ser un entero");
+  }
   if (data.verificado && !/^\d{4}-\d{2}-\d{2}$/.test(data.verificado)) fail(file, "verificado debe ser AAAA-MM-DD");
+
+  // El texto y los metadatos no pueden contradecirse: si el módulo dice en
+  // prosa que dura 14 horas y el registro dice 16, uno de los dos miente y
+  // quien lee no tiene forma de saber cuál.
+  const declaracion = body.match(/^\*\*Nivel:\*\*\s*(\w+)\.\s*\*\*Duración:\*\*\s*(\d+)\s*horas?/m);
+  if (!declaracion) {
+    fail(file, "el texto no declara «**Nivel:** … **Duración:** N horas»");
+  } else {
+    if (declaracion[1] !== data.nivel) {
+      fail(file, `el texto dice nivel «${declaracion[1]}» y el registro dice «${data.nivel}»`);
+    }
+    if (Number(declaracion[2]) !== data.horas) {
+      fail(file, `el texto dice ${declaracion[2]} horas y el registro dice ${data.horas}`);
+    }
+  }
 
   const present = new Set(headings(body));
   for (const section of LESSON_SECTIONS) {

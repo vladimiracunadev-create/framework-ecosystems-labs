@@ -1,13 +1,3 @@
----
-modulo: "11"
-titulo: Selección y sostenibilidad
-nivel: avanzado
-horas: 10
-prerrequisitos: ["08", "10"]
-verificado: 2026-08-19
-fuentes: [ford-evolutionary-architectures, bass-software-architecture-practice, richards-ford-fundamentals, adr-github, nist-ssdf, slsa, spdx-licenses, osi-licenses, semver, forsgren-accelerate]
----
-
 # Módulo 11 — Selección y sostenibilidad
 
 > Elegir un framework es contraer una deuda de mantenimiento a varios años. La
