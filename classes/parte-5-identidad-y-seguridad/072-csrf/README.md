@@ -59,6 +59,16 @@ anteriores.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Seguro (método)**](../../../glosario/README.md#seguro-método) | Un método que no cambia el estado del servidor. `GET` y `HEAD` lo son. Un `GET` que transfiera dinero es indefendible: bastaría una etiqueta `<img>` en cualquier página para dispararlo. |
+| [**CSRF**](../../../glosario/README.md#csrf) *(Falsificación de petición entre sitios)* | El ataque en que una página del atacante provoca una petición a tu sitio y el navegador **adjunta la cookie** — es su trabajo. Se corta con un testigo que el atacante no puede leer ni adivinar, y con `SameSite`. |
+| [**Testigo sincronizado**](../../../glosario/README.md#testigo-sincronizado) *(Token CSRF)* | Un valor aleatorio que vive en la sesión y viaja en el cuerpo o en una cabecera —nunca en una cookie sola, que el navegador también adjuntaría—. La página del atacante no puede leerlo porque no puede leer respuestas de otro origen. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

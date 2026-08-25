@@ -55,6 +55,15 @@ registra su fin después del manejador y antes de que salga la respuesta.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Aspecto**](../../../glosario/README.md#aspecto) *(Programación orientada a aspectos, AOP)* | Comportamiento transversal enganchado a la **ejecución de un método**, no al transporte. A diferencia de un middleware, no sabe nada de HTTP: el mismo aspecto sirve para una petición web, una tarea programada o una prueba. |
+| [**Decorador**](../../../glosario/README.md#decorador) | Una función que recibe otra función, la envuelve y devuelve la envoltura. En Python y TypeScript tiene sintaxis propia; en JavaScript es una llamada corriente. Registrar una ruta con un decorador y con una llamada a método es el mismo mecanismo. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

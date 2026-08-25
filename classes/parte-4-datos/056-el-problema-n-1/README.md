@@ -29,6 +29,16 @@ mismos datos**, y un contador de consultas.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Problema N+1**](../../../glosario/README.md#problema-n1) | Hacer una consulta para la lista y una más por cada elemento. No se detecta con diez filas y tumba el sistema con diez mil. Se resuelve con carga anticipada, y se **mide** por el crecimiento del número de consultas, no por su valor absoluto. |
+| [**Carga perezosa**](../../../glosario/README.md#carga-perezosa) *(Lazy loading)* | Traer los datos relacionados solo cuando se acceden. Cómodo, y el origen habitual del problema N+1: la consulta extra ocurre dentro de un bucle donde nadie la ve. |
+| [**Carga anticipada**](../../../glosario/README.md#carga-anticipada) *(Eager loading)* | Pedir los datos relacionados en la misma consulta o en una segunda planificada. Cada ORM la resuelve a su manera —una unión o dos consultas— y las dos son correctas: lo que importa es que el número no crezca con las filas. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
@@ -69,7 +79,6 @@ Qué hay dentro de su directorio:
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
 | `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
-| `prisma/datos.db` | base de datos SQLite del laboratorio |
 | `prisma/schema.prisma` | esquema de Prisma: el modelo de datos del que se genera el cliente |
 | `server.mjs` | código JavaScript (módulo ES) |
 
@@ -92,7 +101,6 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `datos.db` | base de datos SQLite del laboratorio |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `main.py` | código Python |
 | `requirements.txt` | dependencias de Python, una por línea, con versión fijada |

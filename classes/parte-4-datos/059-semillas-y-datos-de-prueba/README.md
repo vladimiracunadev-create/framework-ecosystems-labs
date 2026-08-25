@@ -18,6 +18,14 @@ Se vuelve a sembrar. ¿Qué debería pasar?
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Semilla**](../../../glosario/README.md#semilla) *(Seed)* | Datos de partida que se cargan de forma repetible: los mínimos para que la aplicación funcione, o un juego de prueba. Repetible significa que ejecutarla dos veces no duplica nada. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
@@ -59,7 +67,6 @@ Qué hay dentro de su directorio:
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
 | `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
-| `prisma/datos.db` | base de datos SQLite del laboratorio |
 | `prisma/schema.prisma` | esquema de Prisma: el modelo de datos del que se genera el cliente |
 | `server.mjs` | código JavaScript (módulo ES) |
 
@@ -83,7 +90,6 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `catalogo.json` | datos en JSON usados por la implementación |
-| `datos.db` | base de datos SQLite del laboratorio |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `main.py` | código Python |
 | `requirements.txt` | dependencias de Python, una por línea, con versión fijada |

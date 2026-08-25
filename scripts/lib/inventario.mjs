@@ -16,6 +16,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 
 /** Archivos que declaran dependencias, por ecosistema. */
 const MANIFIESTOS = [
@@ -172,8 +173,46 @@ function versionDeclarada(dir, framework) {
   return `${framework}: la versión la fija la cadena de herramientas`;
 }
 
+/**
+ * Los archivos de la implementación **que están en el repositorio**.
+ *
+ * Se pregunta a git y no al disco, y la razón salió de un CI en rojo: en la
+ * máquina de quien desarrolla hay artefactos que git ignora —una base SQLite
+ * creada al ejecutar, un componente compilado, un `__pycache__`— y en un
+ * checkout limpio no. Listar el disco producía una ficha distinta en cada sitio.
+ *
+ * Lo que se quiere describir es el contenido del repositorio, así que la fuente
+ * correcta es el índice de git.
+ */
+function seguidosPorGit(dir) {
+  const r = spawnSync("git", ["ls-files", "--", "."], { cwd: dir, encoding: "utf8" });
+  if (r.status !== 0) return null;
+  return r.stdout
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
+}
+
 /** Archivos de la implementación, con lo que es cada uno. */
 export function archivosDe(dir, limite = 8) {
+  const seguidos = seguidosPorGit(dir);
+  if (seguidos) {
+    return seguidos
+      .filter((ruta) => !ruta.split("/").some((parte) => IGNORADOS.has(parte)))
+      .filter((ruta) => !/\.(lock|sum|gitkeep|gitignore)$/i.test(ruta))
+      .filter((ruta) => !path.basename(ruta).startsWith(".git"))
+      .sort((a, b) => a.localeCompare(b))
+      .slice(0, limite)
+      .map((ruta) => ({
+        ruta,
+        rol:
+          ROLES.get(ruta) ??
+          ROLES.get(path.basename(ruta)) ??
+          EXTENSIONES.get(path.extname(ruta)) ??
+          "archivo del proyecto",
+      }));
+  }
+
   const encontrados = [];
   const recorrer = (actual, prefijo) => {
     const entradas = fs.readdirSync(actual, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name));

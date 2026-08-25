@@ -45,6 +45,17 @@ tiempo**, sin construir la respuesta entera antes de empezar a enviarla.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Respuesta en flujo**](../../../glosario/README.md#respuesta-en-flujo) *(Streaming)* | Enviar la respuesta a trozos, sin conocer su tamaño total de antemano. Se consigue omitiendo `Content-Length`, lo que activa la codificación troceada. En modelos de un hilo por petición exige mecanismos propios para no retener el hilo. |
+| [**Codificación troceada**](../../../glosario/README.md#codificación-troceada) *(Chunked transfer encoding)* | La forma en que HTTP/1.1 envía un cuerpo sin declarar su longitud: en trozos, cada uno precedido por su tamaño. Es lo que permite que el cliente empiece a leer antes de que el servidor sepa cuánto va a enviar. |
+| [**Bucle de eventos**](../../../glosario/README.md#bucle-de-eventos) *(Event loop)* | El modelo de concurrencia de Node.js y de Python asíncrono: **un solo hilo** que atiende muchas peticiones intercalando el trabajo mientras espera. Nada se bloquea salvo que tú lo bloquees — y si lo bloqueas, se paran todas. |
+| [**Un hilo por petición**](../../../glosario/README.md#un-hilo-por-petición) | El modelo de concurrencia de la JVM y de .NET: cada petición ocupa un hilo del grupo mientras dura. Simple de razonar, y el grupo es finito — doscientas peticiones lentas simultáneas agotan un servidor de doscientos hilos. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

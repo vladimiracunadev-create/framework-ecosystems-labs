@@ -77,6 +77,14 @@ que terminó sin tener que comparar tamaños ni hacer una petición de más.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Paginación**](../../../glosario/README.md#paginación) | Devolver los resultados por tramos en lugar de todos. Por desplazamiento es fácil y se desordena cuando alguien inserta mientras paginas; por cursor es estable y no permite saltar a la página 37. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

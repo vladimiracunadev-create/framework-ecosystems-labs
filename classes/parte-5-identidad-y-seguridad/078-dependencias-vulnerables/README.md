@@ -60,6 +60,17 @@ Con la misma honestidad que la clase 077:
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Archivo de bloqueo**](../../../glosario/README.md#archivo-de-bloqueo) *(Lockfile)* | El archivo que la herramienta genera junto al manifiesto con la versión **exacta** de cada dependencia y de las dependencias de tus dependencias. Es lo que hace que la instalación de hoy sea igual a la de dentro de seis meses. Se versiona; no se edita a mano. |
+| [**Dependencia transitiva**](../../../glosario/README.md#dependencia-transitiva) | Una dependencia que no elegiste: la trajo otra que sí elegiste. Una aplicación que declara dos suele ejecutar seis, y un aviso de seguridad sobre una transitiva no se arregla actualizándola a ella — o subes a quien la trajo, o fuerzas la versión. |
+| [**Versionado semántico**](../../../glosario/README.md#versionado-semántico) *(SemVer)* | La convención `MAYOR.MENOR.PARCHE`: el primer número anuncia una ruptura, el segundo una función nueva compatible y el tercero una corrección. Los rangos del manifiesto —`^5.1.0`— declaran hasta dónde aceptas actualizaciones automáticas. |
+| [**Cadena de suministro**](../../../glosario/README.md#cadena-de-suministro) | Todo el código que ejecutas y no escribiste, incluidas las dependencias de tus dependencias y los scripts que se ejecutan al instalarlas. Este repositorio instala con `--ignore-scripts` por eso. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

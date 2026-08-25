@@ -21,6 +21,14 @@ Un proyecto con tareas y **tres reglas**:
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Repositorio**](../../../glosario/README.md#repositorio) | Una interfaz que el dominio usa para guardar y recuperar sin saber cómo. Su prueba de fuego es que la implementación en memoria y la real sean intercambiables — y que el dominio no importe nada del ORM. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
@@ -62,9 +70,9 @@ Qué hay dentro de su directorio:
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
 | `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
-| `prisma/datos.db` | base de datos SQLite del laboratorio |
 | `prisma/schema.prisma` | esquema de Prisma: el modelo de datos del que se genera el cliente |
 | `repositorios.mjs` | código JavaScript (módulo ES) |
+| `server.mjs` | código JavaScript (módulo ES) |
 
 ### 🔧 SQLAlchemy
 
@@ -85,7 +93,6 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `datos.db` | base de datos SQLite del laboratorio |
 | `dominio.py` | código Python |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `main.py` | código Python |

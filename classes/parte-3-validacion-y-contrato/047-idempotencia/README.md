@@ -64,6 +64,14 @@ idempotencia es opcional y la pide el cliente.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Idempotencia**](../../../glosario/README.md#idempotencia) | Que repetir la misma petición produzca el mismo estado final. `PUT` y `DELETE` lo son por definición; `POST` no. La idempotencia **viene de lo que hace el código**, no del verbo: un `PUT` que acumule en vez de reemplazar rompe la promesa. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

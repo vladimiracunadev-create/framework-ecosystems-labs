@@ -67,8 +67,6 @@ Qué hay dentro de su directorio:
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
 | `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
-| `prisma/datos.db` | base de datos SQLite del laboratorio |
-| `prisma/pruebas.db` | base de datos SQLite del laboratorio |
 | `prisma/schema.prisma` | esquema de Prisma: el modelo de datos del que se genera el cliente |
 | `server.mjs` | código JavaScript (módulo ES) |
 
@@ -91,7 +89,6 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `datos.db` | base de datos SQLite del laboratorio |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `main.py` | código Python |
 | `requirements.txt` | dependencias de Python, una por línea, con versión fijada |

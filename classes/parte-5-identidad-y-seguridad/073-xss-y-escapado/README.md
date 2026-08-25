@@ -35,6 +35,14 @@ usuario. La respuesta correcta conserva cada carácter y le quita el poder.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**XSS**](../../../glosario/README.md#xss) *(Cross-Site Scripting)* | Texto de un usuario que el navegador acaba ejecutando como código. La defensa moderna no es filtrar lo malo: es **escapar todo por omisión** y dejar la vía insegura como una puerta explícita con nombre de peligro. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
@@ -134,14 +142,13 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `compilados/Inseguro.js` | código JavaScript |
-| `compilados/Seguro.js` | código JavaScript |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `Inseguro.svelte` | componente de Svelte |
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
 | `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
 | `Seguro.svelte` | componente de Svelte |
+| `server.mjs` | código JavaScript (módulo ES) |
 
 ### 🔧 SolidJS
 
@@ -169,7 +176,6 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `.babelrc` | configuración de Babel: qué transformación se aplica al compilar |
-| `App.compilada.mjs` | código JavaScript (módulo ES) |
 | `App.jsx` | componente en JSX |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |

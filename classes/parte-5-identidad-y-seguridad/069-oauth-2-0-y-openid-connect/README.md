@@ -85,6 +85,16 @@ reutilizarlo en otra aplicación.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**OAuth 2.0**](../../../glosario/README.md#oauth-20) | El protocolo por el que una aplicación obtiene permiso para actuar en nombre de un usuario sin conocer su contraseña. En un protocolo de seguridad, la creatividad es el fallo: lo que hay que hacer es implementar exactamente lo que dice. |
+| [**OpenID Connect**](../../../glosario/README.md#openid-connect) | La capa de identidad sobre OAuth 2.0: añade un `id_token` firmado que dice **quién** es el usuario. OAuth autoriza; OpenID Connect autentica. |
+| [**PKCE**](../../../glosario/README.md#pkce) | La defensa que impide canjear un código de autorización interceptado: quien inicia el flujo envía el resumen de un secreto y solo él puede presentar el original. Sin PKCE, un código robado por el camino se puede canjear. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

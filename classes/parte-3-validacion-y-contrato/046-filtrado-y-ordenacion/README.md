@@ -52,6 +52,14 @@ const CAMPOS_FILTRABLES = new Set(["completada", "prioridad"]);
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Filtrado**](../../../glosario/README.md#filtrado) | Acotar una lista por criterios que llegan del cliente. El riesgo no es la sintaxis: es aceptar como campo de ordenación cualquier texto que llegue, que es una inyección con otro nombre. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

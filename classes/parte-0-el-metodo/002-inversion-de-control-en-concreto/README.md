@@ -55,6 +55,14 @@ optimización, daría tres. El contrato no mide que el manejador se llame: mide
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Inversión de control**](../../../glosario/README.md#inversión-de-control) *(IoC, Principio de Hollywood)* | Que el flujo del programa lo dirija el framework y no tu código. Se resume en «no nos llames, nosotros te llamamos». Es medible desde fuera: un manejador registrado y nunca invocado por tu código que aun así se ejecuta una vez por petición. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

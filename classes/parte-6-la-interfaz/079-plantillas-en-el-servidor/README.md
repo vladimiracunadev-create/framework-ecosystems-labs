@@ -64,6 +64,14 @@ de la que merece**.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Escapado**](../../../glosario/README.md#escapado) | Neutralizar los caracteres que tendrían significado en el destino, **sin destruir el dato**: `<` se convierte en `&lt;` y el texto sigue entero. Escapar no es filtrar, y dónde vive el escapado —en el motor, en el framework o en el tipo— decide qué se puede olvidar. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

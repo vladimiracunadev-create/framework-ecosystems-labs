@@ -60,6 +60,14 @@ métodos**, que es lo que hace verificable el 307.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Redirección**](../../../glosario/README.md#redirección) | Una respuesta que dice «está en otro sitio». Se decide en dos ejes: permanente o temporal, y conservando el método o no. `301` permanente, `302` temporal, `307` temporal conservando el método, `308` permanente conservándolo. El `301` se cachea y cuesta retirarlo. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

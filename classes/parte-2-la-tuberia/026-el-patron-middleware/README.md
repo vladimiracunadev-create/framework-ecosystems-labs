@@ -52,6 +52,14 @@ correlación puedan cubrir rutas que aún no existen.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Middleware**](../../../glosario/README.md#middleware) *(Capa, Filtro, Interceptor)* | Una pieza que envuelve al manejador: recibe la petición, hace su parte y llama —o no— a la siguiente. La cadena se recorre hacia dentro y se deshace hacia fuera. Cada ecosistema le da un nombre distinto y el mecanismo es el mismo. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

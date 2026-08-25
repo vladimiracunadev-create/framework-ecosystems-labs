@@ -112,6 +112,16 @@ la implementación, no el contrato**, y produce rojos que no significan nada.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**CORS**](../../../glosario/README.md#cors) *(Intercambio de recursos entre orígenes)* | El mecanismo por el que un servidor autoriza a páginas de otro origen a leer sus respuestas. No protege al servidor: protege a los usuarios de otras páginas. Su configuración más insegura empieza siendo la más cómoda — reflejar cualquier origen. |
+| [**Origen**](../../../glosario/README.md#origen) | La terna esquema + host + puerto. `https://ejemplo.com` y `https://ejemplo.com:8443` son orígenes distintos. Casi toda la seguridad del navegador está construida sobre esa frontera. |
+| [**Comprobación previa**](../../../glosario/README.md#comprobación-previa) *(Preflight)* | La petición `OPTIONS` que el navegador envía antes de una petición entre orígenes que no sea trivial, para preguntar si está permitida. Su respuesta se cachea el tiempo que diga `Access-Control-Max-Age`. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

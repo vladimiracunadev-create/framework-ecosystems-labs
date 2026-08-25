@@ -79,6 +79,14 @@ El tercer caso comprueba algo que suele quedarse sin probar: **que la ruta del
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Código de estado**](../../../glosario/README.md#código-de-estado) | El número de tres cifras de la respuesta. `2xx` salió bien, `3xx` está en otro sitio, `4xx` se equivocó el cliente, `5xx` se equivocó el servidor. La frontera entre `4xx` y `5xx` dice de quién es el problema, y por tanto quién tiene que arreglarlo. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

@@ -35,6 +35,14 @@ Un grupo de **dos** conexiones. Tres peticiones a la vez. Y una fuga.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Grupo de conexiones**](../../../glosario/README.md#grupo-de-conexiones) *(Pool)* | Un conjunto de conexiones a la base de datos que se reutilizan en lugar de abrirse y cerrarse por petición. Abrir una conexión es caro; el tamaño del grupo es un límite duro de concurrencia que casi nadie mira hasta que se agota. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
@@ -63,7 +71,6 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `datos.db` | base de datos SQLite del laboratorio |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `main.py` | código Python |
 | `requirements.txt` | dependencias de Python, una por línea, con versión fijada |

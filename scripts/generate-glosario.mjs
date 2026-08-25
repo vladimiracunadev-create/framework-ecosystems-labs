@@ -113,11 +113,12 @@ function indiceAlfabetico(conceptos) {
 
 /** El ancla que GitHub genera para un encabezado. */
 function ancla(texto) {
+  // El mismo criterio que GitHub: minúsculas, fuera la puntuación, los espacios
+  // a guiones — y los acentos SE CONSERVAN. Quitarlos produciría enlaces que no
+  // llevan a ninguna parte en la mitad de las entradas.
   return texto
     .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/[^\p{L}\p{N}\s-]/gu, "")
     .trim()
     .replace(/\s+/g, "-");
 }

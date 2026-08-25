@@ -78,7 +78,6 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `datos.db` | base de datos SQLite del laboratorio |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `main.py` | código Python |
 | `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
@@ -108,7 +107,6 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `datos.db` | base de datos SQLite del laboratorio |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
@@ -141,8 +139,8 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `.bundle/config` | archivo del proyecto |
-| `config/database.yml` | configuración en YAML |
 | `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
+| `config/database.yml` | configuración en YAML |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `Gemfile` | dependencias de Ruby |
 

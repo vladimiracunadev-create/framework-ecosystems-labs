@@ -87,6 +87,14 @@ mira qué vuelve. Es la única forma honesta de clasificar un cambio.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Cambio incompatible**](../../../glosario/README.md#cambio-incompatible) *(Breaking change)* | Un cambio que hace fallar a un cliente que funcionaba. Quitar un campo lo es; añadir uno opcional, no. Saber cuál es cuál es lo que permite evolucionar una API sin coordinar despliegues. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

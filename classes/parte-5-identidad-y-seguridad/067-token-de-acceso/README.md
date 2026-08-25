@@ -65,6 +65,14 @@ eyJhbGciOiJIUzI1NiJ9 . eyJzdWIiOiJhbmEiLCJleHAiOjQxMDI0NDQ4MDB9 . BIRKBW…
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Token de acceso**](../../../glosario/README.md#token-de-acceso) *(JWT)* | Un dato firmado que el cliente presenta en cada petición y que el servidor verifica **sin consultar nada**. Su cuerpo va codificado, no cifrado: cualquiera que lo tenga puede leerlo. Y lo que no se guarda no se puede revocar. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

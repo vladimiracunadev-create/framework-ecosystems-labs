@@ -40,6 +40,14 @@ resuelven, y varios normalizan a minúsculas al recibir.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Cabecera**](../../../glosario/README.md#cabecera) | Metadato de una petición o una respuesta: qué formato lleva el cuerpo, quién eres, qué aceptas de vuelta, cuánto se puede cachear. Los nombres no distinguen mayúsculas, y una misma cabecera puede venir repetida. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

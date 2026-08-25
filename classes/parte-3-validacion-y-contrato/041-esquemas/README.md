@@ -86,6 +86,14 @@ para evolucionar una API y peligrosa para recibir datos de terceros.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Esquema**](../../../glosario/README.md#esquema) | Una descripción declarativa de la forma que deben tener unos datos. Un mismo esquema puede servir para validar la entrada, generar la documentación y tipar el código — tres usos de una sola declaración. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

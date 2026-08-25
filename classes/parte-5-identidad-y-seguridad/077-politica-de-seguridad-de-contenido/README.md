@@ -64,6 +64,15 @@ nonce y no hay `unsafe-inline` que lo salve [@whatwg-html].
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Política de seguridad de contenido**](../../../glosario/README.md#política-de-seguridad-de-contenido) *(CSP)* | Una cabecera que le dice al navegador qué puede cargar y ejecutar. Es la red que hay debajo cuando el escapado falla: el script inyectado está en el marcado y el navegador se niega a ejecutarlo. |
+| [**Nonce**](../../../glosario/README.md#nonce) | Un valor aleatorio **por respuesta** que autoriza a un script concreto dentro de una política de seguridad de contenido. Un nonce fijo en la configuración no es un nonce: el atacante lo lee en el HTML de ayer. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
@@ -162,7 +171,6 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `compilados/Pagina.js` | código JavaScript |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `Pagina.svelte` | componente de Svelte |
@@ -196,7 +204,6 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `.babelrc` | configuración de Babel: qué transformación se aplica al compilar |
-| `App.compilada.mjs` | código JavaScript (módulo ES) |
 | `App.jsx` | componente en JSX |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |

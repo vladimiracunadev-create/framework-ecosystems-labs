@@ -63,6 +63,16 @@ se puede subir el coste mañana sin romper los resúmenes de ayer.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Función de derivación de clave**](../../../glosario/README.md#función-de-derivación-de-clave) *(Hash de contraseña, bcrypt, Argon2)* | Una función deliberadamente **lenta** para guardar contraseñas: bcrypt, scrypt, Argon2, PBKDF2. Escribe sus parámetros dentro del resumen, así que verificar no necesita configuración y subirlos mañana no rompe los de ayer. |
+| [**Comparación en tiempo constante**](../../../glosario/README.md#comparación-en-tiempo-constante) | Comparar dos secretos tardando lo mismo coincidan o no. Un `==` corriente se detiene en el primer carácter distinto, y esa diferencia de microsegundos permite adivinar el valor carácter a carácter. |
+| [**Enumeración de usuarios**](../../../glosario/README.md#enumeración-de-usuarios) | Deducir qué cuentas existen a partir de respuestas distintas. Se cierra respondiendo lo mismo a «no existe» y «clave mala» — **y tardando lo mismo**, verificando contra un resumen señuelo. La respuesta y su tiempo son el mismo mensaje. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

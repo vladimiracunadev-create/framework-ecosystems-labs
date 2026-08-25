@@ -21,6 +21,14 @@ puede estar vacío**, y esa regla vive en el modelo.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Active Record**](../../../glosario/README.md#active-record) | El patrón en que el objeto de dominio **sabe guardarse**: `tarea.save()`. Rápido de escribir y difícil de probar sin base de datos, porque el dominio y el almacenamiento son la misma clase. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
@@ -58,8 +66,8 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `.bundle/config` | archivo del proyecto |
-| `config/database.yml` | configuración en YAML |
 | `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
+| `config/database.yml` | configuración en YAML |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `Gemfile` | dependencias de Ruby |
 
@@ -117,7 +125,6 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `app.py` | código Python |
-| `datos.db` | base de datos SQLite del laboratorio |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
 

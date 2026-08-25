@@ -68,6 +68,14 @@ de adivinar evita que un error tipográfico se sirva en silencio como v1.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Versionado de API**](../../../glosario/README.md#versionado-de-api) | Cómo se publica un cambio que rompe a los clientes existentes. En la ruta, en una cabecera o por negociación de contenido; lo que no cambia es la obligación de decidir cuánto tiempo se mantiene la versión anterior. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

@@ -45,6 +45,15 @@ seguidos.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Configuración por entorno**](../../../glosario/README.md#configuración-por-entorno) | Que lo que cambia entre desarrollo y producción venga de fuera del artefacto —variables de entorno— y no de un `if`. Y que **falte** una variable obligatoria haga fallar el arranque, no la primera petición. |
+| [**Secreto**](../../../glosario/README.md#secreto) | Un valor que no puede aparecer en el código, ni en el registro, ni en una respuesta: claves de firma, contraseñas de base de datos, credenciales. Un endpoint de configuración reporta su **presencia**, nunca su valor. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

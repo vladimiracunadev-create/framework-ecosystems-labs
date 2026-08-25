@@ -106,6 +106,19 @@ el programa.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Framework**](../../../glosario/README.md#framework) | Código de terceros que **te llama a ti**. Él tiene el bucle de control del programa y tú rellenas los huecos que deja. La definición no menciona el tamaño: Express son unas pocas líneas de API pública y es un framework. |
+| [**Biblioteca**](../../../glosario/README.md#biblioteca) *(Librería)* | Código de terceros que **tú llamas**. Tú mantienes el control del programa y le pides cosas cuando las necesitas. `node:http` implementa HTTP/1.1 entero y sigue siendo una biblioteca: lo que no hace es llamarte. |
+| [**Método plantilla**](../../../glosario/README.md#método-plantilla) | El patrón que formaliza la inversión de control: el esqueleto del algoritmo lo pone quien escribió el framework y tú rellenas pasos concretos. Un servidor HTTP es ese esqueleto —aceptar, leer, elegir manejador, responder, cerrar— y tu manejador es el hueco. |
+| [**Runtime**](../../../glosario/README.md#runtime) *(Entorno de ejecución)* | El programa que ejecuta tu código: Node.js para JavaScript, CPython para Python, la JVM para Java, el CLR para C#. No es un framework y decide cosas que ningún framework puede cambiar — empezando por el modelo de concurrencia. |
+| [**Manifiesto**](../../../glosario/README.md#manifiesto) | El archivo donde se declaran las dependencias de un proyecto: `package.json`, `requirements.txt`, `pom.xml`, `composer.json`, `Gemfile`, `go.mod`, `*.csproj`. Cada ecosistema tiene el suyo y todos hacen lo mismo. |
+| [**Dependencia**](../../../glosario/README.md#dependencia) | Código de terceros que tu programa necesita para funcionar. Se declara en el manifiesto y se descarga con un comando. Cada una es una decisión que alguien tendrá que entender, actualizar y auditar. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

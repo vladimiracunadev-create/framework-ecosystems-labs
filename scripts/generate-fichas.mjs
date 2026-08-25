@@ -33,6 +33,33 @@ const manifest = JSON.parse(fs.readFileSync(path.join(CLASSES, "_manifest.json")
 const catalogoCrudo = JSON.parse(fs.readFileSync(path.join(root, "catalog/frameworks.json"), "utf8"));
 const catalogo = new Map((catalogoCrudo.entries ?? catalogoCrudo).map((e) => [e.id, e]));
 
+/**
+ * Los conceptos que cada clase define, sacados del glosario.
+ *
+ * Así la clase y el glosario no pueden discrepar: la palabra se define una vez,
+ * en `glosario/conceptos.json`, y aparece en la clase que la enseña sin que
+ * nadie tenga que copiarla.
+ */
+const glosario = JSON.parse(fs.readFileSync(path.join(root, "glosario/conceptos.json"), "utf8"));
+const conceptosPorClase = new Map();
+for (const concepto of glosario.conceptos) {
+  if (concepto.clase === undefined) continue;
+  if (!conceptosPorClase.has(concepto.clase)) conceptosPorClase.set(concepto.clase, []);
+  conceptosPorClase.get(concepto.clase).push(concepto);
+}
+
+/** El ancla que GitHub genera para un encabezado del glosario. */
+function ancla(texto) {
+  // El mismo criterio que GitHub: minúsculas, fuera la puntuación, los espacios
+  // a guiones — y los acentos SE CONSERVAN. Quitarlos produciría enlaces que no
+  // llevan a ninguna parte en la mitad de las entradas.
+  return texto
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
 /** Nombre legible de la categoría del catálogo. */
 const CATEGORIAS = new Map([
   ["web-framework", "framework web"],
@@ -56,7 +83,7 @@ const normalizar = (texto) => texto.replaceAll("\r\n", "\n");
 const comando = (partes) => (partes ?? []).join(" ").replaceAll("${PUERTO}", "3000");
 
 /** El bloque de fichas de una clase. */
-function fichas(dir, elenco) {
+function fichas(dir, elenco, numero) {
   const dirImpl = path.join(dir, "implementaciones");
   if (!fs.existsSync(dirImpl)) return null;
 
@@ -71,6 +98,25 @@ function fichas(dir, elenco) {
 
   const inventarios = presentes.map((framework) => inventarioDe(dirImpl, framework, catalogo));
   const lineas = [];
+
+  const vocabulario = conceptosPorClase.get(numero) ?? [];
+  if (vocabulario.length) {
+    lineas.push("## 📖 Las palabras que esta clase define");
+    lineas.push("");
+    lineas.push(
+      "Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.",
+    );
+    lineas.push("");
+    lineas.push("| Palabra | Qué significa |");
+    lineas.push("| --- | --- |");
+    for (const c of vocabulario) {
+      const alias = c.alias?.length ? ` *(${c.alias.join(", ")})*` : "";
+      lineas.push(
+        `| [**${c.termino}**](../../../glosario/README.md#${ancla(c.termino)})${alias} | ${c.definicion} |`,
+      );
+    }
+    lineas.push("");
+  }
 
   lineas.push("## 🧰 Las piezas de esta clase, una por una");
   lineas.push("");
@@ -160,7 +206,7 @@ for (const parte of manifest.partes) {
     const readme = path.join(dir, "README.md");
     if (!fs.existsSync(readme)) continue;
 
-    const bloque = fichas(dir, clase.elenco ?? []);
+    const bloque = fichas(dir, clase.elenco ?? [], clase.n);
     if (!bloque) continue;
 
     const actual = fs.readFileSync(readme, "utf8");

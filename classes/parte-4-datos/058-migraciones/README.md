@@ -19,6 +19,14 @@ Una tabla `tareas` con una fila dentro. Hay que añadirle una columna
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Migración**](../../../glosario/README.md#migración) | Un cambio en el esquema de la base de datos, escrito como código, versionado y aplicado en orden. Sin migraciones, el esquema de producción es una suma de comandos que alguien ejecutó a mano y nadie recuerda. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
@@ -59,10 +67,10 @@ Qué hay dentro de su directorio:
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
 | `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
-| `prisma/datos.db` | base de datos SQLite del laboratorio |
 | `prisma/migration_lock.toml` | archivo del proyecto |
 | `prisma/migrations/20260101000000_crear_tareas/migration.sql` | sentencias SQL |
 | `prisma/migrations/20260101000100_anadir_prioridad/migration.sql` | sentencias SQL |
+| `prisma/schema.prisma` | esquema de Prisma: el modelo de datos del que se genera el cliente |
 
 ### 🔧 SQLAlchemy
 
@@ -84,13 +92,13 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `alembic.ini` | archivo del proyecto |
-| `datos.db` | base de datos SQLite del laboratorio |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `main.py` | código Python |
 | `migraciones/env.py` | código Python |
 | `migraciones/script.py.mako` | archivo del proyecto |
 | `migraciones/versions/001_crear_tareas.py` | código Python |
 | `migraciones/versions/002_anadir_prioridad.py` | código Python |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
 
 ### 🔧 Hibernate ORM
 

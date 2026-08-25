@@ -54,6 +54,14 @@ sobre el mismo estado, y el marcado base no depende de ninguna de ellas.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Mejora progresiva**](../../../glosario/README.md#mejora-progresiva) | Construir primero el caso que funciona sin JavaScript y añadir comportamiento encima. La propiedad que la define: si el JavaScript no llega, lo que queda **sigue funcionando** — la mejora es mejora, no requisito. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
@@ -136,7 +144,6 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `compilados/Pagina.js` | código JavaScript |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `Pagina.svelte` | componente de Svelte |

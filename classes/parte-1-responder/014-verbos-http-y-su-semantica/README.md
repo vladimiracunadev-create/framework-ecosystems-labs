@@ -67,6 +67,14 @@ POST creó **otro** recurso y no reutilizó el primero.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Método HTTP**](../../../glosario/README.md#método-http) *(Verbo HTTP)* | Lo que la petición pretende: `GET` leer, `POST` crear, `PUT` reemplazar entero, `PATCH` modificar una parte, `DELETE` borrar. No es decoración: de que `GET` no cambie nada dependen las cachés, los buscadores y la defensa contra CSRF. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

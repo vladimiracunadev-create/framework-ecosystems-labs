@@ -71,6 +71,16 @@ Set-Cookie: sesion=k3o0…Zw; Path=/; HttpOnly; SameSite=Lax
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Sesión**](../../../glosario/README.md#sesión) | Estado de un usuario guardado **en el servidor**, identificado por una cookie opaca. Es lo que permite cerrar sesión de verdad: se borra la entrada del almacén y la cookie robada deja de abrir. |
+| [**Cookie**](../../../glosario/README.md#cookie) | Un dato que el servidor pide al navegador que guarde y le devuelva en cada petición. Sus atributos no son decoración: `HttpOnly` la esconde del script de la página y `SameSite` evita que viaje en peticiones que provoca otra página. |
+| [**Fijación de sesión**](../../../glosario/README.md#fijación-de-sesión) | El ataque en que alguien planta un identificador de sesión antes del inicio de sesión y luego lo reutiliza ya autenticado. Se cierra emitiendo un identificador **nuevo** al autenticar. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

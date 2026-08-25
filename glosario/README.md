@@ -10,49 +10,49 @@ Las clases marcadas con 🚧 están en esqueleto: el contrato y el elenco están
 
 ## 🔤 Índice alfabético
 
-**A** · [Active Record](#active-record) · [Almacén por petición](#almacen-por-peticion) · [AOP → Aspecto](#aspecto) · [application/problem+json → RFC 9457](#rfc-9457) · [Archivo de bloqueo](#archivo-de-bloqueo) · [Argon2 → Función de derivación de clave](#funcion-de-derivacion-de-clave) · [Arranque en frío](#arranque-en-frio) · [Aspecto](#aspecto) · [Auditoría](#auditoria) · [Autorización por recurso](#autorizacion-por-recurso) · [Autorización por rol](#autorizacion-por-rol)
+**A** · [Active Record](#active-record) · [Almacén por petición](#almacén-por-petición) · [AOP → Aspecto](#aspecto) · [application/problem+json → RFC 9457](#rfc-9457) · [Archivo de bloqueo](#archivo-de-bloqueo) · [Argon2 → Función de derivación de clave](#función-de-derivación-de-clave) · [Arranque en frío](#arranque-en-frío) · [Aspecto](#aspecto) · [Auditoría](#auditoría) · [Autorización por recurso](#autorización-por-recurso) · [Autorización por rol](#autorización-por-rol)
 
-**Á** · [Ámbito](#ambito)
+**Á** · [Ámbito](#ámbito)
 
-**B** · [bcrypt → Función de derivación de clave](#funcion-de-derivacion-de-clave) · [Biblioteca](#biblioteca) · [Breaking change → Cambio incompatible](#cambio-incompatible) · [Bucle de eventos](#bucle-de-eventos)
+**B** · [bcrypt → Función de derivación de clave](#función-de-derivación-de-clave) · [Biblioteca](#biblioteca) · [Breaking change → Cambio incompatible](#cambio-incompatible) · [Bucle de eventos](#bucle-de-eventos)
 
-**C** · [Cabecera](#cabecera) · [Caché condicional](#cache-condicional) · [Cadena de herramientas](#cadena-de-herramientas) · [Cadena de suministro](#cadena-de-suministro) · [Cambio incompatible](#cambio-incompatible) · [Capa → Middleware](#middleware) · [Carga anticipada](#carga-anticipada) · [Carga de datos junto a la ruta](#carga-de-datos-junto-a-la-ruta) · [Carga perezosa](#carga-perezosa) · [Cascada de peticiones](#cascada-de-peticiones) · [Chunked transfer encoding → Codificación troceada](#codificacion-troceada) · [Ciclo de vida → Ámbito](#ambito) · [Clave de lista](#clave-de-lista) · [Codificación troceada](#codificacion-troceada) · [Código de estado](#codigo-de-estado) · [Cola de trabajo](#cola-de-trabajo) · [Comparación en tiempo constante](#comparacion-en-tiempo-constante) · [Componente](#componente) · [Componente de servidor](#componente-de-servidor) · [Comprobación previa](#comprobacion-previa) · [Configuración por entorno](#configuracion-por-entorno) · [Conflicto](#conflicto) · [Consulta parametrizada](#consulta-parametrizada) · [Contenedor de dependencias](#contenedor-de-dependencias) · [Contenedor de inversión de control → Contenedor de dependencias](#contenedor-de-dependencias) · [Contrato](#contrato) · [Convención](#convencion) · [Convención sobre configuración → Convención](#convencion) · [Cookie](#cookie) · [CORS](#cors) · [Coste total](#coste-total) · [Cross-Site Scripting → XSS](#xss) · [CSP → Política de seguridad de contenido](#politica-de-seguridad-de-contenido) · [CSRF](#csrf)
+**C** · [Cabecera](#cabecera) · [Caché condicional](#caché-condicional) · [Cadena de herramientas](#cadena-de-herramientas) · [Cadena de suministro](#cadena-de-suministro) · [Cambio incompatible](#cambio-incompatible) · [Capa → Middleware](#middleware) · [Carga anticipada](#carga-anticipada) · [Carga de datos junto a la ruta](#carga-de-datos-junto-a-la-ruta) · [Carga perezosa](#carga-perezosa) · [Cascada de peticiones](#cascada-de-peticiones) · [Chunked transfer encoding → Codificación troceada](#codificación-troceada) · [Ciclo de vida → Ámbito](#ámbito) · [Clave de lista](#clave-de-lista) · [Codificación troceada](#codificación-troceada) · [Código de estado](#código-de-estado) · [Cola de trabajo](#cola-de-trabajo) · [Comparación en tiempo constante](#comparación-en-tiempo-constante) · [Componente](#componente) · [Componente de servidor](#componente-de-servidor) · [Comprobación previa](#comprobación-previa) · [Configuración por entorno](#configuración-por-entorno) · [Conflicto](#conflicto) · [Consulta parametrizada](#consulta-parametrizada) · [Contenedor de dependencias](#contenedor-de-dependencias) · [Contenedor de inversión de control → Contenedor de dependencias](#contenedor-de-dependencias) · [Contrato](#contrato) · [Convención](#convención) · [Convención sobre configuración → Convención](#convención) · [Cookie](#cookie) · [CORS](#cors) · [Coste total](#coste-total) · [Cross-Site Scripting → XSS](#xss) · [CSP → Política de seguridad de contenido](#política-de-seguridad-de-contenido) · [CSRF](#csrf)
 
 **D** · [Data Mapper](#data-mapper) · [Decorador](#decorador) · [Dependencia](#dependencia) · [Dependencia transitiva](#dependencia-transitiva) · [Doble de prueba](#doble-de-prueba) · [DOM virtual](#dom-virtual)
 
-**E** · [Eager loading → Carga anticipada](#carga-anticipada) · [Efecto](#efecto) · [Elenco](#elenco) · [Empaquetado](#empaquetado) · [Entorno de ejecución → Runtime](#runtime) · [Enumeración de usuarios](#enumeracion-de-usuarios) · [Enviar-redirigir-mostrar](#enviar-redirigir-mostrar) · [EOL → Fin de vida](#fin-de-vida) · [Escapado](#escapado) · [Esquema](#esquema) · [Estado](#estado) · [Estado compartido](#estado-compartido) · [Estado del servidor](#estado-del-servidor) · [ETag → Caché condicional](#cache-condicional) · [Event loop → Bucle de eventos](#bucle-de-eventos) · [Evento](#evento) · [Evento de dominio](#evento-de-dominio) · [Eventos enviados por el servidor](#eventos-enviados-por-el-servidor)
+**E** · [Eager loading → Carga anticipada](#carga-anticipada) · [Efecto](#efecto) · [Elenco](#elenco) · [Empaquetado](#empaquetado) · [Entorno de ejecución → Runtime](#runtime) · [Enumeración de usuarios](#enumeración-de-usuarios) · [Enviar-redirigir-mostrar](#enviar-redirigir-mostrar) · [EOL → Fin de vida](#fin-de-vida) · [Escapado](#escapado) · [Esquema](#esquema) · [Estado](#estado) · [Estado compartido](#estado-compartido) · [Estado del servidor](#estado-del-servidor) · [ETag → Caché condicional](#caché-condicional) · [Event loop → Bucle de eventos](#bucle-de-eventos) · [Evento](#evento) · [Evento de dominio](#evento-de-dominio) · [Eventos enviados por el servidor](#eventos-enviados-por-el-servidor)
 
-**F** · [Fake → Doble de prueba](#doble-de-prueba) · [Falsificación de petición entre sitios → CSRF](#csrf) · [Fijación de sesión](#fijacion-de-sesion) · [Filtrado](#filtrado) · [Filtro → Middleware](#middleware) · [Fin de vida](#fin-de-vida) · [Formulario controlado](#formulario-controlado) · [Framework](#framework) · [Función de derivación de clave](#funcion-de-derivacion-de-clave)
+**F** · [Fake → Doble de prueba](#doble-de-prueba) · [Falsificación de petición entre sitios → CSRF](#csrf) · [Fijación de sesión](#fijación-de-sesión) · [Filtrado](#filtrado) · [Filtro → Middleware](#middleware) · [Fin de vida](#fin-de-vida) · [Formulario controlado](#formulario-controlado) · [Framework](#framework) · [Función de derivación de clave](#función-de-derivación-de-clave)
 
-**G** · [Generación estática](#generacion-estatica) · [Grupo de conexiones](#grupo-de-conexiones)
+**G** · [Generación estática](#generación-estática) · [Grupo de conexiones](#grupo-de-conexiones)
 
-**H** · [Hash de contraseña → Función de derivación de clave](#funcion-de-derivacion-de-clave) · [Health check → Salud y preparación](#salud-y-preparacion) · [Hidratación](#hidratacion) · [Higuera estranguladora](#higuera-estranguladora) · [Hipermedia](#hipermedia)
+**H** · [Hash de contraseña → Función de derivación de clave](#función-de-derivación-de-clave) · [Health check → Salud y preparación](#salud-y-preparación) · [Hidratación](#hidratación) · [Higuera estranguladora](#higuera-estranguladora) · [Hipermedia](#hipermedia)
 
-**I** · [Idempotencia](#idempotencia) · [Identificador de correlación](#identificador-de-correlacion) · [Idiomático](#idiomatico) · [Intercambio de recursos entre orígenes → CORS](#cors) · [Interceptor → Middleware](#middleware) · [Inversión de control](#inversion-de-control) · [Inyección SQL](#inyeccion-sql) · [IoC → Inversión de control](#inversion-de-control) · [Isla](#isla)
+**I** · [Idempotencia](#idempotencia) · [Identificador de correlación](#identificador-de-correlación) · [Idiomático](#idiomático) · [Intercambio de recursos entre orígenes → CORS](#cors) · [Interceptor → Middleware](#middleware) · [Inversión de control](#inversión-de-control) · [Inyección SQL](#inyección-sql) · [IoC → Inversión de control](#inversión-de-control) · [Isla](#isla)
 
 **J** · [JWT → Token de acceso](#token-de-acceso)
 
 **K** · [Key → Clave de lista](#clave-de-lista)
 
-**L** · [Lazy loading → Carga perezosa](#carga-perezosa) · [Librería → Biblioteca](#biblioteca) · [Limitación de tasa](#limitacion-de-tasa) · [Lockfile → Archivo de bloqueo](#archivo-de-bloqueo)
+**L** · [Lazy loading → Carga perezosa](#carga-perezosa) · [Librería → Biblioteca](#biblioteca) · [Limitación de tasa](#limitación-de-tasa) · [Lockfile → Archivo de bloqueo](#archivo-de-bloqueo)
 
-**M** · [Manifiesto](#manifiesto) · [Mapeador objeto-relacional → ORM](#orm) · [Medir antes de optimizar](#medir-antes-de-optimizar) · [Mejora progresiva](#mejora-progresiva) · [Metaframework](#metaframework) · [Método HTTP](#metodo-http) · [Método plantilla](#metodo-plantilla) · [Métrica](#metrica) · [Micro-frontend](#micro-frontend) · [Middleware](#middleware) · [Migración](#migracion) · [Migrar sin parar](#migrar-sin-parar) · [Mock → Doble de prueba](#doble-de-prueba)
+**M** · [Manifiesto](#manifiesto) · [Mapeador objeto-relacional → ORM](#orm) · [Medir antes de optimizar](#medir-antes-de-optimizar) · [Mejora progresiva](#mejora-progresiva) · [Metaframework](#metaframework) · [Método HTTP](#método-http) · [Método plantilla](#método-plantilla) · [Métrica](#métrica) · [Micro-frontend](#micro-frontend) · [Middleware](#middleware) · [Migración](#migración) · [Migrar sin parar](#migrar-sin-parar) · [Mock → Doble de prueba](#doble-de-prueba)
 
-**N** · [Negociación de contenido](#negociacion-de-contenido) · [Nonce](#nonce)
+**N** · [Negociación de contenido](#negociación-de-contenido) · [Nonce](#nonce)
 
-**O** · [OAuth 2.0](#oauth-20) · [Offline-first → Sin conexión primero](#sin-conexion-primero) · [OpenAPI](#openapi) · [OpenID Connect](#openid-connect) · [Origen](#origen) · [ORM](#orm)
+**O** · [OAuth 2.0](#oauth-20) · [Offline-first → Sin conexión primero](#sin-conexión-primero) · [OpenAPI](#openapi) · [OpenID Connect](#openid-connect) · [Origen](#origen) · [ORM](#orm)
 
-**P** · [Paginación](#paginacion) · [Percentil](#percentil) · [Pirámide de pruebas](#piramide-de-pruebas) · [Pista](#pista) · [PKCE](#pkce) · [Política de seguridad de contenido](#politica-de-seguridad-de-contenido) · [Polling → Sondeo](#sondeo) · [Pool → Grupo de conexiones](#grupo-de-conexiones) · [POST/Redirect/GET → Enviar-redirigir-mostrar](#enviar-redirigir-mostrar) · [Preflight → Comprobación previa](#comprobacion-previa) · [Presupuesto de JavaScript](#presupuesto-de-javascript) · [Principio de Hollywood → Inversión de control](#inversion-de-control) · [Problem Details → RFC 9457](#rfc-9457) · [Problema N+1](#problema-n1) · [Programación orientada a aspectos → Aspecto](#aspecto) · [Prop → Propiedad](#propiedad) · [Propiedad](#propiedad) · [Prueba de caracterización](#prueba-de-caracterizacion) · [Prueba de contrato](#prueba-de-contrato)
+**P** · [Paginación](#paginación) · [Percentil](#percentil) · [Pirámide de pruebas](#pirámide-de-pruebas) · [Pista](#pista) · [PKCE](#pkce) · [Política de seguridad de contenido](#política-de-seguridad-de-contenido) · [Polling → Sondeo](#sondeo) · [Pool → Grupo de conexiones](#grupo-de-conexiones) · [POST/Redirect/GET → Enviar-redirigir-mostrar](#enviar-redirigir-mostrar) · [Preflight → Comprobación previa](#comprobación-previa) · [Presupuesto de JavaScript](#presupuesto-de-javascript) · [Principio de Hollywood → Inversión de control](#inversión-de-control) · [Problem Details → RFC 9457](#rfc-9457) · [Problema N+1](#problema-n1) · [Programación orientada a aspectos → Aspecto](#aspecto) · [Prop → Propiedad](#propiedad) · [Propiedad](#propiedad) · [Prueba de caracterización](#prueba-de-caracterización) · [Prueba de contrato](#prueba-de-contrato)
 
-**R** · [Rate limiting → Limitación de tasa](#limitacion-de-tasa) · [Reactividad](#reactividad) · [Readiness → Salud y preparación](#salud-y-preparacion) · [Redirección](#redireccion) · [Registro estructurado](#registro-estructurado) · [Reintento](#reintento) · [Renderizado en el servidor](#renderizado-en-el-servidor) · [Repositorio](#repositorio) · [Respuesta en flujo](#respuesta-en-flujo) · [RFC 9457](#rfc-9457) · [Runtime](#runtime)
+**R** · [Rate limiting → Limitación de tasa](#limitación-de-tasa) · [Reactividad](#reactividad) · [Readiness → Salud y preparación](#salud-y-preparación) · [Redirección](#redirección) · [Registro estructurado](#registro-estructurado) · [Reintento](#reintento) · [Renderizado en el servidor](#renderizado-en-el-servidor) · [Repositorio](#repositorio) · [Respuesta en flujo](#respuesta-en-flujo) · [RFC 9457](#rfc-9457) · [Runtime](#runtime)
 
-**S** · [Salud y preparación](#salud-y-preparacion) · [Scope → Ámbito](#ambito) · [Secreto](#secreto) · [Seed → Semilla](#semilla) · [Seguro (método)](#seguro-metodo) · [Semilla](#semilla) · [SemVer → Versionado semántico](#versionado-semantico) · [Señal](#senal) · [Sesión](#sesion) · [Signal → Señal](#senal) · [Sin conexión primero](#sin-conexion-primero) · [Sincronización](#sincronizacion) · [Sondeo](#sondeo) · [SSE → Eventos enviados por el servidor](#eventos-enviados-por-el-servidor) · [SSG → Generación estática](#generacion-estatica) · [SSR → Renderizado en el servidor](#renderizado-en-el-servidor) · [Strangler fig → Higuera estranguladora](#higuera-estranguladora) · [Streaming → Respuesta en flujo](#respuesta-en-flujo) · [Stub → Doble de prueba](#doble-de-prueba)
+**S** · [Salud y preparación](#salud-y-preparación) · [Scope → Ámbito](#ámbito) · [Secreto](#secreto) · [Seed → Semilla](#semilla) · [Seguro (método)](#seguro-método) · [Semilla](#semilla) · [SemVer → Versionado semántico](#versionado-semántico) · [Señal](#señal) · [Sesión](#sesión) · [Signal → Señal](#señal) · [Sin conexión primero](#sin-conexión-primero) · [Sincronización](#sincronización) · [Sondeo](#sondeo) · [SSE → Eventos enviados por el servidor](#eventos-enviados-por-el-servidor) · [SSG → Generación estática](#generación-estática) · [SSR → Renderizado en el servidor](#renderizado-en-el-servidor) · [Strangler fig → Higuera estranguladora](#higuera-estranguladora) · [Streaming → Respuesta en flujo](#respuesta-en-flujo) · [Stub → Doble de prueba](#doble-de-prueba)
 
-**T** · [Tarea programada](#tarea-programada) · [Taxonomía](#taxonomia) · [Terminación temprana](#terminacion-temprana) · [Testigo sincronizado](#testigo-sincronizado) · [Token CSRF → Testigo sincronizado](#testigo-sincronizado) · [Token de acceso](#token-de-acceso) · [Toolchain → Cadena de herramientas](#cadena-de-herramientas) · [Transacción](#transaccion) · [Traza](#traza)
+**T** · [Tarea programada](#tarea-programada) · [Taxonomía](#taxonomía) · [Terminación temprana](#terminación-temprana) · [Testigo sincronizado](#testigo-sincronizado) · [Token CSRF → Testigo sincronizado](#testigo-sincronizado) · [Token de acceso](#token-de-acceso) · [Toolchain → Cadena de herramientas](#cadena-de-herramientas) · [Transacción](#transacción) · [Traza](#traza)
 
-**U** · [Un hilo por petición](#un-hilo-por-peticion)
+**U** · [Un hilo por petición](#un-hilo-por-petición)
 
-**V** · [Validación](#validacion) · [Verbo HTTP → Método HTTP](#metodo-http) · [Verde honesto](#verde-honesto) · [Versionado de API](#versionado-de-api) · [Versionado semántico](#versionado-semantico)
+**V** · [Validación](#validación) · [Verbo HTTP → Método HTTP](#método-http) · [Verde honesto](#verde-honesto) · [Versionado de API](#versionado-de-api) · [Versionado semántico](#versionado-semántico)
 
 **W** · [WebSocket](#websocket)
 
@@ -76,7 +76,7 @@ El modelo de concurrencia de Node.js y de Python asíncrono: **un solo hilo** qu
 
 También: *(Event loop)*
 
-> Se enseña en la [clase 022](../classes/parte-1-responder/022-respuesta-en-flujo/README.md) · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Un hilo por petición](#un-hilo-por-peticion), [Runtime](#runtime).
+> Se enseña en la [clase 022](../classes/parte-1-responder/022-respuesta-en-flujo/README.md) · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Un hilo por petición](#un-hilo-por-petición), [Runtime](#runtime).
 
 #### Convención
 
@@ -84,7 +84,7 @@ Una regla que el framework da por supuesta sin que la escribas: que la clase `Ra
 
 También: *(Convención sobre configuración)*
 
-> Se enseña en la [clase 005](../classes/parte-0-el-metodo/005-idiomatico-frente-a-traducido/README.md) 🚧 · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Idiomático](#idiomatico).
+> Se enseña en la [clase 005](../classes/parte-0-el-metodo/005-idiomatico-frente-a-traducido/README.md) 🚧 · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Idiomático](#idiomático).
 
 #### Coste total
 
@@ -96,13 +96,13 @@ Lo que cuesta un framework más allá del código: aprenderlo, mantenerlo actual
 
 Código de terceros que **te llama a ti**. Él tiene el bucle de control del programa y tú rellenas los huecos que deja. La definición no menciona el tamaño: Express son unas pocas líneas de API pública y es un framework.
 
-> Se enseña en la [clase 001](../classes/parte-0-el-metodo/001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) · ver también [Biblioteca](#biblioteca), [Inversión de control](#inversion-de-control).
+> Se enseña en la [clase 001](../classes/parte-0-el-metodo/001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) · ver también [Biblioteca](#biblioteca), [Inversión de control](#inversión-de-control).
 
 #### Idiomático
 
 Código escrito como lo escribiría quien conoce ese framework, en lugar de traducido literalmente desde otro. Un Express escrito como si fuera Spring funciona y pierde todo lo que hacía valioso a Express.
 
-> Se enseña en la [clase 005](../classes/parte-0-el-metodo/005-idiomatico-frente-a-traducido/README.md) 🚧 · ver también [Convención](#convencion).
+> Se enseña en la [clase 005](../classes/parte-0-el-metodo/005-idiomatico-frente-a-traducido/README.md) 🚧 · ver también [Convención](#convención).
 
 #### Inversión de control
 
@@ -110,19 +110,19 @@ Que el flujo del programa lo dirija el framework y no tu código. Se resume en �
 
 También: *(IoC, Principio de Hollywood)*
 
-> Se enseña en la [clase 002](../classes/parte-0-el-metodo/002-inversion-de-control-en-concreto/README.md) · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Framework](#framework), [Contenedor de dependencias](#contenedor-de-dependencias), [Método plantilla](#metodo-plantilla).
+> Se enseña en la [clase 002](../classes/parte-0-el-metodo/002-inversion-de-control-en-concreto/README.md) · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Framework](#framework), [Contenedor de dependencias](#contenedor-de-dependencias), [Método plantilla](#método-plantilla).
 
 #### Metaframework
 
 Un framework construido sobre otro que añade enrutado, renderizado en servidor, carga de datos y empaquetado. Next.js sobre React, Nuxt sobre Vue, SvelteKit sobre Svelte. Compite con otros metaframeworks, no con la biblioteca que lleva dentro.
 
-> Se enseña en la [clase 004](../classes/parte-0-el-metodo/004-taxonomia-que-compite-de-verdad-con-que/README.md) 🚧 · se desarrolla en el [módulo 00](../curriculum/00-taxonomia-y-diagnostico.md) · ver también [Taxonomía](#taxonomia).
+> Se enseña en la [clase 004](../classes/parte-0-el-metodo/004-taxonomia-que-compite-de-verdad-con-que/README.md) 🚧 · se desarrolla en el [módulo 00](../curriculum/00-taxonomia-y-diagnostico.md) · ver también [Taxonomía](#taxonomía).
 
 #### Método plantilla
 
 El patrón que formaliza la inversión de control: el esqueleto del algoritmo lo pone quien escribió el framework y tú rellenas pasos concretos. Un servidor HTTP es ese esqueleto —aceptar, leer, elegir manejador, responder, cerrar— y tu manejador es el hueco.
 
-> Se enseña en la [clase 001](../classes/parte-0-el-metodo/001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) · ver también [Inversión de control](#inversion-de-control).
+> Se enseña en la [clase 001](../classes/parte-0-el-metodo/001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) · ver también [Inversión de control](#inversión-de-control).
 
 #### Runtime
 
@@ -130,7 +130,7 @@ El programa que ejecuta tu código: Node.js para JavaScript, CPython para Python
 
 También: *(Entorno de ejecución)*
 
-> Se enseña en la [clase 001](../classes/parte-0-el-metodo/001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) · ver también [Bucle de eventos](#bucle-de-eventos), [Un hilo por petición](#un-hilo-por-peticion).
+> Se enseña en la [clase 001](../classes/parte-0-el-metodo/001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) · ver también [Bucle de eventos](#bucle-de-eventos), [Un hilo por petición](#un-hilo-por-petición).
 
 #### Taxonomía
 
@@ -150,7 +150,7 @@ El modelo de concurrencia de la JVM y de .NET: cada petición ocupa un hilo del 
 
 Metadato de una petición o una respuesta: qué formato lleva el cuerpo, quién eres, qué aceptas de vuelta, cuánto se puede cachear. Los nombres no distinguen mayúsculas, y una misma cabecera puede venir repetida.
 
-> Se enseña en la [clase 016](../classes/parte-1-responder/016-cabeceras-leer-y-escribir/README.md) · ver también [Negociación de contenido](#negociacion-de-contenido).
+> Se enseña en la [clase 016](../classes/parte-1-responder/016-cabeceras-leer-y-escribir/README.md) · ver también [Negociación de contenido](#negociación-de-contenido).
 
 #### Caché condicional
 
@@ -158,7 +158,7 @@ Que el cliente pregunte «¿ha cambiado?» enviando la huella que guardó, y el 
 
 También: *(ETag)*
 
-> Se enseña en la [clase 048](../classes/parte-3-validacion-y-contrato/048-etags-y-cache-condicional/README.md) · ver también [Negociación de contenido](#negociacion-de-contenido).
+> Se enseña en la [clase 048](../classes/parte-3-validacion-y-contrato/048-etags-y-cache-condicional/README.md) · ver también [Negociación de contenido](#negociación-de-contenido).
 
 #### Codificación troceada
 
@@ -172,7 +172,7 @@ También: *(Chunked transfer encoding)*
 
 El número de tres cifras de la respuesta. `2xx` salió bien, `3xx` está en otro sitio, `4xx` se equivocó el cliente, `5xx` se equivocó el servidor. La frontera entre `4xx` y `5xx` dice de quién es el problema, y por tanto quién tiene que arreglarlo.
 
-> Se enseña en la [clase 015](../classes/parte-1-responder/015-codigos-de-estado/README.md) · se desarrolla en el [módulo 01](../curriculum/01-http-eventos-y-contratos.md) · ver también [Método HTTP](#metodo-http).
+> Se enseña en la [clase 015](../classes/parte-1-responder/015-codigos-de-estado/README.md) · se desarrolla en el [módulo 01](../curriculum/01-http-eventos-y-contratos.md) · ver también [Método HTTP](#método-http).
 
 #### Comprobación previa
 
@@ -188,7 +188,7 @@ El mecanismo por el que un servidor autoriza a páginas de otro origen a leer su
 
 También: *(Intercambio de recursos entre orígenes)*
 
-> Se enseña en la [clase 024](../classes/parte-1-responder/024-cors/README.md) · ver también [Origen](#origen), [Comprobación previa](#comprobacion-previa).
+> Se enseña en la [clase 024](../classes/parte-1-responder/024-cors/README.md) · ver también [Origen](#origen), [Comprobación previa](#comprobación-previa).
 
 #### Enviar-redirigir-mostrar
 
@@ -196,13 +196,13 @@ Responder a un `POST` con una redirección en lugar de con la página. Sin ese p
 
 También: *(POST/Redirect/GET)*
 
-> Se enseña en la [clase 080](../classes/parte-6-la-interfaz/080-formularios-que-funcionan-sin-javascript/README.md) · ver también [Redirección](#redireccion), [Idempotencia](#idempotencia).
+> Se enseña en la [clase 080](../classes/parte-6-la-interfaz/080-formularios-que-funcionan-sin-javascript/README.md) · ver también [Redirección](#redirección), [Idempotencia](#idempotencia).
 
 #### Idempotencia
 
 Que repetir la misma petición produzca el mismo estado final. `PUT` y `DELETE` lo son por definición; `POST` no. La idempotencia **viene de lo que hace el código**, no del verbo: un `PUT` que acumule en vez de reemplazar rompe la promesa.
 
-> Se enseña en la [clase 047](../classes/parte-3-validacion-y-contrato/047-idempotencia/README.md) · ver también [Método HTTP](#metodo-http), [Reintento](#reintento).
+> Se enseña en la [clase 047](../classes/parte-3-validacion-y-contrato/047-idempotencia/README.md) · ver también [Método HTTP](#método-http), [Reintento](#reintento).
 
 #### Método HTTP
 
@@ -210,13 +210,13 @@ Lo que la petición pretende: `GET` leer, `POST` crear, `PUT` reemplazar entero,
 
 También: *(Verbo HTTP)*
 
-> Se enseña en la [clase 014](../classes/parte-1-responder/014-verbos-http-y-su-semantica/README.md) · se desarrolla en el [módulo 01](../curriculum/01-http-eventos-y-contratos.md) · ver también [Idempotencia](#idempotencia), [Seguro (método)](#seguro-metodo).
+> Se enseña en la [clase 014](../classes/parte-1-responder/014-verbos-http-y-su-semantica/README.md) · se desarrolla en el [módulo 01](../curriculum/01-http-eventos-y-contratos.md) · ver también [Idempotencia](#idempotencia), [Seguro (método)](#seguro-método).
 
 #### Negociación de contenido
 
 Que el mismo recurso se sirva en el formato que el cliente prefiere, según su cabecera `Accept`. Obliga a emitir `Vary: Accept`: sin ella una caché serviría el HTML a quien pidió JSON, porque para ella las dos peticiones son la misma URL.
 
-> Se enseña en la [clase 018](../classes/parte-1-responder/018-negociacion-de-contenido/README.md) · ver también [Cabecera](#cabecera), [Caché condicional](#cache-condicional).
+> Se enseña en la [clase 018](../classes/parte-1-responder/018-negociacion-de-contenido/README.md) · ver también [Cabecera](#cabecera), [Caché condicional](#caché-condicional).
 
 #### Origen
 
@@ -228,7 +228,7 @@ La terna esquema + host + puerto. `https://ejemplo.com` y `https://ejemplo.com:8
 
 Una respuesta que dice «está en otro sitio». Se decide en dos ejes: permanente o temporal, y conservando el método o no. `301` permanente, `302` temporal, `307` temporal conservando el método, `308` permanente conservándolo. El `301` se cachea y cuesta retirarlo.
 
-> Se enseña en la [clase 019](../classes/parte-1-responder/019-redirecciones/README.md) · ver también [Código de estado](#codigo-de-estado), [Enviar-redirigir-mostrar](#enviar-redirigir-mostrar).
+> Se enseña en la [clase 019](../classes/parte-1-responder/019-redirecciones/README.md) · ver también [Código de estado](#código-de-estado), [Enviar-redirigir-mostrar](#enviar-redirigir-mostrar).
 
 #### Respuesta en flujo
 
@@ -236,13 +236,13 @@ Enviar la respuesta a trozos, sin conocer su tamaño total de antemano. Se consi
 
 También: *(Streaming)*
 
-> Se enseña en la [clase 022](../classes/parte-1-responder/022-respuesta-en-flujo/README.md) · ver también [Codificación troceada](#codificacion-troceada), [Un hilo por petición](#un-hilo-por-peticion).
+> Se enseña en la [clase 022](../classes/parte-1-responder/022-respuesta-en-flujo/README.md) · ver también [Codificación troceada](#codificación-troceada), [Un hilo por petición](#un-hilo-por-petición).
 
 #### Seguro (método)
 
 Un método que no cambia el estado del servidor. `GET` y `HEAD` lo son. Un `GET` que transfiera dinero es indefendible: bastaría una etiqueta `<img>` en cualquier página para dispararlo.
 
-> Se enseña en la [clase 072](../classes/parte-5-identidad-y-seguridad/072-csrf/README.md) · ver también [Método HTTP](#metodo-http), [CSRF](#csrf).
+> Se enseña en la [clase 072](../classes/parte-5-identidad-y-seguridad/072-csrf/README.md) · ver también [Método HTTP](#método-http), [CSRF](#csrf).
 
 ### La tubería: middleware, filtros e interceptores
 
@@ -250,7 +250,7 @@ Un método que no cambia el estado del servidor. `GET` y `HEAD` lo son. Un `GET`
 
 El sitio donde una capa deja datos para las siguientes sin usar variables globales: `peticion.traza` en Express, `contexto.Items` en .NET, `peticion.state` en Starlette, los atributos de la petición en el mundo de los servlets. Cuatro nombres, un problema.
 
-> Se enseña en la [clase 027](../classes/parte-2-la-tuberia/027-el-orden-importa/README.md) · ver también [Middleware](#middleware), [Identificador de correlación](#identificador-de-correlacion).
+> Se enseña en la [clase 027](../classes/parte-2-la-tuberia/027-el-orden-importa/README.md) · ver también [Middleware](#middleware), [Identificador de correlación](#identificador-de-correlación).
 
 #### Ámbito
 
@@ -274,7 +274,7 @@ La pieza que construye tus objetos y les entrega lo que necesitan. Es la consecu
 
 También: *(Contenedor de inversión de control)*
 
-> Se enseña en la [clase 036](../classes/parte-2-la-tuberia/036-inyeccion-de-dependencias/README.md) · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Inversión de control](#inversion-de-control), [Ámbito](#ambito).
+> Se enseña en la [clase 036](../classes/parte-2-la-tuberia/036-inyeccion-de-dependencias/README.md) · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Inversión de control](#inversión-de-control), [Ámbito](#ámbito).
 
 #### Decorador
 
@@ -286,7 +286,7 @@ Una función que recibe otra función, la envuelve y devuelve la envoltura. En P
 
 Un identificador que acompaña a una petición por todos los servicios que atraviesa, para poder seguirla en los registros. Se respeta si viene y se genera si falta, y **se limita en longitud**: entra en los registros y lo controla el cliente.
 
-> Se enseña en la [clase 030](../classes/parte-2-la-tuberia/030-identificador-de-correlacion/README.md) · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Almacén por petición](#almacen-por-peticion), [Traza](#traza).
+> Se enseña en la [clase 030](../classes/parte-2-la-tuberia/030-identificador-de-correlacion/README.md) · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Almacén por petición](#almacén-por-petición), [Traza](#traza).
 
 #### Limitación de tasa
 
@@ -302,7 +302,7 @@ Una pieza que envuelve al manejador: recibe la petición, hace su parte y llama 
 
 También: *(Capa, Filtro, Interceptor)*
 
-> Se enseña en la [clase 026](../classes/parte-2-la-tuberia/026-el-patron-middleware/README.md) · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Terminación temprana](#terminacion-temprana), [Aspecto](#aspecto).
+> Se enseña en la [clase 026](../classes/parte-2-la-tuberia/026-el-patron-middleware/README.md) · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Terminación temprana](#terminación-temprana), [Aspecto](#aspecto).
 
 #### Terminación temprana
 
@@ -324,13 +324,13 @@ También: *(Breaking change)*
 
 Una descripción declarativa de la forma que deben tener unos datos. Un mismo esquema puede servir para validar la entrada, generar la documentación y tipar el código — tres usos de una sola declaración.
 
-> Se enseña en la [clase 041](../classes/parte-3-validacion-y-contrato/041-esquemas/README.md) · ver también [Validación](#validacion), [OpenAPI](#openapi).
+> Se enseña en la [clase 041](../classes/parte-3-validacion-y-contrato/041-esquemas/README.md) · ver también [Validación](#validación), [OpenAPI](#openapi).
 
 #### Filtrado
 
 Acotar una lista por criterios que llegan del cliente. El riesgo no es la sintaxis: es aceptar como campo de ordenación cualquier texto que llegue, que es una inyección con otro nombre.
 
-> Se enseña en la [clase 046](../classes/parte-3-validacion-y-contrato/046-filtrado-y-ordenacion/README.md) · ver también [Paginación](#paginacion), [Inyección SQL](#inyeccion-sql).
+> Se enseña en la [clase 046](../classes/parte-3-validacion-y-contrato/046-filtrado-y-ordenacion/README.md) · ver también [Paginación](#paginación), [Inyección SQL](#inyección-sql).
 
 #### OpenAPI
 
@@ -350,7 +350,7 @@ El formato estándar de los errores de una API HTTP: un objeto con `type`, `titl
 
 También: *(Problem Details, application/problem+json)*
 
-> Se enseña en la [clase 040](../classes/parte-3-validacion-y-contrato/040-errores-por-campo-con-rfc-9457/README.md) · se desarrolla en el [módulo 01](../curriculum/01-http-eventos-y-contratos.md) · ver también [Validación](#validacion), [Código de estado](#codigo-de-estado).
+> Se enseña en la [clase 040](../classes/parte-3-validacion-y-contrato/040-errores-por-campo-con-rfc-9457/README.md) · se desarrolla en el [módulo 01](../curriculum/01-http-eventos-y-contratos.md) · ver también [Validación](#validación), [Código de estado](#código-de-estado).
 
 #### Validación
 
@@ -400,7 +400,7 @@ Un conjunto de conexiones a la base de datos que se reutilizan en lugar de abrir
 
 También: *(Pool)*
 
-> Se enseña en la [clase 061](../classes/parte-4-datos/061-grupo-de-conexiones/README.md) · se desarrolla en el [módulo 06](../curriculum/06-persistencia-y-dominio.md) · ver también [Transacción](#transaccion).
+> Se enseña en la [clase 061](../classes/parte-4-datos/061-grupo-de-conexiones/README.md) · se desarrolla en el [módulo 06](../curriculum/06-persistencia-y-dominio.md) · ver también [Transacción](#transacción).
 
 #### Migración
 
@@ -414,7 +414,7 @@ Una capa que traduce entre filas de una base de datos relacional y objetos del l
 
 También: *(Mapeador objeto-relacional)*
 
-> Se enseña en la [clase 051](../classes/parte-4-datos/051-conectar-a-una-base-de-datos/README.md) · se desarrolla en el [módulo 06](../curriculum/06-persistencia-y-dominio.md) · ver también [Active Record](#active-record), [Data Mapper](#data-mapper), [Inyección SQL](#inyeccion-sql).
+> Se enseña en la [clase 051](../classes/parte-4-datos/051-conectar-a-una-base-de-datos/README.md) · se desarrolla en el [módulo 06](../curriculum/06-persistencia-y-dominio.md) · ver también [Active Record](#active-record), [Data Mapper](#data-mapper), [Inyección SQL](#inyección-sql).
 
 #### Problema N+1
 
@@ -434,7 +434,7 @@ Datos de partida que se cargan de forma repetible: los mínimos para que la apli
 
 También: *(Seed)*
 
-> Se enseña en la [clase 059](../classes/parte-4-datos/059-semillas-y-datos-de-prueba/README.md) · ver también [Migración](#migracion).
+> Se enseña en la [clase 059](../classes/parte-4-datos/059-semillas-y-datos-de-prueba/README.md) · ver también [Migración](#migración).
 
 #### Transacción
 
@@ -454,13 +454,13 @@ El rastro de quién cambió qué y cuándo. Tres reglas: un solo lugar por donde
 
 Decidir si **este** dato concreto es tuyo. Ninguna configuración declarativa puede responderlo, porque la respuesta depende del dato: se resuelve poniendo al propietario **en la consulta**, no comprobando después.
 
-> Se enseña en la [clase 071](../classes/parte-5-identidad-y-seguridad/071-autorizacion-por-recurso/README.md) · ver también [Autorización por rol](#autorizacion-por-rol).
+> Se enseña en la [clase 071](../classes/parte-5-identidad-y-seguridad/071-autorizacion-por-recurso/README.md) · ver también [Autorización por rol](#autorización-por-rol).
 
 #### Autorización por rol
 
 Decidir qué puede hacer alguien según su clase de usuario. Responde «qué clase de usuario eres» y se puede expresar de forma declarativa, en la configuración o en la ruta.
 
-> Se enseña en la [clase 070](../classes/parte-5-identidad-y-seguridad/070-autorizacion-por-rol/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Autorización por recurso](#autorizacion-por-recurso).
+> Se enseña en la [clase 070](../classes/parte-5-identidad-y-seguridad/070-autorizacion-por-rol/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Autorización por recurso](#autorización-por-recurso).
 
 #### Cadena de suministro
 
@@ -472,19 +472,19 @@ Todo el código que ejecutas y no escribiste, incluidas las dependencias de tus 
 
 Comparar dos secretos tardando lo mismo coincidan o no. Un `==` corriente se detiene en el primer carácter distinto, y esa diferencia de microsegundos permite adivinar el valor carácter a carácter.
 
-> Se enseña en la [clase 068](../classes/parte-5-identidad-y-seguridad/068-contrasenas-bien-guardadas/README.md) · ver también [Función de derivación de clave](#funcion-de-derivacion-de-clave), [CSRF](#csrf).
+> Se enseña en la [clase 068](../classes/parte-5-identidad-y-seguridad/068-contrasenas-bien-guardadas/README.md) · ver también [Función de derivación de clave](#función-de-derivación-de-clave), [CSRF](#csrf).
 
 #### Consulta parametrizada
 
 Una consulta cuyo texto y cuyos valores viajan por caminos distintos, unidos por marcadores (`?`, `:nombre`, `@titulo`). Por eso el motor nunca puede confundir un dato con una instrucción.
 
-> Se enseña en la [clase 074](../classes/parte-5-identidad-y-seguridad/074-inyeccion-sql/README.md) · ver también [Inyección SQL](#inyeccion-sql).
+> Se enseña en la [clase 074](../classes/parte-5-identidad-y-seguridad/074-inyeccion-sql/README.md) · ver también [Inyección SQL](#inyección-sql).
 
 #### Cookie
 
 Un dato que el servidor pide al navegador que guarde y le devuelva en cada petición. Sus atributos no son decoración: `HttpOnly` la esconde del script de la página y `SameSite` evita que viaje en peticiones que provoca otra página.
 
-> Se enseña en la [clase 066](../classes/parte-5-identidad-y-seguridad/066-sesion-con-cookie/README.md) · ver también [Sesión](#sesion), [CSRF](#csrf).
+> Se enseña en la [clase 066](../classes/parte-5-identidad-y-seguridad/066-sesion-con-cookie/README.md) · ver también [Sesión](#sesión), [CSRF](#csrf).
 
 #### CSRF
 
@@ -498,19 +498,19 @@ También: *(Falsificación de petición entre sitios)*
 
 Deducir qué cuentas existen a partir de respuestas distintas. Se cierra respondiendo lo mismo a «no existe» y «clave mala» — **y tardando lo mismo**, verificando contra un resumen señuelo. La respuesta y su tiempo son el mismo mensaje.
 
-> Se enseña en la [clase 068](../classes/parte-5-identidad-y-seguridad/068-contrasenas-bien-guardadas/README.md) · ver también [Función de derivación de clave](#funcion-de-derivacion-de-clave).
+> Se enseña en la [clase 068](../classes/parte-5-identidad-y-seguridad/068-contrasenas-bien-guardadas/README.md) · ver también [Función de derivación de clave](#función-de-derivación-de-clave).
 
 #### Escapado
 
 Neutralizar los caracteres que tendrían significado en el destino, **sin destruir el dato**: `<` se convierte en `&lt;` y el texto sigue entero. Escapar no es filtrar, y dónde vive el escapado —en el motor, en el framework o en el tipo— decide qué se puede olvidar.
 
-> Se enseña en la [clase 079](../classes/parte-6-la-interfaz/079-plantillas-en-el-servidor/README.md) · ver también [XSS](#xss), [Validación](#validacion).
+> Se enseña en la [clase 079](../classes/parte-6-la-interfaz/079-plantillas-en-el-servidor/README.md) · ver también [XSS](#xss), [Validación](#validación).
 
 #### Fijación de sesión
 
 El ataque en que alguien planta un identificador de sesión antes del inicio de sesión y luego lo reutiliza ya autenticado. Se cierra emitiendo un identificador **nuevo** al autenticar.
 
-> Se enseña en la [clase 066](../classes/parte-5-identidad-y-seguridad/066-sesion-con-cookie/README.md) · ver también [Sesión](#sesion).
+> Se enseña en la [clase 066](../classes/parte-5-identidad-y-seguridad/066-sesion-con-cookie/README.md) · ver también [Sesión](#sesión).
 
 #### Función de derivación de clave
 
@@ -518,7 +518,7 @@ Una función deliberadamente **lenta** para guardar contraseñas: bcrypt, scrypt
 
 También: *(Hash de contraseña, bcrypt, Argon2)*
 
-> Se enseña en la [clase 068](../classes/parte-5-identidad-y-seguridad/068-contrasenas-bien-guardadas/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Comparación en tiempo constante](#comparacion-en-tiempo-constante), [Enumeración de usuarios](#enumeracion-de-usuarios).
+> Se enseña en la [clase 068](../classes/parte-5-identidad-y-seguridad/068-contrasenas-bien-guardadas/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Comparación en tiempo constante](#comparación-en-tiempo-constante), [Enumeración de usuarios](#enumeración-de-usuarios).
 
 #### Inyección SQL
 
@@ -530,7 +530,7 @@ Conseguir que datos de un usuario se interpreten como instrucciones de la consul
 
 Un valor aleatorio **por respuesta** que autoriza a un script concreto dentro de una política de seguridad de contenido. Un nonce fijo en la configuración no es un nonce: el atacante lo lee en el HTML de ayer.
 
-> Se enseña en la [clase 077](../classes/parte-5-identidad-y-seguridad/077-politica-de-seguridad-de-contenido/README.md) · ver también [Política de seguridad de contenido](#politica-de-seguridad-de-contenido).
+> Se enseña en la [clase 077](../classes/parte-5-identidad-y-seguridad/077-politica-de-seguridad-de-contenido/README.md) · ver también [Política de seguridad de contenido](#política-de-seguridad-de-contenido).
 
 #### OAuth 2.0
 
@@ -562,13 +562,13 @@ También: *(CSP)*
 
 Un valor que no puede aparecer en el código, ni en el registro, ni en una respuesta: claves de firma, contraseñas de base de datos, credenciales. Un endpoint de configuración reporta su **presencia**, nunca su valor.
 
-> Se enseña en la [clase 075](../classes/parte-5-identidad-y-seguridad/075-secretos-y-configuracion/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Configuración por entorno](#configuracion-por-entorno).
+> Se enseña en la [clase 075](../classes/parte-5-identidad-y-seguridad/075-secretos-y-configuracion/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Configuración por entorno](#configuración-por-entorno).
 
 #### Sesión
 
 Estado de un usuario guardado **en el servidor**, identificado por una cookie opaca. Es lo que permite cerrar sesión de verdad: se borra la entrada del almacén y la cookie robada deja de abrir.
 
-> Se enseña en la [clase 066](../classes/parte-5-identidad-y-seguridad/066-sesion-con-cookie/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Cookie](#cookie), [Token de acceso](#token-de-acceso), [Fijación de sesión](#fijacion-de-sesion).
+> Se enseña en la [clase 066](../classes/parte-5-identidad-y-seguridad/066-sesion-con-cookie/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Cookie](#cookie), [Token de acceso](#token-de-acceso), [Fijación de sesión](#fijación-de-sesión).
 
 #### Testigo sincronizado
 
@@ -584,7 +584,7 @@ Un dato firmado que el cliente presenta en cada petición y que el servidor veri
 
 También: *(JWT)*
 
-> Se enseña en la [clase 067](../classes/parte-5-identidad-y-seguridad/067-token-de-acceso/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Sesión](#sesion), [OAuth 2.0](#oauth-20).
+> Se enseña en la [clase 067](../classes/parte-5-identidad-y-seguridad/067-token-de-acceso/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Sesión](#sesión), [OAuth 2.0](#oauth-20).
 
 #### XSS
 
@@ -592,7 +592,7 @@ Texto de un usuario que el navegador acaba ejecutando como código. La defensa m
 
 También: *(Cross-Site Scripting)*
 
-> Se enseña en la [clase 073](../classes/parte-5-identidad-y-seguridad/073-xss-y-escapado/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Escapado](#escapado), [Política de seguridad de contenido](#politica-de-seguridad-de-contenido).
+> Se enseña en la [clase 073](../classes/parte-5-identidad-y-seguridad/073-xss-y-escapado/README.md) · se desarrolla en el [módulo 07](../curriculum/07-identidad-y-seguridad.md) · ver también [Escapado](#escapado), [Política de seguridad de contenido](#política-de-seguridad-de-contenido).
 
 ### Interfaz, componentes y estado
 
@@ -614,7 +614,7 @@ Una unidad de interfaz con sus datos de entrada, su marcado y su comportamiento.
 
 Pintar en una estructura en memoria, compararla con la anterior y aplicar solo las diferencias al DOM real. Simplifica el modelo mental a cambio de un coste de comparación en cada actualización.
 
-> Se enseña en la [clase 092](../classes/parte-6-la-interfaz/092-los-tres-modelos-de-reactividad/README.md) 🚧 · ver también [Reactividad](#reactividad), [Señal](#senal).
+> Se enseña en la [clase 092](../classes/parte-6-la-interfaz/092-los-tres-modelos-de-reactividad/README.md) 🚧 · ver también [Reactividad](#reactividad), [Señal](#señal).
 
 #### Efecto
 
@@ -664,7 +664,7 @@ También: *(Prop)*
 
 Cómo un framework se entera de que algo cambió para volver a pintar. Hay tres modelos: comparar el resultado (DOM virtual), observar el dato (señales) o compilar las dependencias (compilador). Deciden el rendimiento y el estilo del código.
 
-> Se enseña en la [clase 092](../classes/parte-6-la-interfaz/092-los-tres-modelos-de-reactividad/README.md) 🚧 · se desarrolla en el [módulo 03](../curriculum/03-frontend-componentes-y-estado.md) · ver también [DOM virtual](#dom-virtual), [Señal](#senal).
+> Se enseña en la [clase 092](../classes/parte-6-la-interfaz/092-los-tres-modelos-de-reactividad/README.md) 🚧 · se desarrolla en el [módulo 03](../curriculum/03-frontend-componentes-y-estado.md) · ver también [DOM virtual](#dom-virtual), [Señal](#señal).
 
 #### Señal
 
@@ -692,7 +692,7 @@ Peticiones que solo pueden empezar cuando termina la anterior, porque cada una n
 
 Un componente que se ejecuta **solo** en el servidor y cuyo resultado viaja ya pintado. Su código y sus dependencias no llegan al navegador — puede leer de la base de datos directamente.
 
-> Se enseña en la [clase 096](../classes/parte-7-renderizado-y-fullstack/096-componentes-de-servidor/README.md) 🚧 · ver también [Hidratación](#hidratacion), [Isla](#isla).
+> Se enseña en la [clase 096](../classes/parte-7-renderizado-y-fullstack/096-componentes-de-servidor/README.md) 🚧 · ver también [Hidratación](#hidratación), [Isla](#isla).
 
 #### Generación estática
 
@@ -718,7 +718,7 @@ La alternativa en que el servidor devuelve **HTML** en lugar de datos y el clien
 
 Un trozo interactivo dentro de una página que por lo demás es HTML estático. Solo se hidrata la isla, así que el JavaScript que llega es proporcional a lo que de verdad se mueve.
 
-> Se enseña en la [clase 095](../classes/parte-7-renderizado-y-fullstack/095-islas/README.md) 🚧 · ver también [Hidratación](#hidratacion), [Presupuesto de JavaScript](#presupuesto-de-javascript).
+> Se enseña en la [clase 095](../classes/parte-7-renderizado-y-fullstack/095-islas/README.md) 🚧 · ver también [Hidratación](#hidratación), [Presupuesto de JavaScript](#presupuesto-de-javascript).
 
 #### Mejora progresiva
 
@@ -738,7 +738,7 @@ Generar el HTML en el servidor en cada petición. La página se ve antes y el se
 
 También: *(SSR)*
 
-> Se enseña en la [clase 093](../classes/parte-7-renderizado-y-fullstack/093-las-cuatro-estrategias-de-renderizado/README.md) 🚧 · se desarrolla en el [módulo 04](../curriculum/04-fullstack-y-renderizado.md) · ver también [Hidratación](#hidratacion), [Generación estática](#generacion-estatica).
+> Se enseña en la [clase 093](../classes/parte-7-renderizado-y-fullstack/093-las-cuatro-estrategias-de-renderizado/README.md) 🚧 · se desarrolla en el [módulo 04](../curriculum/04-fullstack-y-renderizado.md) · ver también [Hidratación](#hidratación), [Generación estática](#generación-estática).
 
 ### Tiempo real y trabajo en segundo plano
 
@@ -794,7 +794,7 @@ Un canal bidireccional que empieza como una petición HTTP y cambia de protocolo
 
 Dos cambios sobre el mismo dato hechos sin verse. Alguien tiene que decidir cuál gana, y «el último que escribe» es una decisión, no la ausencia de una.
 
-> Se enseña en la [clase 119](../classes/parte-9-movil-escritorio-y-sin-conexion/119-sincronizacion-y-conflictos/README.md) 🚧 · ver también [Sincronización](#sincronizacion), [Sin conexión primero](#sin-conexion-primero).
+> Se enseña en la [clase 119](../classes/parte-9-movil-escritorio-y-sin-conexion/119-sincronizacion-y-conflictos/README.md) 🚧 · ver también [Sincronización](#sincronización), [Sin conexión primero](#sin-conexión-primero).
 
 #### Sin conexión primero
 
@@ -802,13 +802,13 @@ Diseñar para que la aplicación funcione sin red y sincronice cuando la haya. C
 
 También: *(Offline-first)*
 
-> Se enseña en la [clase 118](../classes/parte-9-movil-escritorio-y-sin-conexion/118-funcionar-sin-conexion/README.md) 🚧 · se desarrolla en el [módulo 09](../curriculum/09-movil-escritorio-y-offline.md) · ver también [Sincronización](#sincronizacion), [Conflicto](#conflicto).
+> Se enseña en la [clase 118](../classes/parte-9-movil-escritorio-y-sin-conexion/118-funcionar-sin-conexion/README.md) 🚧 · se desarrolla en el [módulo 09](../curriculum/09-movil-escritorio-y-offline.md) · ver también [Sincronización](#sincronización), [Conflicto](#conflicto).
 
 #### Sincronización
 
 Reconciliar el estado local con el remoto después de trabajar sin conexión. Necesita saber qué cambió, en qué orden y qué hacer cuando las dos partes cambiaron lo mismo.
 
-> Se enseña en la [clase 119](../classes/parte-9-movil-escritorio-y-sin-conexion/119-sincronizacion-y-conflictos/README.md) 🚧 · ver también [Conflicto](#conflicto), [Sin conexión primero](#sin-conexion-primero).
+> Se enseña en la [clase 119](../classes/parte-9-movil-escritorio-y-sin-conexion/119-sincronizacion-y-conflictos/README.md) 🚧 · ver también [Conflicto](#conflicto), [Sin conexión primero](#sin-conexión-primero).
 
 ### Calidad, rendimiento y operación
 
@@ -816,7 +816,7 @@ Reconciliar el estado local con el remoto después de trabajar sin conexión. Ne
 
 El tiempo desde que el proceso empieza hasta que puede atender. Irrelevante en un servidor que vive semanas y decisivo cuando el entorno escala a cero — y es donde más se nota lo que un framework hace al arrancar.
 
-> Se enseña en la [clase 136](../classes/parte-10-calidad-y-operacion/136-arranque-en-frio/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Salud y preparación](#salud-y-preparacion), [Empaquetado](#empaquetado).
+> Se enseña en la [clase 136](../classes/parte-10-calidad-y-operacion/136-arranque-en-frio/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Salud y preparación](#salud-y-preparación), [Empaquetado](#empaquetado).
 
 #### Configuración por entorno
 
@@ -830,13 +830,13 @@ Un sustituto de una dependencia real durante una prueba. El riesgo no es usarlos
 
 También: *(Mock, Stub, Fake)*
 
-> Se enseña en la [clase 126](../classes/parte-10-calidad-y-operacion/126-dobles-de-prueba/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Pirámide de pruebas](#piramide-de-pruebas), [Prueba de contrato](#prueba-de-contrato).
+> Se enseña en la [clase 126](../classes/parte-10-calidad-y-operacion/126-dobles-de-prueba/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Pirámide de pruebas](#pirámide-de-pruebas), [Prueba de contrato](#prueba-de-contrato).
 
 #### Empaquetado
 
 Convertir el código en un artefacto desplegable: un `.jar`, una imagen de contenedor, un directorio con sus dependencias. El mismo artefacto debe poder ir a todos los entornos, cambiando solo la configuración.
 
-> Se enseña en la [clase 135](../classes/parte-10-calidad-y-operacion/135-empaquetado-y-despliegue/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Configuración por entorno](#configuracion-por-entorno), [Arranque en frío](#arranque-en-frio).
+> Se enseña en la [clase 135](../classes/parte-10-calidad-y-operacion/135-empaquetado-y-despliegue/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Configuración por entorno](#configuración-por-entorno), [Arranque en frío](#arranque-en-frío).
 
 #### Medir antes de optimizar
 
@@ -854,7 +854,7 @@ Un número agregado en el tiempo: peticiones por segundo, latencia por percentil
 
 El valor por debajo del cual queda un porcentaje de las mediciones. La media esconde a los usuarios lentos; el p95 y el p99 son los que describen lo que la gente sufre.
 
-> Se enseña en la [clase 007](../classes/parte-0-el-metodo/007-como-se-mide-y-como-se-miente-el-rendimiento/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Métrica](#metrica), [Medir antes de optimizar](#medir-antes-de-optimizar).
+> Se enseña en la [clase 007](../classes/parte-0-el-metodo/007-como-se-mide-y-como-se-miente-el-rendimiento/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Métrica](#métrica), [Medir antes de optimizar](#medir-antes-de-optimizar).
 
 #### Pirámide de pruebas
 
@@ -872,7 +872,7 @@ Una prueba que comprueba que dos partes siguen entendiéndose: lo que el product
 
 Emitir los registros como datos —un objeto por línea— en lugar de como frases. Es lo que permite buscar, filtrar y agregar sin escribir expresiones regulares sobre prosa.
 
-> Se enseña en la [clase 130](../classes/parte-10-calidad-y-operacion/130-registro-estructurado/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Métrica](#metrica), [Traza](#traza), [Identificador de correlación](#identificador-de-correlacion).
+> Se enseña en la [clase 130](../classes/parte-10-calidad-y-operacion/130-registro-estructurado/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Métrica](#métrica), [Traza](#traza), [Identificador de correlación](#identificador-de-correlación).
 
 #### Salud y preparación
 
@@ -880,13 +880,13 @@ Dos preguntas distintas: **salud** es «¿el proceso está vivo?» y **preparaci
 
 También: *(Health check, Readiness)*
 
-> Se enseña en la [clase 133](../classes/parte-10-calidad-y-operacion/133-salud-y-preparacion/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Arranque en frío](#arranque-en-frio).
+> Se enseña en la [clase 133](../classes/parte-10-calidad-y-operacion/133-salud-y-preparacion/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Arranque en frío](#arranque-en-frío).
 
 #### Traza
 
 El recorrido de una petición por todos los servicios que atraviesa, con el tiempo de cada tramo. Responde «¿dónde se fue el tiempo?», que es la pregunta que ni las métricas ni los registros contestan.
 
-> Se enseña en la [clase 132](../classes/parte-10-calidad-y-operacion/132-trazas/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Métrica](#metrica), [Identificador de correlación](#identificador-de-correlacion).
+> Se enseña en la [clase 132](../classes/parte-10-calidad-y-operacion/132-trazas/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Métrica](#métrica), [Identificador de correlación](#identificador-de-correlación).
 
 ### Legado, migración y decisión
 
@@ -896,7 +896,7 @@ La fecha a partir de la cual una versión deja de recibir correcciones, incluida
 
 También: *(EOL)*
 
-> Se enseña en la [clase 146](../classes/parte-11-legado-migracion-y-decision/146-fin-de-vida-y-soporte/README.md) 🚧 · se desarrolla en el [módulo 11](../curriculum/11-seleccion-y-sostenibilidad.md) · ver también [Coste total](#coste-total), [Versionado semántico](#versionado-semantico).
+> Se enseña en la [clase 146](../classes/parte-11-legado-migracion-y-decision/146-fin-de-vida-y-soporte/README.md) 🚧 · se desarrolla en el [módulo 11](../curriculum/11-seleccion-y-sostenibilidad.md) · ver también [Coste total](#coste-total), [Versionado semántico](#versionado-semántico).
 
 #### Higuera estranguladora
 
@@ -904,7 +904,7 @@ Migrar sustituyendo el sistema viejo poco a poco, con las dos versiones convivie
 
 También: *(Strangler fig)*
 
-> Se enseña en la [clase 140](../classes/parte-11-legado-migracion-y-decision/140-la-higuera-estranguladora/README.md) 🚧 · se desarrolla en el [módulo 10](../curriculum/10-modernizacion-y-migracion.md) · ver también [Prueba de caracterización](#prueba-de-caracterizacion), [Micro-frontend](#micro-frontend).
+> Se enseña en la [clase 140](../classes/parte-11-legado-migracion-y-decision/140-la-higuera-estranguladora/README.md) 🚧 · se desarrolla en el [módulo 10](../curriculum/10-modernizacion-y-migracion.md) · ver también [Prueba de caracterización](#prueba-de-caracterización), [Micro-frontend](#micro-frontend).
 
 #### Micro-frontend
 
@@ -916,7 +916,7 @@ Partir una interfaz en aplicaciones independientes que se despliegan por separad
 
 Cambiar el esquema o el sistema sin cortar el servicio, en pasos que siempre dejan un estado válido: escribir en los dos sitios, copiar lo viejo, leer del nuevo, retirar el antiguo.
 
-> Se enseña en la [clase 143](../classes/parte-11-legado-migracion-y-decision/143-migrar-datos-sin-parar/README.md) 🚧 · se desarrolla en el [módulo 10](../curriculum/10-modernizacion-y-migracion.md) · ver también [Migración](#migracion), [Higuera estranguladora](#higuera-estranguladora).
+> Se enseña en la [clase 143](../classes/parte-11-legado-migracion-y-decision/143-migrar-datos-sin-parar/README.md) 🚧 · se desarrolla en el [módulo 10](../curriculum/10-modernizacion-y-migracion.md) · ver también [Migración](#migración), [Higuera estranguladora](#higuera-estranguladora).
 
 #### Prueba de caracterización
 
@@ -980,7 +980,7 @@ El comportamiento exigido, escrito antes que las implementaciones y **idéntico 
 
 Los frameworks para los que el problema de una clase existe de verdad. Los lenguajes son intercambiables y los frameworks no: Spring Boot no implementa reactividad en el cliente. Si un framework no lo hace de verdad, **sale del elenco con su explicación** — no se simula.
 
-> Se enseña en la [clase 009](../classes/parte-0-el-metodo/009-el-elenco-por-que-no-todos-resuelven-todo/README.md) 🚧 · ver también [Taxonomía](#taxonomia), [Contrato](#contrato).
+> Se enseña en la [clase 009](../classes/parte-0-el-metodo/009-el-elenco-por-que-no-todos-resuelven-todo/README.md) 🚧 · ver también [Taxonomía](#taxonomía), [Contrato](#contrato).
 
 #### Pista
 

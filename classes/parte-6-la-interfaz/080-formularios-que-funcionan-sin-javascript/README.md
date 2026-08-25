@@ -47,6 +47,14 @@ a su campo —`csrfmiddlewaretoken`, `_token`, `authenticity_token`,
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Enviar-redirigir-mostrar**](../../../glosario/README.md#enviar-redirigir-mostrar) *(POST/Redirect/GET)* | Responder a un `POST` con una redirección en lugar de con la página. Sin ese patrón, recargar reenvía el formulario y el navegador pregunta «¿reenviar datos?» — creando otro registro. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

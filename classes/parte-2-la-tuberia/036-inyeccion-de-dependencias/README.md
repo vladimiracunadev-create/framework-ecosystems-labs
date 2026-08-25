@@ -51,6 +51,14 @@ dependencia es la declarada.**
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Contenedor de dependencias**](../../../glosario/README.md#contenedor-de-dependencias) *(Contenedor de inversión de control)* | La pieza que construye tus objetos y les entrega lo que necesitan. Es la consecuencia inevitable de la inversión de control: si el framework llama a tu función, alguien tiene que darle sus dependencias, porque tú ya no puedes. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

@@ -67,6 +67,14 @@ estado inmutable, o usar estructuras pensadas para concurrencia.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Ámbito**](../../../glosario/README.md#ámbito) *(Scope, Ciclo de vida)* | Cuánto vive un objeto que construye el contenedor: uno para todo el proceso, uno por petición, o uno por cada vez que se pide. Un objeto de vida larga que depende de uno de vida corta es un error con nombre — dependencia cautiva. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

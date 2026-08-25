@@ -66,6 +66,14 @@ que el cliente se acuerde no es una defensa**.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Caché condicional**](../../../glosario/README.md#caché-condicional) *(ETag)* | Que el cliente pregunte «¿ha cambiado?» enviando la huella que guardó, y el servidor responda `304` sin cuerpo si no. Ahorra ancho de banda sin renunciar a la frescura. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

@@ -81,6 +81,14 @@ adivinar.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**RFC 9457**](../../../glosario/README.md#rfc-9457) *(Problem Details, application/problem+json)* | El formato estándar de los errores de una API HTTP: un objeto con `type`, `title`, `status` y `detail`, más los campos propios que hagan falta. Un `422` que solo diga «datos inválidos» impide construir una interfaz accesible. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.

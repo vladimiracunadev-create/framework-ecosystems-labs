@@ -73,6 +73,14 @@ aplicación multiempresa.
 
 <!-- generado: fichas -->
 
+## 📖 Las palabras que esta clase define
+
+Si alguna de estas no te dice nada todavía, esta es la clase donde se aprende. Las definiciones viven en el [glosario](../../../glosario/README.md), que reúne las del programa entero.
+
+| Palabra | Qué significa |
+| --- | --- |
+| [**Almacén por petición**](../../../glosario/README.md#almacén-por-petición) | El sitio donde una capa deja datos para las siguientes sin usar variables globales: `peticion.traza` en Express, `contexto.Items` en .NET, `peticion.state` en Starlette, los atributos de la petición en el mundo de los servlets. Cuatro nombres, un problema. |
+
 ## 🧰 Las piezas de esta clase, una por una
 
 Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
