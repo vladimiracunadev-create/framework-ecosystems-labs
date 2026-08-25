@@ -101,6 +101,81 @@ def sustituir(id: str, cuerpo: Cuerpo) -> Response:
 El cuerpo llega como modelo validado. Un JSON que no encaje se rechaza con 422
 antes de entrar — la clase 040 lo trabaja.
 
+### Fastify · [`fastify/server.mjs`](implementaciones/fastify/server.mjs)
+
+```javascript
+app.put("/tareas/:id", (peticion, respuesta) => {
+  const tarea = { id: peticion.params.id, titulo: peticion.body?.titulo ?? "" };
+  tareas.set(peticion.params.id, tarea);
+  respuesta.send(tarea);
+});
+```
+
+```javascript
+app.post("/tareas", (peticion, respuesta) => {
+  altas += 1;
+  const id = `nueva-${altas}`;
+  tareas.set(id, { id, titulo: peticion.body?.titulo ?? "" });
+  respuesta.code(201).header("location", `/tareas/${id}`).send({ id, altas });
+});
+```
+
+Casi indistinguible de Express, y con una diferencia que conviene notar:
+`peticion.body` llega **ya parseado sin declarar nada**. Express necesita
+`app.use(express.json())`; Fastify trae el analizador de JSON puesto y solo
+pide declararlo cuando el tipo de contenido es otro.
+
+### Flask · [`flask/app.py`](implementaciones/flask/app.py)
+
+```python
+@app.put("/tareas/<id>")
+def sustituir(id: str):
+    cuerpo = request.get_json(silent=True) or {}
+    tareas[id] = {"id": id, "titulo": cuerpo.get("titulo", "")}
+    return jsonify(tareas[id])
+```
+
+```python
+    return jsonify(id=identificador, altas=altas), 201, {"Location": f"/tareas/{identificador}"}
+```
+
+Un decorador por verbo, como FastAPI. Y una firma de retorno propia de Flask que
+merece la pena conocer: **devolver una tupla** `(cuerpo, estado, cabeceras)` es
+la forma corta de construir una respuesta completa sin instanciar nada.
+
+`get_json(silent=True)` es la parte defensiva: sin `silent`, un cuerpo que no sea
+JSON válido levanta una excepción y se convierte en un `400` del framework, antes
+de que esta función pueda decidir nada.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+app.MapPut("/tareas/{id}", (string id, Cuerpo? cuerpo) =>
+{
+    var tarea = new { id, titulo = cuerpo?.Titulo ?? "" };
+    tareas[id] = tarea;
+    return Results.Json(tarea);
+});
+```
+
+```csharp
+app.MapPost("/tareas", (Cuerpo? cuerpo) =>
+{
+    var n = Interlocked.Increment(ref altas);
+    var id = $"nueva-{n}";
+    tareas[id] = new { id, titulo = cuerpo?.Titulo ?? "" };
+    return Results.Created($"/tareas/{id}", new { id, altas = n });
+});
+```
+
+Un método por verbo, y dos detalles del modelo de ejecución: `ConcurrentDictionary`
+e `Interlocked.Increment`, porque .NET atiende en varios hilos. Es la misma
+observación que en Gin más abajo, con otra solución — **estructuras concurrentes
+en lugar de un candado explícito**.
+
+Y `Results.Created($"/tareas/{id}", …)` vuelve a atar el `201` con su `Location`
+por construcción, como en la clase 003.
+
 ### Django · [`django/app.py`](implementaciones/django/app.py)
 
 ```python

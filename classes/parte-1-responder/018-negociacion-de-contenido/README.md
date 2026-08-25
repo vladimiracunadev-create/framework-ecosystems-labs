@@ -40,58 +40,122 @@ quién pidió primero.
 | `accept: application/pdf` | `406` |
 | `accept: */*` | `200` · JSON (la representación por omisión) |
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-### Express — negociación incorporada
+Cuatro frameworks y **cuatro repartos distintos del mismo trabajo**: elegir el
+tipo, emitir `Vary` y decidir el 406. Ninguno hace las tres cosas.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — las tres, hechas
 
 ```javascript
-respuesta.format({
-  "application/json": () => respuesta.json(tarea),
-  "text/html": () => respuesta.type("text/html").send(`<h1>${tarea.titulo}</h1>`),
-  default: () => respuesta.status(406).json({ error: "no puedo servir ese tipo" }),
-});
+  respuesta.format({
+    "application/json": () => respuesta.json(tarea),
+    "text/html": () => respuesta.type("text/html").send(`<h1>${tarea.titulo}</h1>`),
+    default: () => respuesta.status(406).json({ error: "no puedo servir ese tipo" }),
+  });
 ```
 
-`format` hace tres cosas a la vez: elige según `Accept`, **emite `Vary`
-automáticamente** y llama a `default` si nada encaja. Es de las pocas veces en
-que Express trae resuelto algo no trivial.
+`format` hace **tres cosas a la vez**: elige según `Accept`, emite `Vary:
+Accept` por su cuenta y llama a `default` cuando nada encaja. Es de las pocas
+veces en que Express trae resuelto algo no trivial, y la única del elenco donde
+el `Vary` no hay que acordarse de poner.
 
-### FastAPI — negociación a mano
+Ese detalle importa más de lo que parece: **sin `Vary: Accept`, una caché
+intermedia serviría el HTML a quien pidió JSON**, porque para ella las dos
+peticiones son la misma URL [@rfc9111].
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — ninguna, y por diseño
 
 ```python
 def preferido(accept: str) -> str | None:
-    """Elige el primer tipo admitido según el orden y la calidad declarados."""
 ```
 
-Starlette **no negocia**: expone la cabecera y deja la decisión a la aplicación.
-Por eso esta implementación es la más larga con diferencia — hay que analizar los
-valores de calidad (`q=`) y los comodines a mano.
+```python
+    candidatos = []
+    for parte in accept.split(","):
+        trozos = parte.split(";")
+        tipo = trozos[0].strip()
+        calidad = 1.0
+        for extra in trozos[1:]:
+            if extra.strip().startswith("q="):
+                try:
+                    calidad = float(extra.strip()[2:])
+                except ValueError:
+                    calidad = 0.0
+        if calidad > 0:
+            candidatos.append((calidad, tipo))
+    candidatos.sort(key=lambda x: -x[0])
+```
 
-Es una decisión coherente con su diseño de capa mínima, y es trabajo que en
-Express y Spring viene hecho.
+**Starlette no negocia.** Expone la cabecera y deja la decisión a la
+aplicación, así que esta implementación es la más larga con diferencia: hay que
+analizar los valores de calidad (`q=`), ordenarlos y resolver los comodines a
+mano.
 
-### Spring Boot — dos métodos, misma ruta
+Léela entera aunque sea larga, porque es la única que **enseña qué hay dentro de
+la negociación**. Lo que en Express es una llamada, aquí son veinte líneas — y
+las veinte están en el estándar [@rfc9110].
+
+```python
+    cabeceras = {"vary": "Accept"}
+```
+
+Y el `Vary` también a mano, en las tres ramas.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — la elección y el 406
 
 ```java
-@GetMapping(value = "/tareas/1", produces = MediaType.APPLICATION_JSON_VALUE)
-public ResponseEntity<Map<String, String>> json() { ... }
-
-@GetMapping(value = "/tareas/1", produces = MediaType.TEXT_HTML_VALUE)
-public ResponseEntity<String> html() { ... }
+    @GetMapping(value = "/tareas/1", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> json() {
+        return ResponseEntity.ok().header("Vary", "Accept")
+                .body(Map.of("id", "1", "titulo", "negociar"));
+    }
 ```
 
-**El enfoque más declarativo de los cuatro.** Cada método declara qué sabe
-producir y Spring elige; si ninguno encaja, emite el 406 por su cuenta. El
-`Vary`, en cambio, hay que ponerlo.
+```java
+    @GetMapping(value = "/tareas/1", produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<String> html() {
+        return ResponseEntity.ok().header("Vary", "Accept").body("<h1>negociar</h1>");
+    }
+```
 
-### ASP.NET Core — decisión explícita
+**El enfoque más declarativo de los cuatro**, y el único donde la negociación no
+aparece como código: **dos métodos con la misma ruta** y distinto `produces`.
+Cada uno declara qué sabe servir y Spring elige; si ninguno encaja, emite el
+`406` por su cuenta.
+
+La consecuencia práctica es que añadir un tercer formato es añadir un método, no
+tocar una condición. El `Vary`, en cambio, hay que ponerlo — y hay que ponerlo
+**en los dos**.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — decisión explícita
 
 ```csharp
-if (accept.Contains("application/json") || accept.Contains("*/*")) { ... }
+    respuesta.Headers.Vary = "Accept";
+    var accept = peticion.Headers.Accept.ToString();
+
+    if (accept.Contains("application/json") || accept.Contains("*/*") || accept.Length == 0)
+    {
+        return Results.Json(new { id = "1", titulo = "negociar" });
+    }
+    if (accept.Contains("text/html"))
+    {
+        return Results.Content("<h1>negociar</h1>", "text/html");
+    }
+    return Results.Json(new { error = "no puedo servir ese tipo" }, statusCode: 406);
 ```
 
-Las API mínimas no negocian. Los controladores MVC de ASP.NET Core sí tienen
-formateadores de salida configurables, pero eso ya es otra capa.
+Las **API mínimas** no negocian: la decisión es un `if`. Y conviene declarar la
+limitación de este extracto, porque es una comparación honesta y no un juicio
+sobre el framework: los **controladores MVC** de ASP.NET Core sí tienen
+formateadores de salida configurables y negocian como Spring. Lo que se compara
+aquí es el camino mínimo, que es el que se elige para un servicio pequeño.
+
+Fíjate también en que `accept.Contains(...)` **ignora los valores de calidad**.
+Funciona para el contrato de esta clase y no implementa el estándar: un
+`Accept: text/html;q=0.9, application/json;q=0.1` elegiría JSON si aparece
+primero en la condición. Es exactamente el trabajo que FastAPI hace a mano y
+que Express y Spring hacen por ti.
 
 ## 🔬 Comparación
 

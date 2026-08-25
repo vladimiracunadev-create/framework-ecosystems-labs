@@ -103,6 +103,72 @@ return JSONResponse(
 El código y la cabecera van juntos en la misma llamada. Para el borrado,
 `Response(status_code=204)` sin argumento de contenido.
 
+### Fastify · [`fastify/server.mjs`](implementaciones/fastify/server.mjs)
+
+```javascript
+  respuesta.code(201).header("location", `/tareas/${id}`).send({ id });
+```
+
+```javascript
+  respuesta.code(204).send();
+```
+
+Lo mismo que Express con otros nombres: `code` en vez de `status`, `header` en
+vez de `location`. **Nada ata el código a la cabecera**, así que la corrección
+depende de escribirlas las dos.
+
+`send()` sin argumento para el 204 cumple el mismo papel que el `end()` de
+Express: un `send({})` ahí serían dos bytes que el código prohíbe.
+
+### Flask · [`flask/app.py`](implementaciones/flask/app.py)
+
+```python
+    return jsonify(id=identificador), 201, {"Location": f"/tareas/{identificador}"}
+```
+
+```python
+    return "", 204
+```
+
+La tupla de Flask —`(cuerpo, estado, cabeceras)`— es la forma más compacta del
+elenco de emitir un `201` completo: las tres piezas en una línea, sin construir
+ninguna respuesta.
+
+Y el `204` se escribe `return "", 204`. Es breve, y es también el sitio donde es
+más fácil equivocarse: `return jsonify({}), 204` compila igual de bien y emite un
+cuerpo que el código de estado prohíbe.
+
+### Django · [`django/app.py`](implementaciones/django/app.py)
+
+```python
+    respuesta = JsonResponse({"id": identificador}, status=201)
+    respuesta["Location"] = f"/tareas/{identificador}"
+    return respuesta
+```
+
+```python
+        del tareas[id]
+        return HttpResponse(status=204)
+```
+
+Django es el único de los seis que **construye la respuesta y luego la
+modifica**: `JsonResponse` primero, la cabecera después, con la sintaxis de un
+diccionario. Es más pasos y tiene una ventaja — la respuesta es un objeto que se
+puede pasar por capas y seguir tocando, que es la base de cómo funcionan sus
+middleware (clase 026).
+
+Y `HttpResponse(status=204)` en lugar de `JsonResponse`: la clase base no
+serializa nada, así que no hay cuerpo que emitir por accidente.
+
+```python
+    if peticion.method != "POST":
+        return HttpResponse(status=405)
+```
+
+Además, Django enruta por camino y **el despacho por método lo escribes tú**. El
+`405` es explícito, no accidental — y esa línea es la que en los otros cinco
+frameworks emite el enrutador sin que nadie la vea.
+
 ### Spring Boot · [`spring-boot/.../Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
 
 ```java

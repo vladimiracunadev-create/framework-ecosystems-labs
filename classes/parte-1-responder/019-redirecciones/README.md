@@ -58,37 +58,113 @@ el cuerpo, que es lo que `302` no garantiza.
 Los dos últimos casos comprueban que **el destino existe y atiende ambos
 métodos**, que es lo que hace verificable el 307.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
+
+Los cuatro emiten las mismas tres redirecciones. Lo que cambia es **cuánto hay
+que saber de memoria para leer el código**.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
 
 ```javascript
-// Express — el código va primero, el destino después
 app.get("/antigua", (peticion, respuesta) => respuesta.redirect(301, "/nueva"));
 ```
 
+```javascript
+app.get("/temporal", (peticion, respuesta) => respuesta.redirect(302, "/nueva"));
+```
+
+```javascript
+app.post("/temporal-estricta", (peticion, respuesta) => respuesta.redirect(307, "/nueva"));
+```
+
+Un ayudante, y el código va primero. Es lo más breve del elenco — y para
+entenderlo hay que saber qué significan `301`, `302` y `307`.
+
+Los comentarios del propio archivo dicen por qué importa:
+
+```javascript
+// 301: movido para siempre. El cliente puede recordar el destino y no volver a
+```
+
+**El `301` es el más peligroso de los tres**: el cliente puede memorizar el
+destino y no volver a preguntar, así que retirarlo después no siempre funciona
+— los navegadores lo cachean de forma persistente.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
 ```python
-# FastAPI
-return RedirectResponse("/nueva", status_code=307)
+@app.get("/antigua")
+def antigua() -> RedirectResponse:
+    return RedirectResponse("/nueva", status_code=301)
+```
+
+```python
+@app.post("/temporal-estricta")
+def estricta() -> RedirectResponse:
+    # 307 conserva método y cuerpo: el POST sigue siendo POST tras el salto.
+    return RedirectResponse("/nueva", status_code=307)
+```
+
+Un **tipo de respuesta** en lugar de un método sobre el objeto respuesta:
+`RedirectResponse` es un valor que se devuelve, no un efecto que se provoca. La
+diferencia se nota al probar — se puede construir y examinar sin servidor.
+
+El código sigue siendo un número.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+    private static ResponseEntity<Void> saltar(HttpStatus codigo, String destino) {
+        return ResponseEntity.status(codigo).location(URI.create(destino)).build();
+    }
 ```
 
 ```java
-// Spring Boot — un ayudante propio, porque no hay atajo para redirigir
-private static ResponseEntity<Void> saltar(HttpStatus codigo, String destino) {
-    return ResponseEntity.status(codigo).location(URI.create(destino)).build();
-}
+    @GetMapping("/antigua")
+    public ResponseEntity<Void> antigua() {
+        return saltar(HttpStatus.MOVED_PERMANENTLY, "/nueva");
+    }
 ```
+
+```java
+    @PostMapping("/temporal-estricta")
+    public ResponseEntity<Void> estricta() {
+        return saltar(HttpStatus.TEMPORARY_REDIRECT, "/nueva");
+    }
+```
+
+**No hay atajo para redirigir**, así que la implementación escribe el suyo. Y ese
+ayudante de dos líneas es lo que revela la estructura: una redirección es un
+código más una cabecera `Location`, nada más.
+
+A cambio, la constante tiene nombre: `MOVED_PERMANENTLY` y `TEMPORARY_REDIRECT`
+se leen sin consultar la tabla. `ResponseEntity<Void>` declara además que no hay
+cuerpo, que es lo correcto en una redirección.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
 
 ```csharp
-// ASP.NET Core — los nombres dicen los dos ejes
-Results.Redirect("/nueva", permanent: true);
-Results.Redirect("/nueva", permanent: false, preserveMethod: true);
+app.MapGet("/antigua", () => Results.Redirect("/nueva", permanent: true));
+app.MapGet("/temporal", () => Results.Redirect("/nueva", permanent: false));
+app.MapPost("/temporal-estricta",
+    () => Results.Redirect("/nueva", permanent: false, preserveMethod: true));
 ```
 
-**ASP.NET Core es el único de los cuatro que nombra los dos ejes.** No escribes
-`307`: escribes «temporal, conservando el método», y el framework traduce. Quien
-lea ese código entiende la intención sin conocer la tabla de códigos de memoria.
+**El único de los cuatro que nombra los dos ejes.** No escribes `307`: escribes
+«temporal, conservando el método», y el framework traduce.
 
-Los otros tres exigen saber qué significa cada número. Es una diferencia pequeña
-en el código y grande en la legibilidad — el tipo de detalle que Ousterhout
+Y son exactamente dos ejes, no una lista de códigos que memorizar:
+
+| ¿Permanente? | ¿Conserva el método? | Código |
+| --- | --- | ---: |
+| no | no | `302` |
+| sí | no | `301` |
+| no | sí | `307` |
+| sí | sí | `308` |
+
+Quien lee `permanent: false, preserveMethod: true` entiende la intención sin
+saberse la tabla. Los otros tres exigen conocerla. Es una diferencia pequeña en
+el código y grande en la legibilidad — el tipo de detalle que Ousterhout
 identifica como el valor real de una buena interfaz [@ousterhout-philosophy].
 
 ## 🔬 Comparación

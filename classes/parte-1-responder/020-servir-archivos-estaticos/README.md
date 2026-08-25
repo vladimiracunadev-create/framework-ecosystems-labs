@@ -50,61 +50,106 @@ El segundo caso comprueba que el tipo **se deduce de la extensión**. Los cuatro
 frameworks traen una tabla de tipos y aciertan con SVG, que no es de los más
 comunes.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-### Express
+Servir un archivo es fácil en los cuatro. Lo que separa a las cuatro
+implementaciones son **las decisiones que hay que tomar aparte**: la caché, los
+archivos ocultos y de dónde salen los ficheros.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
 
 ```javascript
-app.use("/estatico", express.static(path.join(import.meta.dirname, "publico"), {
-  maxAge: "1h",
-  dotfiles: "deny",
-  index: false,
-}));
+app.use(
+  "/estatico",
+  express.static(path.join(import.meta.dirname, "publico"), {
+    maxAge: "1h",
+    dotfiles: "deny",
+    index: false,
+  }),
+);
 ```
 
-Las tres opciones son las tres decisiones de arriba. **`dotfiles: "deny"`** es la
-que casi nadie pone: sin ella, un `.env` que acabe en esa carpeta se sirve al
-primero que lo pida.
+Las tres opciones son las tres decisiones, escritas y a la vista.
 
-### FastAPI
+**`dotfiles: "deny"` es la que casi nadie pone**, y es la que evita una fuga:
+sin ella, un `.env` que acabe en esa carpeta se sirve al primero que lo pida. Es
+la clase de agujero que aparece por exponer un directorio entero en lugar de
+archivos concretos.
+
+`maxAge` se traduce a `Cache-Control: public, max-age=3600`. Sin ella el
+navegador revalida en cada carga y se pierde casi toda la ventaja de servir
+estáticos [@rfc9111].
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
 
 ```python
 app.mount("/estatico", StaticFiles(directory=RAIZ), name="estatico")
 ```
 
-Una línea, y **sin `Cache-Control`**: `StaticFiles` no lo emite. Por eso la
-implementación añade una capa intermedia que lo pone.
+Una línea. Y **sin `Cache-Control`**: `StaticFiles` no lo emite, así que la
+implementación tiene que añadir una capa que lo ponga:
 
-Es un buen ejemplo de la diferencia entre «funciona» y «está bien»: montar los
-estáticos funciona de inmediato, y servirlos con caché es una decisión que hay
-que tomar aparte.
-
-### Spring Boot
-
-```java
-registro.addResourceHandler("/estatico/**")
-        .addResourceLocations("classpath:/publico/")
-        .setCacheControl(CacheControl.maxAge(Duration.ofHours(1)).cachePublic());
+```python
+@app.middleware("http")
+async def cachear(peticion: Request, siguiente):
 ```
 
-`classpath:` en vez de una ruta del disco: los archivos van **dentro del
-artefacto**, no junto a él. Eso hace el despliegue de una pieza —un solo `.jar`
-que contiene todo— y a cambio publicar un cambio de logo exige recompilar.
+```python
+    respuesta: Response = await siguiente(peticion)
+    if peticion.url.path.startswith("/estatico"):
+        respuesta.headers["cache-control"] = "public, max-age=3600"
+    return respuesta
+```
 
-### ASP.NET Core
+Es el mejor ejemplo del elenco de la diferencia entre **«funciona» y «está
+bien»**: montar los estáticos funciona de inmediato, y servirlos con caché es
+una decisión que hay que tomar por separado — y que nadie recuerda hasta que
+mira las cabeceras.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+            registro.addResourceHandler("/estatico/**")
+                    .addResourceLocations("classpath:/publico/")
+                    .setCacheControl(CacheControl.maxAge(Duration.ofHours(1)).cachePublic());
+```
+
+La diferencia de fondo está en dos palabras: **`classpath:`** en vez de una ruta
+del disco. Los archivos van **dentro del artefacto**, no junto a él.
+
+Eso hace el despliegue de una sola pieza —un `.jar` que contiene la aplicación y
+sus estáticos, sin nada que copiar aparte— y a cambio **publicar un cambio de
+logo exige recompilar**. Es un intercambio real y va en las dos direcciones:
+menos partes móviles en producción, más lento el ciclo de un cambio trivial.
+
+`CacheControl.maxAge(...).cachePublic()` es además el único del elenco donde la
+directiva se construye con un tipo en vez de con una cadena.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
 
 ```csharp
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(...),
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "publico")),
     RequestPath = "/estatico",
-    OnPrepareResponse = contexto => { ... },
+    OnPrepareResponse = contexto =>
+    {
+        contexto.Context.Response.Headers.CacheControl = "public, max-age=3600";
+    },
 });
 ```
 
-La abstracción de proveedor de archivos permite servir desde el disco, desde
-recursos incrustados o desde un almacenamiento remoto **sin cambiar el resto**.
-Es la más flexible de las cuatro y también la más verbosa.
+La más verbosa de las cuatro, y la más flexible por un motivo concreto:
+**`FileProvider` es una abstracción**. `PhysicalFileProvider` lee del disco, y
+hay otros que leen de recursos incrustados en el ensamblado o de un
+almacenamiento remoto — **sin cambiar el resto del código**.
+
+Es la misma idea que el `classpath:` de Spring, generalizada: de dónde salen los
+bytes es una decisión enchufable en vez de una convención fija.
+
+`OnPrepareResponse` es un gancho por respuesta, así que la caché se decide
+archivo a archivo si hace falta — algo que la opción `maxAge` de Express, que es
+global, no permite.
 
 ## 🔬 Comparación
 

@@ -42,66 +42,105 @@ pequeño a propósito, para que la prueba sea rápida— responde 413.
 | sin campo `archivo` | `422` · `{"error":"falta el archivo"}` |
 | archivo de 4096 bytes (límite 1024) | `413` |
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-### Express — con biblioteca externa
+Los cuatro aceptan un archivo y rechazan uno grande. Lo que hay que mirar es
+**dónde se aplica el límite**, porque de eso depende si el archivo enorme llegó
+a ocupar memoria antes de ser rechazado.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — con biblioteca externa
 
 ```javascript
 const subida = multer({ storage: multer.memoryStorage(), limits: { fileSize: LIMITE } });
-app.post("/subir", subida.single("archivo"), (peticion, respuesta) => { ... });
 ```
 
-Express **no analiza multipart**: hace falta una biblioteca. `limits.fileSize` se
-comprueba durante la recepción y aborta al superarse; el error llega al manejador
-de errores como `LIMIT_FILE_SIZE`.
+```javascript
+app.post("/subir", subida.single("archivo"), (peticion, respuesta) => {
+```
 
-Sin ese manejador, el fallo sale con el formato de error por omisión, no con 413.
+```javascript
+app.use((error, peticion, respuesta, siguiente) => {
+  if (error?.code === "LIMIT_FILE_SIZE") {
+    return respuesta.status(413).json({ error: "archivo demasiado grande" });
+  }
+  siguiente(error);
+});
+```
 
-### FastAPI — lectura a trozos explícita
+**Express no analiza multipart**: hace falta una biblioteca. Es coherente con lo
+que es —un enrutador con middleware— y es una dependencia más que elegir y
+mantener.
+
+Lo importante es que `limits.fileSize` **se comprueba mientras se recibe** y
+aborta al superarse. Y el manejador de errores no es opcional: sin él, el fallo
+sale con el formato por omisión de Express y no con un `413`.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — el bucle a la vista
 
 ```python
-total = 0
-while trozo := await archivo.read(256):
-    total += len(trozo)
-    if total > LIMITE:
-        return JSONResponse({"error": "archivo demasiado grande"}, status_code=413)
+    total = 0
+    while trozo := await archivo.read(256):
+        total += len(trozo)
+        if total > LIMITE:
+            return JSONResponse({"error": "archivo demasiado grande"}, status_code=413)
 ```
 
-`UploadFile` es un envoltorio sobre un archivo temporal: **Starlette ya vuelca a
-disco** los cuerpos grandes en lugar de mantenerlos en memoria. Aun así, el
-límite hay que aplicarlo, y aquí se hace leyendo a trozos.
+La implementación donde **el mecanismo se ve mejor**, porque el bucle está
+escrito. Se lee a trozos y se corta en cuanto se pasa: leer entero y medir
+después ya habría gastado la memoria que se quería proteger.
 
-Es la implementación donde el mecanismo se ve mejor, porque el bucle está a la
-vista.
+`UploadFile` es además un envoltorio sobre un archivo temporal — **Starlette
+vuelca a disco** los cuerpos grandes en lugar de mantenerlos en memoria. Esa
+parte viene resuelta; el límite, no.
 
-### Spring Boot — límite en configuración
+### Spring Boot · [`spring-boot/…/application.properties`](implementaciones/spring-boot/src/main/resources/application.properties) — el límite en configuración
 
 ```properties
 spring.servlet.multipart.max-file-size=1KB
 spring.servlet.multipart.max-request-size=2KB
 ```
 
-**El límite no está en el código**: lo aplica el contenedor de servlets antes de
-que tu método exista. Cuando se supera, lanza una excepción que el manejador
-traduce a 413.
+Y en [`Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java), lo único que queda por escribir:
 
-Es el enfoque más robusto de los cuatro —la defensa está antes que tu código— y
-el menos visible: quien lea el controlador no ve que hay un límite.
-
-Fíjate en los dos ajustes: `max-file-size` por archivo y `max-request-size` por
-petición completa. Sin el segundo, cien archivos de 1 KB pasan el primero.
-
-### ASP.NET Core — comprobación tras leer el formulario
-
-```csharp
-var formulario = await peticion.ReadFormAsync();
-var archivo = formulario.Files["archivo"];
-if (archivo.Length > limite) { ... }
+```java
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<Map<String, String>> demasiadoGrande() {
+        return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
+                .body(Map.of("error", "archivo demasiado grande"));
+    }
 ```
 
-Aquí el tamaño se comprueba **después** de leer el formulario, así que depende
-del límite del servidor subyacente para la protección real. En producción se
-configura en Kestrel o en el servidor de entrada, no en el manejador.
+**El límite no está en el código**: lo aplica el contenedor de servlets antes de
+que tu método exista. Es el enfoque más robusto de los cuatro —la defensa está
+*antes* que tu código— y el menos visible: quien lea el controlador no ve que
+hay un límite.
+
+Fíjate en los **dos** ajustes, porque el segundo es el que se olvida:
+`max-file-size` limita cada archivo y `max-request-size` la petición completa.
+Sin el segundo, cien archivos de 1 KB pasan el primero.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — comprobación tras leer
+
+```csharp
+    var formulario = await peticion.ReadFormAsync();
+    var archivo = formulario.Files["archivo"];
+```
+
+```csharp
+    if (archivo.Length > limite)
+    {
+        return Results.Json(new { error = "archivo demasiado grande" }, statusCode: 413);
+    }
+```
+
+Aquí el tamaño se comprueba **después** de leer el formulario, así que esta
+comprobación no protege la memoria: para cuando `archivo.Length` existe, el
+cuerpo ya se recibió.
+
+La protección real la da el límite del servidor subyacente —Kestrel tiene su
+`MaxRequestBodySize` y el servidor de entrada el suyo—, y se configura ahí, no
+en el manejador. Queda declarado porque es la diferencia con las otras tres: lo
+que este código hace es **decir el error correcto**, no evitar el gasto.
 
 ## 🔬 Comparación
 

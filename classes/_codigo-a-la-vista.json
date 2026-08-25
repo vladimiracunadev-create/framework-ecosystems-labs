@@ -1,25 +1,7 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 52,
+  "pendientes": 46,
   "clases": [
-    {
-      "clase": "014",
-      "slug": "014-verbos-http-y-su-semantica",
-      "faltan": [
-        "aspnet-core",
-        "fastify",
-        "flask"
-      ]
-    },
-    {
-      "clase": "015",
-      "slug": "015-codigos-de-estado",
-      "faltan": [
-        "django",
-        "fastify",
-        "flask"
-      ]
-    },
     {
       "clase": "016",
       "slug": "016-cabeceras-leer-y-escribir",
@@ -49,46 +31,6 @@
         "gin",
         "laravel",
         "rails",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "018",
-      "slug": "018-negociacion-de-contenido",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "019",
-      "slug": "019-redirecciones",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "020",
-      "slug": "020-servir-archivos-estaticos",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "021",
-      "slug": "021-subida-de-archivos",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
         "spring-boot"
       ]
     },
