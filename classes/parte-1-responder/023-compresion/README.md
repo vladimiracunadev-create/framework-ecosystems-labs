@@ -57,39 +57,95 @@ admita, porque comprimirlo saldría más caro que enviarlo.
 El `Vary` importa por la misma razón que en la clase 018: sin él, una caché
 puede servir la respuesta comprimida a un cliente que no admite compresión.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
+
+Los cuatro comprimen la respuesta grande y dejan la pequeña en paz. Lo que
+cambia es **dónde vive la decisión** y **quién trae el umbral**.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — biblioteca externa
 
 ```javascript
-// Express — biblioteca externa, umbral explícito
 app.use(compression({ threshold: 1024 }));
 ```
 
+Una dependencia más, como en la clase 021 con las subidas: Express no comprime
+por su cuenta.
+
+`threshold` es el parámetro que da sentido a la clase: **por debajo de ese
+tamaño no se comprime**, porque comprimir veinte bytes cuesta CPU y puede
+**agrandar** la respuesta — la cabecera del formato gzip ocupa más que lo que se
+ahorra.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — capa incorporada
+
 ```python
-# FastAPI — capa incorporada
 app.add_middleware(GZipMiddleware, minimum_size=1024)
 ```
 
+El mismo umbral con otro nombre, y **sin dependencia externa**: viene en
+Starlette. Además el middleware añade `Vary: Accept-Encoding` por su cuenta, que
+es la cabecera sin la cual una caché intermedia serviría bytes comprimidos a un
+cliente que no los pidió [@rfc9111].
+
+### Spring Boot · [`spring-boot/…/application.properties`](implementaciones/spring-boot/src/main/resources/application.properties) — configuración, no código
+
 ```properties
-# Spring Boot — configuración, no código
 server.compression.enabled=true
 server.compression.min-response-size=1024
 server.compression.mime-types=text/plain,text/html,application/json
 ```
 
+**El único de los cuatro donde activar la compresión no toca el código.** El
+manejador es idéntico al de una aplicación sin compresión:
+
+```java
+    @GetMapping(value = "/grande", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String grande() {
+        return LARGO;
+    }
+```
+
+La ventaja es concreta y operativa: se activa o desactiva **por entorno sin
+recompilar**. Es lo que se quiere cuando hay un servidor de entrada —un
+balanceador, un CDN— que ya comprime, y hacerlo dos veces sería desperdicio de
+CPU sin ganancia.
+
+Fíjate también en `mime-types`: la lista es explícita. Comprimir un JPEG o un
+ZIP es gastar CPU para no ahorrar nada, porque ya están comprimidos.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — servicio, capa y dos precauciones
+
 ```csharp
-// ASP.NET Core — servicio + capa, con la precaución de HTTPS explícita
 constructor.Services.AddResponseCompression(opciones =>
 {
     opciones.EnableForHttps = false;
     opciones.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "text/plain" });
 });
-app.UseResponseCompression();
 ```
 
-**Spring Boot es el único donde activar la compresión no toca el código.** Tres
-líneas de propiedades y ningún cambio en el controlador. Eso permite activarla o
-desactivarla por entorno sin volver a compilar — útil cuando hay un servidor de
-entrada que ya comprime y hacerlo dos veces sería desperdicio.
+Dos decisiones que los otros tres no obligan a tomar.
+
+**`EnableForHttps = false` es el valor por omisión de .NET, y tiene motivo.**
+Comprimir sobre TLS abre la puerta a ataques que deducen el contenido a partir
+del tamaño de la respuesta comprimida —la familia de BREACH—. Aquí se sirve por
+HTTP en un laboratorio, así que la línea solo hace explícito lo que ya era.
+
+Y la segunda, que es la diferencia real del elenco:
+
+```csharp
+app.UseWhen(
+    contexto => contexto.Request.Path != "/pequeno",
+    rama => rama.UseResponseCompression());
+```
+
+**La compresión de .NET no tiene umbral de tamaño.** Comprime todo lo que
+coincida con los tipos declarados, por pequeño que sea. El umbral hay que
+traerlo de fuera — y aquí se hace derivando la tubería, que es la primera
+aparición en el programa de un middleware condicional (clase 027).
+
+Es un ejemplo limpio de algo que se repetirá: **lo que un framework no trae no
+siempre es una carencia; a veces es una decisión que te devuelve**. Aquí la
+decisión devuelta cuesta tres líneas y hay que saber que existe.
 
 ## 🔬 Comparación
 

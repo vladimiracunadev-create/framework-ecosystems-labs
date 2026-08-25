@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 45,
+  "pendientes": 42,
   "clases": [
     {
       "clase": "016",
@@ -31,37 +31,6 @@
         "gin",
         "laravel",
         "rails",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "023",
-      "slug": "023-compresion",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "024",
-      "slug": "024-cors",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "025",
-      "slug": "025-que-hace-tu-framework-con-el-socket",
-      "faltan": [
-        "express",
-        "fastapi",
-        "gin",
-        "nodejs",
         "spring-boot"
       ]
     },

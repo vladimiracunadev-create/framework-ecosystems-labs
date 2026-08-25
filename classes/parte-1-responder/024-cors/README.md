@@ -110,36 +110,108 @@ verificador:
 La lección se repite: **una prueba que exige más de lo que el estándar exige mide
 la implementación, no el contrato**, y produce rojos que no significan nada.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro declaran lo mismo: orígenes, métodos, cabeceras y duración.
+Las cuatro declaran lo mismo —orígenes, métodos, cabeceras y duración— y las
+cuatro lo declaran **en una lista explícita**. Esa es la primera lección, y la
+que más se incumple fuera de este laboratorio.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
 
 ```javascript
-// Express — con función, para no reflejar cualquier origen
-origin: (origen, devolver) => devolver(null, origen !== undefined && PERMITIDOS.has(origen)),
+const PERMITIDOS = new Set(["https://permitido.example"]);
 ```
 
+```javascript
+  cors({
+    origin: (origen, devolver) => devolver(null, origen !== undefined && PERMITIDOS.has(origen)),
+    methods: ["GET", "POST"],
+    allowedHeaders: ["content-type", "x-token"],
+    maxAge: 600,
+    optionsSuccessStatus: 204,
+  }),
+```
+
+`origin` como **función** y no como `true`. La diferencia parece cosmética y no
+lo es: `origin: true` **refleja cualquier origen** que llegue en la petición —
+devuelve en la cabecera lo que le mandaron—, y combinado con credenciales
+equivale a no tener defensa ninguna.
+
+`optionsSuccessStatus: 204` está por un detalle histórico: algunos clientes
+antiguos no aceptan el `200` con cuerpo vacío que emitiría por omisión.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
 ```python
-# FastAPI
-allow_origins=["https://permitido.example"], allow_methods=["GET", "POST"], max_age=600
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://permitido.example"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["content-type", "x-token"],
+    max_age=600,
+)
+```
+
+La forma más directa del elenco: una lista literal. Y una trampa conocida de
+este middleware que conviene saber: `allow_origins=["*"]` junto a
+`allow_credentials=True` **no funciona** — el estándar lo prohíbe, y Starlette
+lo respeta en silencio en vez de fallar. Quien lo escribe cree que abrió todo y
+no abrió nada.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+        CorsConfiguration configuracion = new CorsConfiguration();
+        configuracion.setAllowedOrigins(List.of("https://permitido.example"));
+        configuracion.setAllowedMethods(List.of("GET", "POST"));
+        configuracion.setAllowedHeaders(List.of("content-type", "x-token"));
+        configuracion.setMaxAge(600L);
 ```
 
 ```java
-// Spring Boot — un filtro con la configuración por patrón de ruta
-configuracion.setAllowedOrigins(List.of("https://permitido.example"));
-fuente.registerCorsConfiguration("/**", configuracion);
+        UrlBasedCorsConfigurationSource fuente = new UrlBasedCorsConfigurationSource();
+        fuente.registerCorsConfiguration("/**", configuracion);
+        return new CorsFilter(fuente);
+```
+
+Las dos líneas finales son las que importan: la configuración **se registra
+contra un patrón de ruta**. Aquí es `/**` porque la aplicación tiene una sola
+ruta, y el mecanismo admite tantas configuraciones como patrones.
+
+Es también la implementación que deja más claro **dónde vive CORS**: en un
+filtro, antes de los controladores. No es una decisión de la ruta; es una
+decisión de la tubería (clase 026).
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+    opciones.AddPolicy("permitidos", politica => politica
+        .WithOrigins("https://permitido.example")
+        .WithMethods("GET", "POST")
+        .WithHeaders("content-type", "x-token")
+        .SetPreflightMaxAge(TimeSpan.FromSeconds(600)));
 ```
 
 ```csharp
-// ASP.NET Core — políticas con nombre, aplicables por ruta
-opciones.AddPolicy("permitidos", politica => politica
-    .WithOrigins("https://permitido.example")
-    .WithMethods("GET", "POST"));
+app.UseCors("permitidos");
 ```
 
-**ASP.NET Core y Spring Boot permiten políticas distintas por ruta.** Es lo que
-hace falta cuando parte de tu API es pública y parte no — y lo que evita la
-tentación de poner un comodín global.
+**Políticas con nombre**, como en la clase 070 con la autorización. La política
+se define una vez y las rutas la piden por su nombre — así que puede haber
+varias y aplicarse distinta a cada zona.
+
+`SetPreflightMaxAge` con un `TimeSpan` en lugar de un número suelto: el tipo
+dice que son segundos, y no hay que recordarlo.
+
+### Lo que separa al elenco
+
+**ASP.NET Core y Spring Boot permiten políticas distintas por ruta.** Express y
+FastAPI aplican una configuración a toda la aplicación.
+
+No es un detalle de comodidad: es lo que hace falta cuando **parte de tu API es
+pública y parte no**, y es lo que evita la tentación de poner un comodín global
+porque una sola ruta lo necesitaba. La configuración más insegura del mundo real
+casi siempre empieza siendo la más cómoda.
 
 ## 🔬 Comparación
 
