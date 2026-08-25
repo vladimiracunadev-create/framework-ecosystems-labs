@@ -4,7 +4,7 @@
 
 **Antes de escribir una línea: qué hace un framework que una biblioteca no hace, y cómo se compara sin caer en la guerra de religiones.**
 
-**Clases 1 a 10** · 10 en total · 9 construidas · 16 tecnologías en juego.
+**Clases 1 a 10** · 10 en total · 10 construidas · 16 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -49,7 +49,7 @@ Y las cuatro últimas son de método: leer una medición sin creérsela (007), i
 | [007](007-como-se-mide-y-como-se-miente-el-rendimiento/README.md) | [Cómo se mide (y cómo se miente) el rendimiento](007-como-se-mide-y-como-se-miente-el-rendimiento/README.md) | Leer una comparativa de rendimiento sin creérsela. | 🟡 intermedio | ✅ Construida |
 | [008](008-leer-la-documentacion-oficial-y-el-codigo-fuente/README.md) | [Leer la documentación oficial y el código fuente](008-leer-la-documentacion-oficial-y-el-codigo-fuente/README.md) | Encontrar la respuesta en la fuente primaria antes que en un tutorial. | 🟢 introductorio | ✅ Construida |
 | [009](009-el-elenco-por-que-no-todos-resuelven-todo/README.md) | [El elenco: por qué no todos resuelven todo](009-el-elenco-por-que-no-todos-resuelven-todo/README.md) | Aceptar que los frameworks no son intercambiables como los lenguajes. | 🟢 introductorio | ✅ Construida |
-| [010](010-el-metodo-de-esta-obra/README.md) | [El método de esta obra](010-el-metodo-de-esta-obra/README.md) | Saber leer una clase: contrato, implementaciones, comparación y decisión. | 🟢 introductorio | 🚧 Esqueleto |
+| [010](010-el-metodo-de-esta-obra/README.md) | [El método de esta obra](010-el-metodo-de-esta-obra/README.md) | Saber leer una clase: contrato, implementaciones, comparación y decisión. | 🟢 introductorio | ✅ Construida |
 
 ## 🎬 Las tecnologías que aparecen
 

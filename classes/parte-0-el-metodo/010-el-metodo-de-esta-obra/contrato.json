@@ -1,8 +1,56 @@
 {
   "clase": "010",
   "titulo": "El método de esta obra",
-  "descripcion": "Recorrer una clase completa y reproducir su verificación en local.",
-  "estado": "esqueleto",
+  "descripcion": "La clase más pequeña del programa: su contenido es la anatomía de una clase, leída de su propio directorio.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "El problema de esta clase es deliberadamente trivial, porque lo que se enseña no es el problema: es cómo está hecha una clase y cómo se reproduce su verificación. Cada implementación lee SU PROPIO directorio y contesta con lo que encuentra — incluido el número de casos de este mismo contrato, que es el que la está ejecutando.",
+  "casos": [
+    {
+      "nombre": "los cuatro archivos que tiene toda clase, leídos del disco",
+      "peticion": { "metodo": "GET", "ruta": "/anatomia" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "leida_del_disco": true,
+          "archivos": ["README.md", "contrato.json", "porque-si-porque-no.md", "implementaciones/"]
+        }
+      }
+    },
+    {
+      "nombre": "el contrato se describe a sí mismo, y la cuenta cuadra",
+      "peticion": { "metodo": "GET", "ruta": "/contrato" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "clase": "010", "tipo": "http", "casos": 5, "se_lee_a_si_mismo": true }
+      }
+    },
+    {
+      "nombre": "el elenco sale de los directorios que hay, no de una lista escrita",
+      "peticion": { "metodo": "GET", "ruta": "/implementaciones" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "total": 2, "elenco": ["express", "fastapi"] }
+      }
+    },
+    {
+      "nombre": "los tres resultados posibles, y que omitida no es pasó",
+      "peticion": { "metodo": "GET", "ruta": "/estados" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "estados": ["verificada", "con fallo", "omitida"],
+          "omitida_significa_paso": false
+        }
+      }
+    },
+    {
+      "nombre": "cómo se reproduce esto en tu máquina",
+      "peticion": { "metodo": "GET", "ruta": "/verificacion" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "comando": "node scripts/run-class.mjs 010" }
+      }
+    }
+  ]
 }

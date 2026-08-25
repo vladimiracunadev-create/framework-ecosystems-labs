@@ -1006,7 +1006,7 @@ El grupo temático al que pertenece una clase —`backend`, `frontend`, `fullsta
 
 Un resultado que distingue tres estados y nunca los mezcla: **verificada** (se ejecutó y pasó), **fallo** (se ejecutó y falló) y **omitida** (no se ejecutó, y se dice por qué). Un informe que dijera «todo bien» habiendo ejecutado tres de diez estaría mintiendo.
 
-> Se enseña en la [clase 010](../classes/parte-0-el-metodo/010-el-metodo-de-esta-obra/README.md) 🚧 · ver también [Contrato](#contrato), [Cadena de herramientas](#cadena-de-herramientas).
+> Se enseña en la [clase 010](../classes/parte-0-el-metodo/010-el-metodo-de-esta-obra/README.md) · ver también [Contrato](#contrato), [Cadena de herramientas](#cadena-de-herramientas).
 
 ## 🧰 Las cadenas de herramientas
 
@@ -1280,7 +1280,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 
 | Parte | Tema | Clases | Construidas |
 | ---: | --- | ---: | ---: |
-| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 9 |
+| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 10 |
 | 1 | [Responder: lo primero que hace cualquier framework](../classes/parte-1-responder/README.md) | 15 | 15 |
 | 2 | [La tubería: middleware, filtros e interceptores](../classes/parte-2-la-tuberia/README.md) | 13 | 13 |
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |
