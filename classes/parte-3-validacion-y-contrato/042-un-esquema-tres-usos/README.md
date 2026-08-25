@@ -192,63 +192,114 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-### FastAPI — una declaración, literalmente
+Los tres usos de esta clase son **validar** en tiempo de ejecución, **tipar**
+para el editor y **documentar** para quien consume la API. La pregunta es
+cuántas veces hay que escribir el mismo `120`.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — una declaración, literalmente
 
 ```python
-class Tarea(BaseModel):
     titulo: str = Field(min_length=1, max_length=120, description="Qué hay que hacer")
     prioridad: Literal[1, 2, 3] = Field(default=2, description="1 alta, 3 baja")
 ```
 
-**Eso es todo.** El tipo valida, el editor lo entiende y el documento de OpenAPI
-sale de él. Cambiar `120` a `80` cambia las tres cosas.
+**Eso es todo.** Esas dos líneas validan la petición, tipan el objeto para el
+editor y generan el esquema del documento de OpenAPI.
+
+Cambiar `120` por `80` cambia las tres cosas, y **no hay forma de que
+diverjan** — no porque alguien tenga cuidado, sino porque no hay tres
+declaraciones que mantener sincronizadas.
 
 Es el ejemplo más limpio del programa de lo que significa una sola fuente de
-verdad, y explica buena parte de la adopción de FastAPI.
+verdad, y explica buena parte de la adopción de FastAPI [@fastapi-features].
 
-### NestJS — una clase, dos vocabularios
+### NestJS · [`nestjs/src/main.ts`](implementaciones/nestjs/src/main.ts) — una clase, dos vocabularios
 
 ```typescript
-@ApiProperty({ minLength: 1, maxLength: 120, description: "Qué hay que hacer" })
-@IsString()
-@Length(1, 120)
-titulo!: string;
+class CrearTareaDto {
+  @ApiProperty({ minLength: 1, maxLength: 120, description: "Qué hay que hacer" })
+  @IsString()
+  @Length(1, 120)
+  titulo!: string;
 ```
 
 Dos familias de decoradores sobre el **mismo campo**: `class-validator` valida y
-`@ApiProperty` documenta. El `120` aparece dos veces, y en la misma línea del
-mismo archivo.
+`@ApiProperty` documenta. El `120` aparece dos veces.
 
-No es tan limpio como FastAPI y sigue siendo robusto: **la divergencia sería
-visible al leer**, porque los dos números están pegados.
+Y sin embargo es más robusto de lo que suena: **los dos números están pegados**,
+en líneas consecutivas del mismo campo. Una divergencia sería visible al leer, no
+un descubrimiento de dentro de tres meses.
 
-### Spring Boot — y un matiz que mejora la cosa
+```typescript
+      exceptionFactory: () => new HttpException({ code: "VALIDACION" }, 422),
+```
+
+Y un detalle que costó un intento: la fábrica **tiene que devolver una
+`HttpException`**. Devolver un `Error` normal hace que NestJS lo trate como fallo
+no controlado y responda `500` — un error de validación convertido en error del
+servidor, que es justo la confusión que la clase 015 enseña a evitar.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — y un matiz que mejora la cosa
 
 ```java
-@Schema(description = "Que hay que hacer")
-@NotBlank @Size(max = 120) String titulo,
+    public record Tarea(
+            @Schema(description = "Que hay que hacer")
+            @NotBlank @Size(max = 120) String titulo,
+
+            @Schema(description = "1 alta, 3 baja", defaultValue = "2")
+            @Min(1) @Max(3) Integer prioridad) {
+    }
 ```
 
-Fíjate: `@Schema` **no repite el 120**. Y aparece en el documento igualmente.
+Fíjate en lo que **no** hay: `@Schema` no repite el `120`. Y el `120` aparece en
+el documento igualmente.
 
 La razón es que springdoc **lee las anotaciones de validación** y las traduce al
-esquema publicado. Así que es una fuente de verdad —`@Size`— con una anotación de
-documentación encima que solo añade lo que la validación no expresa: la
-descripción para personas.
+esquema publicado. Así que hay una sola fuente de verdad —`@Size`— y la
+anotación de documentación encima solo añade lo que la validación no puede
+expresar: **la descripción para personas**.
 
-Es una solución mejor de lo que parece a primera vista.
+Es una solución mejor de lo que parece a primera vista, y el reparto correcto:
+cada anotación dice lo que solo ella sabe.
 
-### ASP.NET Core — lo mismo, con la plataforma
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — lo mismo, con la plataforma
 
 ```csharp
-[Required] [MinLength(1)] [MaxLength(120)]
-public string? Titulo { get; set; }
+class Tarea
+{
+    [JsonPropertyName("titulo")]
+    [Required]
+    [MinLength(1)]
+    [MaxLength(120)]
+    public string? Titulo { get; set; }
 ```
 
-Desde .NET 9, `AddOpenApi` viene en la plataforma y lee los atributos de
-validación. Sin biblioteca externa.
+```csharp
+constructor.Services.AddOpenApi();
+```
+
+```csharp
+app.MapOpenApi("/openapi.json");
+```
+
+Mismo reparto que Spring: los atributos de `DataAnnotations` validan y el
+generador de OpenAPI los lee para documentar. **Una fuente, dos lectores.**
+
+Y una diferencia que importa al elegir: desde .NET 9, `AddOpenApi` **viene en la
+plataforma** — no hace falta añadir Swashbuckle ni NSwag. Una dependencia menos
+que auditar y actualizar, que es lo que la clase 078 mide.
+
+```csharp
+    var contexto = new ValidationContext(tarea);
+    var resultados = new List<ValidationResult>();
+    if (!Validator.TryValidateObject(tarea, contexto, resultados, validateAllProperties: true))
+```
+
+`validateAllProperties: true` no es opcional: **sin él, `TryValidateObject` solo
+comprueba `[Required]`** y se salta el resto de atributos. Es un valor por
+omisión sorprendente y una fuente conocida de validaciones que no validan.
 
 ## 🔬 Comparación
 
@@ -313,3 +364,4 @@ diferencia de esfuerzo es el argumento de la clase.
 - [@openapi-spec] *OpenAPI Specification* v3.1, OpenAPI Initiative — <https://spec.openapis.org/oas/v3.1.0.html>
 - [@json-schema] *JSON Schema Specification*, JSON Schema Organization — <https://json-schema.org/specification>
 - [@geewax-api-design-patterns] Geewax, JJ. *API Design Patterns*. Manning, 2021. ISBN 9781617295850 — <https://openlibrary.org/isbn/9781617295850>
+- [@fastapi-features] *FastAPI Features*. FastAPI — <https://fastapi.tiangolo.com/features/>

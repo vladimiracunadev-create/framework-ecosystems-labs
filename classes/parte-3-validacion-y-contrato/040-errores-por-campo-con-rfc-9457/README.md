@@ -216,49 +216,162 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-### FastAPI — los errores ya vienen acumulados
+Las cuatro devuelven el mismo documento de error. Lo que cambia es **cuánto
+trabajo hace el framework para acumular los fallos** — y cuánto cuesta ponerle
+un código estable a cada uno.
+
+Antes de leerlas, ten presente la diferencia que la clase mide: informar del
+**primer** error obliga al usuario a un viaje por cada campo mal; informar de
+**todos** le deja arreglarlo de una vez.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — ya vienen acumulados
 
 ```python
-for detalle in error.errors():
-    ubicacion = [str(x) for x in detalle["loc"] if x != "body"]
-    errores.append({"campo": ".".join(ubicacion) or "cuerpo",
-                    "codigo": CODIGOS.get(detalle["type"], "INVALIDO")})
+class Tarea(BaseModel):
+    titulo: str = Field(min_length=1, max_length=120)
+    prioridad: Literal[1, 2, 3] | None = None
 ```
 
-Pydantic devuelve **todos** los errores con su ubicación exacta y un tipo
-identificable. Lo único que hay que hacer es traducir su vocabulario al tuyo — el
-diccionario `CODIGOS` de cinco entradas.
+```python
+    for detalle in error.errors():
+        # `loc` es ("body", "titulo"): el primer elemento es de dónde vino.
+        ubicacion = [str(x) for x in detalle["loc"] if x != "body"]
+        errores.append({
+            "campo": ".".join(ubicacion) or "cuerpo",
+            "codigo": CODIGOS.get(detalle["type"], "INVALIDO"),
+            "detalle": detalle["msg"],
+        })
+```
 
-Para estructuras anidadas, `loc` da la ruta completa: `("body","items",0,"nombre")`
-se convierte en `items.0.nombre`. Ningún otro de los cuatro lo da tan hecho.
+Pydantic devuelve **todos** los errores de una vez, cada uno con su ubicación
+exacta y un tipo identificable. Lo único que queda por hacer es traducir su
+vocabulario al del contrato:
 
-### Spring Boot — y la limitación de las anotaciones estándar
+```python
+CODIGOS = {
+    "missing": "REQUERIDO",
+    "string_type": "TIPO",
+    "string_too_short": "REQUERIDO",
+    "string_too_long": "LONGITUD",
+    "literal_error": "VALOR",
+}
+```
+
+Cinco entradas de diccionario, y ahí acaba el trabajo. Y para estructuras
+anidadas, `loc` da la ruta completa —`("body","items",0,"nombre")` se convierte
+en `items.0.nombre`—, que es exactamente lo que una interfaz necesita para
+señalar el campo correcto dentro de una lista. **Ningún otro de los cuatro lo da
+tan hecho.**
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — y el límite de las anotaciones estándar
 
 ```java
-@NotBlank(message = "REQUERIDO|no puede estar vacio")
+    public record Tarea(
+            @NotBlank(message = "REQUERIDO|no puede estar vacio")
+            @Size(max = 120, message = "LONGITUD|maximo 120 caracteres")
+            String titulo,
 ```
 
-`getFieldErrors()` devuelve todos los campos que fallaron. Pero las anotaciones
-de validación estándar **solo tienen un hueco para el mensaje**: no hay un campo
-para un código de error.
+```java
+            List<Map<String, String>> errores = e.getBindingResult().getFieldErrors().stream()
+                    .map(Errores::traducir)
+                    .toList();
+```
 
-De ahí el apaño de codificarlo dentro del propio mensaje. Funciona y es feo, y
-decirlo importa: en un proyecto real se define una anotación propia con su campo
-de código, que es más trabajo del que parece.
+`getFieldErrors()` devuelve **todos** los campos que fallaron, así que la parte
+de acumular viene resuelta como en FastAPI.
 
-### Express y ASP.NET Core — acumular a mano
+Lo que no viene resuelto es el código. Mira ese `"REQUERIDO|no puede estar
+vacio"`: las anotaciones de validación estándar **solo tienen un hueco para el
+mensaje**, no hay un campo para un identificador de error. De ahí el apaño de
+codificarlo dentro del propio mensaje y partirlo después:
+
+```java
+            int corte = mensaje.indexOf('|');
+            String codigo = corte > 0 ? mensaje.substring(0, corte) : "INVALIDO";
+            String detalle = corte > 0 ? mensaje.substring(corte + 1) : mensaje;
+```
+
+**Funciona y es feo, y decirlo importa.** En un proyecto real se define una
+anotación propia con su campo de código, que es más trabajo del que parece: hay
+que escribir la anotación, su validador y registrarlo. Este laboratorio muestra
+el apaño porque es lo que de verdad se encuentra en los proyectos.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — acumular a mano
 
 ```javascript
-const errores = [];
-if (...) errores.push({ campo: "titulo", codigo: "REQUERIDO", ... });
-if (...) errores.push({ campo: "prioridad", codigo: "VALOR", ... });
+function validar(cuerpo) {
+  const errores = [];
+  const titulo = cuerpo?.titulo;
+  if (typeof titulo !== "string") {
+    errores.push({ campo: "titulo", codigo: "TIPO", detalle: "debe ser texto" });
+  } else if (titulo.trim() === "") {
+    errores.push({ campo: "titulo", codigo: "REQUERIDO", detalle: "no puede estar vacío" });
+  } else if (titulo.length > 120) {
+    errores.push({ campo: "titulo", codigo: "LONGITUD", detalle: "máximo 120 caracteres" });
+  }
 ```
 
-Sin mecanismo que acumule por ti, el patrón es explícito: **una lista, y `push`
-en lugar de `return`**. Es la diferencia de una letra entre informar de un error e
-informar de todos, y es el error más común de esta clase.
+Sin mecanismo que acumule, el patrón es explícito: **una lista, y `push` en
+lugar de `return`**.
+
+Es la diferencia de una palabra entre informar de un error e informar de todos,
+y es el fallo más común de esta clase — porque `return` es lo que uno escribe
+sin pensar.
+
+Fíjate también en el encadenamiento `if / else if`: sobre el mismo campo solo se
+informa del **primer** problema, porque decirle a alguien que su título «debe ser
+texto» y además «no puede estar vacío» no ayuda. Acumular por campo, no por
+comprobación.
+
+```javascript
+    return respuesta.status(422).type(TIPO).json({
+      type: "about:blank",
+      title: "la entrada no es válida",
+      status: 422,
+      code: "VALIDACION",
+      errors: errores,
+    });
+```
+
+`422` y no `400`: el cuerpo se entendió perfectamente, lo que no vale es su
+contenido. Y el tipo de contenido es `application/problem+json`, que es lo que
+permite a un cliente distinguir un error estructurado de una respuesta normal
+[@rfc9457].
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — a mano, y con un motivo declarado
+
+```csharp
+    var errores = new List<object>();
+
+    var titulo = tarea?.Titulo;
+    if (titulo is null || titulo.Trim().Length == 0)
+    {
+        errores.Add(new { campo = "titulo", codigo = "REQUERIDO", detalle = "no puede estar vacio" });
+    }
+    else if (titulo.Length > 120)
+    {
+        errores.Add(new { campo = "titulo", codigo = "LONGITUD", detalle = "maximo 120 caracteres" });
+    }
+```
+
+Igual que Express, y **no por falta de herramienta**. .NET trae
+`Validator.TryValidateObject`, que también acumula; lo que sus mensajes no traen
+es un código estable, así que para devolver `codigo` habría que ponerlo aquí de
+todas formas.
+
+Es el mismo problema que Spring resuelve con el apaño del `|`, decidido en la
+otra dirección: si el código hay que escribirlo, mejor escribirlo donde se lee.
+
+```csharp
+        return Results.Text(problema, tipo, statusCode: 422);
+```
+
+Y `Results.Text` con el tipo explícito en lugar de `Results.Json`, por la razón
+que la clase 031 documentó: `Results.Json` reescribiría el `content-type` a
+`application/json` y se llevaría por delante el `problem+json`.
 
 ## 🔬 Comparación
 

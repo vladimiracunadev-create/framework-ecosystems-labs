@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 27,
+  "pendientes": 24,
   "clases": [
     {
       "clase": "039",
@@ -15,36 +15,6 @@
         "gin",
         "laravel",
         "rails",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "040",
-      "slug": "040-errores-por-campo-con-rfc-9457",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "041",
-      "slug": "041-esquemas",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "042",
-      "slug": "042-un-esquema-tres-usos",
-      "faltan": [
-        "aspnet-core",
-        "fastapi",
-        "nestjs",
         "spring-boot"
       ]
     },

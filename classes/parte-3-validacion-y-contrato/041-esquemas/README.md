@@ -222,41 +222,149 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-### FastAPI — el esquema se deriva del modelo
+La pregunta de esta clase es **cuántas copias de la forma existen**. Una sola
+—derivada del código— o dos, que divergen en cuanto alguien cambia una y olvida
+la otra.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — el esquema como dato, y su intérprete
+
+```javascript
+const ESQUEMA_TAREA = {
+  type: "object",
+  required: ["titulo"],
+  additionalProperties: false,
+  properties: {
+    titulo: { type: "string", minLength: 1, maxLength: 120 },
+    prioridad: { type: "integer", enum: [1, 2, 3] },
+  },
+};
+```
+
+**El esquema es un dato, no código.** Se puede leer, publicar, versionar,
+comparar entre dos versiones y enviar a un cliente para que valide antes de
+enviar. Un `if` no permite nada de eso.
+
+Y lo que sigue es lo que esta clase quiere que veas al menos una vez:
+
+```javascript
+function validar(esquema, valor) {
+  const errores = [];
+  if (esquema.type === "object") {
+    if (typeof valor !== "object" || valor === null || Array.isArray(valor)) {
+      return [{ campo: "cuerpo", codigo: "TIPO" }];
+    }
+    for (const requerido of esquema.required ?? []) {
+      if (!(requerido in valor)) errores.push({ campo: requerido, codigo: "REQUERIDO" });
+    }
+```
+
+```javascript
+    for (const [clave, sub] of Object.entries(esquema.properties ?? {})) {
+      if (!(clave in valor)) continue;
+      errores.push(...validar(sub, valor[clave]).map((e) => ({ ...e, campo: clave })));
+    }
+```
+
+Cuarenta líneas que **recorren un árbol y se llaman a sí mismas** para los
+subobjetos. Eso es todo lo que hace por debajo una biblioteca de JSON Schema —
+con cientos de casos más cubiertos, pero con el mismo mecanismo.
+
+En un proyecto real se usa la biblioteca. Aquí está escrito a mano por la misma
+razón que la clase 018 analiza la cabecera `Accept` a mano: **para que el
+mecanismo deje de ser magia**.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — el esquema se deriva del modelo
+
+```python
+class Tarea(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    titulo: str = Field(min_length=1, max_length=120)
+    prioridad: Literal[1, 2, 3] | None = None
+```
 
 ```python
 @app.get("/esquemas/tarea")
 def esquema() -> dict[str, object]:
+    # El esquema se DERIVA del modelo: no hay una segunda copia que mantener.
     return Tarea.model_json_schema()
 ```
 
 **No hay dos copias que mantener.** El modelo que valida es el mismo que genera
-el esquema publicado, así que no pueden divergir. Es la propiedad que la clase
-042 lleva hasta sus últimas consecuencias.
+el esquema publicado, así que no pueden divergir — ni siquiera queriendo. Es la
+propiedad que la clase 042 lleva hasta sus últimas consecuencias.
 
-### Spring Boot y ASP.NET Core — la forma vive en el tipo
+Y `extra="forbid"` merece atención porque es el equivalente exacto del
+`additionalProperties: false` de JSON Schema, y porque su ausencia produce un
+fallo muy desagradable: un cliente que escribe `"titluo"` en vez de `"titulo"`
+recibiría un `422` por título ausente **sin enterarse de que se equivocó al
+teclear** — o, peor, el campo se ignoraría en silencio.
 
-El esquema publicado se construye a mano, porque el tipo no lo genera solo. Es
-una **segunda fuente de verdad**, y las dos fuentes divergen en cuanto alguien
-cambia una y olvida la otra.
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — la forma vive en el tipo, y el esquema aparte
 
-Existen bibliotecas que lo derivan del tipo; usarlas es la respuesta correcta y
-está fuera del alcance de esta clase.
-
-### Express — el esquema como estructura, y su intérprete
-
-```javascript
-function validar(esquema, valor) {
-  if (esquema.type === "object") { ... }
-  if (esquema.type === "string") { ... }
-  ...
-}
+```java
+        Map<String, Object> esquema = new LinkedHashMap<>();
+        esquema.put("type", "object");
+        esquema.put("required", List.of("titulo"));
+        esquema.put("additionalProperties", false);
+        esquema.put("properties", propiedades);
+        return esquema;
 ```
 
-Cuarenta líneas que recorren un árbol. **Eso es todo lo que hace por debajo una
-biblioteca de JSON Schema**, con muchos más casos cubiertos.
+La forma real está en el tipo —el `record` con sus anotaciones— y el esquema
+publicado **se construye a mano**. Son dos fuentes de verdad para lo mismo, y
+las dos fuentes divergen en cuanto alguien cambia una y olvida la otra.
+
+Que esta implementación sea deliberadamente ingenua es parte de la clase:
+existen bibliotecas que derivan el esquema del tipo, y **usarlas es la respuesta
+correcta**. Lo que se enseña aquí es a reconocer el problema cuando lo tienes
+delante, no a resolverlo así.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — la misma duplicidad, y un atributo que salva
+
+```csharp
+var esquema = new
+{
+    type = "object",
+    required = new[] { "titulo" },
+    additionalProperties = false,
+    properties = new
+    {
+        titulo = new { type = "string", minLength = 1, maxLength = 120 },
+        prioridad = new { type = "integer", @enum = new[] { 1, 2, 3 } },
+    },
+};
+```
+
+Misma situación que Spring: dos copias.
+
+Pero hay un detalle propio de .NET que vale la clase entera:
+
+```csharp
+[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Disallow)]
+class Tarea
+```
+
+```csharp
+    catch (JsonException)
+    {
+        // El atributo `JsonUnmappedMemberHandling.Disallow` de abajo hace que un
+        // campo desconocido lance aqui. Sin el, .NET lo IGNORA en silencio.
+        return Problema([new { campo = "cuerpo", codigo = "DESCONOCIDO" }]);
+    }
+```
+
+**Sin ese atributo, .NET ignora en silencio los campos que no conoce.** Es el
+mismo problema del `"titluo"` de FastAPI, con el valor por omisión en la
+dirección contraria: Pydantic hay que decirle que prohíba, y a .NET también,
+pero uno lo llama `extra="forbid"` y el otro `JsonUnmappedMemberHandling.Disallow`.
+
+Que los cuatro frameworks necesiten una decisión explícita para rechazar campos
+desconocidos dice algo del ecosistema: **ignorar lo que no se entiende es el
+valor por omisión en todas partes**, y casi nunca es lo que quieres en una API
+que otros consumen.
 
 ## 🔬 Comparación
 
