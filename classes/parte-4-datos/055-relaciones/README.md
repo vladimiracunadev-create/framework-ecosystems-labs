@@ -147,12 +147,163 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro modelan la misma relación y **difieren en tres decisiones** que la
-declaración esconde: quién guarda la clave ajena, qué pasa al borrar el padre, y
-cuándo se cargan los hijos. El código está en
-[`implementaciones/`](implementaciones/).
+Las cuatro modelan la misma relación —una tarea tiene muchas etiquetas— y
+**difieren en tres decisiones que la declaración esconde**: quién guarda la clave
+ajena, qué pasa al borrar el padre, y cuándo se cargan los hijos.
+
+Esa tercera es la que decide si la clase 056 te va a ocurrir.
+
+### Prisma · [`prisma/prisma/schema.prisma`](implementaciones/prisma/prisma/schema.prisma)
+
+```prisma
+model Tarea {
+  id        Int        @id @default(autoincrement())
+  titulo    String
+  // La relación se declara en los DOS lados. Prisma usa el lado con `fields` y
+  // `references` para saber dónde está la clave ajena.
+  etiquetas Etiqueta[]
+}
+
+model Etiqueta {
+  id      Int    @id @default(autoincrement())
+  nombre  String
+  tarea   Tarea  @relation(fields: [tareaId], references: [id], onDelete: Cascade)
+  tareaId Int
+}
+```
+
+Las tres decisiones en una sola declaración: `tareaId` dice **dónde vive la clave
+ajena**, `onDelete: Cascade` dice **qué pasa al borrar el padre**, y la ausencia
+de cualquier opción de carga dice lo tercero — Prisma **no carga sola** la
+relación.
+
+```javascript
+  const tarea = await prisma.tarea.create({
+    data: {
+      titulo: peticion.body?.titulo ?? "",
+      etiquetas: { create: (peticion.body?.etiquetas ?? []).map((nombre) => ({ nombre })) },
+    },
+    include: { etiquetas: true },
+  });
+```
+
+**Escritura anidada**: la tarea y sus etiquetas en una sola operación, y el ORM se
+encarga del orden y de la clave ajena. Es lo más cómodo del elenco para este
+caso.
+
+```javascript
+  const tarea = await prisma.tarea.findUnique({
+    where: { id: Number(peticion.params.id) },
+    include: { etiquetas: true },
+  });
+```
+
+Sin `include`, `tarea.etiquetas` **no existe**. Esa decisión evita el problema de
+la clase 056 por diseño, y tiene su propio riesgo: un campo que falta es más
+fácil de notar que una lista vacía.
+
+### Entity Framework Core · [`entity-framework-core/Program.cs`](implementaciones/entity-framework-core/Program.cs) — el mismo criterio, con otro fallo
+
+```csharp
+class Tarea
+{
+    public int Id { get; set; }
+    public string Titulo { get; set; } = "";
+    public List<Etiqueta> Etiquetas { get; set; } = [];
+}
+
+class Etiqueta
+{
+    public int Id { get; set; }
+    public string Nombre { get; set; } = "";
+    public int TareaId { get; set; }
+    public Tarea? Tarea { get; set; }
+}
+```
+
+```csharp
+        constructor.Entity<Tarea>()
+            .HasMany(t => t.Etiquetas)
+            .WithOne(e => e.Tarea!)
+            .HasForeignKey(e => e.TareaId)
+            .OnDelete(DeleteBehavior.Cascade);
+```
+
+La relación se declara **fuera de la entidad**, en el contexto — coherente con el
+Data Mapper de la clase 054.
+
+```csharp
+        tarea.Etiquetas.Add(new Etiqueta { Nombre = nombre });
+```
+
+**Basta con añadir al hijo**: EF Core deduce la clave ajena de la relación. No
+hace falta poner los dos lados, a diferencia de JPA.
+
+```csharp
+    var tarea = await contexto.Tareas
+        .Include(t => t.Etiquetas)
+        .FirstOrDefaultAsync(t => t.Id == id);
+```
+
+Y aquí está el matiz que separa a EF Core de Prisma aunque tomen la misma
+decisión: **sin `Include`, la lista llega vacía** en lugar de no existir.
+
+Evita el N+1 por diseño, y **a cambio el fallo es más silencioso**: una lista
+vacía parece un dato —«esta tarea no tiene etiquetas»— y no un olvido. Un campo
+ausente, como en Prisma, se nota al primer intento de leerlo.
+
+### SQLAlchemy · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py) — dos cascadas, y por qué hacen falta las dos
+
+```python
+    etiquetas: Mapped[list["Etiqueta"]] = relationship(
+        back_populates="tarea", cascade="all, delete-orphan"
+    )
+```
+
+```python
+    tarea_id: Mapped[int] = mapped_column(ForeignKey("tareas.id", ondelete="CASCADE"))
+    tarea: Mapped[Tarea] = relationship(back_populates="etiquetas")
+```
+
+**Dos declaraciones de cascada, y no es redundancia.** `cascade="all,
+delete-orphan"` borra las etiquetas al borrar la tarea **desde la sesión**;
+`ondelete="CASCADE"` lo garantiza **en la base**.
+
+El primero cubre lo que hace tu aplicación. El segundo cubre lo que hace
+cualquier otro que escriba en esa base: otro servicio, una migración, alguien con
+un cliente SQL. Poner solo el primero deja filas huérfanas en cuanto alguien
+borra por fuera.
+
+```python
+# SQLite NO aplica las claves ajenas salvo que se le pida en cada conexion. Es
+```
+
+Y un detalle del motor que esta clase destapa: **SQLite no aplica las claves
+ajenas por omisión**. Hay que activarlas en cada conexión. Es el tipo de
+diferencia entre motores que hace que «funciona en desarrollo» no signifique
+nada.
+
+### Hibernate · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java) — la decisión opuesta
+
+```java
+        @OneToMany(mappedBy = "tarea", cascade = CascadeType.ALL,
+                orphanRemoval = true, fetch = FetchType.LAZY)
+        public List<Etiqueta> etiquetas = new ArrayList<>();
+```
+
+Las tres decisiones en una anotación. `cascade = ALL` propaga guardar y borrar,
+`orphanRemoval` borra el hijo que se saca de la lista, y `mappedBy` dice que la
+clave ajena vive en el otro lado.
+
+Y la tercera es la que separa a JPA del resto del elenco: **`fetch = LAZY` es el
+valor por omisión de `@OneToMany`**. La lista **no** se carga hasta que se toca —
+y entonces se dispara otra consulta.
+
+Es cómodo, es lo que casi nadie cambia, y es **el origen exacto del problema de la
+clase 056**. Prisma y EF Core eligieron lo contrario; Hibernate eligió la
+comodidad y puso el peligro en el valor por omisión.
 
 ## 📖 Las tres decisiones que esconde una relación
 

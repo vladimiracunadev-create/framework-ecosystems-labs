@@ -159,19 +159,154 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-[Hibernate](implementaciones/hibernate/), [SQLAlchemy con mapeo imperativo](implementaciones/sqlalchemy/),
-[Entity Framework Core](implementaciones/entity-framework-core/) y
-[TypeORM en modo Data Mapper](implementaciones/typeorm/).
+Cuatro ORM en el patrón contrario al de la clase 053. Y la propiedad que lo
+define: **la entidad no tiene `guardar()`, ni `buscar()`, ni `borrar()`**.
+Describe qué es una tarea y qué sabe hacer; quien la guarda es otro.
 
-**TypeORM aparece en las dos clases**, y es la comparación más limpia que hay:
-misma biblioteca, mismo contrato, y la diferencia se reduce a una línea.
+### TypeORM · [`typeorm/server.mjs`](implementaciones/typeorm/server.mjs) — la comparación más limpia del programa
 
 ```javascript
-class Tarea extends BaseEntity { }   // 053: la entidad sabe guardarse
-class Tarea { }                       // 054: no
+const EsquemaTarea = new EntitySchema({
+  name: "Tarea",
+  target: Tarea,
+  tableName: "tareas",
 ```
+
+```javascript
+const repositorio = fuente.getRepository(Tarea);
+```
+
+**Es la misma biblioteca, el mismo contrato y el mismo `EntitySchema` que la
+clase 053.** Lo único que cambia es que la entidad ya no hereda de `BaseEntity`,
+y que quien guarda es un repositorio que se pide a la fuente de datos.
+
+Poner los dos archivos uno al lado del otro es lo más cerca que este programa
+llega a un experimento controlado: una sola variable cambiada.
+
+Y la entidad vive en su propio archivo, [`dominio.mjs`](implementaciones/typeorm/dominio.mjs),
+igual que en SQLAlchemy — la separación no es de estilo, es de archivo.
+
+### SQLAlchemy con mapeo imperativo · [`sqlalchemy/dominio.py`](implementaciones/sqlalchemy/dominio.py) — la prueba más fuerte
+
+```python
+class Tarea:
+    def __init__(self, titulo: str, hecha: bool = False) -> None:
+        if not titulo.strip():
+            raise TituloRequerido()
+        self.id: int | None = None
+        self.titulo = titulo
+        self.hecha = hecha
+```
+
+**Ese archivo no importa SQLAlchemy.** Ni una línea. La clase no hereda de nada,
+no conoce ninguna tabla y no sabe guardarse: se puede instanciar, probar y
+razonar sin que exista una base de datos.
+
+Es la demostración más fuerte del elenco de que Data Mapper no es un detalle de
+configuración.
+
+Y el mapeo vive fuera, en [`main.py`](implementaciones/sqlalchemy/main.py):
+
+```python
+tabla_tareas = Table(
+    "tareas",
+    metadatos,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+```
+
+```python
+mapeador.map_imperatively(Tarea, tabla_tareas)
+```
+
+Esa línea de `main.py` es **la única** que une el dominio con el almacenamiento.
+Quitarla deja una clase de Python perfectamente utilizable.
+
+### Entity Framework Core · [`entity-framework-core/Program.cs`](implementaciones/entity-framework-core/Program.cs)
+
+```csharp
+class Tarea
+{
+    // El constructor sin argumentos no es opcional: al leer una fila, EF Core
+    // construye el objeto vacío y DESPUÉS le pone los campos. Por eso las reglas
+    // van en una fábrica y no en el constructor.
+    public Tarea() { }
+```
+
+```csharp
+    public static Tarea Crear(string? titulo)
+    {
+        var tarea = new Tarea();
+        tarea.Renombrar(titulo);
+        return tarea;
+    }
+```
+
+**El constructor sin argumentos no es opcional, y tiene una consecuencia de
+diseño real**: si el ORM construye el objeto vacío y luego le pone los campos, las
+reglas no pueden vivir en el constructor. Van en una fábrica.
+
+Es una limitación que impone el mecanismo y que aparece igual en Hibernate.
+Conviene conocerla antes de diseñar el dominio, porque cambia dónde se pueden
+poner las invariantes.
+
+```csharp
+interface IRepositorioDeTareas
+{
+    Task<Tarea> GuardarAsync(Tarea tarea);
+    Task<Tarea?> PorIdAsync(int id);
+```
+
+```csharp
+constructor.Services.AddScoped<IRepositorioDeTareas, RepositorioEfCore>();
+```
+
+**La interfaz no menciona EF Core.** Los manejadores piden `IRepositorioDeTareas`
+y no saben qué hay detrás — que es exactamente lo que permite sustituirla por un
+doble en memoria en la clase 065.
+
+### Hibernate · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java) — y una honestidad
+
+```java
+    @Entity
+    @Table(name = "tareas")
+    public static class Tarea {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        public Long id;
+```
+
+```java
+        public static Tarea crear(String titulo) {
+            Tarea tarea = new Tarea();
+            tarea.renombrar(titulo);
+            return tarea;
+        }
+```
+
+La entidad no tiene `guardar()` y la regla está en una fábrica, igual que en EF
+Core y por el mismo motivo.
+
+Pero hay algo que conviene decir en voz alta: **las anotaciones de persistencia
+siguen ahí**. `@Entity`, `@Table`, `@Column` están dentro de la clase del
+dominio.
+
+**La separación de JPA es de comportamiento, no de metadatos.** El objeto no sabe
+guardarse —eso es Data Mapper de verdad— y sí sabe cómo se llama su tabla. Para
+quitar también eso existe `orm.xml`, que casi nadie usa.
+
+Compáralo con el `dominio.py` de SQLAlchemy, que no importa nada: es la misma
+familia de patrón con dos grados distintos de pureza, y la diferencia se paga en
+verbosidad.
+
+```java
+    public interface Tareas extends JpaRepository<Tarea, Long> {
+    }
+```
+
+Y el mapeador es otra vez la interfaz vacía de Spring Data — la implementación la
+genera el framework al arrancar.
 
 ## 🧮 El contrato
 
