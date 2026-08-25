@@ -27,7 +27,7 @@ git— y lleva hasta el primer contrato en verde.
 node scripts/doctor.mjs   # qué cadenas tienes y cuánto del laboratorio puedes ejecutar hoy
 ```
 
-El informe dice **cuántas de las 340 implementaciones puedes ejecutar en tu
+El informe dice **cuántas de las implementaciones del laboratorio puedes ejecutar en tu
 máquina**, cuáles no y con qué comando exacto se recupera cada una. No hace
 falta instalarlas todas: lo que no se ejecute en local se ejecuta en la
 integración continua, y una implementación omitida se declara omitida.

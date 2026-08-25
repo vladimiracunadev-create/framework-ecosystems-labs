@@ -226,8 +226,11 @@ if (argumentos.includes("--escribir")) {
   if (!fs.existsSync(REGISTRO)) {
     fallar("classes/_codigo-a-la-vista.json", "no existe; ejecuta `node scripts/verify-excerpts.mjs --escribir`");
   } else {
+    // El final de línea no es contenido: el repositorio se edita en Windows y
+    // se valida en Linux, y un CRLF no puede poner esto en rojo.
+    const normalizar = (texto) => texto.replaceAll("\r\n", "\n");
     const guardado = fs.readFileSync(REGISTRO, "utf8");
-    if (guardado !== serializar(registro)) {
+    if (normalizar(guardado) !== normalizar(serializar(registro))) {
       const previas = JSON.parse(guardado).pendientes ?? 0;
       const direccion =
         pendientes.length > previas

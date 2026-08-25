@@ -70,7 +70,7 @@ Cadenas de herramientas del laboratorio
   ⊘ JDK + Apache Maven    65 impl ·  65 clases   falta `java` y `mvn`
   ...
 
-RESUMEN: 189/340 implementaciones ejecutables en esta máquina (56 %)
+RESUMEN: 197/353 implementaciones ejecutables en esta máquina (55 %)
 ```
 
 Ese porcentaje es la métrica honesta: **no dice cuánto has aprendido, dice
@@ -82,16 +82,16 @@ es público.
 
 | Cadena | Qué desbloquea | Frameworks | Instalación oficial |
 | --- | ---: | --- | --- |
-| **Node.js** · 22 o superior | 3 impl. en 2 clases | alpinejs, htmx, nodejs | [nodejs.org](https://nodejs.org/en/download) [@nodejs-downloads] |
-| **Node.js + pnpm** · Node 22 · pnpm 10 | 86 impl. en 69 clases | drizzle, express, fastify, lit, nestjs, prisma, react, solid, svelte, typeorm, vue | [pnpm.io](https://pnpm.io/installation) [@pnpm-installation] |
-| **Python** · 3.11 o superior | 86 impl. en 67 clases | django, fastapi, flask, sqlalchemy | [python.org](https://www.python.org/downloads/) [@python-downloads] |
-| **JDK + Apache Maven** · JDK 21 · Maven 3.9 | 65 impl. en 65 clases | hibernate, spring-boot | [adoptium.net](https://adoptium.net/temurin/releases/) [@adoptium-temurin] |
-| **.NET SDK** · 8 o superior | 63 impl. en 63 clases | aspnet-core, dapper, entity-framework-core | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) [@dotnet-sdk-downloads] |
-| **PHP + Composer** · PHP 8.2 · Composer 2 | 14 impl. en 14 clases | eloquent, laravel | [getcomposer.org](https://getcomposer.org/download/) [@composer-download] |
+| **Node.js** · 22 o superior | 4 impl. en 3 clases | alpinejs, htmx, nodejs | [nodejs.org](https://nodejs.org/en/download) [@nodejs-downloads] |
+| **Node.js + pnpm** · Node 22 · pnpm 10 | 89 impl. en 72 clases | drizzle, express, fastify, lit, nestjs, prisma, react, solid, svelte, typeorm, vue | [pnpm.io](https://pnpm.io/installation) [@pnpm-installation] |
+| **Python** · 3.11 o superior | 89 impl. en 70 clases | django, fastapi, flask, sqlalchemy | [python.org](https://www.python.org/downloads/) [@python-downloads] |
+| **JDK + Apache Maven** · JDK 21 · Maven 3.9 | 68 impl. en 68 clases | hibernate, spring-boot | [adoptium.net](https://adoptium.net/temurin/releases/) [@adoptium-temurin] |
+| **.NET SDK** · 8 o superior | 65 impl. en 65 clases | aspnet-core, dapper, entity-framework-core | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) [@dotnet-sdk-downloads] |
+| **PHP + Composer** · PHP 8.2 · Composer 2 | 15 impl. en 15 clases | eloquent, laravel | [getcomposer.org](https://getcomposer.org/download/) [@composer-download] |
 | **Ruby + Bundler** · Ruby 3.3 · Bundler 2 | 13 impl. en 13 clases | activerecord, rails | [ruby-lang.org](https://www.ruby-lang.org/en/documentation/installation/) [@ruby-installation] |
 | **Go** · 1.22 o superior | 10 impl. en 10 clases | gin | [go.dev](https://go.dev/doc/install) [@go-downloads] |
 
-Ocho cadenas, **340 implementaciones**. Ninguna es obligatoria: el ejecutor corre las que encuentre y **declara** las que omitió.
+Ocho cadenas, **353 implementaciones**. Ninguna es obligatoria: el ejecutor corre las que encuentre y **declara** las que omitió.
 
 ### Node.js
 

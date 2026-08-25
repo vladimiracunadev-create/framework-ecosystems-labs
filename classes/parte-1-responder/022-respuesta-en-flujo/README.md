@@ -43,69 +43,105 @@ tiempo**, sin construir la respuesta entera antes de empezar a enviarla.
 | igual | `content-type: text/plain` |
 | igual | **sin** `content-length` |
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-### Express
+Los cuatro envían tres trozos separados en el tiempo. Lo que cambia es **quién
+espera mientras tanto** — y esa es una diferencia de modelo de ejecución, no de
+API.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
 
 ```javascript
-respuesta.type("text/plain");
-for (const trozo of ["uno\n", "dos\n", "tres\n"]) {
-  respuesta.write(trozo);
-  await esperar(50);
-}
-respuesta.end();
+  respuesta.type("text/plain");
+  respuesta.setHeader("cache-control", "no-store");
+  for (const trozo of ["uno\n", "dos\n", "tres\n"]) {
+    respuesta.write(trozo);
+    await esperar(50);
+  }
+  respuesta.end();
 ```
 
-`write` varias veces y `end` al final. Node pasa a codificación troceada
-automáticamente al no haber `Content-Length`.
+`write` varias veces y `end` al final. Lo que hace que esto sea un flujo y no
+una respuesta partida es lo que **no** está: **sin `Content-Length`**, Node pasa
+a codificación troceada por su cuenta y el cliente empieza a leer antes de que
+el servidor sepa cuánto va a enviar en total [@rfc9112].
 
-### FastAPI
+Y el `await` dentro del bucle no bloquea nada: el bucle de eventos atiende otras
+peticiones durante los 50 ms.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
 
 ```python
 async def trozos() -> AsyncIterator[bytes]:
     for texto in ("uno\n", "dos\n", "tres\n"):
         yield texto.encode()
         await asyncio.sleep(0.05)
+```
 
-return StreamingResponse(trozos(), media_type="text/plain")
+```python
+    return StreamingResponse(
+        trozos(), media_type="text/plain", headers={"cache-control": "no-store"}
+    )
 ```
 
 **El enfoque más limpio de los cuatro.** La respuesta se declara como un
-generador asíncrono: nada se acumula, y el código que produce los datos no sabe
-nada de HTTP. Se puede probar el generador por separado.
+generador asíncrono: nada se acumula en memoria, y —lo que más importa— **el
+código que produce los datos no sabe nada de HTTP**.
 
-### Spring Boot
+Esa separación tiene una consecuencia práctica inmediata: `trozos()` se puede
+probar sola, sin servidor y sin cliente. Es la misma idea que la clase 065
+aplica a la persistencia.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
 
 ```java
-@GetMapping(value = "/flujo", produces = MediaType.TEXT_PLAIN_VALUE)
-public StreamingResponseBody flujo(HttpServletResponse respuesta) {
-    return salida -> { ... salida.flush(); ... };
-}
+    @GetMapping(value = "/flujo", produces = MediaType.TEXT_PLAIN_VALUE)
+    public StreamingResponseBody flujo(HttpServletResponse respuesta) {
+```
+
+```java
+        respuesta.setContentType("text/plain");
+        respuesta.setHeader("Cache-Control", "no-store");
+        return salida -> {
+            for (String trozo : new String[] { "uno\n", "dos\n", "tres\n" }) {
+                salida.write(trozo.getBytes());
+                salida.flush();
 ```
 
 `StreamingResponseBody` **libera el hilo del contenedor** mientras se escribe.
 Sin él, un flujo de diez minutos retendría un hilo del grupo durante diez
-minutos, y el grupo es finito.
+minutos — y el grupo es finito.
 
-Es la manifestación del modelo de un hilo por petición: en un servidor con 200
-hilos, 200 flujos lentos simultáneos agotan el servidor entero. El
-[módulo 02](../../../curriculum/02-arquitectura-de-frameworks.md) compara ese
-modelo con el basado en eventos.
+Es la manifestación más clara del modelo **un hilo por petición**: en un
+servidor con 200 hilos, 200 flujos lentos simultáneos agotan el servidor entero.
+El [módulo 02](../../../curriculum/02-arquitectura-de-frameworks.md) compara ese
+modelo con el basado en eventos que usan las dos implementaciones anteriores.
 
-### ASP.NET Core
+Y un detalle que el propio código documenta y que se descubrió montándolo: el
+`produces` de la anotación **no llega a fijar la cabecera** cuando el cuerpo se
+escribe directamente en el flujo de salida. Hay que ponerla a mano.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
 
 ```csharp
-await respuesta.Body.WriteAsync(Encoding.UTF8.GetBytes(trozo));
-await respuesta.Body.FlushAsync();
+        await respuesta.Body.WriteAsync(Encoding.UTF8.GetBytes(trozo));
+        await respuesta.Body.FlushAsync();
+        await Task.Delay(50);
 ```
 
 **El `FlushAsync` no es opcional.** Sin él, el búfer podría acumular los tres
 trozos y enviarlos juntos al final: la respuesta sería idéntica y ya no sería un
-flujo. El contrato no lo detectaría —el cuerpo es el mismo— y el usuario sí.
+flujo.
 
-Es un buen recordatorio de que este contrato verifica **el resultado**, no el
-comportamiento temporal. Medir el instante de llegada de cada trozo exigiría un
-cliente que lea a trozos.
+Y eso lleva a la limitación de este contrato, que conviene decir en voz alta:
+**mide el resultado, no el comportamiento temporal**. Un servidor que enviara
+los tres trozos de golpe pasaría los mismos casos. Comprobar que el primer trozo
+llega antes que el tercero exigiría un cliente que lea a trozos y mida
+instantes — y ese cliente no existe en este verificador.
+
+Lo que sí queda probado: la respuesta va troceada y sin `Content-Length`, que es
+la condición necesaria. Que además llegue escalonada está **declarado, no
+medido**.
 
 ## 🔬 Comparación
 

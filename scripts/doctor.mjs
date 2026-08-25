@@ -262,6 +262,16 @@ function bloque() {
   return `${INICIO}\n\n${tabla()}\n\n${FIN}`;
 }
 
+/**
+ * El final de línea no es contenido.
+ *
+ * El repositorio se edita en Windows y se valida en Linux; una herramienta que
+ * escribiera el fichero con CRLF pondría este verificador en rojo sin que
+ * hubiera cambiado una sola palabra. Se compara el texto, no el formato del
+ * salto.
+ */
+const normalizar = (texto) => texto.replaceAll("\r\n", "\n");
+
 function reescribir({ comprobar }) {
   const actual = fs.readFileSync(DESTINO, "utf8");
   const inicio = actual.indexOf(INICIO);
@@ -272,7 +282,7 @@ function reescribir({ comprobar }) {
     return;
   }
   const nuevo = actual.slice(0, inicio) + bloque() + actual.slice(fin + FIN.length);
-  if (nuevo === actual) {
+  if (normalizar(nuevo) === normalizar(actual)) {
     console.log("DOCTOR_OK: la tabla de cadenas está al día");
     return;
   }
