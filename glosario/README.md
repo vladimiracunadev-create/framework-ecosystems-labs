@@ -2,7 +2,7 @@
 
 > [🏠 Repositorio](../README.md) · [🚀 Empezar](../empezar/README.md) · [🎓 Clases](../classes/README.md) · [🗺️ Atlas](../atlas/README.md)
 
-Todo el vocabulario del programa en un sitio: **138 conceptos** con su definición y **dónde se enseña**, las **138 tecnologías** del catálogo y las **8 cadenas de herramientas**.
+Todo el vocabulario del programa en un sitio: **138 conceptos** con su definición y **dónde se enseña**, las **138 tecnologías** del catálogo y las **9 cadenas de herramientas**.
 
 Este archivo **se genera**. Los conceptos viven en [`glosario/conceptos.json`](conceptos.json), las tecnologías en [`catalog/frameworks.json`](../catalog/frameworks.json) y las cadenas en [`scripts/lib/cadenas.mjs`](../scripts/lib/cadenas.mjs). Cada concepto declara la clase o el módulo donde se enseña, y `node scripts/generate-glosario.mjs --check` **falla si esa referencia no resuelve** — un glosario cuyos enlaces mienten es peor que no tenerlo.
 
@@ -868,7 +868,7 @@ Un número agregado en el tiempo: peticiones por segundo, latencia por percentil
 
 El valor por debajo del cual queda un porcentaje de las mediciones. La media esconde a los usuarios lentos; el p95 y el p99 son los que describen lo que la gente sufre.
 
-> Se enseña en la [clase 007](../classes/parte-0-el-metodo/007-como-se-mide-y-como-se-miente-el-rendimiento/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Métrica](#métrica), [Medir antes de optimizar](#medir-antes-de-optimizar).
+> Se enseña en la [clase 007](../classes/parte-0-el-metodo/007-como-se-mide-y-como-se-miente-el-rendimiento/README.md) · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Métrica](#métrica), [Medir antes de optimizar](#medir-antes-de-optimizar).
 
 #### Pirámide de pruebas
 
@@ -1022,6 +1022,7 @@ Los ejecutables que hace falta tener para ejecutar cada ecosistema del laborator
 | **PHP + Composer** | PHP 8.2 · Composer 2 | `php --version` | Ejecuta Laravel y Eloquent. Composer aporta además el autocargador PSR-4, que es lo que permite que el controlador frontal de la clase 011 encuentre las clases sin un solo `require`. |
 | **Ruby + Bundler** | Ruby 3.3 · Bundler 2 | `ruby --version` | Ejecuta Ruby on Rails y Active Record — el origen de casi todas las convenciones que el resto del catálogo copió después. |
 | **Go** | 1.22 o superior | `go version` | Ejecuta Gin. Es la única cadena que no necesita paso de preparación: `go run` resuelve dependencias, compila y arranca en un solo comando. |
+| **Rust** | 1.80 o superior | `cargo --version` | Ejecuta axum. Es la única cadena donde el modo de compilación cambia los números de rendimiento en un orden de magnitud: `cargo build` a secas compila sin optimizar, y medir eso no compara nada. |
 
 ## 🗂️ Las tecnologías del catálogo
 
@@ -1279,7 +1280,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 
 | Parte | Tema | Clases | Construidas |
 | ---: | --- | ---: | ---: |
-| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 6 |
+| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 7 |
 | 1 | [Responder: lo primero que hace cualquier framework](../classes/parte-1-responder/README.md) | 15 | 15 |
 | 2 | [La tubería: middleware, filtros e interceptores](../classes/parte-2-la-tuberia/README.md) | 13 | 13 |
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |

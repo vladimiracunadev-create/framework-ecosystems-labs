@@ -1,8 +1,52 @@
 {
   "clase": "007",
   "titulo": "Cómo se mide (y cómo se miente) el rendimiento",
-  "descripcion": "La misma medición hecha bien y hecha mal sobre dos implementaciones del contrato.",
-  "estado": "esqueleto",
+  "descripcion": "La misma medición hecha mal y hecha bien sobre el mismo trabajo, en cuatro frameworks.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "El contrato NO compara velocidades entre frameworks: eso mediría la máquina de quien ejecuta, que es justo el error que la clase denuncia. Lo que compara es el MÉTODO — una medición sin calentamiento que publica solo la media, frente a otra con calentamiento que publica percentiles — y exige que cada implementación declare el entorno sin el cual ningún número significa nada.",
+  "casos": [
+    {
+      "nombre": "hay una unidad de trabajo determinista, idéntica en los cuatro",
+      "peticion": { "metodo": "GET", "ruta": "/trabajo" },
+      "esperado": { "estado": 200, "json_contiene": { "hecho": true, "vueltas": 400 } }
+    },
+    {
+      "nombre": "la medición MAL hecha: sin calentar y publicando solo la media",
+      "peticion": { "metodo": "GET", "ruta": "/medir-mal?n=100" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "muestras": 100, "calentamiento": 0, "publica": "solo la media" }
+      }
+    },
+    {
+      "nombre": "la medición BIEN hecha: calienta primero y publica la distribución",
+      "peticion": { "metodo": "GET", "ruta": "/medir-bien?n=100" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "muestras": 100, "publica": "percentiles" }
+      }
+    },
+    {
+      "nombre": "LA MEDIA OCULTA LA COLA — el percentil 99 siempre está por encima",
+      "peticion": { "metodo": "GET", "ruta": "/comparar" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "la_media_oculta_la_cola": true,
+          "mide_esta_maquina_no_el_framework": true
+        }
+      }
+    },
+    {
+      "nombre": "y el entorno, sin el cual ningún número significa nada",
+      "peticion": { "metodo": "GET", "ruta": "/entorno" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "publica": ["runtime", "version_del_framework", "nucleos", "modo_de_compilacion"]
+        }
+      }
+    }
+  ]
 }

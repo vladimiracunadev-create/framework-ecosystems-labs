@@ -1,0 +1,8 @@
+{
+  "framework": "axum",
+  "requiere": ["cargo"],
+  "comprobar": ["cargo", "--version"],
+  "preparar": ["cargo", "build", "--release", "--quiet"],
+  "arrancar": ["cargo", "run", "--release", "--quiet"],
+  "espera_ms": 60000
+}

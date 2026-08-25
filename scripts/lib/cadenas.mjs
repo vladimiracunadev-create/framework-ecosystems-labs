@@ -180,6 +180,27 @@ export const CADENAS = [
     comprobar: ["go version"],
     nota: "`go version` no lleva guiones, a diferencia de casi todos los demás. Es un detalle, pero es el que hace fallar el primer intento.",
   },
+  {
+    id: "rust-cargo",
+    requiere: ["cargo"],
+    titulo: "Rust",
+    version: "1.80 o superior",
+    porque:
+      "Ejecuta axum. Es la única cadena donde el modo de compilación cambia los números de rendimiento en un orden de magnitud: `cargo build` a secas compila sin optimizar, y medir eso no compara nada.",
+    cita: "rust-install",
+    oficial: "https://www.rust-lang.org/tools/install",
+    instalar: {
+      Windows: ["winget install Rustlang.Rustup"],
+      macOS: ["brew install rustup && rustup-init -y"],
+      "Linux (Debian/Ubuntu)": [
+        "# rustup instala la cadena en el directorio del usuario, sin tocar el sistema",
+        "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y",
+        'source "$HOME/.cargo/env"',
+      ],
+    },
+    comprobar: ["cargo --version", "rustc --version"],
+    nota: "La primera construcción descarga y compila el árbol entero de dependencias y tarda minutos. Las siguientes son rápidas porque `target/` guarda lo compilado — y por eso `target/` no se versiona.",
+  },
 ];
 
 /** Índice por la firma de `requiere` tal y como aparece en `ejecutar.json`. */

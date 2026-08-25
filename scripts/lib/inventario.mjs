@@ -26,6 +26,7 @@ const MANIFIESTOS = [
   "composer.json",
   "Gemfile",
   "go.mod",
+  "Cargo.toml",
 ];
 
 /**
@@ -46,6 +47,8 @@ const ROLES = new Map([
   ["Gemfile", "dependencias de Ruby"],
   ["Gemfile.lock", "archivo de bloqueo de Bundler"],
   ["go.mod", "módulo de Go: su nombre, la versión del lenguaje y sus dependencias"],
+  ["Cargo.toml", "manifiesto de Rust: el paquete, sus dependencias y los perfiles de compilación"],
+  ["Cargo.lock", "las versiones exactas que resolvió Cargo, para que la construcción se repita igual"],
   ["go.sum", "huellas criptográficas de cada dependencia de Go"],
   ["application.properties", "configuración de Spring Boot: lo que se ajusta sin tocar el código"],
   ["config.ru", "punto de entrada de Rack, el estándar de servidores de Ruby"],
@@ -66,6 +69,7 @@ const EXTENSIONES = new Map([
   [".java", "código Java"],
   [".cs", "código C#"],
   [".go", "código Go"],
+  [".rs", "código Rust"],
   [".php", "código PHP"],
   [".rb", "código Ruby"],
   [".csproj", "proyecto de .NET: el marco de destino y las dependencias"],
@@ -155,6 +159,15 @@ function versionDeclarada(dir, framework) {
     const partes = [];
     if (go) partes.push(`Go ${go[1]}`);
     for (const [, nombre, version] of requeridas.slice(0, 3)) partes.push(`${nombre} ${version}`);
+    if (partes.length) return partes.join(", ");
+  }
+
+  // Rust: el paquete y sus dependencias directas, en el orden del manifiesto.
+  const cargo = leer("Cargo.toml");
+  if (cargo) {
+    const dependencias = cargo.slice(cargo.indexOf("[dependencies]"));
+    const declaradas = [...dependencias.matchAll(/^([a-zA-Z0-9_-]+)\s*=\s*(?:"([^"]+)"|\{[^}]*version\s*=\s*"([^"]+)")/gm)];
+    const partes = declaradas.slice(0, 3).map(([, nombre, suelta, dentro]) => `${nombre} ${suelta ?? dentro}`);
     if (partes.length) return partes.join(", ");
   }
 

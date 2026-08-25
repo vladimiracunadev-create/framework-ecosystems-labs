@@ -3302,6 +3302,18 @@
       ]
     },
     {
+      "id": "rust-install",
+      "type": "reference",
+      "title": "Install Rust",
+      "publisher": "Rust Foundation",
+      "locator": "https://www.rust-lang.org/tools/install",
+      "topics": [
+        "entorno",
+        "rust",
+        "herramientas"
+      ]
+    },
+    {
       "id": "chacon-straub-pro-git",
       "type": "book",
       "authors": [

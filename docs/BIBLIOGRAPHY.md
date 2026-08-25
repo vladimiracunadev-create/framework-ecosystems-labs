@@ -2,7 +2,7 @@
 
 Documento generado por `node scripts/generate-bibliography.mjs`. No editar a mano.
 
-Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **220** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
+Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **221** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
 
 Cada entrada declara un localizador resoluble y es citada al menos una vez en el programa;
 `node scripts/verify-sources.mjs` falla si deja de cumplirse cualquiera de las dos condiciones.
@@ -14,7 +14,7 @@ Cada entrada declara un localizador resoluble y es citada al menos una vez en el
 | Libros | 100 | `https://openlibrary.org/isbn/{isbn13}.json` |
 | Artículos | 7 | `https://api.crossref.org/works/{doi}` |
 | Normas y especificaciones | 33 | `GET a la URL declarada` |
-| Documentación oficial y referencias | 80 | `GET a la URL declarada` |
+| Documentación oficial y referencias | 81 | `GET a la URL declarada` |
 
 ## Libros
 
@@ -1710,6 +1710,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://www.ruby-lang.org/en/documentation/installation/>
 - Temas: entorno, ruby, herramientas
+- Citada en: 
+
+### `rust-install`
+
+*Install Rust*, Rust Foundation
+
+- Localizador: <https://www.rust-lang.org/tools/install>
+- Temas: entorno, rust, herramientas
 - Citada en: 
 
 ### `solid-reactivity`

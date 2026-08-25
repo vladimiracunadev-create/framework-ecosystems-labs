@@ -83,15 +83,16 @@ es público.
 | Cadena | Qué desbloquea | Frameworks | Instalación oficial |
 | --- | ---: | --- | --- |
 | **Node.js** · 22 o superior | 4 impl. en 3 clases | alpinejs, htmx, nodejs | [nodejs.org](https://nodejs.org/en/download) [@nodejs-downloads] |
-| **Node.js + pnpm** · Node 22 · pnpm 10 | 92 impl. en 74 clases | drizzle, express, fastify, lit, nestjs, prisma, react, solid, svelte, typeorm, vue | [pnpm.io](https://pnpm.io/installation) [@pnpm-installation] |
+| **Node.js + pnpm** · Node 22 · pnpm 10 | 94 impl. en 75 clases | drizzle, express, fastify, lit, nestjs, prisma, react, solid, svelte, typeorm, vue | [pnpm.io](https://pnpm.io/installation) [@pnpm-installation] |
 | **Python** · 3.11 o superior | 90 impl. en 71 clases | django, fastapi, flask, sqlalchemy | [python.org](https://www.python.org/downloads/) [@python-downloads] |
 | **JDK + Apache Maven** · JDK 21 · Maven 3.9 | 69 impl. en 69 clases | hibernate, spring-boot | [adoptium.net](https://adoptium.net/temurin/releases/) [@adoptium-temurin] |
 | **.NET SDK** · 8 o superior | 65 impl. en 65 clases | aspnet-core, dapper, entity-framework-core | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) [@dotnet-sdk-downloads] |
 | **PHP + Composer** · PHP 8.2 · Composer 2 | 15 impl. en 15 clases | eloquent, laravel | [getcomposer.org](https://getcomposer.org/download/) [@composer-download] |
 | **Ruby + Bundler** · Ruby 3.3 · Bundler 2 | 14 impl. en 14 clases | activerecord, rails | [ruby-lang.org](https://www.ruby-lang.org/en/documentation/installation/) [@ruby-installation] |
-| **Go** · 1.22 o superior | 10 impl. en 10 clases | gin | [go.dev](https://go.dev/doc/install) [@go-downloads] |
+| **Go** · 1.22 o superior | 11 impl. en 11 clases | gin | [go.dev](https://go.dev/doc/install) [@go-downloads] |
+| **Rust** · 1.80 o superior | 1 impl. en 1 clases | axum | [rust-lang.org](https://www.rust-lang.org/tools/install) [@rust-install] |
 
-Ocho cadenas, **359 implementaciones**. Ninguna es obligatoria: el ejecutor corre las que encuentre y **declara** las que omitió.
+Ocho cadenas, **363 implementaciones**. Ninguna es obligatoria: el ejecutor corre las que encuentre y **declara** las que omitió.
 
 ### Node.js
 
@@ -331,6 +332,39 @@ go version
 ```
 
 > ⚠️ `go version` no lleva guiones, a diferencia de casi todos los demás. Es un detalle, pero es el que hace fallar el primer intento.
+
+### Rust
+
+Ejecuta axum. Es la única cadena donde el modo de compilación cambia los números de rendimiento en un orden de magnitud: `cargo build` a secas compila sin optimizar, y medir eso no compara nada.
+
+**Windows**
+
+```bash
+winget install Rustlang.Rustup
+```
+
+**macOS**
+
+```bash
+brew install rustup && rustup-init -y
+```
+
+**Linux (Debian/Ubuntu)**
+
+```bash
+# rustup instala la cadena en el directorio del usuario, sin tocar el sistema
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source "$HOME/.cargo/env"
+```
+
+Comprobación:
+
+```bash
+cargo --version
+rustc --version
+```
+
+> ⚠️ La primera construcción descarga y compila el árbol entero de dependencias y tarda minutos. Las siguientes son rápidas porque `target/` guarda lo compilado — y por eso `target/` no se versiona.
 
 <!-- fin generado: cadenas -->
 

@@ -164,8 +164,8 @@ jobs:
 
       # Cuantas más cadenas de herramientas haya, menos implementaciones se
       # omiten. El verificador declara siempre cuáles ejecutó y cuáles no: aquí
-      # se ejecutan las de Node, Python, JVM, .NET, PHP, Ruby y Go que trae el
-      # ejecutor de GitHub, y se omiten las que no.
+      # se ejecutan las de Node, Python, JVM, .NET, PHP, Ruby, Go y Rust que trae
+      # el ejecutor de GitHub, y se omiten las que no.
       - name: Dependencias de Python de las clases
         run: |
           python -m pip install --quiet --upgrade pip

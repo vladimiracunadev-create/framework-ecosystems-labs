@@ -61,7 +61,7 @@ const MIN_IMPLEMENTACIONES = 2;
 
 /** Extensiones que cuentan como código de la implementación, no como andamiaje. */
 const EXTENSIONES_FUENTE = new Set([
-  ".mjs", ".js", ".ts", ".py", ".java", ".cs", ".go", ".php", ".rb", ".ru",
+  ".mjs", ".js", ".ts", ".py", ".java", ".cs", ".go", ".rs", ".php", ".rb", ".ru",
 ]);
 
 /** Busca de forma recursiva un archivo con código, saltando lo descargado. */
