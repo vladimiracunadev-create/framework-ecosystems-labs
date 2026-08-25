@@ -155,11 +155,142 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
 Las cuatro exponen **dos rutas con el mismo código dentro**: `/transferir`, que
-lo envuelve en una transacción, y `/transferir-sin-transaccion`, que no. El
-código está en [`implementaciones/`](implementaciones/).
+lo envuelve en una transacción, y `/transferir-sin-transaccion`, que no.
+
+Poder llamar a las dos con la misma petición es lo que convierte esta clase en
+una medición: **mismo código, mismo error, y diez unidades evaporadas en una de
+las dos**.
+
+Y una decisión del montaje que hace visible la diferencia: **el cobro va
+primero**, a propósito.
+
+### Entity Framework Core · [`entity-framework-core/Program.cs`](implementaciones/entity-framework-core/Program.cs) — dónde está el hueco
+
+```csharp
+static async Task<Fallo?> Mover(Contexto contexto, Movimiento movimiento)
+{
+    var origen = await contexto.Cuentas.FindAsync(movimiento.De);
+    if (origen is null) return new Fallo(404, "NO_EXISTE");
+    if (origen.Saldo < movimiento.Monto) return new Fallo(409, "SALDO_INSUFICIENTE");
+
+    // El cobro va PRIMERO, a propósito: es lo que hace visible la diferencia.
+    origen.Saldo -= movimiento.Monto;
+    await contexto.SaveChangesAsync();
+
+    var destino = await contexto.Cuentas.FindAsync(movimiento.A);
+    if (destino is null) return new Fallo(404, "NO_EXISTE");
+```
+
+**Los dos fallos posibles no son iguales.** `SALDO_INSUFICIENTE` se detecta
+*antes* de escribir nada; `NO_EXISTE` sobre la cuenta destino se detecta *después*
+de haber cobrado. **Solo el segundo necesita la transacción.**
+
+Esa distinción es la clase entera: una transacción no protege de los errores —
+protege de los errores que ocurren **a mitad**.
+
+```csharp
+    await using var transaccion = await contexto.Database.BeginTransactionAsync();
+    var fallo = await Mover(contexto, movimiento);
+    if (fallo is not null)
+    {
+        await transaccion.RollbackAsync();
+```
+
+Y una precisión que conviene tener: **EF Core ya envuelve cada `SaveChangesAsync`
+en su propia transacción**. Eso es automático. Lo que no es automático es
+**agrupar varios guardados**, y aquí hay dos con una lectura en medio.
+
+El `RollbackAsync` explícito no es imprescindible —salir del `using` sin
+confirmar también deshace—, y decirlo en voz alta es más honesto que confiar en
+un comportamiento implícito.
+
+### SQLAlchemy · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py) — `flush` frente a `commit`
+
+```python
+    # El cobro va PRIMERO, a proposito: es lo que hace visible la diferencia.
+    origen.saldo -= monto
+    s.flush()
+```
+
+```python
+        with CrearSesion() as s, s.begin():
+            mover(s, cuerpo)
+```
+
+**`flush` no es `commit`.** Envía la sentencia a la base para que la vea el resto
+de la transacción, y **no confirma nada**: sigue siendo deshacible. Es la
+distinción que más se confunde de SQLAlchemy.
+
+`Session.begin()` abre la transacción explícita: al salir del bloque confirma, y
+ante cualquier excepción **deshace**.
+
+Y la versión rota cambia una sola palabra:
+
+```python
+    origen.saldo -= monto
+    s.commit()  # <- aqui se pierde la garantia
+```
+
+Ese `commit` intermedio confirma el cobro **antes de saber si el abono es
+posible**, y una vez confirmado ya no hay vuelta atrás. Una letra de diferencia
+con la versión correcta, y diez unidades perdidas.
+
+### Prisma · [`prisma/server.mjs`](implementaciones/prisma/server.mjs) — el detalle que lo decide todo
+
+```javascript
+    await prisma.$transaction((tx) => mover(tx, peticion.body ?? {}));
+```
+
+```javascript
+    await mover(prisma, peticion.body ?? {});
+```
+
+Las dos rutas llaman a la **misma función**. La diferencia es qué cliente le
+pasan: `tx` o `prisma`.
+
+`$transaction` con una función recibe **un cliente atado a la transacción**, y ese
+detalle es todo: si dentro se usara `prisma` en lugar de `tx`, las escrituras
+saldrían fuera y la vuelta atrás no las alcanzaría.
+
+Es un fallo especialmente traicionero porque **el código compila, se ejecuta y
+parece transaccional**. Solo falla cuando algo falla.
+
+### Hibernate · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java) — la trampa más repetida
+
+```java
+        @Transactional
+        public void transferir(Map<String, Object> cuerpo) {
+            mover(cuerpo);
+        }
+```
+
+```java
+        @Transactional(propagation = Propagation.NEVER)
+        public void transferirSinTransaccion(Map<String, Object> cuerpo) {
+            mover(cuerpo);
+        }
+```
+
+Una anotación, y el mismo cuerpo. `Propagation.NEVER` **prohíbe** que exista una
+transacción envolvente, así que cada guardado se confirma por su cuenta.
+
+Y esto es lo que hay que saber antes de usar `@Transactional` en producción:
+
+```java
+    public static class FalloDeNegocio extends RuntimeException {
+```
+
+**Spring solo deshace la transacción ante excepciones no comprobadas.** Con una
+excepción comprobada —una que herede de `Exception` sin heredar de
+`RuntimeException`— hace **commit** y la propaga.
+
+Es la trampa más repetida de `@Transactional`, y produce exactamente el desastre
+de esta clase: el código lanza, el desarrollador cree que deshizo, y la base
+guardó la mitad. Que `FalloDeNegocio` extienda `RuntimeException` no es estilo:
+es lo que hace que la transacción funcione.
 
 ## 🧮 El contrato
 

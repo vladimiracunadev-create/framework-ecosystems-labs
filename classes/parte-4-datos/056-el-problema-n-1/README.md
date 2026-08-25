@@ -168,11 +168,150 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro sirven las dos rutas y **cuentan sus propias consultas** con el
-mecanismo que trae su ORM —ninguna cuenta líneas del registro a ojo. El código
-está en [`implementaciones/`](implementaciones/).
+Las cuatro sirven **las dos rutas** —la ingenua y la anticipada— y **cuentan sus
+propias consultas** con el mecanismo que trae su ORM. Ninguna cuenta líneas del
+registro a ojo: el número tiene que ser un dato del programa para que el contrato
+pueda comprobarlo.
+
+Y esa es la primera lección de la clase: **el problema N+1 no se ve en el
+resultado**. Los datos son correctos. Lo que falla es cuánto costó obtenerlos.
+
+### SQLAlchemy · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py) — donde el problema es invisible
+
+```python
+@event.listens_for(Engine, "before_cursor_execute")
+def contar(conexion, cursor, sentencia, parametros, contexto, muchos):
+    consultas["total"] += 1
+```
+
+Un escuchador del motor cuenta cada sentencia. Con eso el número deja de ser una
+impresión y pasa a ser un dato.
+
+**La forma ingenua:**
+
+```python
+        tareas = s.scalars(select(Tarea).order_by(Tarea.id)).all()
+        return [
+            {"id": t.id, "titulo": t.titulo, "etiquetas": sorted(e.nombre for e in t.etiquetas)}
+```
+
+**Este es el bloque más importante de la clase.** Mira lo que hace el bucle: solo
+lee `t.etiquetas`. No hay ninguna llamada, ningún `await`, nada que insinúe una
+consulta — y sin embargo dispara una por tarea.
+
+Ese es el problema entero: **el código parece que solo lee memoria**.
+
+**La forma anticipada:**
+
+```python
+        tareas = s.scalars(
+            select(Tarea).options(selectinload(Tarea.etiquetas)).order_by(Tarea.id)
+        ).all()
+```
+
+`selectinload` trae todas las etiquetas en **una segunda consulta**, sea cual sea
+el número de tareas. Total: 2. `joinedload` haría lo mismo en una sola con unión.
+
+### Hibernate · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java) — declarar qué cargar
+
+```java
+        @EntityGraph(attributePaths = "etiquetas")
+        List<Tarea> findAllWithEtiquetasByOrderById();
+
+        List<Tarea> findAllByOrderById();
+```
+
+Dos métodos en el repositorio, y toda la diferencia en una anotación.
+`@EntityGraph` declara **qué** cargar de una vez, y Hibernate lo resuelve con una
+**unión**: una sola consulta, con las filas de la tarea duplicadas —una por
+etiqueta— y deduplicadas después. Total: 1.
+
+Es la estrategia opuesta a la de SQLAlchemy, y las dos son correctas.
+
+El segundo método es el ingenuo, y por el mismo motivo que en SQLAlchemy no se
+distingue del bueno leyéndolo: la diferencia está en la anotación, no en el
+cuerpo.
+
+### Prisma · [`prisma/server.mjs`](implementaciones/prisma/server.mjs) — donde el problema hay que provocarlo
+
+```javascript
+const prisma = new PrismaClient({ log: [{ emit: "event", level: "query" }] });
+
+let consultas = 0;
+prisma.$on("query", () => {
+  consultas += 1;
+});
+```
+
+```javascript
+  for (const tarea of tareas) {
+    const etiquetas = await prisma.etiqueta.findMany({ where: { tareaId: tarea.id } });
+```
+
+En Prisma **la relación no viene por omisión**, así que reproducir el N+1 exige
+pedirla explícitamente, una por una.
+
+Merece notarlo: **la versión que no puede ocultar el problema tampoco lo comete
+por accidente**. La comodidad de la carga perezosa y el riesgo del N+1 son la
+misma característica.
+
+Aunque el bucle explícito no es un problema de laboratorio: es exactamente lo que
+hace cualquier código que llame a un servicio por elemento de una lista, y ahí no
+hay ORM que avise.
+
+```javascript
+  const tareas = await prisma.tarea.findMany({
+    include: { etiquetas: true },
+    orderBy: { id: "asc" },
+  });
+```
+
+La forma anticipada: dos consultas, independientemente del número de tareas.
+
+### Entity Framework Core · [`entity-framework-core/Program.cs`](implementaciones/entity-framework-core/Program.cs) — y la medición que salva la clase
+
+```csharp
+constructor.Services.AddDbContext<Contexto>(opciones => opciones
+    .UseSqlite("Data Source=datos.db")
+    .AddInterceptors(contador));
+```
+
+```csharp
+    foreach (var tarea in tareas)
+    {
+        var etiquetas = await contexto.Etiquetas
+            .Where(e => e.TareaId == tarea.Id)
+```
+
+```csharp
+    var tareas = await contexto.Tareas
+        .Include(t => t.Etiquetas)
+        .OrderBy(t => t.Id)
+        .ToListAsync();
+```
+
+`Include` hace una unión —una consulta—, y `AsSplitQuery()` daría dos.
+
+**Una, dos o tres. Las tres están bien.** Y ahí está lo que este contrato tuvo
+que aprender: una versión anterior exigía «exactamente 2 consultas», y Hibernate y
+EF Core fallaban por resolverlo con una unión. **El contrato no describía un fallo
+de esos frameworks: describía una creencia equivocada de quien lo escribió.**
+
+Se cambió para medir lo único que importa de verdad:
+
+```csharp
+    var tareas = await Sembrar(contexto, 3);
+    return Results.Json(new { consultas = contador.Total, tareas });
+```
+
+**El crecimiento.** Se siembra con tres tareas, se mide; se siembra con seis, se
+mide; y se resta. La forma ingenua crece con las filas; la anticipada no, valga 1,
+2 o 3 su valor absoluto.
+
+Es el mismo criterio que la clase 137 aplica al rendimiento: **medir la propiedad,
+no el número**.
 
 ## 🧮 El contrato
 
