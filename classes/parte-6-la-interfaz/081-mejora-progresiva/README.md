@@ -2,31 +2,104 @@
 
 > [⬅️ 080](../080-formularios-que-funcionan-sin-javascript/README.md) · [📚 Parte 6](../README.md) · [🎓 Clases](../../README.md) · [082 ➡️](../082-el-primer-componente/README.md)
 >
-> Parte **6 — La interfaz: del HTML del servidor al componente** · Nivel **🟡 intermedio** · Pista **`frontend`** (Interfaz y estado)
+> Parte **6 — La interfaz** · Nivel **🟡 intermedio** · Pista **`frontend`**
 >
-> 🚧 **Clase en esqueleto.** El contrato y el elenco están fijados; la prosa y
-> las implementaciones se escriben en una pasada posterior. Lo que hay aquí ya
-> es exacto: no se ampliará con relleno.
+> ✅ **Clase construida** — 4 implementaciones verificadas contra [`contrato.json`](contrato.json).
 
 ## 🎯 Objetivo
 
-Añadir comportamiento sin romper el caso base.
+Añadir comportamiento **sin romper el caso base**. La clase 080 construyó un
+formulario que funciona solo; esta le pone JavaScript encima de forma que, si
+el JavaScript no llega —red lenta, error de carga, bloqueador, lector
+antiguo—, **el formulario sigue siendo el de la 080**
+[@mdn-progressive-enhancement].
 
 ## 🧩 La situación
 
-El mismo formulario funciona sin JavaScript y mejor con él.
+El mismo formulario de alta, dos vías:
 
-## 🎬 Elenco
+- **Sin JavaScript**: envío clásico → `303` → recarga → la tarea está. El
+  ciclo entero de la clase 080, intacto.
+- **Con JavaScript**: el mismo envío, interceptado → el servidor responde un
+  **fragmento** (HTML parcial o JSON) → la página se actualiza sin recargar.
 
-Los frameworks para los que este problema tiene sentido. Cada uno lo resolverá a
-su manera, y esa diferencia es el contenido de la clase.
+Y la propiedad que define el patrón: **las dos vías escriben en el mismo
+sitio**. No hay dos aplicaciones — hay una, con dos formas de hablarle.
 
-| Framework | Categoría | Ecosistema | Implementación |
+## 🧮 El contrato
+
+| Petición | Respuesta | Qué mide |
+| --- | --- | --- |
+| `GET /` | HTML con `method="post"`, `name="titulo"`, `type="submit"` | el caso base es un formulario de verdad |
+| `POST /tareas` a secas | `302/303` + `Location` | sin JavaScript, el ciclo clásico |
+| `GET /` | contiene la tarea | y funciona |
+| el **mismo** `POST` con la señal de mejora | `200`, **sin** `Location`, un fragmento (no `<html`) con la tarea | con JavaScript, respuesta parcial |
+| `GET /` | **las dos** tareas | las dos vías guardan en el mismo sitio |
+
+El último caso es la esencia: si la vía mejorada guardara en otro almacén —o
+no guardara—, las dos primeras tareas no convivirían en la misma página. Es
+lo que separa la mejora progresiva de tener dos aplicaciones que se parecen.
+
+## 🔬 Qué mide este contrato y qué no
+
+Como en la 077: **la bifurcación vive en el servidor y eso es lo que se mide
+sin navegador**. El envío clásico recibe redirección; el envío con la señal
+de mejora (`HX-Request` para htmx, `Accept: application/json` para los
+demás) recibe el fragmento. Que el JavaScript del cliente **use** bien ese
+fragmento es trabajo del navegador y queda declarado, no medido — afirmar lo
+contrario sería el verde vacío que este repositorio evita.
+
+Lo que sí queda probado: el servidor sostiene **las dos conversaciones**
+sobre el mismo estado, y el marcado base no depende de ninguna de ellas.
+
+## 🌐 Las implementaciones
+
+- **htmx** — mejora progresiva **con nombre de biblioteca**: `hx-post` y
+  `hx-target` van *encima* de `method` y `action`. Si htmx no carga, los
+  atributos son texto inerte y el formulario envía solo. El servidor
+  distingue por la cabecera `HX-Request`, que htmx pone siempre
+  [@gross-hypermedia-systems].
+- **Alpine.js** — `x-data` y `@submit.prevent` sobre el mismo formulario
+  base; la mejora hace `fetch` pidiendo JSON. La misma idea con el estado en
+  el cliente en vez de en el HTML.
+- **React** — el formulario se sirve **renderizado con `method` y `action`
+  puestos**: funciona antes de que cargue una línea de JavaScript. Es la
+  idea que React formalizó con las Server Actions: `<form action>` como caso
+  base, hidratación como mejora [@react-server-components].
+- **Svelte** — igual, y con el nombre propio más claro del ecosistema: las
+  *form actions* de SvelteKit y `use:enhance` interceptan **este mismo
+  formulario** cuando hay JavaScript y lo dejan en paz cuando no.
+
+## 📊 Comparación
+
+| Framework | Dónde vive la mejora | La señal al servidor | El fragmento de vuelta |
 | --- | --- | --- | --- |
-| [htmx](../../../atlas/fichas/htmx.md) | `hypermedia-library` | JavaScript | `implementaciones/htmx/` |
-| [Alpine.js](../../../atlas/fichas/alpinejs.md) | `dom-library` | JavaScript | `implementaciones/alpinejs/` |
-| [Svelte](../../../atlas/fichas/svelte.md) | `ui-framework` | JavaScript/TypeScript | `implementaciones/svelte/` |
-| [React](../../../atlas/fichas/react.md) | `ui-library` | JavaScript/TypeScript | `implementaciones/react/` |
+| htmx | atributos en el HTML | `HX-Request` | **HTML** listo para insertar |
+| Alpine.js | atributos + expresiones | `Accept: json` | JSON que el cliente pinta |
+| React | hidratación del componente | `Accept: json` | JSON que el cliente pinta |
+| Svelte | `use:enhance` (SvelteKit) | `Accept: json` | JSON que el cliente pinta |
+
+La columna del fragmento parte el elenco en dos filosofías: htmx devuelve
+**HTML** —el servidor sigue siendo dueño del renderizado, como en la 079— y
+los otros tres devuelven **datos** que el cliente convierte en marcado. Es
+la frontera exacta donde la parte 6 cambia de mundo: a partir de la clase
+082, el renderizado se muda al cliente, y esta clase es el puente.
+
+## ⚠️ Errores frecuentes
+
+- **`onSubmit` + `preventDefault` sin `method` ni `action`.** El formulario
+  que solo funciona con JavaScript no es mejora progresiva: es la versión
+  rota del caso base con pasos extra.
+- **Dos endpoints distintos para las dos vías.** El quinto caso del contrato
+  existe por esto: acaban divergiendo — validación distinta, bugs distintos.
+- **Detectar la mejora con `X-Requested-With` casero.** Las señales
+  estándar existen: la cabecera de htmx, la negociación de contenido de la
+  clase 018.
+- **Probar solo la vía mejorada.** El caso base se rompe en silencio porque
+  nadie con JavaScript lo vuelve a pisar. El contrato de esta clase lo pisa
+  primero.
+- **Confundir «funciona sin JavaScript» con «no usa JavaScript».** La mejora
+  es deseable — el punto es que sea *mejora* y no *requisito*.
 
 ## ✅ Verificación
 
@@ -34,10 +107,26 @@ su manera, y esa diferencia es el contenido de la clase.
 node scripts/run-class.mjs 081
 ```
 
-Los casos están en [`contrato.json`](contrato.json). El verificador ejecuta las
-implementaciones que encuentre y declara las que omitió.
+Los casos están en [`contrato.json`](contrato.json). El verificador ejecuta
+las implementaciones que encuentre y declara las que omitió.
+
+## 🧪 Reto de transferencia
+
+Añade el borrado: un botón por tarea que sin JavaScript es un mini-formulario
+`POST /tareas/{id}/borrar` con su redirección, y con la mejora responde el
+fragmento vacío (htmx: `hx-swap="delete"`). Mide con el contrato que las dos
+vías borran **la misma tarea del mismo almacén** — el quinto caso de esta
+clase, en espejo.
 
 ## 🔗 Enlaces
 
-- [Por qué sí y por qué no](porque-si-porque-no.md) — dónde esta solución es natural y dónde es forzada
-- [Índice de la parte 6](../README.md)
+- [Por qué sí y por qué no](porque-si-porque-no.md)
+- [Clase 080 — Formularios que funcionan sin JavaScript](../080-formularios-que-funcionan-sin-javascript/README.md) — el caso base
+- [Clase 082 — El primer componente](../082-el-primer-componente/README.md) — el otro lado del puente
+
+## Fuentes
+
+- [@mdn-progressive-enhancement] *Progressive Enhancement*. MDN Web Docs — <https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement>
+- [@gross-hypermedia-systems] Gross, C.; Stepinski, A.; Akşimşek, D. *Hypermedia Systems*. Big Sky Software, 2024. ISBN 9798990991804 — <https://openlibrary.org/isbn/9798990991804>
+- [@react-server-components] *React Server Components*. React — <https://react.dev/reference/rsc/server-components>
+- [@htmx-essays] *htmx Essays*. — <https://htmx.org/essays/>

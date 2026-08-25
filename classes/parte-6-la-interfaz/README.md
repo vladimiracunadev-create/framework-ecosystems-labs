@@ -10,7 +10,7 @@ Cómo se pinta una pantalla y dónde vive el estado. Aquí el elenco cambia por 
 | --- | --- | --- | --- | --- | --- |
 | [079](079-plantillas-en-el-servidor/README.md) | [Plantillas en el servidor](079-plantillas-en-el-servidor/README.md) | 🟢 introductorio | `backend` | 6 | ✅ Construida |
 | [080](080-formularios-que-funcionan-sin-javascript/README.md) | [Formularios que funcionan sin JavaScript](080-formularios-que-funcionan-sin-javascript/README.md) | 🟢 introductorio | `backend` | 4 | ✅ Construida |
-| [081](081-mejora-progresiva/README.md) | [Mejora progresiva](081-mejora-progresiva/README.md) | 🟡 intermedio | `frontend` | 4 | 🚧 Esqueleto |
+| [081](081-mejora-progresiva/README.md) | [Mejora progresiva](081-mejora-progresiva/README.md) | 🟡 intermedio | `frontend` | 4 | ✅ Construida |
 | [082](082-el-primer-componente/README.md) | [El primer componente](082-el-primer-componente/README.md) | 🟢 introductorio | `frontend` | 8 | 🚧 Esqueleto |
 | [083](083-propiedades-y-eventos/README.md) | [Propiedades y eventos](083-propiedades-y-eventos/README.md) | 🟢 introductorio | `frontend` | 8 | 🚧 Esqueleto |
 | [084](084-estado-local/README.md) | [Estado local](084-estado-local/README.md) | 🟢 introductorio | `frontend` | 8 | 🚧 Esqueleto |

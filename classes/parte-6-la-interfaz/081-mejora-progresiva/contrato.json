@@ -1,8 +1,53 @@
 {
   "clase": "081",
   "titulo": "Mejora progresiva",
-  "descripcion": "El mismo formulario funciona sin JavaScript y mejor con él.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "El mismo formulario: sin JavaScript redirige, con la señal de mejora responde un fragmento — y las dos vías guardan.",
+  "estado": "construida",
+  "tipo": "http",
+  "casos": [
+    {
+      "nombre": "el caso base es un formulario HTML de verdad",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["method=\"post\"", "name=\"titulo\"", "type=\"submit\""]
+      }
+    },
+    {
+      "nombre": "sin JavaScript: envío clásico, redirección clásica",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "formulario": { "titulo": "pagar la luz" }
+      },
+      "esperado": { "estado_en": [302, 303], "cabecera_presente": ["location"] }
+    },
+    {
+      "nombre": "y al volver a la página, la tarea está",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["pagar la luz"] }
+    },
+    {
+      "nombre": "con la señal de mejora, el MISMO envío responde un fragmento, no una redirección",
+      "peticion": {
+        "metodo": "POST", "ruta": "/tareas",
+        "cabeceras": { "hx-request": "true", "accept": "application/json" },
+        "formulario": { "titulo": "regar las plantas" }
+      },
+      "esperado": {
+        "estado": 200,
+        "cabecera_ausente": ["location"],
+        "cuerpo_contiene": ["regar las plantas"],
+        "cuerpo_no_contiene": ["<html"]
+      }
+    },
+    {
+      "nombre": "las dos vías guardan en el mismo sitio: la página trae las dos tareas",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["pagar la luz", "regar las plantas"]
+      }
+    }
+  ]
 }
