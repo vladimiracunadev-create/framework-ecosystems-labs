@@ -147,14 +147,149 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-[Prisma](implementaciones/prisma/), [SQLAlchemy](implementaciones/sqlalchemy/),
-[Hibernate](implementaciones/hibernate/) y
-[Entity Framework Core](implementaciones/entity-framework-core/).
+Cada una expone **dos rutas que devuelven exactamente lo mismo**: `/informe-orm`
+y `/informe-sql`. Y cada una cuenta **cuántas filas le llegaron al proceso**, que
+es la medida honesta de esta clase.
 
-Cada una expone `/informe-orm` y `/informe-sql`, y cuenta **cuántas filas le
-llegaron al proceso**.
+Porque el resultado no distingue nada: los dos informes dan las mismas tres
+filas. Lo que cambia es **cuánto viajó por la red y cuánto trabajo hizo el
+proceso en lugar del motor**.
+
+### Prisma · [`prisma/server.mjs`](implementaciones/prisma/server.mjs)
+
+**Con el ORM:**
+
+```javascript
+  const tareas = await prisma.tarea.findMany();
+  filasLeidas = tareas.length;
+
+  const porProyecto = new Map();
+  for (const tarea of tareas) {
+    const acumulado = porProyecto.get(tarea.proyecto) ?? { total: 0, hechas: 0 };
+    acumulado.total += 1;
+    if (tarea.hecha) acumulado.hechas += 1;
+    porProyecto.set(tarea.proyecto, acumulado);
+  }
+```
+
+Trae **todas** las filas y agrupa en memoria. Con cuatro tareas da igual. Con
+cuatro millones, el proceso se queda sin memoria haciendo un trabajo que el motor
+sabe hacer sin mover una fila.
+
+**En SQL:**
+
+```javascript
+  const filas = await prisma.$queryRaw`
+    SELECT proyecto,
+           COUNT(*)                        AS total,
+           SUM(CASE WHEN hecha THEN 1 ELSE 0 END) AS hechas
+      FROM Tarea
+     GROUP BY proyecto
+    HAVING COUNT(*) >= ${minimo}
+     ORDER BY proyecto`;
+```
+
+El motor agrupa y devuelve **tres filas**. `$queryRaw` es una plantilla
+etiquetada: cada `${}` es un marcador, no una interpolación — la misma
+construcción de la clase 052.
+
+**Salir del ORM no significa salir de las consultas parametrizadas.** Eso no se
+negocia nunca, y es la diferencia entre `$queryRaw` y `$queryRawUnsafe`.
+
+```javascript
+  if (!Number.isInteger(minimo) || minimo < 0) {
+    respuesta.status(400).json({ code: "MINIMO_INVALIDO" });
+```
+
+Y la validación **antes** de la consulta: un marcador solo vale para un valor, no
+para un fragmento de SQL. Si esperas un número, compruébalo tú.
+
+### SQLAlchemy · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py)
+
+```python
+    consulta = text("""
+        SELECT proyecto,
+               COUNT(*)                               AS total,
+               SUM(CASE WHEN hecha THEN 1 ELSE 0 END) AS hechas
+          FROM tareas
+         GROUP BY proyecto
+        HAVING COUNT(*) >= :minimo
+         ORDER BY proyecto
+    """)
+```
+
+```python
+    if not minimo.isdigit():
+        return JSONResponse({"code": "MINIMO_INVALIDO"}, status_code=400)
+```
+
+La misma consulta con `:minimo` como marcador. Y SQLAlchemy tiene aquí una
+ventaja de diseño: **la misma biblioteca cubre los dos niveles**. Salir del ORM
+no significa cambiar de herramienta ni abrir otra conexión — se usa Core donde
+hace falta y ORM donde no.
+
+### Hibernate · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java)
+
+```java
+        public ResponseEntity<Map<String, Object>> informeSql(
+                @RequestParam(name = "minimo", defaultValue = "1") String minimo) {
+```
+
+```java
+            try {
+                limite = Integer.parseInt(minimo);
+            } catch (NumberFormatException fallo) {
+                return ResponseEntity.status(400).body(Map.of("code", "MINIMO_INVALIDO"));
+            }
+```
+
+El parámetro llega como **texto** a propósito, aunque Spring sabría convertirlo:
+así el `400` lo emite el contrato y no el framework, y la validación queda a la
+vista. Es la misma decisión que la clase 013 tomó por el motivo opuesto.
+
+### Entity Framework Core · [`entity-framework-core/Program.cs`](implementaciones/entity-framework-core/Program.cs) — y una nota de honestidad
+
+```csharp
+    var tareas = await contexto.Tareas.ToListAsync();
+    filasLeidas = tareas.Count;
+
+    var filas = tareas
+        .GroupBy(t => t.Proyecto)
+        .OrderBy(g => g.Key, StringComparer.Ordinal)
+```
+
+Aquí hay una declaración que conviene leer:
+
+```csharp
+// CON EL ORM. EF Core traduce `GroupBy` a SQL desde la versión 7, así que aquí
+```
+
+**EF Core sí sabría traducir este `GroupBy` a SQL.** El `ToListAsync()` primero
+está puesto a propósito para reproducir lo que ocurre de verdad **cuando la
+agregación no se puede traducir** — y ese caso existe en todos los ORM, con
+funciones de ventana, expresiones específicas del motor o agregados
+personalizados.
+
+Decirlo importa: la clase no acusa a EF Core de algo que no hace. Reproduce un
+escenario real y avisa de que aquí es artificial.
+
+```csharp
+    var filas = await contexto.Database
+        .SqlQuery<FilaInforme>($"""
+            SELECT proyecto                                AS Proyecto,
+                   COUNT(*)                                AS Total,
+```
+
+Y la nota de seguridad, otra vez en el cuarto framework: **`SqlQuery` con una
+cadena interpolada no interpola**. EF Core intercepta la plantilla y convierte
+cada hueco en un parámetro — exactamente como Prisma con `$queryRaw` y Drizzle
+con `sql`.
+
+Tres ecosistemas distintos llegaron a la misma solución: **usar la construcción
+del lenguaje que separa lo escrito de lo interpolado**, para que salir del ORM no
+pueda reabrir la inyección por descuido.
 
 ## 🧮 El contrato
 

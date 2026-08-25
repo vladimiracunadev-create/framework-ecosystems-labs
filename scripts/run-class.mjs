@@ -750,9 +750,21 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
     // falló». Lo que explica por qué está en SU salida, y hasta ahora se tiraba
     // a la basura: solo se leía cuando fallaba el arranque.
     const murio = hijo.exitCode !== null || hijo.signalCode !== null;
+
+    // Y hay un caso que tampoco se explicaba: TODOS los casos fallan por no
+    // poder conectar y el proceso sigue vivo. Ocurrió en integración continua
+    // con la clase 057 y el informe no daba ni una pista, porque la salida del
+    // servidor solo se leía cuando el proceso había muerto. Si nadie pudo
+    // conectar, la salida del servidor es lo único que puede decir por qué.
+    const nadieConecto =
+      fallos.length === contrato.casos.length &&
+      fallos.every((f) => /la petición falló/.test(f));
+
     const contexto = murio
       ? ` || el servidor terminó por su cuenta (código ${hijo.exitCode}): ${lineasDeError(salida)}`
-      : "";
+      : nadieConecto
+        ? ` || el proceso sigue vivo y ninguna petición conectó: ${lineasDeError(salida)}`
+        : "";
     return { framework, estado: "fallo", detalle: fallos.join(" | ") + contexto };
   } finally {
     matarArbol(hijo);

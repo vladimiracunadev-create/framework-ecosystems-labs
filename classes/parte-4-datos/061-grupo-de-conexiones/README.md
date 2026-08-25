@@ -109,12 +109,152 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-[SQLAlchemy con `QueuePool`](implementaciones/sqlalchemy/) e
-[Hibernate con HikariCP](implementaciones/hibernate/). Las dos exponen el número
-de conexiones prestadas en cada momento, y las dos fallan por el mismo sitio
-cuando se acaban.
+Las dos exponen el número de conexiones prestadas en cada momento, y las dos
+fallan por el mismo sitio cuando se acaban. Lo importante es que **el grupo ya
+estaba ahí antes de esta clase**: en las clases 053-060 nadie lo configuró y
+funcionó igual. Aquí solo lo hacemos pequeño para poder verlo.
+
+### SQLAlchemy · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py)
+
+**El grupo, declarado:**
+
+```python
+motor = create_engine(
+    "sqlite:///datos.db",
+    poolclass=QueuePool,
+    pool_size=2,
+    max_overflow=0,
+    pool_timeout=1,
+)
+```
+
+Dos conexiones **a propósito**. Con el valor por omisión —cinco, más diez de
+desbordamiento— harían falta dieciséis peticiones simultáneas para ver algo, y
+la clase trata justamente de que este número es pequeño y finito.
+
+`max_overflow=0` quita el colchón: el grupo es dos y no hay más. `pool_timeout=1`
+es **la diferencia entre fallar y quedarse colgado**.
+
+**El dato del panel:**
+
+```python
+    return JSONResponse({"tamano": motor.pool.size(), "en_uso": motor.pool.checkedout()})
+```
+
+`checkedout()` es el número de conexiones **prestadas ahora mismo**. Si sube y no
+baja, hay una fuga. Si roza el máximo de forma sostenida, el grupo está mal
+dimensionado. Es la métrica que conviene tener a la vista antes de que el
+servicio se pare.
+
+**Prestada, no regalada:**
+
+```python
+    with motor.connect() as conexion:
+        conexion.execute(text("SELECT COUNT(*) FROM tareas")).scalar_one()
+    return JSONResponse({"ok": True})
+```
+
+Ese `with` devuelve la conexión al grupo al salir — también si la consulta lanza
+una excepción. Toda la diferencia entre un servicio que aguanta y uno que se para
+a la hora cabe en esas cuatro letras.
+
+**Esperar y entrar:**
+
+```python
+def _retener(segundos: float, esperas: list[float], barrera: threading.Barrier) -> None:
+    barrera.wait()
+    inicio = time.monotonic()
+    with motor.connect() as conexion:
+        esperas.append(time.monotonic() - inicio)
+```
+
+La barrera hace que los tres hilos pidan **a la vez**; el cronómetro empieza
+antes de pedir y para al conseguirla. Así la espera de la tercera es un número,
+no una impresión: el contrato exige `espero_alguna: true`.
+
+**Y fallar:**
+
+```python
+    except TiempoAgotado:
+        respuesta = JSONResponse({"code": "GRUPO_AGOTADO"}, status_code=503)
+```
+
+Un `503` con código, no un cuelgue. El cliente sabe que puede reintentar. Es la
+misma decisión de la clase 020 aplicada a un recurso interno.
+
+**La fuga:**
+
+```python
+    fugadas.append(motor.connect())
+    return JSONResponse({"fugadas": len(fugadas)})
+```
+
+Pedir prestado y no devolver. **No hay excepción, no hay registro, no hay nada**:
+el grupo simplemente tiene una conexión menos para siempre. Se guarda en una
+lista precisamente para que el recolector de basura no la cierre por su cuenta —
+así la fuga es real y `en_uso` se queda en 1.
+
+### Hibernate + HikariCP · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java)
+
+En Spring Boot el grupo es **HikariCP y está puesto sin que nadie lo pida** — es
+el mismo autoconfigurado de todas las clases anteriores. Aquí solo se le cambian
+dos números, en [`application.properties`](implementaciones/hibernate/src/main/resources/application.properties):
+
+```properties
+spring.datasource.hikari.maximum-pool-size=2
+spring.datasource.hikari.minimum-idle=2
+```
+
+```properties
+spring.datasource.hikari.connection-timeout=1000
+```
+
+**El dato del panel:**
+
+```java
+            return Map.of(
+                    "tamano", fuente.getHikariConfigMXBean().getMaximumPoolSize(),
+                    "en_uso", fuente.getHikariPoolMXBean().getActiveConnections());
+```
+
+Hikari publica sus contadores por JMX, así que ese número no hay que llevarlo a
+mano: Micrometer lo exporta a Prometheus con una línea de configuración.
+
+**Prestada, no regalada — sin `with` a la vista:**
+
+```java
+        @GetMapping("/consulta")
+        public Map<String, Object> consulta() {
+            tareas.count();
+            return Map.of("ok", true);
+        }
+```
+
+Aquí **no se ve ninguna conexión**. El repositorio la pide, la usa y la devuelve
+al cerrar la transacción. Es cómodo y es peligroso a la vez: cuando el préstamo
+es invisible, la fuga también lo es hasta que alguien mira el panel.
+
+```java
+            try (Connection conexion = fuente.getConnection()) {
+```
+
+Cuando sí se baja al `DataSource`, el `try` con recursos hace el mismo trabajo
+que el `with` de Python: devolver pase lo que pase.
+
+**Y la fuga, otra vez sin ruido:**
+
+```java
+            fugadas.add(fuente.getConnection());
+            return Map.of("fugadas", fugadas.size());
+```
+
+Con una diferencia a favor de Hikari, y merece citarse porque es la razón de
+usarlo: sabe **avisar** de esto. `spring.datasource.hikari.leak-detection-threshold`
+registra un aviso cuando una conexión lleva demasiado tiempo fuera, con la traza
+de quién la pidió. Está desactivado por omisión; encenderlo en producción es de
+las configuraciones más rentables que existen.
 
 ## 🧮 El contrato
 
