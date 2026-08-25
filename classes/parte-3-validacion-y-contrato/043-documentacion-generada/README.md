@@ -168,46 +168,117 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-### El límite de «generado»
+Tres de los cuatro **derivan** el documento del código. Uno lo escribe a mano — y
+es el que mejor enseña la clase, porque es el único que puede mentir.
 
-```java
-@GetMapping("/tareas/{id}")
-@ApiResponses({
-        @ApiResponse(responseCode = "200", description = "La tarea"),
-        @ApiResponse(responseCode = "404", description = "No existe"),
-})
+Léelas buscando una cosa: **qué se genera solo y qué hay que declarar**.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+```python
+@app.get(
+    "/tareas/{id}",
+    response_model=TareaCreada,
+    responses={404: {"model": Problema, "description": "No existe"}},
+)
 ```
 
-Fíjate en que el 404 **hay que declararlo**. springdoc documenta por su cuenta el
-código de éxito porque está en la firma; el 404 vive dentro de un `if`, y
-**ninguna herramienta lee la lógica del método**.
+```python
+@app.post(
+    "/tareas",
+    status_code=status.HTTP_201_CREATED,
+    response_model=TareaCreada,
+    responses={422: {"model": Problema, "description": "Entrada invalida"}},
+)
+```
 
-Es la frontera exacta de lo que significa documentación generada:
+El `200` y el `201` salen solos, porque están en la firma. **El `404` hay que
+declararlo**, porque vive dentro de un `if` y ninguna herramienta lee la lógica
+del método.
 
-> Se genera lo que está en **la firma y las anotaciones**. Lo que hace el cuerpo,
-> no.
+Y `response_model` no es documentación decorativa: FastAPI **filtra la respuesta
+por ese modelo**, así que un campo que el modelo no declare no sale. Documentar y
+serializar acaban siendo la misma decisión.
 
-Lo mismo en FastAPI con `responses={404: ...}` y en ASP.NET Core con
-`.Produces(404)`.
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
 
-### Express — la que puede mentir
+```java
+    @GetMapping("/tareas/{id}")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "La tarea"),
+            @ApiResponse(responseCode = "404", description = "No existe"),
+    })
+```
+
+Exactamente el mismo reparto con otra sintaxis: springdoc documenta por su cuenta
+lo que está en la firma, y el `404` hay que decirlo.
+
+Esa coincidencia entre dos ecosistemas distintos es la frontera de lo que
+significa «documentación generada», y conviene tenerla escrita:
+
+> **Se genera lo que está en la firma y en las anotaciones. Lo que hace el
+> cuerpo, no.**
+
+Quien espere que la herramienta descubra los códigos leyendo el método va a
+publicar un contrato incompleto sin enterarse.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+app.MapGet("/tareas/{id}", (string id) =>
+        tareas.TryGetValue(id, out var tarea)
+            ? Results.Json(tarea)
+            : Results.Json(new { code = "NO_EXISTE" }, statusCode: 404))
+    .Produces(200)
+    .Produces(404);
+```
+
+```csharp
+constructor.Services.AddOpenApi();
+```
+
+```csharp
+app.MapOpenApi("/openapi.json");
+```
+
+`.Produces(404)` es el `responses={404: …}` de FastAPI y el `@ApiResponse` de
+Spring. **Tres sintaxis, la misma necesidad.**
+
+Y el documento se publica en `/openapi.json`, la misma ruta que en los otros
+tres. Que el contrato de esta clase pueda ser idéntico depende de eso: si cada
+framework publicara en su ruta por omisión, el contrato tendría que tener cuatro
+rutas y dejaría de comparar.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — la que puede mentir
 
 ```javascript
 const DOCUMENTO = {
   openapi: "3.1.0",
-  paths: { "/tareas": { post: { responses: { 201: {}, 422: {} } } } },
-};
+  info: { title: "Tareas", version: "1.0.0" },
+  paths: {
+    "/tareas": {
+      post: {
+        responses: { 201: { description: "Creada" }, 422: { description: "Entrada invalida" } },
+      },
+    },
 ```
 
-Express no genera nada: no hay tipos ni esquemas de los que derivar. El documento
-está **escrito a mano**, y por eso esta implementación es la que mejor enseña la
-clase — es la única que puede divergir.
+**Express no genera nada.** No hay tipos ni esquemas de los que derivar, así que
+el documento está escrito a mano.
+
+Y por eso esta implementación es la más valiosa de la clase: **es la única que
+puede divergir del código**. Cambiar el `422` por un `400` en la ruta y olvidar
+el documento produce una API que promete una cosa y hace otra, y nada lo detecta.
 
 Está deliberadamente **al lado de las rutas** para reducir la distancia. En un
-proyecto real vive en otro archivo, y esa distancia es la que produce la
-divergencia.
+proyecto real vive en otro archivo, a veces en otro repositorio, y esa distancia
+es exactamente lo que produce la divergencia.
+
+Hay bibliotecas que derivan el documento de esquemas en Express y en Fastify —y
+usarlas es la respuesta correcta—; lo que la clase enseña es **qué se pierde
+cuando no las hay**, que es la capacidad de que el documento se equivoque solo.
 
 ## 🔬 Comparación
 
