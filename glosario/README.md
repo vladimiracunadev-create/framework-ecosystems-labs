@@ -658,7 +658,7 @@ Datos que viven en el servidor y de los que el cliente guarda una copia. No es e
 
 El aviso que un componente emite hacia arriba para que quien lo usa decida qué hacer. Es la otra mitad de «hacia abajo datos, hacia arriba eventos»: el hijo no cambia lo que recibe, avisa de que algo pasó.
 
-> Se enseña en la [clase 083](../classes/parte-6-la-interfaz/083-propiedades-y-eventos/README.md) 🚧 · ver también [Propiedad](#propiedad), [Componente](#componente).
+> Se enseña en la [clase 083](../classes/parte-6-la-interfaz/083-propiedades-y-eventos/README.md) · ver también [Propiedad](#propiedad), [Componente](#componente).
 
 #### Formulario controlado
 
@@ -672,7 +672,7 @@ Un dato que un componente recibe de quien lo usa. Es de solo lectura desde dentr
 
 También: *(Prop)*
 
-> Se enseña en la [clase 083](../classes/parte-6-la-interfaz/083-propiedades-y-eventos/README.md) 🚧 · ver también [Componente](#componente), [Evento](#evento).
+> Se enseña en la [clase 083](../classes/parte-6-la-interfaz/083-propiedades-y-eventos/README.md) · ver también [Componente](#componente), [Evento](#evento).
 
 #### Reactividad
 
@@ -1286,7 +1286,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
-| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 4 |
+| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 5 |
 | 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 0 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |

@@ -1,8 +1,49 @@
 {
   "clase": "083",
   "titulo": "Propiedades y eventos",
-  "descripcion": "El hijo emite y el padre reacciona, sin conocerse por dentro.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "Datos hacia abajo, avisos hacia arriba: un contador padre y un botón hijo, en ocho tecnologías.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "El disparo del evento en el navegador NO se verifica aquí: eso necesita un navegador y llega en la clase 128. Lo que se verifica es la otra mitad, que es la que se diseña mal: que el hijo reciba sus datos por propiedades, que NO los modifique, y que el manejador del padre —el de verdad, el que está en su archivo— produzca el estado nuevo cuando se le llama.",
+  "casos": [
+    {
+      "nombre": "el padre pasa el valor al hijo por una propiedad",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-hijo=\"contador\"", "data-valor=\"0\""]
+      }
+    },
+    {
+      "nombre": "otro valor por la misma propiedad: el hijo no sabe de dónde viene",
+      "peticion": { "metodo": "GET", "ruta": "/?valor=7" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["data-valor=\"7\""] }
+    },
+    {
+      "nombre": "EL AVISO SUBE: el manejador del padre recibe el evento y produce el estado nuevo",
+      "peticion": { "metodo": "GET", "ruta": "/evento?valor=7&paso=3" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "antes": 7, "despues": 10, "quien_decide": "el padre" }
+      }
+    },
+    {
+      "nombre": "el hijo no cambia el valor: solo avisa de cuánto quiere cambiarlo",
+      "peticion": { "metodo": "GET", "ruta": "/evento?valor=7&paso=-2" },
+      "esperado": { "estado": 200, "json_contiene": { "antes": 7, "despues": 5 } }
+    },
+    {
+      "nombre": "el hijo declara qué recibe y qué emite, leído de su archivo",
+      "peticion": { "metodo": "GET", "ruta": "/flujo.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "leido_del_archivo": true,
+          "datos_hacia_abajo": "propiedades",
+          "el_hijo_muta_la_propiedad": false
+        }
+      }
+    }
+  ]
 }
