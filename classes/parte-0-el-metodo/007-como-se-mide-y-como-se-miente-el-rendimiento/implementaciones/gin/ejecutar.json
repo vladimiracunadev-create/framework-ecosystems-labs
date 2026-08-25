@@ -15,7 +15,8 @@
   "arrancar": [
     "go",
     "run",
-    "main.go"
+    "."
   ],
-  "espera_ms": 60000
+  "espera_ms": 60000,
+  "nota": "`go run .` y no `go run main.go`: con el nombre del archivo solo se compila ESE archivo, y `medicion.go` se queda fuera. El punto significa «el paquete entero de este directorio»."
 }

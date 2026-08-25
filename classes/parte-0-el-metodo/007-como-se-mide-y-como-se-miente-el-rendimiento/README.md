@@ -168,7 +168,7 @@ go mod tidy
 Arrancarla suelta, sin el verificador:
 
 ```bash
-PORT=3000 go run main.go
+PORT=3000 go run .
 ```
 
 Qué hay dentro de su directorio:
@@ -354,6 +354,13 @@ func versionDeGin() string {
 // mano en un informe de rendimiento es el primer sitio por donde se cuela una
 // mentira.
 ```
+
+Y una lección de la receta de arranque que costó una vuelta de integración
+continua: la implementación arranca con `go run .`, no con `go run main.go`.
+
+**Con el nombre del archivo se compila solo ese archivo**, y `medicion.go` se
+queda fuera con seis errores de «símbolo no definido». El punto significa «el
+paquete entero de este directorio», que es casi siempre lo que se quiere.
 
 Y el modo de compilación, declarado tal y como es:
 
