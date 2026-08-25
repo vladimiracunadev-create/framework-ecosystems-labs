@@ -53,12 +53,154 @@ El segundo caso comprueba las dos cosas a la vez: que **las capas envuelven al
 manejador de fuera adentro**, y que **se deshacen al revés** — la capa interna
 registra su fin después del manejador y antes de que salga la respuesta.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro producen la misma traza con mecanismos de nombres distintos. El código
-está en [`implementaciones/`](implementaciones/), y conviene leerlo comparando
-**qué información tiene cada altura**: la externa solo conoce método y ruta; la
-interna conoce el método que se va a ejecutar y su resultado.
+Las cuatro producen la misma traza con mecanismos de nombres distintos. Léelas
+comparando **qué información tiene cada altura**: la externa solo conoce método y
+ruta; la interna conoce el método que se va a ejecutar y su resultado.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — capa y decorador
+
+```python
+@app.middleware("http")
+async def capa(peticion: Request, siguiente):
+    if peticion.url.path != "/auditoria":
+        auditoria.append(f"externa:{peticion.method} {peticion.url.path}")
+    return await siguiente(peticion)
+```
+
+```python
+def auditar(funcion: Callable) -> Callable:
+    @functools.wraps(funcion)
+    def envoltura(*args, **kwargs):
+        auditoria.append(f"interna:{funcion.__name__}")
+        resultado = funcion(*args, **kwargs)
+        auditoria.append("interna:fin")
+        return resultado
+
+    return envoltura
+```
+
+```python
+@app.get("/accion")
+@auditar
+def accion() -> JSONResponse:
+```
+
+La diferencia de altura se ve en una línea: la capa escribe
+`peticion.url.path`, el decorador escribe `funcion.__name__`. **Una conoce la
+URL, la otra conoce la función.**
+
+Y `functools.wraps` no es decoración: sin él, la función envuelta pierde su
+nombre y su firma, y **FastAPI deja de poder inspeccionarla** para construir la
+documentación y la validación. Es el fallo clásico de decorar en este ecosistema.
+
+Python no necesita un mecanismo de aspectos aparte porque **el decorador ya es la
+forma nativa de envolver comportamiento**.
+
+### NestJS · [`nestjs/src/main.ts`](implementaciones/nestjs/src/main.ts) — middleware e interceptor
+
+```typescript
+class CapaExterna implements NestMiddleware {
+  use(peticion: Request, respuesta: Response, siguiente: NextFunction): void {
+    auditoria.push(`externa:${peticion.method} ${peticion.originalUrl}`);
+    siguiente();
+  }
+}
+```
+
+```typescript
+class CapaInterna implements NestInterceptor {
+  intercept(contexto: ExecutionContext, siguiente: CallHandler): Observable<unknown> {
+    auditoria.push(`interna:${contexto.getHandler().name}`);
+    return siguiente.handle().pipe(tap(() => auditoria.push("interna:fin")));
+  }
+}
+```
+
+`contexto.getHandler().name` frente a `peticion.method`: la misma diferencia de
+altura, con nombres propios de NestJS. Y el interceptor devuelve un
+**observable**, así que puede transformar el resultado además de observarlo.
+
+Un tropiezo real que el código documenta y merece la pena:
+
+```typescript
+    auditoria.push(`externa:${peticion.method} ${peticion.originalUrl}`);
+```
+
+`originalUrl` y **no** `path`. Al montar la capa sobre una ruta concreta con
+`forRoutes("accion")`, Express recorta el prefijo de montaje y `path` vale `/`.
+Es el mismo comportamiento que hace que un enrutador anidado vea rutas relativas:
+cómodo al componer, sorprendente al registrar.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — filtro y **aspecto**
+
+```java
+    public static class CapaFiltro implements Filter {
+        @Override
+        public void doFilter(ServletRequest peticion, ServletResponse respuesta, FilterChain cadena)
+                throws IOException, ServletException {
+            HttpServletRequest p = (HttpServletRequest) peticion;
+            if (!"/auditoria".equals(p.getRequestURI())) {
+                AUDITORIA.add("externa:" + p.getMethod() + " " + p.getRequestURI());
+            }
+```
+
+```java
+    public static class CapaAspecto {
+        @Around("execution(* labs.Aplicacion.Controlador.accion(..))")
+        public Object auditar(ProceedingJoinPoint punto) throws Throwable {
+            AUDITORIA.add("interna:" + punto.getSignature().getName());
+            Object resultado = punto.proceed();
+            AUDITORIA.add("interna:fin");
+            return resultado;
+        }
+    }
+```
+
+**El aspecto es la pieza más distinta de las cuatro, y la más interesante: no
+sabe nada de HTTP.** Se engancha a la **ejecución de un método**, sea cual sea
+quien lo llame.
+
+Por eso el mismo aspecto sirve para una petición web, una tarea programada o una
+prueba unitaria. Middleware y filtros viven en **el transporte**; el aspecto vive
+en **el código**.
+
+El precio está en la propia línea: `execution(* labs.Aplicacion.Controlador.accion(..))`
+es una expresión de corte, escrita en un lenguaje aparte, que se evalúa en tiempo
+de ejecución. **Renombrar el método rompe el aspecto sin que el compilador diga
+nada.**
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — middleware y filtro de punto final
+
+```csharp
+app.Use(async (contexto, siguiente) =>
+{
+    if (contexto.Request.Path != "/auditoria")
+    {
+        auditoria.Add($"externa:{contexto.Request.Method} {contexto.Request.Path}");
+    }
+    await siguiente();
+});
+```
+
+```csharp
+}).AddEndpointFilter(async (contexto, siguiente) =>
+{
+    auditoria.Add("interna:accion");
+    var resultado = await siguiente(contexto);
+    auditoria.Add("interna:fin");
+    return resultado;
+});
+```
+
+**Filtro de punto final**: ya sabe qué punto final se va a ejecutar, y puede
+actuar antes y después. Y a diferencia del aspecto de Spring, **se registra en la
+ruta**, encadenado al `MapGet` — así que renombrar el manejador no lo rompe,
+porque no lo nombra.
+
+Es el punto medio del elenco: la información de la altura interna, con el
+acoplamiento de la externa.
 
 ## 🎯 La distinción que de verdad importa
 

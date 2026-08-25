@@ -65,71 +65,116 @@ estado inmutable, o usar estructuras pensadas para concurrencia.
 | 2.ª | `unico: 1` — **no se volvió a crear** |
 | 3.ª | `unico: 1` |
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-### NestJS — el ámbito en el decorador
+Las cuatro registran dos servicios idénticos con ámbitos distintos y devuelven
+sus identificadores. El contrato mira una cosa: **si el número cambia entre dos
+peticiones**.
+
+### NestJS · [`nestjs/src/main.ts`](implementaciones/nestjs/src/main.ts) — el ámbito en el decorador
 
 ```typescript
-@Injectable()                              // única instancia (por omisión)
-class ServicioUnico { ... }
-
-@Injectable({ scope: Scope.REQUEST })      // una por petición
-class ServicioPorPeticion { ... }
+@Injectable()
+class ServicioUnico {
+  readonly id = ++creadosUnico;
+}
 ```
 
-Y un detalle de propagación importante: **un servicio por petición contagia su
-ámbito a quien lo inyecta**. El controlador que depende de él pasa a construirse
-por petición también, con su coste.
+```typescript
+@Injectable({ scope: Scope.REQUEST })
+class ServicioPorPeticion {
+  readonly id = ++creadosPorPeticion;
+}
+```
 
-### Spring Boot — el proxy que resuelve la paradoja
+El ámbito por omisión es **única instancia**: se construye una vez al arrancar y
+se comparte. Barato, y **cualquier estado que guarde lo ven todas las
+peticiones**, incluidas las de otros usuarios.
+
+Y un detalle de propagación que conviene conocer antes de usar `Scope.REQUEST`:
+**un servicio por petición contagia su ámbito a quien lo inyecta**. El
+controlador que depende de él pasa a construirse por petición también, con su
+coste — y el que dependa de ese controlador, también.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — el proxy que resuelve la paradoja
 
 ```java
-@Component
-@RequestScope
-static class ServicioPorPeticion { ... }
+    @Component
+    @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+    static class ServicioUnico {
+        final int id = CREADOS_UNICO.incrementAndGet();
+    }
 ```
 
-Aquí hay un problema que salta a la vista al pensarlo: **el controlador es de
-única instancia y necesita algo por petición**. ¿Cómo puede un objeto que se creó
-al arrancar recibir uno que se crea después?
+```java
+    @Component
+    @RequestScope
+    static class ServicioPorPeticion {
+        final int id = CREADOS_PETICION.incrementAndGet();
+    }
+```
 
-La respuesta es un **proxy**: Spring inyecta un intermediario —que sí es único— y
-ese intermediario resuelve, en cada llamada, la instancia real de la petición en
-curso.
+```java
+        Controlador(ServicioUnico unico, ServicioPorPeticion porPeticion) {
+```
 
-Sin ese mecanismo, un objeto de vida larga no podría depender de uno de vida
-corta. Y explica un fallo clásico: inyectar un objeto por petición **sin** proxy
-congela la primera instancia para siempre.
+Mira ese constructor y piensa un momento: **el controlador es de única instancia
+y necesita algo por petición**. ¿Cómo puede un objeto creado al arrancar recibir
+uno que se creará después, muchas veces?
 
-### ASP.NET Core — tres ámbitos con nombre
+La respuesta es un **proxy**: Spring inyecta un intermediario —que sí es único—
+y ese intermediario resuelve, en cada llamada, la instancia real de la petición
+en curso.
+
+Sin ese mecanismo, un objeto de vida larga **no podría depender de uno de vida
+corta**. Y explica un fallo clásico del ecosistema: inyectar un objeto por
+petición sin proxy congela la primera instancia para siempre, y a partir de ahí
+todos los usuarios comparten los datos del primero.
+
+A diferencia de NestJS, aquí el ámbito **no se contagia**: el controlador sigue
+siendo único.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — tres ámbitos con nombre
 
 ```csharp
 constructor.Services.AddSingleton<ServicioUnico>();
 constructor.Services.AddScoped<ServicioPorPeticion>();
-// y AddTransient para uno por uso
 ```
 
-.NET además **detecta en desarrollo** un error concreto: un objeto de única
-instancia que depende de uno por petición. Lo llama dependencia cautiva y falla al
-arrancar en lugar de comportarse mal en producción.
+Tres ámbitos y tres nombres: `Singleton` uno para todo el proceso, `Scoped` uno
+por petición, `Transient` uno por cada vez que se pide. Es el vocabulario más
+explícito del elenco — el ámbito se lee en la línea de registro, no en el tipo.
 
-De los cuatro, es el único que convierte este error en un fallo temprano.
+Y .NET aporta algo que ninguno de los otros tres tiene: **detecta la dependencia
+cautiva**. Un objeto de única instancia que depende de uno por petición hace
+fallar el arranque en desarrollo, en lugar de comportarse mal en producción.
 
-### Laravel — con una advertencia sobre PHP
+De los cuatro, es el único que convierte este error en un fallo temprano — y es
+exactamente el error que el proxy de Spring resuelve por otra vía.
+
+### Laravel · [`laravel/bootstrap/app.php`](implementaciones/laravel/bootstrap/app.php) — y una advertencia sobre PHP
 
 ```php
 $app->singleton(ServicioUnico::class);
 $app->bind(ServicioPorPeticion::class);
 ```
 
-Y aquí un matiz que cambia el significado: **el servidor de desarrollo de PHP
-atiende cada petición en un proceso nuevo**, así que «única instancia» dura lo que
-dura la petición.
+```php
+Route::get('/ambitos', function (ServicioUnico $unico, ServicioPorPeticion $porPeticion) {
+```
 
-Con un gestor de procesos persistente el matiz cambia y el riesgo vuelve. Es el
-mismo modelo de ejecución que la clase 014 obligó a tener en cuenta, y explica por
-qué en PHP el estado compartido entre peticiones se ha resuelto históricamente con
-infraestructura externa y no con variables.
+Dos verbos y toda la diferencia: `singleton` guarda la instancia, `bind`
+construye una nueva cada vez.
+
+Y aquí un matiz que **cambia el significado de la palabra «única»**: el servidor
+de desarrollo de PHP atiende cada petición en un **proceso nuevo**, así que
+«única instancia» dura lo que dura la petición.
+
+Con un gestor de procesos persistente —PHP-FPM con `pm.max_requests` alto,
+Octane, Swoole— el matiz cambia y el riesgo de estado compartido vuelve. Es el
+mismo modelo de ejecución que la clase 014 obligó a tener en cuenta, y explica
+por qué en PHP el estado compartido entre peticiones se ha resuelto
+históricamente con infraestructura externa y no con variables.
 
 ## 🔬 Comparación
 

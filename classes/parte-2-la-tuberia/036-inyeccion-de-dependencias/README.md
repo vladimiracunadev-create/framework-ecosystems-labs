@@ -49,77 +49,138 @@ La segunda comprobación no es redundante: si el manejador construyera un reloj
 real, la fecha cambiaría entre llamadas. **Que no cambie demuestra que la
 dependencia es la declarada.**
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cinco declaran la misma dependencia de cinco maneras. Lo que cambia no es la
-capacidad —las cinco sustituyen igual de bien— sino **cuánta ceremonia exige el
-lenguaje que hay debajo**. Cinco formas de declarar lo mismo:
+Las cinco declaran la misma dependencia de cinco maneras. Lo que cambia **no es
+la capacidad** —las cinco sustituyen igual de bien— sino cuánta ceremonia exige
+el lenguaje que hay debajo.
 
-### Spring Boot — por constructor, sin anotación
+Y en las cinco, el manejador **no construye, no busca y no sabe de qué clase es**
+lo que recibe. Esa ignorancia es el punto entero: es lo que permite sustituirlo
+sin tocarlo.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — por constructor, sin anotación
 
 ```java
-Controlador(Reloj reloj) {
-    this.reloj = reloj;
-}
+    @RestController
+    static class Controlador {
+        private final Reloj reloj;
+
+        Controlador(Reloj reloj) {
+            this.reloj = reloj;
+        }
 ```
 
-Desde Spring 4.3 no hace falta anotar: **si hay un solo constructor, el contenedor
-lo usa**.
+Desde Spring 4.3 **no hace falta anotar**: si hay un solo constructor, el
+contenedor lo usa. Es la declaración más limpia del elenco — una clase de Java
+corriente, sin nada específico del framework en la parte que importa.
 
 Y por constructor y no por campo, por una razón concreta: **el objeto no puede
-existir sin su dependencia**. El compilador lo garantiza. Con inyección por campo,
-un objeto a medio construir es posible y falla en tiempo de ejecución.
+existir sin su dependencia**, y el `final` hace que el compilador lo garantice.
+Con inyección por campo, un objeto a medio construir es posible y falla en
+tiempo de ejecución.
 
-### ASP.NET Core — el contenedor en la plataforma
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — el contenedor en la plataforma
 
 ```csharp
 constructor.Services.AddSingleton<IReloj, RelojFijo>();
-
-app.MapGet("/ahora", (IReloj reloj) => ...);
 ```
 
-Sin anotación ni atributo: **el tipo del parámetro es la petición**. Es la
-declaración más corta de las cinco, y el contenedor viene en la plataforma, no en
-una biblioteca.
+```csharp
+app.MapGet("/ahora", (IReloj reloj) =>
+    Results.Json(new { ahora = reloj.Ahora(), origen = "inyectado" }));
+```
 
-### NestJS — el contenedor traído a Node
+**El tipo del parámetro es la petición.** Sin anotación, sin atributo, sin ficha:
+el contenedor mira `IReloj` y resuelve.
+
+Es la declaración más corta de las cinco, y el contenedor **viene en la
+plataforma** —`Microsoft.Extensions.DependencyInjection`—, no en una biblioteca
+del framework web. Eso significa que el mismo contenedor sirve para una
+aplicación de consola o un servicio de fondo.
+
+### Laravel · [`laravel/bootstrap/app.php`](implementaciones/laravel/bootstrap/app.php) — atadura explícita
+
+```php
+$app->bind(Reloj::class, RelojFijo::class);
+```
+
+Y en [`routes/api.php`](implementaciones/laravel/routes/api.php):
+
+```php
+Route::get('/ahora', function (Reloj $reloj) {
+    return response()->json(['ahora' => $reloj->ahora(), 'origen' => 'inyectado']);
+});
+```
+
+La misma idea que ASP.NET Core: el contenedor **lee el tipo del argumento** y
+resuelve. PHP conserva los tipos en tiempo de ejecución, así que no hace falta
+identificador aparte.
+
+`bind` frente a `singleton` es la decisión de ámbito que la clase 037 desarrolla:
+`bind` construye uno nuevo cada vez, `singleton` reutiliza.
+
+### NestJS · [`nestjs/src/main.ts`](implementaciones/nestjs/src/main.ts) — el contenedor traído a Node
 
 ```typescript
-constructor(@Inject(RELOJ) private readonly reloj: Reloj) {}
+const RELOJ = "RELOJ";
 ```
 
-Hace falta `@Inject` con una ficha porque **las interfaces de TypeScript no
-existen en tiempo de ejecución**: se borran al compilar. El contenedor no puede
-buscar por un tipo que ya no está, así que se usa una constante como identificador.
+```typescript
+  constructor(@Inject(RELOJ) private readonly reloj: Reloj) {}
+```
 
-Es una consecuencia directa del diseño de TypeScript, y la razón de que NestJS
-tenga esta ceremonia extra frente a Spring o .NET.
+```typescript
+@Module({
+  controllers: [Controlador],
+  providers: [{ provide: RELOJ, useClass: RelojFijo }],
+})
+```
 
-### FastAPI — en la firma, sin contenedor
+Hace falta `@Inject` con una **ficha** —esa constante `RELOJ`— por un motivo que
+no es de NestJS: **las interfaces de TypeScript no existen en tiempo de
+ejecución**. Se borran al compilar, así que el contenedor no puede buscar por un
+tipo que ya no está.
+
+Es una consecuencia directa del diseño de TypeScript —tipos que solo viven en el
+compilador— y la razón de que NestJS tenga esta ceremonia extra frente a Spring,
+.NET o Laravel. Si `Reloj` fuera una clase abstracta en vez de una interfaz, la
+ficha no haría falta.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — en la firma, sin contenedor
+
+```python
+def obtener_reloj() -> Reloj:
+    return RelojFijo()
+```
 
 ```python
 @app.get("/ahora")
 def ahora(reloj: Annotated[Reloj, Depends(obtener_reloj)]) -> JSONResponse:
+    return JSONResponse({"ahora": reloj.ahora(), "origen": "inyectado"})
 ```
 
-**No hay contenedor.** `Depends` resuelve una función y pasa su resultado. La
-sustitución se hace con `app.dependency_overrides`, que es exactamente lo que
-usan las pruebas.
+**No hay contenedor.** `Depends` resuelve una función y pasa su resultado: no hay
+registro central, no hay ámbitos declarados y no hay grafo de dependencias que
+inspeccionar.
 
-Es el enfoque más ligero: sin registro central, sin ámbitos declarados, y lo que
-se inyecta se lee en la propia firma.
+La sustitución se hace con `app.dependency_overrides`, que es exactamente lo que
+usan las pruebas. Y lo que se inyecta **se lee en la propia firma**, sin ir a
+buscar el registro a otro archivo — la misma virtud que la clase 070 encontraba
+en su autorización.
 
-### Laravel — atadura explícita
+El precio también es real: sin registro central, nadie puede responder «¿quién
+depende de qué?» sin leer todas las firmas.
 
-```php
-$app->bind(Reloj::class, RelojFijo::class);
-
-Route::get('/ahora', function (Reloj $reloj) { ... });
+```python
+class Reloj(Protocol):
+    def ahora(self) -> str: ...
 ```
 
-El contenedor lee el **tipo** del argumento y resuelve — igual que ASP.NET Core.
-PHP conserva los tipos en tiempo de ejecución, así que no hace falta la ficha de
-NestJS.
+Y el contrato es un `Protocol`: **tipado estructural**. `RelojFijo` no declara
+que implementa `Reloj` en ninguna parte — lo cumple porque tiene el método. Es la
+forma más suelta del elenco de declarar el mismo contrato, y la única donde la
+implementación no menciona la interfaz.
 
 ## 🔬 Comparación
 

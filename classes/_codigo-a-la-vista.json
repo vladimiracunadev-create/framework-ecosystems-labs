@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 33,
+  "pendientes": 30,
   "clases": [
     {
       "clase": "016",
@@ -47,37 +47,6 @@
         "gin",
         "laravel",
         "rails",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "036",
-      "slug": "036-inyeccion-de-dependencias",
-      "faltan": [
-        "aspnet-core",
-        "fastapi",
-        "laravel",
-        "nestjs",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "037",
-      "slug": "037-ciclo-de-vida-de-los-objetos",
-      "faltan": [
-        "aspnet-core",
-        "laravel",
-        "nestjs",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "038",
-      "slug": "038-middleware-decorador-y-aspecto",
-      "faltan": [
-        "aspnet-core",
-        "fastapi",
-        "nestjs",
         "spring-boot"
       ]
     },
