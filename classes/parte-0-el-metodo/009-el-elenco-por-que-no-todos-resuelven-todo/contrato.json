@@ -1,8 +1,69 @@
 {
   "clase": "009",
   "titulo": "El elenco: por qué no todos resuelven todo",
-  "descripcion": "Clasificar diez problemas y decir qué elenco puede resolverlos y cuál no.",
-  "estado": "esqueleto",
-  "tipo": "http",
-  "casos": []
+  "descripcion": "Diez afirmaciones sobre qué problemas puede atacar cada tecnología, contrastadas con el catálogo.",
+  "estado": "construida",
+  "tipo": "catalogo",
+  "nota": "Cada tecnología del catálogo declara a qué problemas se dirige en su campo `targets`. Esta clase pregunta por los de cuatro piezas muy distintas y comprueba, sobre todo, lo que NO hacen — que es la parte que se olvida al montar una comparación.",
+  "casos": [
+    {
+      "nombre": "Express atiende peticiones y nada más: ni dibuja ni guarda",
+      "pregunta": { "tecnologia": "express", "campo": "targets" },
+      "esperado": {
+        "incluye": ["backend", "api"],
+        "excluye": ["web", "mobile", "desktop", "persistencia"]
+      }
+    },
+    {
+      "nombre": "React dibuja interfaz, en web y en nativo — y no atiende ninguna petición",
+      "pregunta": { "tecnologia": "react", "campo": "targets" },
+      "esperado": {
+        "incluye": ["web", "native"],
+        "excluye": ["backend", "api", "persistencia"]
+      }
+    },
+    {
+      "nombre": "Prisma solo hace persistencia: un único destino, y es el suyo",
+      "pregunta": { "tecnologia": "prisma", "campo": "targets" },
+      "esperado": { "es": ["persistencia"] }
+    },
+    {
+      "nombre": "Flutter cubre móvil, web y escritorio — y tampoco atiende peticiones",
+      "pregunta": { "tecnologia": "flutter", "campo": "targets" },
+      "esperado": {
+        "incluye": ["mobile", "web", "desktop"],
+        "excluye": ["backend", "api", "persistencia"]
+      }
+    },
+    {
+      "nombre": "los cuatro juntos no se solapan en un solo destino",
+      "pregunta": { "cuantas": { "kind": "ui-library", "targets": "backend" } },
+      "esperado": { "como_mucho": 0 }
+    },
+    {
+      "nombre": "NINGÚN ORM DEL CATÁLOGO ATIENDE PETICIONES: la separación es real, no una convención",
+      "pregunta": { "cuantas": { "kind": "orm", "targets": "backend" } },
+      "esperado": { "como_mucho": 0 }
+    },
+    {
+      "nombre": "atender peticiones es el problema más poblado del catálogo",
+      "pregunta": { "cuantas": { "targets": "backend" } },
+      "esperado": { "al_menos": 40 }
+    },
+    {
+      "nombre": "dibujar en un móvil, mucho menos",
+      "pregunta": { "cuantas": { "targets": "mobile" } },
+      "esperado": { "al_menos": 15, "como_mucho": 25 }
+    },
+    {
+      "nombre": "y guardar datos, menos todavía",
+      "pregunta": { "cuantas": { "targets": "persistencia" } },
+      "esperado": { "al_menos": 8, "como_mucho": 20 }
+    },
+    {
+      "nombre": "Flutter no tiene competidores en su categoría — y eso dice algo",
+      "pregunta": { "compite_con": "flutter" },
+      "esperado": { "es": [] }
+    }
+  ]
 }

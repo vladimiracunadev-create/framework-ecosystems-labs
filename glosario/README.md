@@ -994,7 +994,7 @@ El comportamiento exigido, escrito antes que las implementaciones y **idéntico 
 
 Los frameworks para los que el problema de una clase existe de verdad. Los lenguajes son intercambiables y los frameworks no: Spring Boot no implementa reactividad en el cliente. Si un framework no lo hace de verdad, **sale del elenco con su explicación** — no se simula.
 
-> Se enseña en la [clase 009](../classes/parte-0-el-metodo/009-el-elenco-por-que-no-todos-resuelven-todo/README.md) 🚧 · ver también [Taxonomía](#taxonomía), [Contrato](#contrato).
+> Se enseña en la [clase 009](../classes/parte-0-el-metodo/009-el-elenco-por-que-no-todos-resuelven-todo/README.md) · ver también [Taxonomía](#taxonomía), [Contrato](#contrato).
 
 #### Pista
 
@@ -1280,7 +1280,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 
 | Parte | Tema | Clases | Construidas |
 | ---: | --- | ---: | ---: |
-| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 8 |
+| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 9 |
 | 1 | [Responder: lo primero que hace cualquier framework](../classes/parte-1-responder/README.md) | 15 | 15 |
 | 2 | [La tubería: middleware, filtros e interceptores](../classes/parte-2-la-tuberia/README.md) | 13 | 13 |
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |
