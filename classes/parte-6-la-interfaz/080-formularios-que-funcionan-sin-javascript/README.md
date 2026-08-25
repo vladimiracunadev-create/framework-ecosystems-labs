@@ -151,10 +151,10 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `.bundle/config` | archivo del proyecto |
+| `Gemfile` | dependencias de Ruby |
 | `app/views/tareas/index.html.erb` | plantilla ERB |
 | `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
-| `Gemfile` | dependencias de Ruby |
 
 ### 🔧 ASP.NET Core
 
@@ -182,11 +182,11 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `Clase080.csproj` | proyecto de .NET: el marco de destino y las dependencias |
-| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
-| `Pages/_ViewImports.cshtml` | directivas comunes a todas las páginas Razor, incluidos los ayudantes de etiqueta |
 | `Pages/Tareas.cshtml` | página Razor: marcado con código C# incrustado |
 | `Pages/Tareas.cshtml.cs` | código C# |
+| `Pages/_ViewImports.cshtml` | directivas comunes a todas las páginas Razor, incluidos los ayudantes de etiqueta |
 | `Program.cs` | código C# |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 
 > Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
 

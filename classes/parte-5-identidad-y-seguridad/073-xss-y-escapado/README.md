@@ -142,12 +142,12 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `Inseguro.svelte` | componente de Svelte |
+| `Seguro.svelte` | componente de Svelte |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
 | `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
-| `Seguro.svelte` | componente de Svelte |
 | `server.mjs` | código JavaScript (módulo ES) |
 
 ### 🔧 SolidJS

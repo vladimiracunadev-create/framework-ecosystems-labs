@@ -66,10 +66,10 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `.bundle/config` | archivo del proyecto |
+| `Gemfile` | dependencias de Ruby |
 | `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
 | `config/database.yml` | configuración en YAML |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
-| `Gemfile` | dependencias de Ruby |
 
 ### 🔧 Eloquent (Laravel)
 

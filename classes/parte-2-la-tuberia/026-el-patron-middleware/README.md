@@ -264,8 +264,8 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `Clase026.csproj` | proyecto de .NET: el marco de destino y las dependencias |
-| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `Program.cs` | código C# |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 
 ### 🔧 Laravel
 
@@ -327,9 +327,9 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `.bundle/config` | archivo del proyecto |
+| `Gemfile` | dependencias de Ruby |
 | `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
-| `Gemfile` | dependencias de Ruby |
 
 ### 🔧 Gin
 

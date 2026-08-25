@@ -56,8 +56,8 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `Clase052.csproj` | proyecto de .NET: el marco de destino y las dependencias |
-| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `Program.cs` | código C# |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 
 ### 🔧 SQLAlchemy
 
@@ -139,10 +139,10 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `.bundle/config` | archivo del proyecto |
+| `Gemfile` | dependencias de Ruby |
 | `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
 | `config/database.yml` | configuración en YAML |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
-| `Gemfile` | dependencias de Ruby |
 
 > Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
 

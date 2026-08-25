@@ -198,10 +198,10 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `Clase078.csproj` | proyecto de .NET: el marco de destino y las dependencias |
+| `Program.cs` | código C# |
 | `datos/arbol.json` | datos en JSON usados por la implementación |
 | `datos/avisos.json` | datos en JSON usados por la implementación |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
-| `Program.cs` | código C# |
 
 > Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
 

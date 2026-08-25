@@ -100,6 +100,17 @@ Arrancarla suelta, sin el verificador:
 PORT=3000 node server.mjs
 ```
 
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `coste.mjs` | código JavaScript (módulo ES) |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
 ### 🔧 NestJS
 
 Trae a Node.js el modelo de Angular y Spring: módulos, decoradores e inyección de dependencias por constructor.
@@ -121,6 +132,19 @@ Arrancarla suelta, sin el verificador:
 ```bash
 PORT=3000 node dist/main.js
 ```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `src/app.module.ts` | código TypeScript |
+| `src/coste/coste.controller.ts` | código TypeScript |
+| `src/coste/coste.service.ts` | código TypeScript |
+| `src/main.ts` | código TypeScript |
 
 > Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
 

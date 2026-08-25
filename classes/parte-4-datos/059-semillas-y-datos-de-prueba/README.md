@@ -151,10 +151,10 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `catalogo.json` | datos en JSON usados por la implementación |
 | `Clase059.csproj` | proyecto de .NET: el marco de destino y las dependencias |
-| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `Program.cs` | código C# |
+| `catalogo.json` | datos en JSON usados por la implementación |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 
 > Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
 

@@ -194,6 +194,17 @@ function seguidosPorGit(dir) {
 }
 
 /** Archivos de la implementación, con lo que es cada uno. */
+/**
+ * Orden por unidades de código, no por reglas de idioma.
+ *
+ * `localeCompare` ordena distinto según el idioma de la máquina: en algunas
+ * configuraciones la barra y el punto pesan y en otras se ignoran. Con un límite
+ * de ocho archivos, un orden distinto no cambia solo la tabla — cambia QUÉ
+ * archivos entran en ella, y la ficha generada en Windows dejaba de coincidir
+ * con la generada en integración continua.
+ */
+const porRuta = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
+
 export function archivosDe(dir, limite = 8) {
   const seguidos = seguidosPorGit(dir);
   if (seguidos) {
@@ -201,7 +212,7 @@ export function archivosDe(dir, limite = 8) {
       .filter((ruta) => !ruta.split("/").some((parte) => IGNORADOS.has(parte)))
       .filter((ruta) => !/\.(lock|sum|gitkeep|gitignore)$/i.test(ruta))
       .filter((ruta) => !path.basename(ruta).startsWith(".git"))
-      .sort((a, b) => a.localeCompare(b))
+      .sort(porRuta)
       .slice(0, limite)
       .map((ruta) => ({
         ruta,
@@ -215,7 +226,9 @@ export function archivosDe(dir, limite = 8) {
 
   const encontrados = [];
   const recorrer = (actual, prefijo) => {
-    const entradas = fs.readdirSync(actual, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name));
+    const entradas = fs
+      .readdirSync(actual, { withFileTypes: true })
+      .sort((a, b) => porRuta(a.name, b.name));
     for (const entrada of entradas) {
       if (IGNORADOS.has(entrada.name)) continue;
       const relativa = prefijo ? `${prefijo}/${entrada.name}` : entrada.name;

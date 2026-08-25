@@ -120,8 +120,8 @@ Qué hay dentro de su directorio:
 | Archivo | Qué es |
 | --- | --- |
 | `Clase054.csproj` | proyecto de .NET: el marco de destino y las dependencias |
-| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `Program.cs` | código C# |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 
 ### 🔧 TypeORM
 
