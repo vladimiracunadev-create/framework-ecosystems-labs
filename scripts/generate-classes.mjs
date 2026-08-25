@@ -27,6 +27,28 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST, "utf8"));
 const catalogo = JSON.parse(fs.readFileSync(path.join(root, "catalog/frameworks.json"), "utf8"));
 const porId = new Map((catalogo.entries ?? catalogo).map((e) => [e.id, e]));
 
+/**
+ * Las palabras que cada clase define, tomadas del glosario.
+ *
+ * El índice de una parte enumera el vocabulario que enseña sin copiarlo: la
+ * definición vive una sola vez, en `glosario/conceptos.json`.
+ */
+const glosario = JSON.parse(fs.readFileSync(path.join(root, "glosario/conceptos.json"), "utf8"));
+const conceptosPorClase = new Map();
+for (const concepto of glosario.conceptos) {
+  if (concepto.clase === undefined) continue;
+  if (!conceptosPorClase.has(concepto.clase)) conceptosPorClase.set(concepto.clase, []);
+  conceptosPorClase.get(concepto.clase).push(concepto);
+}
+
+/** El ancla que GitHub genera para un encabezado: conserva los acentos. */
+const anclaGlosario = (texto) =>
+  texto
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, "")
+    .trim()
+    .replace(/\s+/g, "-");
+
 const NIVELES = {
   introductorio: { icono: "🟢", orden: 1 },
   intermedio: { icono: "🟡", orden: 2 },
@@ -161,7 +183,7 @@ function indiceParte(parte) {
   const filas = parte.clases
     .map((c) => {
       const n = NIVELES[c.nivel];
-      return `| [${String(c.n).padStart(3, "0")}](${c.slug}/README.md) | [${c.titulo}](${c.slug}/README.md) | ${n.icono} ${c.nivel} | \`${c.pista}\` | ${c.elenco.length} | ${ESTADOS[c.estado] ?? ESTADOS.esqueleto} |`;
+      return `| [${String(c.n).padStart(3, "0")}](${c.slug}/README.md) | [${c.titulo}](${c.slug}/README.md) | ${c.objetivo} | ${n.icono} ${c.nivel} | ${ESTADOS[c.estado] ?? ESTADOS.esqueleto} |`;
     })
     .join("\n");
 
@@ -170,23 +192,140 @@ function indiceParte(parte) {
   const nav = [
     anterior ? `[⬅️ Parte ${anterior.idx}](../${anterior.slug}/README.md)` : null,
     "[🎓 Todas las clases](../README.md)",
+    "[📖 Glosario](../../glosario/README.md)",
     siguiente ? `[Parte ${siguiente.idx} ➡️](../${siguiente.slug}/README.md)` : null,
   ]
     .filter(Boolean)
     .join(" · ");
 
-  return `# Parte ${parte.idx} — ${parte.titulo}
+  const construidas = parte.clases.filter((c) => c.estado === "construida").length;
+  const parrafo = (texto) => (Array.isArray(texto) ? texto.join("\n\n") : texto ?? "");
+  const lista = (elementos) => (elementos ?? []).map((e) => `- ${e}`).join("\n");
 
-> ${nav}
+  // Los frameworks de la parte: la unión de los elencos de sus clases, con su
+  // categoría y su ecosistema tomados del catálogo. Nadie los escribe a mano, y
+  // por eso no pueden discrepar del elenco real de ninguna clase.
+  const apariciones = new Map();
+  for (const clase of parte.clases) {
+    for (const id of clase.elenco ?? []) {
+      apariciones.set(id, (apariciones.get(id) ?? 0) + 1);
+    }
+  }
+  const elenco = [...apariciones.entries()]
+    .map(([id, veces]) => ({ ficha: porId.get(id), veces, id }))
+    .filter((e) => e.ficha)
+    .sort((a, b) => b.veces - a.veces || a.ficha.name.localeCompare(b.ficha.name, "es"));
 
-${parte.subtitulo}
+  const porEcosistema = new Map();
+  for (const e of elenco) {
+    const clave = e.ficha.ecosystem ?? "Otros";
+    if (!porEcosistema.has(clave)) porEcosistema.set(clave, []);
+    porEcosistema.get(clave).push(e);
+  }
+  const filasElenco = [...porEcosistema.entries()]
+    .sort((a, b) => b[1].length - a[1].length)
+    .map(
+      ([ecosistema, lista]) =>
+        `| **${ecosistema}** | ${lista
+          .map((e) => `[${e.ficha.name}](../../atlas/fichas/${e.id}.md) (${e.veces})`)
+          .join(", ")} |`,
+    )
+    .join("\n");
 
-**Clases ${parte.inicio} a ${parte.fin}** · ${parte.count} en total.
+  // Las palabras que la parte define, tomadas del glosario.
+  const palabras = parte.clases
+    .flatMap((c) => conceptosPorClase.get(c.n) ?? [])
+    .map((c) => `[**${c.termino}**](../../glosario/README.md#${anclaGlosario(c.termino)})`);
 
-| # | Clase | Nivel | Pista | Elenco | Estado |
-| --- | --- | --- | --- | --- | --- |
-${filas}
-`;
+  const secciones = [];
+
+  secciones.push(`# Parte ${parte.idx} — ${parte.titulo}`);
+  secciones.push("");
+  secciones.push(`> ${nav}`);
+  secciones.push("");
+  secciones.push(`**${parte.subtitulo}**`);
+  secciones.push("");
+  secciones.push(
+    `**Clases ${parte.inicio} a ${parte.fin}** · ${parte.count} en total · ${construidas} construidas · ${elenco.length} tecnologías en juego.`,
+  );
+
+  if (parte.introduccion?.length) {
+    secciones.push("");
+    secciones.push("## 🧭 De qué va esta parte");
+    secciones.push("");
+    secciones.push(parrafo(parte.introduccion));
+  }
+
+  if (parte.da_por_sabido?.length) {
+    secciones.push("");
+    secciones.push("## 🎒 Qué da por sabido");
+    secciones.push("");
+    secciones.push(lista(parte.da_por_sabido));
+  }
+
+  if (parte.al_terminar?.length) {
+    secciones.push("");
+    secciones.push("## 🎯 Qué sabrás hacer al terminarla");
+    secciones.push("");
+    secciones.push(lista(parte.al_terminar));
+  }
+
+  if (parte.hilo?.length) {
+    secciones.push("");
+    secciones.push("## 🧵 Por qué en este orden");
+    secciones.push("");
+    secciones.push(parrafo(parte.hilo));
+  }
+
+  secciones.push("");
+  secciones.push("## 📚 Las clases");
+  secciones.push("");
+  secciones.push("| # | Clase | Qué resuelve | Nivel | Estado |");
+  secciones.push("| --- | --- | --- | --- | --- |");
+  secciones.push(filas);
+
+  if (filasElenco) {
+    secciones.push("");
+    secciones.push("## 🎬 Las tecnologías que aparecen");
+    secciones.push("");
+    secciones.push(
+      "Entre paréntesis, en cuántas clases de esta parte interviene cada una. **Estar aquí no es una recomendación**: es que el problema de esa clase existe de verdad para esa tecnología.",
+    );
+    secciones.push("");
+    secciones.push("| Ecosistema | Tecnologías |");
+    secciones.push("| --- | --- |");
+    secciones.push(filasElenco);
+  }
+
+  if (palabras.length) {
+    secciones.push("");
+    secciones.push("## 📖 Las palabras que esta parte define");
+    secciones.push("");
+    secciones.push(palabras.join(" · "));
+    secciones.push("");
+    secciones.push("Todas, con su definición, en el [glosario](../../glosario/README.md).");
+  }
+
+  secciones.push("");
+  secciones.push("## ✅ Cómo se ejecuta una clase de esta parte");
+  secciones.push("");
+  secciones.push("```bash");
+  secciones.push(`node scripts/run-class.mjs ${String(parte.inicio).padStart(3, "0")}`);
+  secciones.push("```");
+  secciones.push("");
+  secciones.push(
+    "El verificador arranca cada implementación, la somete a su `contrato.json` y **declara cuáles omitió** por no encontrar su cadena de herramientas. Si te faltan cadenas, `node scripts/doctor.mjs` dice cuáles y cómo se instalan.",
+  );
+
+  if (parte.despues?.length) {
+    secciones.push("");
+    secciones.push("## ➡️ Y después");
+    secciones.push("");
+    secciones.push(parrafo(parte.despues));
+  }
+
+  secciones.push("");
+  return `${secciones.join("\n")}`;
 }
 
 // ------------------------------------------------------------ clase (semilla)

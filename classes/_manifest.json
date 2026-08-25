@@ -263,7 +263,32 @@
       ],
       "count": 10,
       "inicio": 1,
-      "fin": 10
+      "fin": 10,
+      "introduccion": [
+        "Esta parte no enseña ningún framework. Enseña **a compararlos**, que es una habilidad distinta y más duradera: los frameworks de dentro de diez años no existen todavía, y el criterio para elegirlos sí se puede aprender hoy.",
+        "Diez clases para responder tres preguntas que casi nadie se hace antes de elegir. **Qué es exactamente un framework** —y por qué la respuesta no tiene nada que ver con el tamaño—. **Qué hace comparable una comparación** —y por qué un «hola mundo» no compara nada—. Y **qué cuesta** un framework más allá de las líneas que se escriben el primer día.",
+        "Es la parte más corta en código y la que más decide sobre el resto. Todo lo que viene después —149 clases con el mismo contrato en varios ecosistemas— es la aplicación repetida del método que se fija aquí."
+      ],
+      "da_por_sabido": [
+        "Haber escrito y ejecutado algún programa, en cualquier lenguaje.",
+        "Saber abrir una terminal y ejecutar un comando (está en [conocimientos previos](../../empezar/conocimientos-previos.md)).",
+        "Tener Node.js instalado; el resto de cadenas se pueden añadir después ([`empezar/`](../../empezar/README.md))."
+      ],
+      "al_terminar": [
+        "Señalar en un archivo concreto la línea donde se invierte el control, y explicar por qué eso convierte a una biblioteca en un framework.",
+        "Escribir un contrato ejecutable antes de mirar ninguna implementación, y defender por qué no se adapta a ninguna.",
+        "Clasificar una tecnología antes de compararla, para no comparar una biblioteca de interfaz con un metaframework.",
+        "Leer una comparativa de rendimiento y decir qué le falta para poder creérsela.",
+        "Poner número a las cuatro dimensiones del coste de un framework: aprenderlo, mantenerlo, contratar quien lo sepa y salir de él."
+      ],
+      "hilo": [
+        "Las tres primeras clases construyen la definición y la herramienta: qué es un framework (001), cómo se demuestra con un número (002) y qué hace que dos implementaciones sean comparables (003).",
+        "Las tres siguientes enseñan a no engañarse: clasificar antes de comparar (004), distinguir código idiomático de código traducido (005) y contar lo que no se ve en el editor (006).",
+        "Y las cuatro últimas son de método: leer una medición sin creérsela (007), ir a la fuente primaria en vez de al tutorial (008), aceptar que no todos resuelven todo (009) y saber leer una clase de este programa (010)."
+      ],
+      "despues": [
+        "La parte 1 baja al suelo: un proceso que escucha en un puerto y responde. A partir de ahí, cada clase aplica el método de esta parte a un problema concreto."
+      ]
     },
     {
       "idx": 1,
@@ -557,7 +582,32 @@
       ],
       "count": 15,
       "inicio": 11,
-      "fin": 25
+      "fin": 25,
+      "introduccion": [
+        "Lo primero que hace cualquier framework de servidor es **recibir una petición y devolver una respuesta**. Quince clases sobre esa frase, porque dentro de ella caben casi todas las decisiones que un framework toma por ti.",
+        "El recorrido va de lo más simple —levantar un proceso que responde `hola`— a lo que ya no lo es: negociar el formato, transmitir sin conocer el tamaño total, comprimir, y decidir quién puede leer tu respuesta desde otro origen.",
+        "Todo lo de aquí está definido en un estándar público, así que cuando diez frameworks de seis ecosistemas coinciden **no es casualidad ni gusto de nadie**: lo dicta la especificación. Y cuando difieren, la diferencia es un valor por omisión — que es precisamente lo que interesa comparar."
+      ],
+      "da_por_sabido": [
+        "La parte 0, sobre todo la clase 003: qué es un contrato y por qué es idéntico para todos.",
+        "Las cuatro partes de una petición HTTP y las cuatro familias de códigos de estado ([conocimientos previos](../../empezar/conocimientos-previos.md))."
+      ],
+      "al_terminar": [
+        "Levantar un servidor mínimo en cualquiera de diez frameworks y saber qué decidió cada uno por ti.",
+        "Elegir el código de estado correcto y justificarlo con el estándar, no con la costumbre.",
+        "Leer y escribir cabeceras sabiendo cuáles no distinguen mayúsculas y cuáles pueden venir repetidas.",
+        "Distinguir un cuerpo ilegible de uno legible pero incompleto, y responder distinto a cada uno.",
+        "Servir archivos, subirlos y transmitir en flujo sin gastar memoria proporcional al tamaño.",
+        "Configurar CORS con una lista explícita, y explicar por qué reflejar cualquier origen equivale a no tener defensa."
+      ],
+      "hilo": [
+        "Las cinco primeras clases son el núcleo mínimo: arrancar, enrutar, leer parámetros, elegir el verbo y elegir el código. Con eso ya se puede escribir una API entera, mal.",
+        "Las siete siguientes son lo que la separa de estar bien: cabeceras, cuerpo, negociación, redirecciones, estáticos, subidas y flujo.",
+        "Las tres últimas miran hacia abajo y hacia fuera: la compresión y CORS son decisiones de transporte, y la 025 abre el capó para ver qué hay entre el socket y tu función."
+      ],
+      "despues": [
+        "La parte 2 se mete entre la petición y tu manejador: todo lo que ocurre antes de que tu código se ejecute, y por qué eso es donde vive casi toda la seguridad."
+      ]
     },
     {
       "idx": 2,
@@ -783,7 +833,32 @@
       ],
       "count": 13,
       "inicio": 26,
-      "fin": 38
+      "fin": 38,
+      "introduccion": [
+        "Entre que la petición llega y tu función se ejecuta pasan cosas. **Esta parte es esas cosas.**",
+        "El patrón se llama de muchas maneras —middleware, capa, filtro, interceptor, gancho— y en el fondo es siempre el mismo: una pieza que envuelve a otra, hace su parte y decide si continúa. Trece clases para verlo en diez frameworks, y para entender por qué el orden en que se registran cambia el comportamiento.",
+        "Es la parte donde el programa deja de ser sobre HTTP y empieza a ser sobre **arquitectura**. Registro, correlación, errores, plazos, límites y cabeceras de seguridad no son funciones que se llaman: son decisiones que se toman una vez y se aplican a todo."
+      ],
+      "da_por_sabido": [
+        "La parte 1 entera, y en particular los códigos de estado y las cabeceras.",
+        "Que registrar un manejador no es llamarlo (clase 002)."
+      ],
+      "al_terminar": [
+        "Escribir una capa transversal en cualquiera de los diez frameworks y saber en qué fase entra.",
+        "Explicar por qué en Starlette hay que registrar las capas al revés, y qué fallo silencioso produce olvidarlo.",
+        "Cortar la cadena para rechazar una petición sin que el manejador llegue a ejecutarse — y demostrarlo con un contador.",
+        "Emitir un registro por petición que sirva para diagnosticar: con el estado final, la duración y un identificador que cruce servicios.",
+        "Convertir cualquier excepción en una respuesta del contrato en un solo punto, sin que ninguna ruta lo sepa.",
+        "Poner plazos, límites de tamaño y límites de tasa, y saber cuáles cancelan de verdad y cuáles solo dejan de esperar."
+      ],
+      "hilo": [
+        "Las tres primeras enseñan el mecanismo: qué es una capa (026), por qué el orden importa (027) y cómo se corta (028).",
+        "Las siete del medio son las capas que toda aplicación acaba teniendo: registro, correlación, errores, plazos, tamaño, tasa y cabeceras de seguridad. En ese orden porque cada una necesita la anterior.",
+        "Las tres últimas son la consecuencia arquitectónica de la inversión de control: si el framework construye tus objetos, tiene que saber cómo (036), cuánto viven (037) y a qué altura se engancha el comportamiento transversal (038)."
+      ],
+      "despues": [
+        "La parte 3 pasa de la tubería al contrato: qué entra, con qué forma, y qué se responde cuando no encaja."
+      ]
     },
     {
       "idx": 3,
@@ -993,7 +1068,32 @@
       ],
       "count": 12,
       "inicio": 39,
-      "fin": 50
+      "fin": 50,
+      "introduccion": [
+        "Una API es una promesa. Doce clases sobre **cómo se escribe esa promesa, cómo se comprueba y cómo se cambia sin romper a quien confiaba en ella**.",
+        "Empieza por lo evidente —validar lo que entra— y llega a lo que casi nadie hace bien: publicar el error con una forma estándar, derivar la documentación del código en lugar de escribirla aparte, y versionar sin abandonar a los clientes anteriores.",
+        "Es la parte donde el tipado deja de ser una preferencia estética y se convierte en infraestructura: un esquema bien escrito valida la entrada, genera la documentación y tipa el código, y las tres cosas no pueden discrepar."
+      ],
+      "da_por_sabido": [
+        "Las partes 1 y 2: códigos de estado, cuerpo JSON y capas transversales.",
+        "Que el contrato se escribe antes que las implementaciones (clase 003)."
+      ],
+      "al_terminar": [
+        "Validar una entrada devolviendo **todos** los errores por campo, no el primero.",
+        "Responder con `application/problem+json` según RFC 9457, y explicar por qué un «datos inválidos» impide construir una interfaz accesible.",
+        "Escribir un esquema una vez y usarlo para validar, documentar y tipar.",
+        "Paginar por desplazamiento y por cursor, y decir cuándo cada uno es el correcto.",
+        "Hacer idempotente una operación que no lo es por naturaleza, y saber por qué eso es la condición para poder reintentar.",
+        "Distinguir un cambio compatible de uno que rompe, y publicar el segundo sin coordinar despliegues."
+      ],
+      "hilo": [
+        "Las cuatro primeras construyen la validación: rechazar (039), informar bien (040), declarar la forma (041) y reutilizar esa declaración (042).",
+        "Las cuatro siguientes son la vida pública de la API: documentarla (043), versionarla (044), paginarla (045) y filtrarla (046).",
+        "Las cuatro últimas son sobre confianza: idempotencia (047), caché condicional (048), el contrato como prueba (049) y qué rompe a quién (050)."
+      ],
+      "despues": [
+        "La parte 4 baja al almacenamiento: de escribir SQL a mano a un dominio que no sabe que existe una base de datos."
+      ]
     },
     {
       "idx": 4,
@@ -1244,7 +1344,32 @@
       ],
       "count": 15,
       "inicio": 51,
-      "fin": 65
+      "fin": 65,
+      "introduccion": [
+        "Quince clases sobre la frontera más discutida del oficio: **entre el dominio y la base de datos**.",
+        "El recorrido va del SQL escrito a mano —donde todo está a la vista y todo es responsabilidad tuya— hasta un dominio que no importa ninguna biblioteca de persistencia y se puede probar sin levantar nada. Por el camino, los dos patrones que se reparten el ecosistema —Active Record y Data Mapper—, el problema que más sistemas ha tumbado en producción —el N+1— y el momento en que conviene salir del ORM.",
+        "Aquí el elenco cambia: ya no son frameworks web, son **ORM y constructores de consultas**. Y la comparación gira sobre una propiedad que casi nadie nombra: si su API de consulta acepta SQL como cadena o no, porque de eso depende que la inyección sea posible o imposible por construcción."
+      ],
+      "da_por_sabido": [
+        "SQL básico: seleccionar, insertar, unir dos tablas.",
+        "Las partes 1 a 3; en particular, que el contrato es el mismo para todas las implementaciones."
+      ],
+      "al_terminar": [
+        "Conectar, consultar y escribir con cuatro ORM de cuatro ecosistemas, y reconocer qué patrón sigue cada uno.",
+        "Detectar un N+1 midiendo cómo **crece** el número de consultas, no su valor absoluto.",
+        "Elegir la frontera de una transacción y explicar qué se rompe si es demasiado estrecha o demasiado ancha.",
+        "Escribir migraciones repetibles y semillas que no dupliquen al ejecutarse dos veces.",
+        "Aislar el dominio detrás de un repositorio, y demostrarlo comprobando que no importa nada del ORM.",
+        "Probar la lógica de negocio sin base de datos, y saber qué deja de comprobarse al hacerlo."
+      ],
+      "hilo": [
+        "Las cuatro primeras son el mapa: conectar (051), SQL a mano (052) y los dos patrones que se reparten el terreno (053 y 054).",
+        "Las seis siguientes son lo que se rompe en producción: relaciones, N+1, transacciones, migraciones, semillas y el momento de salir del ORM.",
+        "Las cinco últimas son de operación y de diseño: el grupo de conexiones, la caché de lectura, lo no relacional, el repositorio y probar sin base."
+      ],
+      "despues": [
+        "La parte 5 protege todo lo anterior: quién eres, qué puedes, y qué pasa cuando alguien intenta engañar al sistema."
+      ]
     },
     {
       "idx": 5,
@@ -1464,7 +1589,32 @@
       ],
       "count": 13,
       "inicio": 66,
-      "fin": 78
+      "fin": 78,
+      "introduccion": [
+        "Trece clases sobre lo que ocurre cuando alguien **intenta usar el sistema de una forma que no estaba prevista**.",
+        "No es una parte sobre criptografía. Es sobre las decisiones que un framework toma por ti y las que te deja: si escapa por omisión, si trae el testigo CSRF puesto, si su ORM cierra la inyección por construcción, si te obliga a distinguir el 401 del 403.",
+        "Y es la parte donde más se nota la diferencia entre lo que un framework **permite** y lo que **garantiza**. Un framework que hace difícil el error correcto es peor que uno que lo hace imposible, aunque los dos «se puedan usar bien»."
+      ],
+      "da_por_sabido": [
+        "Las partes 1 a 4, sobre todo la tubería de la parte 2: casi toda la defensa vive ahí.",
+        "Qué es una cookie y qué significan sus atributos ([conocimientos previos](../../empezar/conocimientos-previos.md))."
+      ],
+      "al_terminar": [
+        "Montar sesión con cookie y token de acceso, y decir qué se gana y qué se pierde con cada uno.",
+        "Guardar contraseñas con una función de derivación lenta, y cerrar la enumeración de usuarios **en la respuesta y en el tiempo**.",
+        "Implementar el flujo de OAuth 2.0 con PKCE, y explicar qué ataque cierra cada defensa.",
+        "Distinguir autorización por rol de autorización por recurso, y por qué la segunda no se puede declarar.",
+        "Cerrar CSRF, XSS e inyección SQL, y nombrar en cada framework la puerta explícita que las reabre.",
+        "Auditar las dependencias que no elegiste y decidir qué hacer con un hallazgo transitivo."
+      ],
+      "hilo": [
+        "Las cuatro primeras responden «quién eres»: sesión, token, contraseñas y el protocolo estándar para delegarlo.",
+        "Las dos siguientes responden «qué puedes»: por rol y por recurso, que son preguntas de naturaleza distinta.",
+        "Las siete últimas son los ataques concretos y sus defensas: CSRF, XSS, inyección, secretos, auditoría, política de contenido y dependencias vulnerables. En ese orden porque cada uno usa lo anterior."
+      ],
+      "despues": [
+        "La parte 6 cambia de lado del cable: del servidor que responde al navegador que pinta."
+      ]
     },
     {
       "idx": 6,
@@ -1717,7 +1867,33 @@
       ],
       "count": 14,
       "inicio": 79,
-      "fin": 92
+      "fin": 92,
+      "introduccion": [
+        "Catorce clases que recorren el camino que la industria recorrió en veinte años: **del HTML generado en el servidor al componente que vive en el navegador**.",
+        "Empieza por donde empezó todo —una plantilla y un formulario que funciona sin una línea de JavaScript— y llega a los tres modelos de reactividad que se reparten hoy el ecosistema. En medio, el puente: la mejora progresiva, que es lo que separa añadir comportamiento de exigirlo.",
+        "El recorrido no es nostálgico. Las primeras clases enseñan cosas que siguen siendo la mejor solución para muchas pantallas, y las últimas explican por qué el péndulo volvió con teoría y no por moda."
+      ],
+      "da_por_sabido": [
+        "HTML y CSS básicos.",
+        "Las partes 1 y 2: cómo se responde y cómo se compone la respuesta.",
+        "El escapado de la clase 073, que aquí se aplica en cada plantilla."
+      ],
+      "al_terminar": [
+        "Renderizar la misma lista con seis motores de plantillas y decir **dónde vive el escapado** en cada uno.",
+        "Construir un formulario que funcione sin JavaScript y mejorarlo sin romper el caso base.",
+        "Escribir un componente con propiedades, eventos y estado local en cinco bibliotecas distintas.",
+        "Elegir dónde vive un estado —local, elevado, en un contexto o en un almacén— y justificar el coste de cada opción.",
+        "Tratar los datos del servidor como una caché y no como estado, con lo que eso implica.",
+        "Distinguir los tres modelos de reactividad y predecir qué se vuelve a pintar en cada uno."
+      ],
+      "hilo": [
+        "Las tres primeras son el suelo: plantillas de servidor (079), formularios que funcionan solos (080) y la mejora progresiva (081), que es el puente.",
+        "Las siete siguientes construyen el componente pieza a pieza: primero (082), propiedades y eventos (083), estado (084), listas (085), formularios (086), efectos (087) y estado compartido (088).",
+        "Las cuatro últimas son lo que distingue una aplicación de una página: estado del servidor, enrutado en el cliente, accesibilidad y los modelos de reactividad."
+      ],
+      "despues": [
+        "La parte 7 junta los dos lados: dónde se genera el HTML y quién carga los datos."
+      ]
     },
     {
       "idx": 7,
@@ -1923,7 +2099,32 @@
       ],
       "count": 12,
       "inicio": 93,
-      "fin": 104
+      "fin": 104,
+      "introduccion": [
+        "Doce clases sobre la pregunta que define la arquitectura de una aplicación web moderna: **¿dónde se genera el HTML, y cuánto JavaScript hace falta después?**",
+        "Las cuatro estrategias de renderizado no son opciones de configuración: son compromisos entre lo rápido que se ve la página, lo rápido que responde, cuánto trabaja el servidor y cuánto código viaja. Y la respuesta correcta cambia **por pantalla**, no por proyecto.",
+        "Es la parte donde aparecen las ideas más recientes del campo —islas, componentes de servidor, resumibilidad— y también la alternativa que las evita: devolver hipermedia y quedarse con una biblioteca pequeña."
+      ],
+      "da_por_sabido": [
+        "La parte 6 entera: componentes, estado y reactividad.",
+        "La parte 1, porque el renderizado en servidor sigue siendo una respuesta HTTP."
+      ],
+      "al_terminar": [
+        "Nombrar las cuatro estrategias de renderizado y decir qué se paga con cada una.",
+        "Explicar qué es la hidratación y por qué es trabajo duplicado.",
+        "Reducir el JavaScript enviado con islas o con componentes de servidor, y medir la diferencia.",
+        "Detectar una cascada de peticiones y romperla cargando los datos junto a la ruta.",
+        "Poner un presupuesto de JavaScript y hacer que se compruebe solo.",
+        "Elegir estrategia **por pantalla** con un criterio declarado, no por defecto del framework."
+      ],
+      "hilo": [
+        "Las tres primeras fijan el vocabulario: las cuatro estrategias (093), la hidratación (094) y las islas (095), que son la primera respuesta a su coste.",
+        "Las cinco del medio son cómo se construye hoy: componentes de servidor, carga de datos junto a la ruta, acciones de formulario, cascadas y HTML en flujo.",
+        "Las cuatro últimas son de criterio: metadatos, presupuesto de JavaScript, la alternativa hipermedia y cómo se decide pantalla a pantalla."
+      ],
+      "despues": [
+        "La parte 8 sale del ciclo petición-respuesta: lo que ocurre cuando el servidor tiene algo que contar y nadie ha preguntado."
+      ]
     },
     {
       "idx": 8,
@@ -2081,7 +2282,32 @@
       ],
       "count": 9,
       "inicio": 105,
-      "fin": 113
+      "fin": 113,
+      "introduccion": [
+        "Hasta aquí, todo empezaba con una petición. Nueve clases sobre **lo que ocurre cuando no**.",
+        "Dos familias de problemas que se parecen y no lo son. **Tiempo real**: el servidor tiene algo que contar y hay que hacérselo llegar a un navegador — con sondeo, con eventos enviados por el servidor o con WebSocket, y cada opción cuesta distinto. Y **trabajo en segundo plano**: algo tiene que ocurrir, pero no ahora ni dentro de la petición.",
+        "Es la parte donde el despliegue deja de ser un detalle: casi todo lo de aquí funciona con una instancia y se rompe con dos. Mantener el estado de una conexión, ejecutar una tarea programada una sola vez o repartir mensajes entre procesos son problemas de arquitectura, no de framework."
+      ],
+      "da_por_sabido": [
+        "Las partes 1 y 2, y la noción de idempotencia de la clase 047.",
+        "Que hay más de una instancia del proceso, o que la habrá."
+      ],
+      "al_terminar": [
+        "Elegir entre sondeo, eventos enviados por el servidor y WebSocket con un criterio, no por costumbre.",
+        "Reconectar sin perder mensajes, y saber qué hace falta guardar para poder reanudar.",
+        "Sacar de la petición el trabajo que no tiene que ocurrir ahora, con reintentos y espera creciente.",
+        "Hacer idempotente un trabajo que se va a reintentar, y explicar qué pasa si no lo es.",
+        "Ejecutar una tarea programada una sola vez aunque haya diez instancias.",
+        "Publicar un evento de dominio y entender qué se gana y qué se pierde al desacoplar."
+      ],
+      "hilo": [
+        "Las cuatro primeras son el canal: sondeo, eventos del servidor, WebSocket y qué pasa cuando se corta.",
+        "La quinta es la que rompe todo lo anterior al escalar: el estado de conexión con varias instancias.",
+        "Las cuatro últimas son el trabajo diferido: colas, tareas programadas, reintentos y eventos de dominio."
+      ],
+      "despues": [
+        "La parte 9 sale del navegador: la misma aplicación en un móvil, en un escritorio y sin conexión."
+      ]
     },
     {
       "idx": 9,
@@ -2256,7 +2482,32 @@
       ],
       "count": 10,
       "inicio": 114,
-      "fin": 123
+      "fin": 123,
+      "introduccion": [
+        "Diez clases sobre lo que cambia cuando la aplicación **no vive en una pestaña**.",
+        "Móvil y escritorio comparten una pregunta de fondo: ¿dibujas tú los controles o usas los del sistema? Las dos respuestas tienen nombre, defensores y consecuencias medibles en apariencia, rendimiento y tamaño del artefacto.",
+        "Y una vez fuera del navegador aparece el problema más difícil de la parte: **funcionar sin conexión**. No es una funcionalidad que se añade: cambia el modelo de datos entero, porque el estado local pasa a ser una fuente y el servidor, un par con el que hay que reconciliar."
+      ],
+      "da_por_sabido": [
+        "La parte 6, porque casi todos estos frameworks son componentes con otro destino.",
+        "La parte 8, porque sincronizar es trabajo en segundo plano con conflictos."
+      ],
+      "al_terminar": [
+        "Llevar la misma pantalla a un móvil con dos enfoques distintos y comparar lo que se paga.",
+        "Elegir entre dibujar propio y usar lo nativo con un criterio declarado.",
+        "Guardar datos en el dispositivo y decidir qué es caché y qué es fuente.",
+        "Hacer que la aplicación funcione sin red y sincronice después.",
+        "Resolver un conflicto de sincronización con una política explícita, no con «el último que escribe».",
+        "Distribuir y actualizar una aplicación que no está en un servidor tuyo."
+      ],
+      "hilo": [
+        "Las tres primeras son la pantalla: llevarla al móvil (114), la decisión de fondo (115) y el acceso al dispositivo (116).",
+        "Las tres del medio son el problema difícil: almacenamiento local, funcionar sin conexión y sincronizar.",
+        "Las cuatro últimas son escritorio y distribución: incrustar o heredar el motor, notificaciones, actualización y cuántas plataformas caben en una base de código."
+      ],
+      "despues": [
+        "La parte 10 pone todo lo anterior en producción y lo mide."
+      ]
     },
     {
       "idx": 10,
@@ -2492,7 +2743,33 @@
       ],
       "count": 14,
       "inicio": 124,
-      "fin": 137
+      "fin": 137,
+      "introduccion": [
+        "Catorce clases sobre lo que separa un proyecto que funciona en tu máquina de un sistema que **alguien puede operar a las tres de la mañana**.",
+        "Primero las pruebas: no como obligación moral sino como decisión de coste — qué se prueba rápido y aislado, qué exige una base real, y qué solo se puede comprobar de extremo a extremo. Después la observabilidad, que son tres cosas distintas y no una: registros, métricas y trazas responden a preguntas diferentes.",
+        "Y al final lo que decide si el sistema se puede desplegar sin miedo: configuración fuera del artefacto, salud y preparación bien distinguidas, arranque en frío medido, y la regla que ahorra más trabajo inútil que ninguna otra — **medir antes de optimizar**."
+      ],
+      "da_por_sabido": [
+        "Las partes 1 a 5. Se prueba y se opera lo que ya existe.",
+        "Que habrá más de un entorno y que la configuración no puede estar en el código."
+      ],
+      "al_terminar": [
+        "Escribir una prueba que falle por la razón correcta, y reconocer cuando pasa por la equivocada.",
+        "Repartir el esfuerzo entre los tres niveles de prueba con un criterio de coste.",
+        "Sustituir una dependencia por un doble sin que la prueba deje de significar algo.",
+        "Emitir registros estructurados, métricas y trazas, y decir qué pregunta contesta cada uno.",
+        "Distinguir salud de preparación, y explicar qué rompe confundirlas.",
+        "Empaquetar una vez y desplegar en varios entornos cambiando solo la configuración.",
+        "Medir antes de optimizar, y presentar la medición por percentiles en lugar de por media."
+      ],
+      "hilo": [
+        "Las seis primeras son las pruebas, de la más pequeña a la más cara: primera prueba, pirámide, dobles, integración con base real, extremo a extremo y contrato.",
+        "Las tres siguientes son la observabilidad: registros, métricas y trazas.",
+        "Las cinco últimas son la operación: salud, configuración, empaquetado, arranque en frío y medición."
+      ],
+      "despues": [
+        "La parte 11 es la última y la más difícil: sistemas que ya existen, migraciones que no pueden parar y decisiones que hay que defender."
+      ]
     },
     {
       "idx": 11,
@@ -2695,7 +2972,33 @@
       ],
       "count": 12,
       "inicio": 138,
-      "fin": 149
+      "fin": 149,
+      "introduccion": [
+        "Doce clases sobre el trabajo que ocupa la mayor parte de una carrera y casi nada de la formación: **entender, cambiar y a veces abandonar sistemas que no escribiste**.",
+        "Empieza por leer código ajeno sin romperlo, sigue por la técnica que hace posible migrar sin reescribir —la higuera estranguladora— y llega a las decisiones que hay que defender ante otras personas: cuándo migrar, cuándo no, qué framework elegir para un producto concreto y cómo se sale de uno.",
+        "Es el nivel experto del programa, y no por la tecnología. Es experto porque **todas las respuestas son «depende», y hay que decir de qué** — con un horizonte, un equipo y un riesgo declarados."
+      ],
+      "da_por_sabido": [
+        "Todo lo anterior. Esta parte no enseña mecanismos nuevos: enseña a decidir sobre los que ya conoces.",
+        "Haber visto al menos un sistema que no escribiste tú."
+      ],
+      "al_terminar": [
+        "Entrar en un sistema desconocido y construirte un mapa antes de tocar nada.",
+        "Caracterizar el comportamiento actual con pruebas, para poder cambiar con red.",
+        "Migrar de forma incremental con las dos versiones conviviendo detrás de una fachada.",
+        "Hacer convivir dos frameworks en la misma página, y decir qué cuesta.",
+        "Cambiar el esquema de datos sin cortar el servicio.",
+        "Defender una decisión de framework con criterios declarados: producto, equipo, riesgo y horizonte.",
+        "Reconocer cuándo **no** migrar, que es la respuesta correcta más veces de las que parece."
+      ],
+      "hilo": [
+        "Las tres primeras son el método para entrar: leer, caracterizar y estrangular.",
+        "Las cuatro del medio son las técnicas: dos frameworks conviviendo, micro-frontends, migrar datos sin parar y un caso real completo.",
+        "Las cinco últimas son de juicio: cuándo no migrar, fin de vida y soporte, cómo se elige, cómo se abandona, y el proyecto integrador donde todo lo anterior se defiende."
+      ],
+      "despues": [
+        "Aquí termina el programa de clases. El [módulo 12](../../curriculum/12-producto-final.md) del currículo recoge el producto final, y los programas hermanos siguen desde otros ángulos: [polyglot-programming-labs](https://github.com/vladimiracunadev-create/polyglot-programming-labs) para los lenguajes, [database-systems-labs](https://github.com/vladimiracunadev-create/database-systems-labs) para los datos y [multi-cloud-engineering-program](https://github.com/vladimiracunadev-create/multi-cloud-engineering-program) para el despliegue."
+      ]
     }
   ],
   "total_clases": 149,
