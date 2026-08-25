@@ -4,7 +4,7 @@
 
 **Cómo se pinta una pantalla y dónde vive el estado. Aquí el elenco cambia por completo.**
 
-**Clases 79 a 92** · 14 en total · 5 construidas · 15 tecnologías en juego.
+**Clases 79 a 92** · 14 en total · 6 construidas · 15 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -46,7 +46,7 @@ Las cuatro últimas son lo que distingue una aplicación de una página: estado 
 | [081](081-mejora-progresiva/README.md) | [Mejora progresiva](081-mejora-progresiva/README.md) | Añadir comportamiento sin romper el caso base. | 🟡 intermedio | ✅ Construida |
 | [082](082-el-primer-componente/README.md) | [El primer componente](082-el-primer-componente/README.md) | Encapsular marcado y comportamiento en una unidad reutilizable. | 🟢 introductorio | ✅ Construida |
 | [083](083-propiedades-y-eventos/README.md) | [Propiedades y eventos](083-propiedades-y-eventos/README.md) | Comunicar hacia abajo con datos y hacia arriba con eventos. | 🟢 introductorio | ✅ Construida |
-| [084](084-estado-local/README.md) | [Estado local](084-estado-local/README.md) | Guardar y actualizar un valor que pertenece a un componente. | 🟢 introductorio | 🚧 Esqueleto |
+| [084](084-estado-local/README.md) | [Estado local](084-estado-local/README.md) | Guardar y actualizar un valor que pertenece a un componente. | 🟢 introductorio | ✅ Construida |
 | [085](085-listas-y-claves/README.md) | [Listas y claves](085-listas-y-claves/README.md) | Renderizar una colección y entender por qué la identidad importa. | 🟡 intermedio | 🚧 Esqueleto |
 | [086](086-formularios-controlados/README.md) | [Formularios controlados](086-formularios-controlados/README.md) | Decidir si la fuente de verdad es el DOM o el estado. | 🟡 intermedio | 🚧 Esqueleto |
 | [087](087-efectos-y-ciclo-de-vida/README.md) | [Efectos y ciclo de vida](087-efectos-y-ciclo-de-vida/README.md) | Ejecutar trabajo fuera del renderizado y limpiarlo después. | 🟡 intermedio | 🚧 Esqueleto |

@@ -1,8 +1,51 @@
 {
   "clase": "084",
   "titulo": "Estado local",
-  "descripcion": "Un contador que incrementa y respeta un máximo.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "Un dato que vive dentro del componente: dos instancias, dos estados, y ningún padre que se entere.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "El re-render al cambiar el estado NO se verifica aquí: eso necesita navegador y es la clase 128. Lo que se verifica es lo que decide el diseño — que el estado se declara DENTRO, que cada instancia tiene el suyo, que el componente funciona sin recibir nada, y que la función de transición produce el valor siguiente.",
+  "casos": [
+    {
+      "nombre": "dos instancias del mismo componente, cada una con su estado inicial",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": [
+          "data-instancia=\"a\"",
+          "data-valor=\"0\"",
+          "data-instancia=\"b\"",
+          "data-valor=\"5\""
+        ]
+      }
+    },
+    {
+      "nombre": "el componente funciona SIN recibir nada: el estado no es una propiedad",
+      "peticion": { "metodo": "GET", "ruta": "/sin-propiedades" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["data-instancia=\"sola\"", "data-valor=\"0\""] }
+    },
+    {
+      "nombre": "la transición produce el valor siguiente, y no toca a nadie más",
+      "peticion": { "metodo": "GET", "ruta": "/transicion?desde=5&paso=1" },
+      "esperado": { "estado": 200, "json_contiene": { "antes": 5, "despues": 6 } }
+    },
+    {
+      "nombre": "el estado tiene un mínimo, y la regla vive con el estado",
+      "peticion": { "metodo": "GET", "ruta": "/transicion?desde=0&paso=-1" },
+      "esperado": { "estado": 200, "json_contiene": { "antes": 0, "despues": 0, "regla": "no baja de cero" } }
+    },
+    {
+      "nombre": "cómo se declara el estado local aquí, leído del archivo",
+      "peticion": { "metodo": "GET", "ruta": "/estado.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "leido_del_archivo": true,
+          "el_estado_es_una_propiedad": false,
+          "cada_instancia_tiene_el_suyo": true
+        }
+      }
+    }
+  ]
 }

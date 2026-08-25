@@ -36,4 +36,4 @@ classes/**/.venv/
 
 # Salidas de compilacion de las clases frontend: el codigo fuente se versiona, lo que el compilador produce, no.
 classes/**/compilados/
-classes/**/App.compilada.mjs
+classes/**/*.compilada.mjs
