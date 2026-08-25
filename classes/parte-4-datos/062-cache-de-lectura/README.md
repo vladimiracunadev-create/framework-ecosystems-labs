@@ -145,15 +145,195 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
-
-[Express](implementaciones/express/), [FastAPI](implementaciones/fastapi/),
-[Spring Boot](implementaciones/spring-boot/) y
-[ASP.NET Core](implementaciones/aspnet-core/).
+## 🌐 Las implementaciones — el código a la vista
 
 Las cuatro cuentan **consultas al almacén** y **aciertos de caché**, que es lo
 único que distingue una lectura cacheada de una que no lo está: el cuerpo de la
-respuesta es idéntico.
+respuesta es idéntico. Por eso todas exponen `/metricas` — sin ese contador, una
+caché no se puede demostrar ni desmentir.
+
+Y las cuatro tienen las mismas cinco rutas: leer por la caché, leer sin ella,
+escribir invalidando, escribir **sin** invalidar, y reiniciar.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
+
+**La caché es un `Map`. Eso es el hallazgo, no la carencia:**
+
+```javascript
+const cache = new Map();
+```
+
+Express no trae ninguna. Con un solo proceso funciona; con tres instancias detrás
+de un balanceador, **cada una tiene su propia caché** y la invalidación de una no
+alcanza a las otras. Ese es el momento exacto en que hace falta algo compartido,
+como Redis — y no antes.
+
+**Mirar, y si no está, consultar y guardar:**
+
+```javascript
+  if (cache.has(id)) {
+    aciertos += 1;
+    respuesta.set("X-Cache", "HIT").json(cache.get(id));
+    return;
+  }
+```
+
+```javascript
+  cache.set(id, { ...tarea });
+  respuesta.set("X-Cache", "MISS").json(tarea);
+```
+
+Se guarda **una copia**. Guardar la referencia dejaría que quien reciba la
+respuesta modifique la entrada de la caché sin querer, y ese error es
+prácticamente imposible de encontrar después.
+
+**Borrar, no reescribir:**
+
+```javascript
+  cache.delete(id);
+  respuesta.json(tarea);
+```
+
+Escribir el valor nuevo en la caché parece más eficiente y **abre una carrera**:
+dos escrituras simultáneas pueden dejar guardado el valor de la que perdió.
+Borrar solo puede causar una consulta de más.
+
+**Y el fallo, que no falla:**
+
+```javascript
+app.post("/escribir-sin-invalidar", (peticion, respuesta) => {
+  const tarea = almacen.get(1);
+  tarea.titulo = String(peticion.body?.titulo ?? tarea.titulo);
+  respuesta.json({ ok: true });
+});
+```
+
+No hay excepción ni registro. A partir de ahí la caché devuelve un valor que **ya
+no existe en ninguna parte**, y lo hará hasta que caduque o alguien reinicie el
+proceso. El contrato lo comprueba porque es el único modo de que se vea.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+La misma estructura, y la misma ausencia:
+
+```python
+cache: dict[int, dict[str, Any]] = {}
+```
+
+```python
+    if id_tarea in cache:
+        contadores["aciertos"] += 1
+        return JSONResponse(cache[id_tarea], headers={"X-Cache": "HIT"})
+```
+
+```python
+    cache[id_tarea] = dict(tarea)
+    return JSONResponse(tarea, headers={"X-Cache": "MISS"})
+```
+
+`dict(tarea)` es la copia, igual que el `{ ...tarea }` de Express.
+
+```python
+    cache.pop(id_tarea, None)
+    return JSONResponse(tarea)
+```
+
+Con un detalle propio de Python que conviene tener presente: el aviso del
+comentario no es teórico. **Con `--workers 4`, cada proceso tiene su propio
+diccionario** — y como el arranque típico de FastAPI en producción es
+precisamente con varios trabajadores, la caché en memoria de proceso se rompe
+antes aquí que en Node.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — la única declarativa
+
+Spring es **el único de los cuatro con una caché declarativa de serie**:
+
+```java
+@SpringBootApplication
+@EnableCaching
+public class Aplicacion {
+```
+
+```java
+        @Cacheable(cacheNames = "tareas", key = "#id")
+        public Map<String, Object> leer(int id) {
+            consultas.incrementAndGet();
+```
+
+`@Cacheable` es todo el mecanismo: si la clave está, **devuelve lo guardado sin
+entrar al método**; si no, entra y guarda lo que devuelva. De ahí que el contador
+de consultas viva *dentro* — solo sube cuando el cuerpo se ejecuta de verdad.
+
+```java
+        @CacheEvict(cacheNames = "tareas", key = "#id")
+        public Map<String, Object> modificar(int id, String titulo) {
+```
+
+Existe también `@CachePut`, que escribe el valor nuevo. Misma carrera, misma
+recomendación: **evict, no put**.
+
+**Y aquí está el precio de lo declarativo:**
+
+```java
+            int antes = almacen.consultas();
+            Map<String, Object> tarea = almacen.leer(id);
+```
+
+`@Cacheable` **no dice si acertó**: o entra al método o no entra. La única forma
+de saberlo es mirar si el contador subió. Es la contrapartida exacta de que la
+caché sea invisible en el código: cómoda de escribir, opaca de observar.
+
+```java
+        public void escribirSinInvalidar(String titulo) {
+            filas.get(1).put("titulo", titulo);
+        }
+```
+
+El mismo método sin `@CacheEvict`. **La diferencia entre lo correcto y lo roto es
+una anotación que no está**, y nada en el cuerpo del método lo insinúa. En
+Express el `cache.delete` que falta al menos se echa de menos leyendo; aquí no.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — explícita, pero del framework
+
+```csharp
+constructor.Services.AddMemoryCache();
+```
+
+Sin esa línea, inyectar `IMemoryCache` **falla al arrancar**. Es una caché
+explícita —se llama a mano, como el `Map` de Express— y a la vez del framework:
+trae caducidad, tamaño máximo y desalojo incorporados.
+
+```csharp
+    if (cache.TryGetValue(id, out Tarea? guardada) && guardada is not null)
+    {
+        Interlocked.Increment(ref aciertos);
+```
+
+**La caducidad, siempre:**
+
+```csharp
+    cache.Set(id, tarea, TimeSpan.FromMinutes(5));
+```
+
+Sin ella, una entrada que nadie invalide se queda ahí para siempre y la memoria
+del proceso solo crece. Es la tercera de las tres preguntas de cualquier caché, y
+la que más se olvida.
+
+**Y una limitación que merece leerse, porque explica una práctica real:**
+
+```csharp
+    foreach (var id in almacen.Keys) cache.Remove(id);
+```
+
+`IMemoryCache` **no tiene «vaciar»**: hay que quitar las claves que conoces. Por
+eso en producción se antepone un prefijo de versión a la clave —`v7:tarea:1`— y
+subir el número invalida todo en bloque sin recorrer nada. La misma técnica sirve
+en Redis, donde recorrer claves es aún peor idea.
+
+**El contraste completo, en una línea por framework:** Express y FastAPI no traen
+caché y se ve dónde está; Spring la trae y no se ve; ASP.NET la trae y se ve. Las
+tres posiciones son defendibles — lo que no es defendible es no saber en cuál
+estás.
 
 ## 🧮 El contrato
 

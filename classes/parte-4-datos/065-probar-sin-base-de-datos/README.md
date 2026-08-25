@@ -156,15 +156,216 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
-
-[Prisma](implementaciones/prisma/), [SQLAlchemy](implementaciones/sqlalchemy/),
-[Hibernate](implementaciones/hibernate/) y
-[Entity Framework Core](implementaciones/entity-framework-core/).
+## 🌐 Las implementaciones — el código a la vista
 
 En las cuatro, las pruebas están escritas **una sola vez** y se ejecutan contra
-los tres repositorios sin cambiar una línea. Eso es posible porque existe la
+las tres estrategias sin cambiar una línea. Eso es posible porque existe la
 interfaz de la [clase 064](../064-repositorio-y-dominio/README.md).
+
+Y en las cuatro, la cuarta prueba —la de unicidad— **pasa con motor y falla con
+el doble**. Ese fallo no es un error del ejemplo: es el resultado que la clase
+viene a enseñar.
+
+### Prisma · [`prisma/server.mjs`](implementaciones/prisma/server.mjs)
+
+**Las tres estrategias, declaradas de entrada:**
+
+```javascript
+/**
+ * TRES FORMAS DE PROBAR LO MISMO.
+ *
+ * - `doble`: un objeto en memoria que imita al repositorio. No hay motor.
+ * - `en-memoria`: una base de VERDAD, creada para las pruebas y desechable.
+ * - `real`: la misma base que usa el servicio.
+ *
+ * Las cuatro pruebas son idénticas en las tres. Lo que cambia es qué detectan —
+ * y una de ellas solo pasa cuando hay un motor detrás.
+ */
+```
+
+**La restricción vive en la base:**
+
+```javascript
+  await cliente.$executeRawUnsafe("CREATE UNIQUE INDEX Tarea_titulo_key ON Tarea(titulo)");
+```
+
+**Y el doble, que no la tiene:**
+
+```javascript
+  async crear(titulo) {
+    const tarea = { id: this.siguiente++, titulo };
+    this.filas.set(tarea.id, tarea);
+    return tarea;
+  }
+```
+
+Fíjate en que **el doble no está mal escrito**. Hace exactamente lo mismo que el
+repositorio de verdad, que tampoco comprueba la unicidad — la aplica la base.
+
+Ese detalle es la clase entera: el doble no es incorrecto, es **incompleto**, y su
+hueco tiene exactamente la forma de lo que el motor hacía por ti sin que nadie lo
+escribiera.
+
+**Las cuatro pruebas, iguales para las tres:**
+
+```javascript
+  {
+    nombre: "la restricción de unicidad la aplica la base, no el código",
+    async ejecutar(repositorio) {
+      await repositorio.crear("repetida");
+      try {
+        await repositorio.crear("repetida");
+        return false; // no protestó: el hueco del doble
+      } catch {
+        return true;
+      }
+    },
+  },
+```
+
+**Y la ruta que pone el hueco por escrito:**
+
+```javascript
+  const indice = PRUEBAS.length - 1;
+  respuesta.json({
+    prueba: PRUEBAS[indice].nombre,
+    doble: porEstrategia["doble"][indice].paso,
+    en_memoria: porEstrategia["en-memoria"][indice].paso,
+    real: porEstrategia["real"][indice].paso,
+  });
+```
+
+**Por qué se usa el doble igualmente:**
+
+```javascript
+    const inicio = process.hrtime.bigint();
+    for (let i = 0; i < 20; i++) await ejecutar(estrategia);
+    tiempos[estrategia] = Number((process.hrtime.bigint() - inicio) / 1_000_000n);
+```
+
+El contrato no exige una diferencia concreta —eso sería medir la máquina de quien
+ejecuta, y la clase 007 explica por qué eso no vale—. Exige solo que **el doble
+sea el más rápido**, que es lo estable entre máquinas y lo único que justifica
+usarlo.
+
+### SQLAlchemy · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py)
+
+Aquí la base de pruebas es de verdad en memoria, y tiene truco:
+
+```python
+motor_pruebas = create_engine(
+    "sqlite:///:memory:", connect_args={"check_same_thread": False}, poolclass=StaticPool
+)
+```
+
+```python
+# `sqlite:///:memory:` con `StaticPool` mantiene UNA conexion viva, y con ella la
+# base entera. Sin `StaticPool`, cada conexion abriria su propia base vacia y las
+# pruebas no verian nada de lo que escribieron.
+```
+
+Es una de esas trampas que cuestan una tarde: las pruebas escriben, leen y no
+encuentran nada, sin ningún error. La clase 061 explicó qué es un grupo de
+conexiones; esta muestra por qué a veces hay que apagarlo.
+
+```python
+def prueba_unicidad(repositorio) -> bool:
+    repositorio.crear("repetida")
+    try:
+        repositorio.crear("repetida")
+        return False  # no protesto: el hueco del doble
+    except IntegrityError:
+        return True
+```
+
+`IntegrityError` es de SQLAlchemy, no de SQLite: el ORM traduce el error del
+motor a una excepción propia. Por eso esta misma prueba seguiría valiendo al
+cambiar a PostgreSQL — cosa que no ocurriría capturando el error nativo.
+
+### Hibernate · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java)
+
+La restricción se declara en la entidad y el esquema la hereda:
+
+```java
+        @Column(nullable = false, unique = true)
+```
+
+Y la estrategia «en memoria» es **una segunda base H2**, no un doble:
+
+```java
+            DriverManagerDataSource fuente = new DriverManagerDataSource(
+                    "jdbc:h2:mem:pruebas065;DB_CLOSE_DELAY=-1");
+```
+
+```java
+            // Una SEGUNDA base H2, distinta de la del servicio. Es el equivalente
+            // exacto de lo que se hace en un proyecto real: un motor de pruebas
+            // desechable, separado del de produccion.
+```
+
+`DB_CLOSE_DELAY=-1` es el equivalente de H2 al `StaticPool` de SQLAlchemy y a la
+conexión abierta de SQLite: **mantener viva la base entre conexiones**. Los tres
+ecosistemas tienen el mismo problema y tres nombres distintos para la solución.
+
+```java
+            return switch (estrategia) {
+                case "doble" -> new Doble();
+                case "en-memoria" -> new RepositorioJdbc(pruebas);
+                default -> new RepositorioJpa(tareas);
+            };
+```
+
+Con una advertencia que el mundo JVM aprendió por las malas: **H2 no es
+PostgreSQL**. Probar contra H2 y desplegar contra PostgreSQL deja fuera todo lo
+que distingue a un motor de otro —tipos, funciones, comportamiento de las
+transacciones, mensajes de error—. De ahí que hoy la recomendación sea
+Testcontainers: el mismo motor de producción, en un contenedor desechable.
+
+### Entity Framework Core · [`entity-framework-core/Program.cs`](implementaciones/entity-framework-core/Program.cs)
+
+```csharp
+        constructor.Entity<Tarea>().HasIndex(t => t.Titulo).IsUnique();
+```
+
+Y la misma técnica de mantener viva la base, por tercera vez:
+
+```csharp
+var conexionPruebas = new SqliteConnection("Data Source=:memory:");
+conexionPruebas.Open();
+```
+
+```csharp
+// La conexión de la base en memoria se mantiene ABIERTA a propósito: SQLite
+// destruye una base `:memory:` en cuanto se cierra su última conexión, y las
+// pruebas no verían nada de lo que escribieron.
+```
+
+```csharp
+IRepositorio RepositorioDe(string estrategia) => estrategia switch
+{
+    "doble" => new Doble(),
+    "en-memoria" => new RepositorioEfCore(opcionesPruebas),
+    _ => new RepositorioEfCore(opcionesReales),
+};
+```
+
+Aquí conviene señalar lo que la implementación **no** usa, porque es un error
+común: EF Core trae un proveedor `InMemory`, y la propia documentación de
+Microsoft desaconseja usarlo para probar. No es una base relacional — no aplica
+restricciones de unicidad, no aplica claves foráneas, no ejecuta SQL. Es
+exactamente el doble de esta clase con nombre de base de datos, y por eso aquí la
+estrategia «en-memoria» es **SQLite en memoria**, que sí es un motor.
+
+```csharp
+        catch (DbUpdateException)
+        {
+            return true;
+        }
+```
+
+`DbUpdateException` es la excepción de EF Core, igual que `IntegrityError` en
+SQLAlchemy: el ORM normaliza el fallo del motor. Cuatro implementaciones, cuatro
+formas de decir lo mismo — **la base protestó, y el doble no sabía protestar**.
 
 ## 🧮 El contrato
 

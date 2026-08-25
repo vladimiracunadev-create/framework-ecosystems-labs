@@ -141,10 +141,15 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-[Prisma](implementaciones/prisma/), [SQLAlchemy](implementaciones/sqlalchemy/) e
-[Hibernate](implementaciones/hibernate/). Las tres declaran la misma tabla:
+Las tres declaran **la misma tabla de dos columnas**, y las tres exponen
+`/esquema` para poder demostrarlo. Lo interesante no es que funcione: es lo que
+cuesta, y dónde lo cobra cada motor.
+
+### Prisma · [`prisma/server.mjs`](implementaciones/prisma/server.mjs) y [`prisma/schema.prisma`](implementaciones/prisma/prisma/schema.prisma)
+
+**Todo el esquema:**
 
 ```prisma
 model Documento {
@@ -153,7 +158,169 @@ model Documento {
 }
 ```
 
-**Ese es todo el esquema.** Ni `titulo`, ni `etiquetas`, ni `autor`.
+Ni `titulo`, ni `etiquetas`, ni `autor`. La forma de una tarea no está en la
+base: está en cada documento.
+
+**Guardar y leer es serializar:**
+
+```javascript
+  const creado = await prisma.documento.create({
+    data: { documento: JSON.stringify(cuerpo) },
+  });
+```
+
+```javascript
+  respuesta.json({ id: fila.id, ...JSON.parse(fila.documento) });
+```
+
+**Una** lectura, sin uniones, porque no hay nada que unir. Ese es el argumento
+entero a favor del documento: lo que se lee junto, se guarda junto.
+
+**Y el aviso que Prisma pone por escrito:**
+
+```javascript
+/**
+ * SQLite NO TIENE TIPO JSON.
+ *
+ * Su soporte —la extensión JSON1— son funciones que operan sobre TEXTO:
+ * `json_extract`, `json_each`, `json_set`. El documento se guarda como una
+ * cadena y el motor sabe mirar dentro cuando se lo pides.
+ *
+ * Es una diferencia real con PostgreSQL, que sí tiene un tipo `jsonb` con su
+ * propia representación binaria y sus propios índices.
+ */
+```
+
+**Buscar dentro del documento:**
+
+```javascript
+  const filas = await prisma.$queryRaw`
+    SELECT DISTINCT d.id AS id
+      FROM Documento d, json_each(d.documento, '$.etiquetas') e
+     WHERE e.value = ${nombre}
+     ORDER BY d.id`;
+```
+
+`json_each` convierte el array del documento en filas y a partir de ahí es SQL
+corriente. Fíjate en que hay que **salir del ORM** para escribirlo: es la clase
+060 aplicada aquí, y por el motivo previsto — el ORM no cubre las funciones
+específicas del motor.
+
+**Cero campos declarados, y no es lo mismo que «sin esquema»:**
+
+```javascript
+  respuesta.json({
+    columnas: columnas.map((c) => c.name).sort(),
+    campos_declarados: 0,
+  });
+```
+
+La base no sabe qué campos tiene una tarea. Eso **no significa que no haya
+esquema**: significa que el esquema está en el código y que nadie lo hace
+cumplir. La clase 057 lo hacía cumplir el motor; aquí lo hace cumplir la
+disciplina del equipo, que es una garantía distinta.
+
+**El coste de incrustar, en un bucle:**
+
+```javascript
+  let tocados = 0;
+  for (const fila of filas) {
+    const documento = JSON.parse(fila.documento);
+    if (documento.autor?.correo !== correo) continue;
+    documento.autor.nombre = nombre;
+```
+
+En el modelo relacional cambiar el nombre de un autor es `UPDATE autores SET
+nombre = ...` sobre **una** fila. Aquí no hay una fila: hay tantas copias como
+documentos. Esa es la factura de haber incrustado, y se paga en cada escritura
+que toca datos compartidos.
+
+### SQLAlchemy · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py)
+
+```python
+    __tablename__ = "documentos"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    documento: Mapped[dict[str, Any]] = mapped_column(JSON)
+```
+
+Con una comodidad que Prisma no da: **`JSON` es un tipo de SQLAlchemy, no de
+SQLite**. El ORM serializa y deserializa por ti, y en la base queda texto. Por
+eso aquí no hay ningún `json.dumps` a la vista.
+
+```python
+    consulta = text("""
+        SELECT DISTINCT d.id AS id
+          FROM documentos d, json_each(d.documento, '$.etiquetas') e
+         WHERE e.value = :nombre
+         ORDER BY d.id
+    """)
+```
+
+**Y una trampa que merece la clase entera:**
+
+```python
+            contenido["autor"] = {**autor, "nombre": nombre}
+            fila.documento = contenido
+```
+
+```python
+            # Se reasigna el diccionario ENTERO: SQLAlchemy no detecta cambios
+            # dentro de una columna JSON salvo que se use `MutableDict`. Es una
+            # trampa clasica y silenciosa — el cambio simplemente no se guarda.
+```
+
+Escribir `fila.documento["autor"]["nombre"] = nombre` **no guarda nada**. El ORM
+detecta cambios comparando la referencia del atributo, y la referencia no cambió:
+mutaste lo de dentro. No hay error, no hay aviso, y el `commit` termina bien. Se
+descubre al releer.
+
+### Hibernate · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java) — donde el motor no sabe mirar dentro
+
+```java
+    @Entity
+    @Table(name = "documentos")
+    public static class Doc {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        public Long id;
+
+        @Lob
+        @Column(nullable = false)
+        public String documento = "";
+    }
+```
+
+Sin tipo JSON en JPA estándar, así que el documento es un `@Lob` de texto y
+Jackson hace la conversión a mano:
+
+```java
+    private static Map<String, Object> leerJson(String texto) {
+        try {
+            return JSON.readValue(texto, Map.class);
+```
+
+**Y aquí la diferencia que decide si esto escala:**
+
+```java
+            List<Integer> ids = new ArrayList<>();
+            for (Doc fila : documentos.findAll()) {
+                Object etiquetas = leerJson(fila.documento).get("etiquetas");
+                if (etiquetas instanceof List<?> lista && lista.contains(nombre)) {
+                    ids.add(fila.id.intValue());
+                }
+            }
+```
+
+SQLite tiene `json_each`, PostgreSQL tiene los operadores de `jsonb`, **H2 no
+tiene nada equivalente**. Así que no queda más remedio que traerse todos los
+documentos y filtrarlos en memoria — exactamente el problema de la clase 060.
+
+No es un descuido de la implementación: es lo que pasa cuando el motor no sabe
+mirar dentro del documento. Y de ahí la lección más útil de la clase: **guardar
+JSON es fácil en cualquier base; consultarlo depende por completo de cuál sea**.
+
+Elegir «documentos» no es una decisión de modelo, es una decisión de motor.
 
 ## 🧮 El contrato
 

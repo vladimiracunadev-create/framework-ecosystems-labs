@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 5,
+  "pendientes": 1,
   "clases": [
     {
       "clase": "039",
@@ -16,45 +16,6 @@
         "laravel",
         "rails",
         "spring-boot"
-      ]
-    },
-    {
-      "clase": "062",
-      "slug": "062-cache-de-lectura",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "063",
-      "slug": "063-bases-no-relacionales",
-      "faltan": [
-        "hibernate",
-        "prisma",
-        "sqlalchemy"
-      ]
-    },
-    {
-      "clase": "064",
-      "slug": "064-repositorio-y-dominio",
-      "faltan": [
-        "entity-framework-core",
-        "hibernate",
-        "prisma",
-        "sqlalchemy"
-      ]
-    },
-    {
-      "clase": "065",
-      "slug": "065-probar-sin-base-de-datos",
-      "faltan": [
-        "entity-framework-core",
-        "hibernate",
-        "prisma",
-        "sqlalchemy"
       ]
     }
   ]

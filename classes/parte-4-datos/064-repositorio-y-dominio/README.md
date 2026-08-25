@@ -163,14 +163,229 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-[Prisma](implementaciones/prisma/), [SQLAlchemy](implementaciones/sqlalchemy/),
-[Hibernate](implementaciones/hibernate/) y
-[Entity Framework Core](implementaciones/entity-framework-core/).
+Las cuatro tienen **la misma anatomía en tres piezas**, y conviene tenerla en la
+cabeza antes de leer el código:
 
-Las cuatro tienen **dos repositorios**: uno contra el ORM y otro en memoria. Y el
-dominio no distingue uno de otro.
+1. **El dominio** — un archivo que no importa nada del ORM ni del framework web.
+2. **El puerto** — una interfaz de cuatro métodos: dame un proyecto, guárdame un
+   proyecto, dame el siguiente identificador de proyecto y el de tarea.
+3. **Dos adaptadores** — uno contra el ORM, para el servicio; otro en memoria,
+   para las pruebas. El dominio no distingue uno de otro.
+
+Y las cuatro exponen dos rutas que **comprueban** que eso es verdad en lugar de
+afirmarlo: `/dominio` lee su propio archivo de dominio y mira sus imports, y
+`/pruebas-del-dominio` ejecuta las tres reglas contra el repositorio en memoria,
+sin base de datos.
+
+### Prisma · [`dominio.mjs`](implementaciones/prisma/dominio.mjs), [`repositorios.mjs`](implementaciones/prisma/repositorios.mjs) y [`server.mjs`](implementaciones/prisma/server.mjs)
+
+**El dominio, entero, en tres reglas:**
+
+```javascript
+  /** REGLA 2 y REGLA 3. */
+  anadirTarea(id, titulo) {
+    if (this.cerrado) throw new ReglaRota("PROYECTO_CERRADO");
+    if (this.tareas.some((t) => t.titulo === titulo)) throw new ReglaRota("TITULO_REPETIDO");
+    const tarea = new Tarea(id, titulo);
+    this.tareas.push(tarea);
+    return tarea;
+  }
+```
+
+```javascript
+  /** REGLA 1. */
+  cerrar() {
+    if (this.pendientes() > 0) throw new ReglaRota("QUEDAN_PENDIENTES");
+    this.cerrado = true;
+  }
+```
+
+El proyecto es **la raíz**: nadie toca una tarea sin pasar por él. Esa es la razón
+de que las reglas puedan vivir ahí. Si el resto del código pudiera añadir tareas
+por su cuenta, «no se añaden tareas a un proyecto cerrado» sería una
+recomendación en lugar de una regla.
+
+**Los dos repositorios:**
+
+```javascript
+export class RepositorioEnMemoria {
+  constructor() {
+    this.proyectos = new Map();
+    this.siguiente = 1;
+    this.siguienteTarea = 1;
+  }
+```
+
+```javascript
+  async porId(id) {
+    const fila = await this.prisma.proyecto.findUnique({
+      where: { id },
+      include: { tareas: { orderBy: { id: "asc" } } },
+    });
+    if (!fila) return null;
+    return new Proyecto(
+      fila.id,
+      fila.nombre,
+      fila.cerrado,
+      fila.tareas.map((t) => new Tarea(t.id, t.titulo, t.hecha)),
+    );
+  }
+```
+
+**Esa última construcción es toda la clase.** Devuelve una entidad del dominio,
+no una fila de Prisma. Es la línea que separa un repositorio de verdad de uno
+decorativo: si devolviera el objeto de Prisma, el dominio dependería de Prisma
+igual que antes y no se habría ganado nada — solo una capa más de indirección.
+
+**El manejador solo traduce fallos a HTTP:**
+
+```javascript
+    proyecto.anadirTarea(await repositorio.siguienteIdTarea(), String(peticion.body?.titulo ?? ""));
+```
+
+```javascript
+function responderRegla(error, respuesta) {
+  if (!(error instanceof ReglaRota)) throw error;
+  respuesta.status(error.codigo === "NO_EXISTE" ? 404 : 409).json({ code: error.codigo });
+}
+```
+
+No sabe cuáles son las reglas ni en qué orden se comprueban. Compáralo con la
+clase 039, donde la validación vivía en el manejador: allí cambiar de framework
+web obligaba a reescribirla; aquí no la toca.
+
+**Y la comprobación que hace honesta a la clase:**
+
+```javascript
+  const importados = texto
+    .split(String.fromCharCode(10))
+    .filter((linea) => linea.startsWith("import "));
+  const prohibidas = ["prisma", "express"];
+```
+
+Se miran **los imports**, no cualquier mención. El propio comentario del archivo
+dice «no importa Prisma», y buscar la palabra suelta daría un falso positivo: lo
+que importa es **de qué depende** el módulo, no de qué habla. Prometer un dominio
+limpio en un README no cuesta nada; comprobarlo, sí.
+
+### SQLAlchemy · [`dominio.py`](implementaciones/sqlalchemy/dominio.py) y [`main.py`](implementaciones/sqlalchemy/main.py)
+
+Aquí el puerto está escrito como tal, con la construcción que Python ofrece para
+eso:
+
+```python
+class Repositorio(Protocol):
+    """Lo unico que el dominio necesita. Tres metodos.
+
+    Cualquier cosa que sepa hacer esto le vale — y por eso hay dos.
+    """
+```
+
+`Protocol` es **tipado estructural**: `RepositorioEnMemoria` no hereda de nada y
+aun así lo cumple, porque tiene los métodos. No hay que registrar nada ni
+declarar la conformidad.
+
+**Y una separación que las otras tres no hacen tan visible:**
+
+```python
+class FilaProyecto(Base):
+    """El modelo de PERSISTENCIA, distinto del de dominio.
+
+    Se parece a `Proyecto` porque este caso es sencillo, y no tiene por que
+    parecerse: es el mapeador quien traduce entre los dos.
+    """
+```
+
+Dos clases con casi los mismos campos. Parece duplicación y es **la línea de
+corte**: `FilaProyecto` puede ganar una columna de auditoría, un índice o un
+`__table_args__` sin que `Proyecto` se entere, y `Proyecto` puede ganar una regla
+sin tocar el esquema.
+
+```python
+            return Proyecto(
+                fila.id,
+                fila.nombre,
+                fila.cerrado,
+                [Tarea(t.id, t.titulo, t.hecha) for t in sorted(fila.tareas, key=lambda t: t.id)],
+            )
+```
+
+### Hibernate · [`Dominio.java`](implementaciones/hibernate/src/main/java/labs/Dominio.java) y [`Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java)
+
+El puerto, como interfaz de toda la vida:
+
+```java
+    public interface Repositorio {
+        Proyecto porId(long id);
+
+        Proyecto guardar(Proyecto proyecto);
+
+        long siguienteIdProyecto();
+
+        long siguienteIdTarea();
+    }
+```
+
+Y el adaptador, con el mapeo explícito:
+
+```java
+            List<Dominio.Tarea> lista = fila.tareas.stream()
+                    .sorted((a, b) -> Long.compare(a.id, b.id))
+                    .map(t -> new Dominio.Tarea(t.id, t.titulo, t.hecha))
+                    .toList();
+            return new Proyecto(fila.id, fila.nombre, fila.cerrado, lista);
+```
+
+Merece un aviso, porque es el ecosistema donde más se confunde: **Spring Data ya
+te da un `JpaRepository` y a eso también se le llama «repositorio»**. No es lo
+mismo. `JpaRepository` devuelve entidades JPA —objetos gestionados, con carga
+perezosa y ciclo de vida atado a la sesión—, así que quien lo use depende de JPA.
+Aquí `RepositorioJpa` **usa** `Proyectos extends JpaRepository` por dentro y
+devuelve entidades del dominio por fuera. El repositorio de Spring Data es el
+detalle; el puerto es la interfaz de arriba.
+
+### Entity Framework Core · [`Dominio.cs`](implementaciones/entity-framework-core/Dominio.cs) y [`Program.cs`](implementaciones/entity-framework-core/Program.cs)
+
+```csharp
+interface IRepositorio
+{
+    Task<Proyecto?> PorIdAsync(long id);
+    Task<Proyecto> GuardarAsync(Proyecto proyecto);
+    Task<long> SiguienteIdProyectoAsync();
+    Task<long> SiguienteIdTareaAsync();
+}
+```
+
+**Y aquí el argumento en una sola línea de configuración:**
+
+```csharp
+constructor.Services.AddScoped<IRepositorio, RepositorioEfCore>();
+```
+
+```csharp
+// El manejador pide la INTERFAZ. Cambiar `RepositorioEfCore` por
+// `RepositorioEnMemoria` en esta línea dejaría el servicio entero funcionando
+// sin base de datos — que es, literalmente, lo que hace `/pruebas-del-dominio`.
+```
+
+El contenedor de la clase 002 aplicado a algo que se nota: **una palabra cambia
+todo el almacenamiento del servicio**, y nada más se entera.
+
+```csharp
+        return new Proyecto(fila.Id, fila.Nombre, fila.Cerrado, tareas);
+```
+
+El mismo mapeo por cuarta vez. Cuatro lenguajes, cuatro ORM, cuatro sintaxis — y
+la misma frontera dibujada en el mismo sitio.
+
+**Lo que esto cuesta, dicho sin adornos:** cada entidad se escribe dos veces y hay
+que mantener el mapeo. Es un precio real, y por eso esta arquitectura no es
+gratis ni es siempre la correcta. Se paga cuando las reglas son muchas y valen
+más que el esquema. En un CRUD que traduce formularios a filas, es puro
+sobrecoste — y la clase 060 ya mostró que a veces la respuesta correcta es bajar,
+no subir.
 
 ## 🧮 El contrato
 
