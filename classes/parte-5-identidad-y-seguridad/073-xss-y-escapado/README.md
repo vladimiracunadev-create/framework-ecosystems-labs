@@ -33,6 +33,185 @@ El segundo caso separa el escapado del filtrado: un framework que *borrara*
 el script también pasaría el primer caso — y estaría destruyendo datos del
 usuario. La respuesta correcta conserva cada carácter y le quita el poder.
 
+<!-- generado: fichas -->
+
+## 🧰 Las piezas de esta clase, una por una
+
+Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
+
+| Framework | Qué es | Desde | Licencia | Quién lo mantiene |
+| --- | --- | ---: | --- | --- |
+| **React** | biblioteca de interfaz de JavaScript/TypeScript (JavaScript) | 2013 | MIT | Meta y colaboradores |
+| **Vue** | framework web de JavaScript/TypeScript (JavaScript) | 2014 | MIT | proyecto independiente |
+| **Svelte** | framework de interfaz de JavaScript/TypeScript (JavaScript) | 2016 | MIT | proyecto independiente |
+| **SolidJS** | biblioteca de interfaz de JavaScript/TypeScript (JavaScript) | 2018 | MIT | proyecto independiente |
+| **Lit** | web-components-library de JavaScript/TypeScript (TypeScript) | 2021 | BSD-3-Clause | Google |
+
+### 🔧 React
+
+Impuso la idea de la interfaz como función del estado y el árbol virtual. Es una biblioteca, no un framework: no arranca tu aplicación ni define su ciclo de vida.
+
+- **Documentación oficial:** <https://react.dev/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `react ^19.0.0, react-dom ^19.0.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 Vue
+
+Adopción progresiva: sirve como etiqueta en una página existente o como framework completo. Su reactividad fina influyó en toda la generación siguiente.
+
+- **Documentación oficial:** <https://vuejs.org/guide/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `@vue/server-renderer ^3.5.0, vue ^3.5.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 Svelte
+
+Mueve el trabajo del navegador al compilador. Cambia el coste de ejecución por dependencia de la fase de construcción: un compromiso, no una mejora gratuita.
+
+- **Documentación oficial:** <https://svelte.dev/docs/svelte>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `svelte ^5.0.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `compilados/Inseguro.js` | código JavaScript |
+| `compilados/Seguro.js` | código JavaScript |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Inseguro.svelte` | componente de Svelte |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `Seguro.svelte` | componente de Svelte |
+
+### 🔧 SolidJS
+
+Reactividad de grano fino sin árbol virtual: el componente se ejecuta una vez y solo se actualiza lo que leyó el valor cambiado.
+
+- **Documentación oficial:** <https://docs.solidjs.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `@babel/cli ^7.25.0, @babel/core ^7.26.0, babel-preset-solid ^1.9.0, solid-js ^1.9.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm,install,--silent,--ignore-scripts pnpm,exec,babel,App.jsx,--out-file,App.compilada.mjs
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `.babelrc` | configuración de Babel: qué transformación se aplica al compilar |
+| `App.compilada.mjs` | código JavaScript (módulo ES) |
+| `App.jsx` | componente en JSX |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 Lit
+
+Capa mínima sobre los componentes web del propio estándar. La apuesta por la plataforma en lugar de por el framework.
+
+- **Documentación oficial:** <https://lit.dev/docs/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `@lit-labs/ssr ^3.3.0, lit ^3.2.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
+
+<!-- fin generado: fichas -->
+
 ## 🌐 Las implementaciones — el código a la vista
 
 Para que el resultado sea **medible sin navegador**, cada implementación usa el

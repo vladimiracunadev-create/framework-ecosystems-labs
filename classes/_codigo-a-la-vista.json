@@ -1,55 +1,7 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 30,
+  "pendientes": 27,
   "clases": [
-    {
-      "clase": "016",
-      "slug": "016-cabeceras-leer-y-escribir",
-      "faltan": [
-        "aspnet-core",
-        "django",
-        "express",
-        "fastapi",
-        "fastify",
-        "flask",
-        "gin",
-        "laravel",
-        "rails",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "017",
-      "slug": "017-cuerpo-json-recibir-y-devolver",
-      "faltan": [
-        "aspnet-core",
-        "django",
-        "express",
-        "fastapi",
-        "fastify",
-        "flask",
-        "gin",
-        "laravel",
-        "rails",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "026",
-      "slug": "026-el-patron-middleware",
-      "faltan": [
-        "aspnet-core",
-        "django",
-        "express",
-        "fastapi",
-        "fastify",
-        "flask",
-        "gin",
-        "laravel",
-        "rails",
-        "spring-boot"
-      ]
-    },
     {
       "clase": "039",
       "slug": "039-validar-la-entrada",

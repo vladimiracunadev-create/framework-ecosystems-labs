@@ -19,6 +19,139 @@ Esa igualdad es el argumento: si el comportamiento observable no cambia, la
 elección entre los dos patrones no es sobre qué hace el sistema, sino sobre
 **cómo se sostiene mientras crece**.
 
+<!-- generado: fichas -->
+
+## 🧰 Las piezas de esta clase, una por una
+
+Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
+
+| Framework | Qué es | Desde | Licencia | Quién lo mantiene |
+| --- | --- | ---: | --- | --- |
+| **Hibernate ORM** | mapeador objeto-relacional de JVM (Java) | 2001 | LGPL-2.1-or-later | proyecto independiente |
+| **SQLAlchemy** | mapeador objeto-relacional de Python (Python) | 2006 | MIT | proyecto independiente |
+| **Entity Framework Core** | mapeador objeto-relacional de .NET (C#) | 2016 | MIT | proyecto independiente |
+| **TypeORM** | mapeador objeto-relacional de JavaScript/TypeScript (TypeScript) | 2016 | MIT | proyecto independiente |
+
+### 🔧 Hibernate ORM
+
+El mapeador objeto-relacional de referencia en Java y el origen de buena parte del vocabulario del campo, incluido el problema de la consulta N+1.
+
+- **Documentación oficial:** <https://hibernate.org/orm/documentation/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `spring-boot 3.5.6, Java 21, spring-boot-starter-web, spring-boot-starter-data-jpa, h2`
+- **Necesita en el PATH:** `java`, `mvn`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+mvn -q -B package -DskipTests
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 java -jar target/clase-054-1.0.0.jar --server.port=3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `pom.xml` | manifiesto de Maven: el proyecto, su Java, sus dependencias y cómo se empaqueta |
+| `src/main/java/labs/Aplicacion.java` | código Java |
+| `src/main/resources/application.properties` | configuración de Spring Boot: lo que se ajusta sin tocar el código |
+
+### 🔧 SQLAlchemy
+
+Separa explícitamente el constructor de consultas del mapeador, de modo que se puede bajar de nivel sin abandonarlo.
+
+- **Documentación oficial:** <https://docs.sqlalchemy.org/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `fastapi==0.121.3, uvicorn==0.40.0, sqlalchemy==2.0.44`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python -m uvicorn main:app --host 127.0.0.1 --port 3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `datos.db` | base de datos SQLite del laboratorio |
+| `dominio.py` | código Python |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `main.py` | código Python |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
+
+### 🔧 Entity Framework Core
+
+Mapeador con migraciones y consultas integradas en el lenguaje. El contraste con Dapper ilustra el compromiso entre abstracción y control.
+
+- **Documentación oficial:** <https://learn.microsoft.com/ef/core/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `net10.0, Microsoft.EntityFrameworkCore.Sqlite 10.0.0`
+- **Necesita en el PATH:** `dotnet`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+dotnet build -c Release --nologo -v quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 dotnet run -c Release --no-build --urls http://127.0.0.1:3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `Clase054.csproj` | proyecto de .NET: el marco de destino y las dependencias |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Program.cs` | código C# |
+
+### 🔧 TypeORM
+
+Ofrece a la vez registro activo y mapeador de datos, lo que lo hace útil para comparar ambos patrones en un mismo proyecto.
+
+- **Documentación oficial:** <https://typeorm.io/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `express ^5.1.0, reflect-metadata ^0.2.2, sql.js ^1.13.0, typeorm ^1.1.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `dominio.mjs` | código JavaScript (módulo ES) |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
+
+<!-- fin generado: fichas -->
+
 ## 🌐 Las implementaciones
 
 [Hibernate](implementaciones/hibernate/), [SQLAlchemy con mapeo imperativo](implementaciones/sqlalchemy/),

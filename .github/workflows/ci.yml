@@ -108,6 +108,17 @@ jobs:
       - name: El código está a la vista y los extractos coinciden con su archivo
         run: node scripts/verify-excerpts.mjs
 
+      # La ficha técnica de cada implementación —versión, licencia, comandos,
+      # archivos— se deriva del catálogo, del ejecutar.json y del manifiesto de
+      # dependencias. Si alguien sube una versión y no regenera, la clase miente.
+      - name: Las fichas técnicas coinciden con los archivos reales
+        run: node scripts/generate-fichas.mjs --check
+
+      # El glosario declara dónde se enseña cada concepto. Si esa clase deja de
+      # existir o se renombra, el enlace se rompe y esto lo detecta.
+      - name: El glosario está al día y sus referencias resuelven
+        run: node scripts/generate-glosario.mjs --check
+
       - name: Resumen
         if: always()
         run: |

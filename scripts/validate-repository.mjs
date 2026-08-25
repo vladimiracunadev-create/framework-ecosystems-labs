@@ -22,6 +22,8 @@ const required = [
   "curriculum/README.md",
   "empezar/README.md",
   "empezar/conocimientos-previos.md",
+  "glosario/README.md",
+  "glosario/conceptos.json",
   "docs/TAXONOMY.md",
   "docs/SOURCES.md",
   "docs/LEARNING-MODEL.md",
@@ -46,6 +48,8 @@ const required = [
   "scripts/generate-atlas.mjs",
   "scripts/doctor.mjs",
   "scripts/verify-excerpts.mjs",
+  "scripts/generate-glosario.mjs",
+  "scripts/generate-fichas.mjs",
   "classes/_codigo-a-la-vista.json",
   "scripts/lib/cadenas.mjs",
 ];

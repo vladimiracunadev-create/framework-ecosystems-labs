@@ -38,7 +38,7 @@ const NIVELES = new Set(["introductorio", "intermedio", "avanzado"]);
 const MIN_CITATIONS_PER_LESSON = 4;
 
 /** Rutas cuyo contenido debe estar citado. */
-const CITED_AREAS = ["curriculum", "docs", "assessments", "projects", "atlas", "classes", "empezar"];
+const CITED_AREAS = ["curriculum", "docs", "assessments", "projects", "atlas", "classes", "empezar", "glosario"];
 
 const problems = [];
 const notes = [];

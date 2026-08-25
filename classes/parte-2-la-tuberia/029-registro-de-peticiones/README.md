@@ -60,6 +60,135 @@ Es un ejemplo pequeño de algo importante: **una prueba verde no significa que e
 código sea correcto**, significa que en esa ejecución se comportó como se
 esperaba.
 
+<!-- generado: fichas -->
+
+## 🧰 Las piezas de esta clase, una por una
+
+Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
+
+| Framework | Qué es | Desde | Licencia | Quién lo mantiene |
+| --- | --- | ---: | --- | --- |
+| **Express** | framework web de Node.js (JavaScript) | 2010 | MIT | OpenJS Foundation |
+| **FastAPI** | framework web de Python (Python) | 2018 | MIT | proyecto independiente |
+| **Spring Boot** | framework de aplicación de JVM (Java) | 2014 | Apache-2.0 | Broadcom/VMware y colaboradores |
+| **ASP.NET Core** | framework web de .NET (C#) | 2016 | MIT | Microsoft y .NET Foundation |
+
+### 🔧 Express
+
+Definió el modelo de middleware encadenado que copiaron casi todos los frameworks de Node.js. Minimalista no significa biblioteca: posee el bucle de peticiones.
+
+- **Documentación oficial:** <https://expressjs.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `express ^5.1.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 FastAPI
+
+Deriva validación, serialización y documentación OpenAPI de las anotaciones de tipo. Demostró que el tipado opcional de Python podía ser infraestructura, no adorno.
+
+- **Documentación oficial:** <https://fastapi.tiangolo.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `fastapi==0.121.3, uvicorn==0.40.0`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python -m uvicorn main:app --host 127.0.0.1 --port 3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `main.py` | código Python |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
+
+### 🔧 Spring Boot
+
+Autoconfiguración y servidor incrustado sobre Spring. Convirtió un framework famoso por su configuración XML en uno de arranque inmediato.
+
+- **Documentación oficial:** <https://spring.io/projects/spring-boot>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `spring-boot 3.5.6, Java 21, spring-boot-starter-web`
+- **Necesita en el PATH:** `java`, `mvn`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+mvn -q -B package -DskipTests
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 java -jar target/clase-029-1.0.0.jar --server.port=3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `pom.xml` | manifiesto de Maven: el proyecto, su Java, sus dependencias y cómo se empaqueta |
+| `src/main/java/labs/Aplicacion.java` | código Java |
+
+### 🔧 ASP.NET Core
+
+Reescritura multiplataforma y de código abierto de la pila web de Microsoft. Sus API mínimas trajeron el estilo de los microframeworks al ecosistema .NET.
+
+- **Documentación oficial:** <https://learn.microsoft.com/aspnet/core/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `net10.0`
+- **Necesita en el PATH:** `dotnet`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+dotnet build -c Release --nologo -v quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 dotnet run -c Release --no-build --urls http://127.0.0.1:3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `Clase029.csproj` | proyecto de .NET: el marco de destino y las dependencias |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Program.cs` | código C# |
+
+> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
+
+<!-- fin generado: fichas -->
+
 ## 🌐 Las implementaciones — el código a la vista
 
 Las cuatro registran **al terminar**, no al entrar, y las cuatro excluyen la

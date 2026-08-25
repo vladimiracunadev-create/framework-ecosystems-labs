@@ -34,6 +34,311 @@ Los dos casos en negrita son los que separan las implementaciones. El de los
 espacios porque casi nadie recorta antes de comprobar; el del tipo equivocado
 por una razón más profunda que se explica abajo.
 
+<!-- generado: fichas -->
+
+## 🧰 Las piezas de esta clase, una por una
+
+Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
+
+| Framework | Qué es | Desde | Licencia | Quién lo mantiene |
+| --- | --- | ---: | --- | --- |
+| **Express** | framework web de Node.js (JavaScript) | 2010 | MIT | OpenJS Foundation |
+| **Fastify** | framework web de Node.js (JavaScript/TypeScript) | 2016 | MIT | OpenJS Foundation |
+| **FastAPI** | framework web de Python (Python) | 2018 | MIT | proyecto independiente |
+| **Flask** | framework web de Python (Python) | 2010 | BSD-3-Clause | Pallets Projects |
+| **Django** | framework web de Python (Python) | 2005 | BSD-3-Clause | Django Software Foundation |
+| **Spring Boot** | framework de aplicación de JVM (Java) | 2014 | Apache-2.0 | Broadcom/VMware y colaboradores |
+| **ASP.NET Core** | framework web de .NET (C#) | 2016 | MIT | Microsoft y .NET Foundation |
+| **Laravel** | full-stack-framework de PHP (PHP) | 2011 | MIT | proyecto independiente |
+| **Ruby on Rails** | full-stack-framework de Ruby (Ruby) | 2004 | MIT | proyecto independiente |
+| **Gin** | framework web de Go (Go) | 2014 | MIT | proyecto independiente |
+
+### 🔧 Express
+
+Definió el modelo de middleware encadenado que copiaron casi todos los frameworks de Node.js. Minimalista no significa biblioteca: posee el bucle de peticiones.
+
+- **Documentación oficial:** <https://expressjs.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `express ^5.1.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 Fastify
+
+Validación y serialización derivadas de JSON Schema, con un sistema de plugins con encapsulamiento explícito.
+
+- **Documentación oficial:** <https://fastify.dev/docs/latest/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `fastify ^5.6.1`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 FastAPI
+
+Deriva validación, serialización y documentación OpenAPI de las anotaciones de tipo. Demostró que el tipado opcional de Python podía ser infraestructura, no adorno.
+
+- **Documentación oficial:** <https://fastapi.tiangolo.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `fastapi==0.121.3, uvicorn==0.40.0`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python -m uvicorn main:app --host 127.0.0.1 --port 3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `main.py` | código Python |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
+
+### 🔧 Flask
+
+Microframework que dejó a la persona elegir ORM, validación y estructura. El contrapunto exacto de Django dentro del mismo lenguaje.
+
+- **Documentación oficial:** <https://flask.palletsprojects.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `flask==3.1.2`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python app.py
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `app.py` | código Python |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
+
+### 🔧 Django
+
+Baterías incluidas: ORM, migraciones, panel de administración, autenticación y formularios. Su panel generado sigue siendo un argumento decisivo para productos internos.
+
+- **Documentación oficial:** <https://docs.djangoproject.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `django==5.2.8`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python app.py
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `app.py` | código Python |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
+
+### 🔧 Spring Boot
+
+Autoconfiguración y servidor incrustado sobre Spring. Convirtió un framework famoso por su configuración XML en uno de arranque inmediato.
+
+- **Documentación oficial:** <https://spring.io/projects/spring-boot>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `spring-boot 3.5.6, Java 21, spring-boot-starter-web, spring-boot-starter-validation`
+- **Necesita en el PATH:** `java`, `mvn`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+mvn -q -B package -DskipTests
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 java -jar target/clase-039-1.0.0.jar --server.port=3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `pom.xml` | manifiesto de Maven: el proyecto, su Java, sus dependencias y cómo se empaqueta |
+| `src/main/java/labs/Aplicacion.java` | código Java |
+
+### 🔧 ASP.NET Core
+
+Reescritura multiplataforma y de código abierto de la pila web de Microsoft. Sus API mínimas trajeron el estilo de los microframeworks al ecosistema .NET.
+
+- **Documentación oficial:** <https://learn.microsoft.com/aspnet/core/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `net10.0`
+- **Necesita en el PATH:** `dotnet`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+dotnet build -c Release --nologo -v quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 dotnet run -c Release --no-build --urls http://127.0.0.1:3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `Clase039.csproj` | proyecto de .NET: el marco de destino y las dependencias |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Program.cs` | código C# |
+
+### 🔧 Laravel
+
+El framework más usado de PHP: ORM Eloquent, migraciones, colas, programación de tareas, pruebas y un ecosistema comercial propio. Redefinió lo que se espera de la experiencia de desarrollo en el lenguaje.
+
+- **Documentación oficial:** <https://laravel.com/docs>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `php ^8.2, laravel/framework ^12.0`
+- **Necesita en el PATH:** `php`, `composer`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+composer install --no-interaction --quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 php -S 127.0.0.1:3000 -t public
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `bootstrap/app.php` | arranque de Laravel: qué grupo de rutas, qué capas y qué manejo de errores |
+| `bootstrap/providers.php` | código PHP |
+| `composer.json` | manifiesto de Composer: la versión de PHP y las bibliotecas del proyecto |
+| `config/app.php` | código PHP |
+| `config/cache.php` | código PHP |
+| `config/session.php` | código PHP |
+| `config/view.php` | código PHP |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+
+### 🔧 Ruby on Rails
+
+Origen de «convención sobre configuración» y de las migraciones de base de datos tal como se entienden hoy. Casi todos los frameworks completos posteriores citan su influencia.
+
+- **Documentación oficial:** <https://guides.rubyonrails.org/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `rails ~> 8.0, puma ~> 6.4`
+- **Necesita en el PATH:** `ruby`, `bundle`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+bundle install --quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 bundle exec puma -b tcp://127.0.0.1:3000 config.ru
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `.bundle/config` | archivo del proyecto |
+| `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Gemfile` | dependencias de Ruby |
+
+### 🔧 Gin
+
+El framework HTTP más usado de Go: enrutado rápido y middleware, sobre la biblioteca estándar.
+
+- **Documentación oficial:** <https://gin-gonic.com/en/docs/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `Go 1.24, github.com/gin-gonic/gin v1.11.0`
+- **Necesita en el PATH:** `go`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+go mod tidy
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 go run main.go
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `go.mod` | módulo de Go: su nombre, la versión del lenguaje y sus dependencias |
+| `main.go` | código Go |
+
+> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
+
+<!-- fin generado: fichas -->
+
 ## 🌐 Las implementaciones
 
 Las diez cumplen el mismo contrato y **colocan la regla en sitios distintos**:

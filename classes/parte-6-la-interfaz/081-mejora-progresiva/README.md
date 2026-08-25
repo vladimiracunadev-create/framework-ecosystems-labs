@@ -52,6 +52,133 @@ contrario sería el verde vacío que este repositorio evita.
 Lo que sí queda probado: el servidor sostiene **las dos conversaciones**
 sobre el mismo estado, y el marcado base no depende de ninguna de ellas.
 
+<!-- generado: fichas -->
+
+## 🧰 Las piezas de esta clase, una por una
+
+Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
+
+| Framework | Qué es | Desde | Licencia | Quién lo mantiene |
+| --- | --- | ---: | --- | --- |
+| **htmx** | hypermedia-library de JavaScript (JavaScript) | 2020 | BSD-2-Clause | proyecto independiente |
+| **Alpine.js** | dom-library de JavaScript (JavaScript) | 2019 | MIT | proyecto independiente |
+| **Svelte** | framework de interfaz de JavaScript/TypeScript (JavaScript) | 2016 | MIT | proyecto independiente |
+| **React** | biblioteca de interfaz de JavaScript/TypeScript (JavaScript) | 2013 | MIT | Meta y colaboradores |
+
+### 🔧 htmx
+
+Devuelve el estado al servidor: el HTML es la respuesta y los atributos deciden qué fragmento se reemplaza. Demuestra que la evolución del campo no es una línea recta hacia el cliente.
+
+- **Documentación oficial:** <https://htmx.org/docs/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `sin dependencias: solo la biblioteca estándar`
+- **Necesita en el PATH:** `node`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 Alpine.js
+
+Comportamiento declarativo en atributos HTML, sin fase de construcción. Recupera el modelo de trabajo de jQuery con el vocabulario reactivo moderno.
+
+- **Documentación oficial:** <https://alpinejs.dev/start-here>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `sin dependencias: solo la biblioteca estándar`
+- **Necesita en el PATH:** `node`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 Svelte
+
+Mueve el trabajo del navegador al compilador. Cambia el coste de ejecución por dependencia de la fase de construcción: un compromiso, no una mejora gratuita.
+
+- **Documentación oficial:** <https://svelte.dev/docs/svelte>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `svelte ^5.0.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `compilados/Pagina.js` | código JavaScript |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `Pagina.svelte` | componente de Svelte |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 React
+
+Impuso la idea de la interfaz como función del estado y el árbol virtual. Es una biblioteca, no un framework: no arranca tu aplicación ni define su ciclo de vida.
+
+- **Documentación oficial:** <https://react.dev/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `react ^19.0.0, react-dom ^19.0.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
+
+<!-- fin generado: fichas -->
+
 ## 🌐 Las implementaciones — el código a la vista
 
 Las cuatro sirven **el mismo formulario base** —`method`, `action`, un `input`

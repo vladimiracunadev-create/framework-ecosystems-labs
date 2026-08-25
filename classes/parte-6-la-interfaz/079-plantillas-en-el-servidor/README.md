@@ -62,6 +62,205 @@ lleva la `u` de *unescaped*. Ninguno llega al `dangerouslySetInnerHTML` de
 React (clase 073): en el servidor, **la puerta peligrosa tiene mejor prensa
 de la que merece**.
 
+<!-- generado: fichas -->
+
+## 🧰 Las piezas de esta clase, una por una
+
+Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
+
+| Framework | Qué es | Desde | Licencia | Quién lo mantiene |
+| --- | --- | ---: | --- | --- |
+| **Django** | framework web de Python (Python) | 2005 | BSD-3-Clause | Django Software Foundation |
+| **Flask** | framework web de Python (Python) | 2010 | BSD-3-Clause | Pallets Projects |
+| **Laravel** | full-stack-framework de PHP (PHP) | 2011 | MIT | proyecto independiente |
+| **Ruby on Rails** | full-stack-framework de Ruby (Ruby) | 2004 | MIT | proyecto independiente |
+| **Spring Boot** | framework de aplicación de JVM (Java) | 2014 | Apache-2.0 | Broadcom/VMware y colaboradores |
+| **Express** | framework web de Node.js (JavaScript) | 2010 | MIT | OpenJS Foundation |
+
+### 🔧 Django
+
+Baterías incluidas: ORM, migraciones, panel de administración, autenticación y formularios. Su panel generado sigue siendo un argumento decisivo para productos internos.
+
+- **Documentación oficial:** <https://docs.djangoproject.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `django: la versión la fija la cadena de herramientas`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python app.py
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `app.py` | código Python |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `plantillas/tareas-crudo.html` | plantilla o marcado |
+| `plantillas/tareas.html` | plantilla o marcado |
+
+### 🔧 Flask
+
+Microframework que dejó a la persona elegir ORM, validación y estructura. El contrapunto exacto de Django dentro del mismo lenguaje.
+
+- **Documentación oficial:** <https://flask.palletsprojects.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `flask>=3.0`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python app.py
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `app.py` | código Python |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
+| `templates/tareas-crudo.html` | plantilla o marcado |
+| `templates/tareas.html` | plantilla o marcado |
+
+### 🔧 Laravel
+
+El framework más usado de PHP: ORM Eloquent, migraciones, colas, programación de tareas, pruebas y un ecosistema comercial propio. Redefinió lo que se espera de la experiencia de desarrollo en el lenguaje.
+
+- **Documentación oficial:** <https://laravel.com/docs>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `php ^8.2, laravel/framework ^12.0`
+- **Necesita en el PATH:** `php`, `composer`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+composer install --no-interaction --quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 php -S 127.0.0.1:3000 -t public
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `bootstrap/app.php` | arranque de Laravel: qué grupo de rutas, qué capas y qué manejo de errores |
+| `bootstrap/providers.php` | código PHP |
+| `composer.json` | manifiesto de Composer: la versión de PHP y las bibliotecas del proyecto |
+| `config/app.php` | código PHP |
+| `config/cache.php` | código PHP |
+| `config/session.php` | código PHP |
+| `config/view.php` | código PHP |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+
+### 🔧 Ruby on Rails
+
+Origen de «convención sobre configuración» y de las migraciones de base de datos tal como se entienden hoy. Casi todos los frameworks completos posteriores citan su influencia.
+
+- **Documentación oficial:** <https://guides.rubyonrails.org/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `rails ~> 8.0, puma ~> 6.4`
+- **Necesita en el PATH:** `ruby`, `bundle`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+bundle install --quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 bundle exec puma -b tcp://127.0.0.1:3000 config.ru
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `.bundle/config` | archivo del proyecto |
+| `app/views/tareas/crudo.html.erb` | plantilla ERB |
+| `app/views/tareas/index.html.erb` | plantilla ERB |
+| `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Gemfile` | dependencias de Ruby |
+
+### 🔧 Spring Boot
+
+Autoconfiguración y servidor incrustado sobre Spring. Convirtió un framework famoso por su configuración XML en uno de arranque inmediato.
+
+- **Documentación oficial:** <https://spring.io/projects/spring-boot>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `spring-boot 3.5.6, Java 21, spring-boot-starter-web, spring-boot-starter-thymeleaf`
+- **Necesita en el PATH:** `java`, `mvn`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+mvn -q -B package -DskipTests
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 java -jar target/clase-079-1.0.0.jar --server.port=3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `pom.xml` | manifiesto de Maven: el proyecto, su Java, sus dependencias y cómo se empaqueta |
+| `src/main/java/labs/Aplicacion.java` | código Java |
+| `src/main/resources/application.properties` | configuración de Spring Boot: lo que se ajusta sin tocar el código |
+| `src/main/resources/templates/tareas-crudo.html` | plantilla o marcado |
+| `src/main/resources/templates/tareas.html` | plantilla o marcado |
+
+### 🔧 Express
+
+Definió el modelo de middleware encadenado que copiaron casi todos los frameworks de Node.js. Minimalista no significa biblioteca: posee el bucle de peticiones.
+
+- **Documentación oficial:** <https://expressjs.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `ejs ^3.1.10, express ^5.1.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+| `vistas/tareas-crudo.ejs` | plantilla EJS |
+| `vistas/tareas.ejs` | plantilla EJS |
+
+> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
+
+<!-- fin generado: fichas -->
+
 ## 🌐 Las implementaciones — el código a la vista
 
 Cinco de los seis traen su motor puesto; **Express no**. Cada uno pinta la

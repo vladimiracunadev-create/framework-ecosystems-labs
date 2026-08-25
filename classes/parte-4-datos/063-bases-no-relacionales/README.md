@@ -40,6 +40,109 @@ Decirlo es parte del trato: **un verde aquí significa lo que se probó.**
 Una tarea con sus etiquetas y su autor dentro. Un segundo documento **con otra
 forma**. Y un cambio en el autor.
 
+<!-- generado: fichas -->
+
+## 🧰 Las piezas de esta clase, una por una
+
+Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
+
+| Framework | Qué es | Desde | Licencia | Quién lo mantiene |
+| --- | --- | ---: | --- | --- |
+| **Prisma ORM** | mapeador objeto-relacional de JavaScript/TypeScript (TypeScript) | 2021 | Apache-2.0 | proyecto independiente |
+| **SQLAlchemy** | mapeador objeto-relacional de Python (Python) | 2006 | MIT | proyecto independiente |
+| **Hibernate ORM** | mapeador objeto-relacional de JVM (Java) | 2001 | LGPL-2.1-or-later | proyecto independiente |
+
+### 🔧 Prisma ORM
+
+Esquema propio del que se genera un cliente tipado. Un lenguaje más que aprender, a cambio de tipos exactos.
+
+- **Documentación oficial:** <https://www.prisma.io/docs>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `@prisma/client ^6.16.2, express ^5.1.0, prisma ^6.16.2`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm,install,--silent,--ignore-scripts pnpm,exec,prisma,generate
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `prisma/datos.db` | base de datos SQLite del laboratorio |
+| `prisma/schema.prisma` | esquema de Prisma: el modelo de datos del que se genera el cliente |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 SQLAlchemy
+
+Separa explícitamente el constructor de consultas del mapeador, de modo que se puede bajar de nivel sin abandonarlo.
+
+- **Documentación oficial:** <https://docs.sqlalchemy.org/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `fastapi==0.121.3, uvicorn==0.40.0, sqlalchemy==2.0.44`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python -m uvicorn main:app --host 127.0.0.1 --port 3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `datos.db` | base de datos SQLite del laboratorio |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `main.py` | código Python |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
+
+### 🔧 Hibernate ORM
+
+El mapeador objeto-relacional de referencia en Java y el origen de buena parte del vocabulario del campo, incluido el problema de la consulta N+1.
+
+- **Documentación oficial:** <https://hibernate.org/orm/documentation/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `spring-boot 3.5.6, Java 21, spring-boot-starter-web, spring-boot-starter-data-jpa, h2`
+- **Necesita en el PATH:** `java`, `mvn`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+mvn -q -B package -DskipTests
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 java -jar target/clase-063-1.0.0.jar --server.port=3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `pom.xml` | manifiesto de Maven: el proyecto, su Java, sus dependencias y cómo se empaqueta |
+| `src/main/java/labs/Aplicacion.java` | código Java |
+| `src/main/resources/application.properties` | configuración de Spring Boot: lo que se ajusta sin tocar el código |
+
+> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
+
+<!-- fin generado: fichas -->
+
 ## 🌐 Las implementaciones
 
 [Prisma](implementaciones/prisma/), [SQLAlchemy](implementaciones/sqlalchemy/) e

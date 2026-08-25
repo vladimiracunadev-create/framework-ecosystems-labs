@@ -45,6 +45,144 @@ verificador), **nombre y valor por separado**: cada framework llama distinto
 a su campo —`csrfmiddlewaretoken`, `_token`, `authenticity_token`,
 `__RequestVerificationToken`— y el contrato no debe casarse con ninguno.
 
+<!-- generado: fichas -->
+
+## 🧰 Las piezas de esta clase, una por una
+
+Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
+
+| Framework | Qué es | Desde | Licencia | Quién lo mantiene |
+| --- | --- | ---: | --- | --- |
+| **Django** | framework web de Python (Python) | 2005 | BSD-3-Clause | Django Software Foundation |
+| **Laravel** | full-stack-framework de PHP (PHP) | 2011 | MIT | proyecto independiente |
+| **Ruby on Rails** | full-stack-framework de Ruby (Ruby) | 2004 | MIT | proyecto independiente |
+| **ASP.NET Core** | framework web de .NET (C#) | 2016 | MIT | Microsoft y .NET Foundation |
+
+### 🔧 Django
+
+Baterías incluidas: ORM, migraciones, panel de administración, autenticación y formularios. Su panel generado sigue siendo un argumento decisivo para productos internos.
+
+- **Documentación oficial:** <https://docs.djangoproject.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `django>=5.0`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python app.py
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `app.py` | código Python |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `plantillas/tareas.html` | plantilla o marcado |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
+
+### 🔧 Laravel
+
+El framework más usado de PHP: ORM Eloquent, migraciones, colas, programación de tareas, pruebas y un ecosistema comercial propio. Redefinió lo que se espera de la experiencia de desarrollo en el lenguaje.
+
+- **Documentación oficial:** <https://laravel.com/docs>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `php ^8.2, laravel/framework ^12.0`
+- **Necesita en el PATH:** `php`, `composer`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+composer,install,--no-interaction,--quiet php,-r,@unlink(__DIR__.'/storage/tareas.json');
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 php -S 127.0.0.1:3000 -t public
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `bootstrap/app.php` | arranque de Laravel: qué grupo de rutas, qué capas y qué manejo de errores |
+| `bootstrap/providers.php` | código PHP |
+| `composer.json` | manifiesto de Composer: la versión de PHP y las bibliotecas del proyecto |
+| `config/app.php` | código PHP |
+| `config/cache.php` | código PHP |
+| `config/session.php` | código PHP |
+| `config/view.php` | código PHP |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+
+### 🔧 Ruby on Rails
+
+Origen de «convención sobre configuración» y de las migraciones de base de datos tal como se entienden hoy. Casi todos los frameworks completos posteriores citan su influencia.
+
+- **Documentación oficial:** <https://guides.rubyonrails.org/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `rails ~> 8.0, puma ~> 6.4`
+- **Necesita en el PATH:** `ruby`, `bundle`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+bundle install --quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 bundle exec puma -b tcp://127.0.0.1:3000 config.ru
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `.bundle/config` | archivo del proyecto |
+| `app/views/tareas/index.html.erb` | plantilla ERB |
+| `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Gemfile` | dependencias de Ruby |
+
+### 🔧 ASP.NET Core
+
+Reescritura multiplataforma y de código abierto de la pila web de Microsoft. Sus API mínimas trajeron el estilo de los microframeworks al ecosistema .NET.
+
+- **Documentación oficial:** <https://learn.microsoft.com/aspnet/core/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `net10.0`
+- **Necesita en el PATH:** `dotnet`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+dotnet build -c Release --nologo -v quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 dotnet run -c Release --no-build --urls http://127.0.0.1:3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `Clase080.csproj` | proyecto de .NET: el marco de destino y las dependencias |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Pages/_ViewImports.cshtml` | directivas comunes a todas las páginas Razor, incluidos los ayudantes de etiqueta |
+| `Pages/Tareas.cshtml` | página Razor: marcado con código C# incrustado |
+| `Pages/Tareas.cshtml.cs` | código C# |
+| `Program.cs` | código C# |
+
+> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
+
+<!-- fin generado: fichas -->
+
 ## 🌐 Las implementaciones — el código a la vista
 
 El elenco es el de los frameworks que hacen esto **de verdad y de serie**. Por

@@ -44,7 +44,7 @@ function relativo(file) {
 /** Todo documento del repositorio que debe publicarse, con sus metadatos. */
 function recolectar() {
   const documentos = [];
-  const areas = ["empezar", "curriculum", "docs", "assessments", "projects", "labs", "templates", "contracts", "sources", "atlas", "classes"];
+  const areas = ["empezar", "glosario", "curriculum", "docs", "assessments", "projects", "labs", "templates", "contracts", "sources", "atlas", "classes"];
   for (const file of markdownFiles(...areas)) {
     const bruto = fs.readFileSync(file, "utf8");
     const { data, body } = parseFrontMatter(bruto);
@@ -130,6 +130,7 @@ function cabecera(destino, { activo = "" } = {}) {
     ${enlace("empezar/index.html", "Empezar", "empezar")}
     ${enlace("curriculum/index.html", "Programa", "curriculum")}
     ${enlace("atlas/index.html", "Atlas", "atlas")}
+    ${enlace("glosario/index.html", "Glosario", "glosario")}
     ${enlace("fuentes.html", "Fuentes", "fuentes")}
     ${enlace("docs/LEARNING-MODEL.html", "Modelo", "modelo")}
     ${enlace("labs/index.html", "Laboratorios", "labs")}
@@ -361,6 +362,7 @@ function barraLateral(actual) {
          data-indice="${subir(actual.destino)}datos/indice.json" data-base="${subir(actual.destino)}">
   <ul class="resultados" id="resultados-doc"></ul>
   ${grupo("Empezar", documentos.filter((doc) => doc.area === "empezar"))}
+  ${grupo("Glosario", documentos.filter((doc) => doc.area === "glosario"))}
   ${grupo("Programa", modulos)}
   ${grupo("Atlas", documentos.filter((doc) => doc.area === "atlas"))}
   ${grupo("Clases", documentos.filter((doc) => doc.area === "classes"))}

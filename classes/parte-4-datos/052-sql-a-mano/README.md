@@ -17,6 +17,139 @@ código.
 Insertar tareas, leerlas por identificador y buscarlas por título. Todo con SQL
 escrito a mano.
 
+<!-- generado: fichas -->
+
+## 🧰 Las piezas de esta clase, una por una
+
+Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
+
+| Framework | Qué es | Desde | Licencia | Quién lo mantiene |
+| --- | --- | ---: | --- | --- |
+| **Dapper** | micro-ORM de .NET (C#) | 2011 | Apache-2.0 | proyecto independiente |
+| **SQLAlchemy** | mapeador objeto-relacional de Python (Python) | 2006 | MIT | proyecto independiente |
+| **Drizzle ORM** | mapeador objeto-relacional de JavaScript/TypeScript (TypeScript) | 2022 | Apache-2.0 | proyecto independiente |
+| **Active Record (Rails)** | mapeador objeto-relacional de Ruby (Ruby) | 2004 | MIT | proyecto independiente |
+
+### 🔧 Dapper
+
+Mapea resultados de SQL escrito a mano, sin generar consultas. La alternativa deliberada al mapeador completo.
+
+- **Documentación oficial:** <https://github.com/DapperLib/Dapper>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `net10.0, Dapper 2.1.66, Microsoft.Data.Sqlite 10.0.0`
+- **Necesita en el PATH:** `dotnet`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+dotnet build -c Release --nologo -v quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 dotnet run -c Release --no-build --urls http://127.0.0.1:3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `Clase052.csproj` | proyecto de .NET: el marco de destino y las dependencias |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Program.cs` | código C# |
+
+### 🔧 SQLAlchemy
+
+Separa explícitamente el constructor de consultas del mapeador, de modo que se puede bajar de nivel sin abandonarlo.
+
+- **Documentación oficial:** <https://docs.sqlalchemy.org/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `fastapi==0.121.3, uvicorn==0.40.0, sqlalchemy==2.0.44`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python -m uvicorn main:app --host 127.0.0.1 --port 3000
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `datos.db` | base de datos SQLite del laboratorio |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `main.py` | código Python |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
+
+### 🔧 Drizzle ORM
+
+Define el esquema en TypeScript y mantiene las consultas próximas al SQL, sin capa de traducción oculta.
+
+- **Documentación oficial:** <https://orm.drizzle.team/docs/overview>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `@libsql/client ^0.15.4, drizzle-orm ^0.45.2, express ^5.1.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `datos.db` | base de datos SQLite del laboratorio |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+### 🔧 Active Record (Rails)
+
+La implementación que dio nombre popular al patrón de registro activo descrito por Fowler.
+
+- **Documentación oficial:** <https://guides.rubyonrails.org/active_record_basics.html>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `rails ~> 8.0, puma ~> 6.4, sqlite3 ~> 2.6`
+- **Necesita en el PATH:** `ruby`, `bundle`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+bundle install --quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 bundle exec puma -b tcp://127.0.0.1:3000 config.ru
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `.bundle/config` | archivo del proyecto |
+| `config/database.yml` | configuración en YAML |
+| `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Gemfile` | dependencias de Ruby |
+
+> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
+
+<!-- fin generado: fichas -->
+
 ## 🌐 Las implementaciones
 
 Cuatro formas de escribir SQL sin mapeo de objetos:

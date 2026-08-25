@@ -27,6 +27,11 @@ git— y lleva hasta el primer contrato en verde.
 node scripts/doctor.mjs   # qué cadenas tienes y cuánto del laboratorio puedes ejecutar hoy
 ```
 
+📖 **¿Una palabra que no conoces?** El [**glosario**](glosario/README.md) reúne
+136 conceptos con su definición y **la clase donde se enseña**, las 138
+tecnologías del catálogo y las 8 cadenas de herramientas. Se genera desde esas
+fuentes, y la validación falla si una referencia deja de resolver.
+
 El informe dice **cuántas de las implementaciones del laboratorio puedes ejecutar en tu
 máquina**, cuáles no y con qué comando exacto se recupera cada una. No hace
 falta instalarlas todas: lo que no se ejecute en local se ejecuta en la
@@ -284,6 +289,7 @@ pnpm check
 
 ```text
 empezar/          Prólogo: instalación, conocimientos previos y primer verde
+glosario/         136 conceptos con su definición y dónde se enseña
 atlas/            Atlas: ecosistemas, genealogía y fichas a fondo
 catalog/          Registro de 138 tecnologías con era, estado y licencia
 classes/          149 clases: el mismo problema resuelto en todos los frameworks

@@ -19,6 +19,143 @@ puede estar vacío**, y esa regla vive en el modelo.
 > deliberado: cuando el comportamiento observable es idéntico, lo único que
 > queda por comparar es **dónde vive el conocimiento**.
 
+<!-- generado: fichas -->
+
+## 🧰 Las piezas de esta clase, una por una
+
+Antes del código: **qué es cada framework, qué versión se está usando y qué hace falta para ejecutarlo**. Todo lo de esta sección sale de los archivos reales del repositorio —el catálogo, la receta de arranque y el manifiesto de dependencias de cada ecosistema—, así que no puede quedarse desactualizado sin que la validación lo detecte.
+
+| Framework | Qué es | Desde | Licencia | Quién lo mantiene |
+| --- | --- | ---: | --- | --- |
+| **Active Record (Rails)** | mapeador objeto-relacional de Ruby (Ruby) | 2004 | MIT | proyecto independiente |
+| **Eloquent (Laravel)** | mapeador objeto-relacional de PHP (PHP) | 2011 | MIT | proyecto independiente |
+| **Django** | framework web de Python (Python) | 2005 | BSD-3-Clause | Django Software Foundation |
+| **TypeORM** | mapeador objeto-relacional de JavaScript/TypeScript (TypeScript) | 2016 | MIT | proyecto independiente |
+
+### 🔧 Active Record (Rails)
+
+La implementación que dio nombre popular al patrón de registro activo descrito por Fowler.
+
+- **Documentación oficial:** <https://guides.rubyonrails.org/active_record_basics.html>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `rails ~> 8.0, puma ~> 6.4, sqlite3 ~> 2.6`
+- **Necesita en el PATH:** `ruby`, `bundle`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+bundle install --quiet
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 bundle exec puma -b tcp://127.0.0.1:3000 config.ru
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `.bundle/config` | archivo del proyecto |
+| `config/database.yml` | configuración en YAML |
+| `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Gemfile` | dependencias de Ruby |
+
+### 🔧 Eloquent (Laravel)
+
+Registro activo en PHP con relaciones expresivas. Su comodidad hace que la consulta N+1 aparezca con especial facilidad.
+
+- **Documentación oficial:** <https://laravel.com/docs/eloquent>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `php ^8.2, laravel/framework ^12.0`
+- **Necesita en el PATH:** `php`, `composer`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+composer,install,--no-interaction,--quiet php,-r,@unlink('database/datos.sqlite'); touch('database/datos.sqlite');
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 php -S 127.0.0.1:3000 -t public
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `app/Models/Tarea.php` | código PHP |
+| `bootstrap/app.php` | arranque de Laravel: qué grupo de rutas, qué capas y qué manejo de errores |
+| `bootstrap/providers.php` | código PHP |
+| `composer.json` | manifiesto de Composer: la versión de PHP y las bibliotecas del proyecto |
+| `config/app.php` | código PHP |
+| `config/cache.php` | código PHP |
+| `config/database.php` | código PHP |
+| `config/session.php` | código PHP |
+
+### 🔧 Django
+
+Baterías incluidas: ORM, migraciones, panel de administración, autenticación y formularios. Su panel generado sigue siendo un argumento decisivo para productos internos.
+
+- **Documentación oficial:** <https://docs.djangoproject.com/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `django==6.1`
+- **Necesita en el PATH:** `python`
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 python app.py
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `app.py` | código Python |
+| `datos.db` | base de datos SQLite del laboratorio |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
+
+### 🔧 TypeORM
+
+Ofrece a la vez registro activo y mapeador de datos, lo que lo hace útil para comparar ambos patrones en un mismo proyecto.
+
+- **Documentación oficial:** <https://typeorm.io/>
+- **Estado en el catálogo:** activo
+- **Versión que ejecuta esta clase:** `express ^5.1.0, reflect-metadata ^0.2.2, sql.js ^1.13.0, typeorm ^1.1.0`
+- **Necesita en el PATH:** `node`, `pnpm`
+
+Preparar sus dependencias, dentro de su directorio:
+
+```bash
+pnpm install --silent --ignore-scripts
+```
+
+Arrancarla suelta, sin el verificador:
+
+```bash
+PORT=3000 node server.mjs
+```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
+> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
+
+<!-- fin generado: fichas -->
+
 ## 🌐 Las implementaciones
 
 [Active Record de Rails](implementaciones/activerecord/),
