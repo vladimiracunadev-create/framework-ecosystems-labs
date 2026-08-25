@@ -148,12 +148,139 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Cuatro formas de escribir SQL sin mapeo de objetos:
-[Dapper](implementaciones/dapper/), [SQLAlchemy Core](implementaciones/sqlalchemy/),
-[Drizzle](implementaciones/drizzle/) y
-[Active Record en modo crudo](implementaciones/activerecord/).
+Cuatro formas de escribir SQL sin mapeo de objetos, en cuatro ecosistemas. Y las
+cuatro coinciden en lo único que importa: **el valor viaja aparte del texto de la
+consulta**, unido solo por un marcador.
+
+Léelas seguidas mirando cómo se escribe ese marcador. Son cuatro sintaxis para
+la misma garantía.
+
+### Dapper · [`dapper/Program.cs`](implementaciones/dapper/Program.cs) — un objeto anónimo son los parámetros
+
+```csharp
+    var tarea = await conexion.QuerySingleAsync<Tarea>(
+        "INSERT INTO tareas (titulo) VALUES (@titulo) RETURNING id, titulo",
+        new { titulo = entrada.Titulo ?? "" });
+```
+
+`@titulo` en la sentencia y `new { titulo }` como segundo argumento. El objeto
+anónimo **se convierte en parámetros**, no en texto pegado.
+
+Y una propiedad de Dapper que lo define: no gestiona conexiones.
+
+```csharp
+static SqliteConnection Conectar() => new(Cadena);
+```
+
+```csharp
+    using var conexion = Conectar();
+```
+
+**Son métodos de extensión sobre `IDbConnection`**, así que quién abre la
+conexión y cuándo se cierra es cosa tuya. Es el más ligero del elenco —no hay
+contexto, no hay sesión, no hay unidad de trabajo— y a cambio no hay nada que te
+recuerde cerrar. El `using` es lo único que lo garantiza.
+
+### SQLAlchemy Core · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py) — marcadores con nombre
+
+```python
+        fila = conexion.execute(
+            text("INSERT INTO tareas (titulo) VALUES (:titulo) RETURNING id, titulo"),
+            {"titulo": titulo},
+        ).one()
+```
+
+`:titulo` es un **marcador**, no una interpolación de Python. Es un detalle
+visual que confunde a quien viene de las f-strings: dentro de esa cadena no pasa
+nada; el valor lo pone el motor al ejecutar.
+
+Fíjate en que esto es SQLAlchemy **Core**, sin la capa de mapeo de objetos que la
+clase 051 usaba. La misma biblioteca sirve para las dos cosas, y elegir el nivel
+es una decisión que la clase 060 desarrolla.
+
+```python
+    with motor.begin() as conexion:
+```
+
+```python
+    with motor.connect() as conexion:
+```
+
+Dos formas de abrir: `begin()` abre **una transacción** y confirma al salir del
+bloque; `connect()` solo abre la conexión. La escritura usa la primera y las
+lecturas la segunda, que es el reparto correcto y el que la clase 057 explica.
+
+### Drizzle · [`drizzle/server.mjs`](implementaciones/drizzle/server.mjs) — una plantilla etiquetada
+
+```javascript
+  const { rows } = await db.run(
+    sql`INSERT INTO tareas (titulo) VALUES (${titulo}) RETURNING id, titulo`,
+  );
+```
+
+**Esto no es una plantilla de texto**, aunque lo parezca. `sql` es una función
+etiquetada: recibe las partes estáticas y las interpolaciones **por separado**, y
+convierte cada `${...}` en un marcador.
+
+Es la misma construcción del lenguaje que hace segura la plantilla `html` de Lit
+en la clase 073, aplicada a SQL. Y tiene una consecuencia de diseño elegante:
+**concatenar con `+` sería posible y produciría otra cosa**, así que Drizzle exige
+la plantilla en lugar de aceptar una cadena.
+
+```javascript
+      ? sql`SELECT id, titulo FROM tareas ORDER BY id`
+      : sql`SELECT id, titulo FROM tareas WHERE titulo = ${String(titulo)} ORDER BY id`;
+```
+
+Y las consultas **se componen como valores**: se elige una u otra antes de
+ejecutar. Un objeto `sql`, no una cadena que se va concatenando.
+
+### Active Record en modo crudo · [`activerecord/config.ru`](implementaciones/activerecord/config.ru)
+
+```ruby
+    id = ActiveRecord::Base.connection.insert(
+      ActiveRecord::Base.sanitize_sql_array(
+        ["INSERT INTO tareas (titulo) VALUES (?)", titulo]
+      )
+    )
+```
+
+```ruby
+        Tarea.find_by_sql(
+          ["SELECT id, titulo FROM tareas WHERE titulo = ? ORDER BY id", params[:titulo]]
+```
+
+Un **array** cuyo primer elemento es la sentencia con `?` y el resto son los
+valores. Es la forma documentada de escribir SQL a mano en Rails, y la más
+distinta de las cuatro: no hay nombres ni plantillas — hay posición.
+
+Y una diferencia de fondo con las otras tres: `sanitize_sql_array` **escapa** el
+valor con las reglas del adaptador y produce una cadena, en lugar de enviar el
+valor por un canal aparte. El resultado es seguro y el mecanismo no es el mismo;
+conviene saberlo porque el escapado depende de que el adaptador sea el correcto
+para ese motor.
+
+Fíjate también en que `Tarea` está ahí solo para **recibir las filas**:
+
+```ruby
+class Tarea < ActiveRecord::Base
+  self.table_name = "tareas"
+end
+```
+
+Es Active Record usado como no-Active-Record. Enseña que la biblioteca no obliga
+a su patrón — la clase 053 muestra el mismo objeto en su modo natural.
+
+### Lo que las cuatro demuestran con el mismo caso
+
+El contrato envía `'; DROP TABLE tareas; --` como título. En las cuatro, **acaba
+siendo un título de tarea** y no una orden.
+
+No es porque nadie lo escape a mano ni porque haya una lista de palabras
+prohibidas: es porque **cuando la base recibe la sentencia, ya está decidido qué
+parte es código**. La clase 074 lleva esa propiedad al ORM completo.
 
 ## 🧮 El contrato
 

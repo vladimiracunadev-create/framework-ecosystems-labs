@@ -163,11 +163,149 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-[Active Record de Rails](implementaciones/activerecord/),
-[Eloquent](implementaciones/eloquent/), [el ORM de Django](implementaciones/django/)
-y [TypeORM en modo Active Record](implementaciones/typeorm/).
+Cuatro ORM que siguen el patrón, y una propiedad que comparten y define el
+patrón entero: **el modelo es la tabla**. `tarea.save()`, `tarea.delete()`,
+`Tarea.find(id)`. El objeto conoce su almacenamiento y lo usa.
+
+Y una consecuencia que las cuatro sacan: si el objeto sabe guardarse, **tiene
+sentido que sepa también cuándo no debe hacerlo**. Por eso en las cuatro la
+regla de negocio vive en el modelo, no en el controlador.
+
+### Active Record de Rails · [`activerecord/config.ru`](implementaciones/activerecord/config.ru) — el que le dio nombre
+
+```ruby
+class Tarea < ActiveRecord::Base
+  self.table_name = "tareas"
+
+  validates :titulo, presence: true
+```
+
+```ruby
+    tarea = Tarea.new(titulo: params[:titulo].to_s, hecha: false)
+    if tarea.save
+      render json: tarea.salida, status: 201
+    else
+      render json: { code: "TITULO_REQUERIDO" }, status: 422
+    end
+```
+
+**En Rails no hay que acordarse de validar.** `save` valida siempre y devuelve
+`false` si algo falla; no hay una llamada separada que se pueda olvidar.
+
+Es una diferencia real con Django, donde `save` escribe lo que le des y validar
+es un paso aparte. La misma familia de patrón, dos decisiones opuestas sobre lo
+que ocurre por omisión.
+
+### Eloquent · [`eloquent/app/Models/Tarea.php`](implementaciones/eloquent/app/Models/Tarea.php) — la regla colgada de un evento
+
+```php
+class Tarea extends Model
+{
+    protected $table = 'tareas';
+
+    protected $fillable = ['titulo', 'hecha'];
+
+    protected $casts = ['hecha' => 'boolean'];
+```
+
+```php
+        static::saving(function (Tarea $tarea) {
+            if (trim((string) $tarea->titulo) === '') {
+                throw new RuntimeException('TITULO_REQUERIDO');
+            }
+        });
+```
+
+La regla se engancha al **evento `saving`**, así que se aplica venga la llamada de
+donde venga — desde un controlador, desde una tarea programada o desde una
+consola. Es la forma más fuerte de las cuatro de garantizar la regla.
+
+`$fillable` merece una nota porque es seguridad y no configuración: **enumera qué
+campos se pueden rellenar en masa** desde una petición. Sin esa lista, un cliente
+que envíe `{"hecha": true, "es_admin": true}` podría escribir cualquier columna —
+la vulnerabilidad de asignación masiva.
+
+### El ORM de Django · [`django/app.py`](implementaciones/django/app.py) — y validar es un paso aparte
+
+```python
+class Tarea(models.Model):
+    titulo = models.CharField(max_length=120)
+    hecha = models.BooleanField(default=False)
+```
+
+```python
+    def clean(self) -> None:
+```
+
+```python
+        if not self.titulo.strip():
+            raise ValidationError({"titulo": "TITULO_REQUERIDO"})
+```
+
+La regla vive en el modelo, igual que en Rails y Eloquent. **Y no se ejecuta
+sola**: `save()` en Django escribe lo que le des, y llamar a `clean()` o a
+`full_clean()` es responsabilidad de quien guarda.
+
+Es un valor por omisión discutido y con motivo: hace que `save()` sea predecible
+y hace que sea fácil escribir datos inválidos sin enterarse. Cuando se usan los
+formularios de Django la validación sí ocurre; llamando al modelo directamente,
+no.
+
+```python
+    INSTALLED_APPS=["__main__"],
+```
+
+Y un detalle del montaje que enseña algo del framework: para que Django encuentre
+un modelo, su aplicación tiene que estar declarada. En un proyecto normal eso lo
+hace el generador; aquí, con todo en un archivo, hay que declarar `__main__` como
+aplicación.
+
+### TypeORM en modo Active Record · [`typeorm/server.mjs`](implementaciones/typeorm/server.mjs)
+
+```javascript
+class Tarea extends BaseEntity {
+```
+
+```javascript
+  validar() {
+    if (!String(this.titulo ?? "").trim()) {
+      const error = new Error("TITULO_REQUERIDO");
+      error.codigo = "TITULO_REQUERIDO";
+      throw error;
+    }
+  }
+```
+
+**Heredar de `BaseEntity` es lo que convierte la entidad en la puerta a la
+tabla**: aparecen `save()`, `remove()`, `findOneBy()` y compañía sobre la propia
+clase.
+
+Esa única línea es la comparación más limpia de toda la parte 4, porque **TypeORM
+soporta los dos patrones**: la clase 054 usa la misma biblioteca sin `BaseEntity`
+y la diferencia se reduce a de qué lado quieres el conocimiento.
+
+```javascript
+const EsquemaTarea = new EntitySchema({
+  name: "Tarea",
+  target: Tarea,
+  tableName: "tareas",
+```
+
+Sin decoradores ni TypeScript: `EntitySchema` describe la tabla y `target` la ata
+a la clase. Es la vía de TypeORM para JavaScript puro, y de paso deja ver que los
+decoradores de su documentación son azúcar sobre esto.
+
+```javascript
+const fuente = new DataSource({
+  type: "sqljs",
+```
+
+`sqljs` es SQLite compilado a WebAssembly: **sin módulo nativo y sin guion de
+instalación**, que es lo que este repositorio necesita al instalar con
+`--ignore-scripts`. Para una clase es ideal; para producción, no — y decirlo es
+parte de la clase.
 
 ## 🧮 El contrato
 

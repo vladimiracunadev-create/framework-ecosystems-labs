@@ -230,46 +230,176 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
 Cada una usa **la base embebida de su ecosistema** —SQLite para Node, Python y
 .NET; H2 para la JVM— porque el objetivo es que la clase se ejecute sin instalar
 un servidor. Lo que se compara es el ORM, no el motor.
 
-### Prisma — cliente generado
+Y hay una distinción que atraviesa las cuatro y conviene tener antes de leerlas:
 
-```javascript
-const tarea = await prisma.tarea.create({ data: { titulo } });
+| Objeto | Cuánto vive | Por qué |
+| --- | --- | --- |
+| **Motor / cliente / contexto de conexión** | todo el proceso | mantiene el grupo de conexiones, que es caro de crear |
+| **Sesión / unidad de trabajo** | una petición | acumula los cambios y los confirma juntos |
+
+Confundirlos es el error más caro de la parte 4, y las cuatro implementaciones
+lo tratan de forma distinta.
+
+### Prisma · [`prisma/schema.prisma`](implementaciones/prisma/prisma/schema.prisma) — un lenguaje propio
+
+```prisma
+model Tarea {
+  id     Int    @id @default(autoincrement())
+  titulo String
+}
 ```
 
-El cliente lo genera Prisma desde su esquema propio, y por eso `prisma.tarea`
-existe con autocompletado. Es la propuesta que la
-[ficha de Prisma](../../../atlas/fichas/prisma.md) describe, con el coste que
-señala: un lenguaje más que aprender.
+El esquema no se escribe en JavaScript: se escribe en **el lenguaje propio de
+Prisma**. De ahí salen el cliente tipado y las migraciones.
 
-### Hibernate — la interfaz sin implementación
+Es la decisión que más divide sobre esta herramienta: un lenguaje más que
+aprender y otro archivo que mantener, a cambio de un cliente generado con
+autocompletado real.
+
+Y en [`prisma/server.mjs`](implementaciones/prisma/server.mjs):
+
+```javascript
+const prisma = new PrismaClient();
+```
+
+```javascript
+  const tarea = await prisma.tarea.create({ data: { titulo: peticion.body?.titulo ?? "" } });
+```
+
+`prisma.tarea` existe porque el cliente **se generó** a partir del modelo. No hay
+una clase `Tarea` escrita en ningún sitio de este archivo.
+
+**Una instancia para todo el proceso.** Crear un cliente por petición abriría un
+grupo de conexiones nuevo cada vez y agotaría la base en minutos — el error más
+caro de esta clase, y la 061 lo mide.
+
+```javascript
+    servidor.close();
+    await prisma.$disconnect();
+```
+
+Y cerrar bien al terminar: sin esto las conexiones quedan abiertas hasta que la
+base las expire por su cuenta.
+
+### SQLAlchemy · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py) — motor y sesión, separados a la vista
+
+```python
+motor = create_engine("sqlite:///datos.db", echo=False)
+```
+
+```python
+CrearSesion = sessionmaker(bind=motor, expire_on_commit=False)
+```
+
+```python
+    s = CrearSesion()
+    try:
+        yield s
+    finally:
+        s.close()
+```
+
+**La implementación que mejor enseña la distinción de la tabla**, porque tiene
+dos objetos con dos nombres: el motor se crea una vez y la sesión por petición.
+
+El `finally` no es opcional. Sin él, una excepción deja la conexión fuera del
+grupo —no se devuelve— y con tráfico real el grupo se agota en minutos. Es una
+fuga que no produce ningún error hasta que produce todos a la vez.
+
+```python
+def crear(cuerpo: Cuerpo, s: Annotated[Session, Depends(sesion)]) -> JSONResponse:
+```
+
+Y la sesión llega **por inyección de dependencias** (clase 036): el generador con
+`yield` es un recurso con apertura y cierre, y FastAPI garantiza el cierre.
+
+### Hibernate · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java) — la interfaz sin implementación
 
 ```java
-public interface Tareas extends JpaRepository<Tarea, Long> {
-}
+    public interface Tareas extends JpaRepository<Tarea, Long> {
+    }
 ```
 
 **Eso es todo.** Spring Data genera la implementación al arrancar, con `save`,
 `findById`, `findAll` y decenas de métodos más deducidos del nombre.
 
 Es lo más declarativo de las cuatro y tiene un coste concreto: **el código que se
-ejecuta no está escrito en ningún sitio que puedas leer**. Depurar exige entender
-el generador.
+ejecuta no está escrito en ningún sitio que puedas leer**. Depurar un
+comportamiento raro exige entender el generador, no leer un archivo.
 
-### EF Core — el contexto por petición
-
-```csharp
-constructor.Services.AddDbContext<Contexto>(opciones => opciones.UseSqlite(...));
+```java
+    @Entity
+    @Table(name = "tareas")
+    public static class Tarea {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        public Long id;
 ```
 
-`AddDbContext` registra el contexto con ámbito **por petición** —la clase 037— y
-mantiene el grupo de conexiones a nivel de proceso. Los dos objetos de la tabla
-de arriba, resueltos por el contenedor.
+La entidad es una clase Java corriente con anotaciones — no un lenguaje aparte
+como Prisma. La forma vive en el tipo.
+
+Y la sesión aquí es invisible: la abre y la cierra Spring alrededor de cada
+método del repositorio. Cómodo, y la razón de que el problema N+1 de la clase
+056 sea tan fácil de provocar sin darse cuenta.
+
+### Entity Framework Core · [`entity-framework-core/Program.cs`](implementaciones/entity-framework-core/Program.cs) — el contenedor decide el ámbito
+
+```csharp
+constructor.Services.AddDbContext<Contexto>(opciones =>
+    opciones.UseSqlite("Data Source=datos.db"));
+```
+
+Una línea que hace las dos cosas de la tabla: registra el contexto con ámbito
+**por petición** —la clase 037— y mantiene el grupo de conexiones **a nivel de
+proceso**.
+
+Es el reparto más limpio del elenco, y el que menos se ve: no hay dos objetos con
+dos nombres como en SQLAlchemy; hay uno cuyo ciclo de vida lo decide el
+contenedor.
+
+```csharp
+app.MapPost("/tareas", async (Cuerpo? cuerpo, Contexto contexto) =>
+{
+    var tarea = new Tarea { Titulo = cuerpo?.Titulo ?? "" };
+    contexto.Tareas.Add(tarea);
+    await contexto.SaveChangesAsync();
+```
+
+`Add` no escribe: **marca**. La escritura ocurre en `SaveChangesAsync`, y eso es
+lo que permite acumular varios cambios y confirmarlos juntos — la unidad de
+trabajo que la clase 057 convierte en transacciones.
+
+### Lo que las cuatro hacen igual en `/salud`
+
+```javascript
+    await prisma.$queryRaw`SELECT 1`;
+```
+
+```python
+        s.execute(text("SELECT 1"))
+```
+
+```java
+                jdbc.queryForObject("SELECT 1", Integer.class);
+```
+
+```csharp
+        var vivo = await contexto.Database.CanConnectAsync();
+```
+
+**Una consulta de verdad.** Comprobar que el objeto cliente existe no prueba
+nada: se construye sin conectar, y devolvería «conectado» con la base apagada.
+
+Es la misma lección del verde honesto aplicada a una sonda: **lo que no se
+ejecuta no se puede afirmar**. La clase 133 la convierte en la distinción entre
+salud y preparación.
 
 ## 🔍 Lo que esta clase destapó
 

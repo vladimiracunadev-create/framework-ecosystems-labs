@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 16,
+  "pendientes": 13,
   "clases": [
     {
       "clase": "039",
@@ -16,36 +16,6 @@
         "laravel",
         "rails",
         "spring-boot"
-      ]
-    },
-    {
-      "clase": "051",
-      "slug": "051-conectar-a-una-base-de-datos",
-      "faltan": [
-        "entity-framework-core",
-        "hibernate",
-        "prisma",
-        "sqlalchemy"
-      ]
-    },
-    {
-      "clase": "052",
-      "slug": "052-sql-a-mano",
-      "faltan": [
-        "activerecord",
-        "dapper",
-        "drizzle",
-        "sqlalchemy"
-      ]
-    },
-    {
-      "clase": "053",
-      "slug": "053-active-record",
-      "faltan": [
-        "activerecord",
-        "django",
-        "eloquent",
-        "typeorm"
       ]
     },
     {
