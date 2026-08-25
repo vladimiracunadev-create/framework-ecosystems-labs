@@ -622,7 +622,7 @@ También: *(Key)*
 
 Una unidad de interfaz con sus datos de entrada, su marcado y su comportamiento. Los datos entran por propiedades y los avisos salen por eventos: hacia abajo datos, hacia arriba eventos.
 
-> Se enseña en la [clase 082](../classes/parte-6-la-interfaz/082-el-primer-componente/README.md) 🚧 · se desarrolla en el [módulo 03](../curriculum/03-frontend-componentes-y-estado.md) · ver también [Propiedad](#propiedad), [Estado](#estado).
+> Se enseña en la [clase 082](../classes/parte-6-la-interfaz/082-el-primer-componente/README.md) · se desarrolla en el [módulo 03](../curriculum/03-frontend-componentes-y-estado.md) · ver también [Propiedad](#propiedad), [Estado](#estado).
 
 #### DOM virtual
 
@@ -1286,7 +1286,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
-| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 3 |
+| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 4 |
 | 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 0 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |

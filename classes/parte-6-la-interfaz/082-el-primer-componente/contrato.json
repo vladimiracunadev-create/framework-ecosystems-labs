@@ -1,8 +1,46 @@
 {
   "clase": "082",
   "titulo": "El primer componente",
-  "descripcion": "Un componente que recibe un texto y lo muestra.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "Un componente que recibe un texto y lo muestra, renderizado en el servidor por ocho tecnologías de interfaz.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "El caso peligroso comprueba `&lt;script` y no `&lt;script&gt;`: React escapa también el cierre y Svelte no, y las dos cosas son correctas — en contenido de texto, escapar `>` es opcional. Las ocho responden HTML por el mismo puerto, así que se pueden comparar sin abrir un navegador. Seis renderizan el componente en el servidor; htmx devuelve un fragmento porque eso ES su modelo; y Alpine.js manda la plantilla con el dato en un atributo, porque su render ocurre en el navegador. El caso del texto peligroso separa a las siete que escapan solas de la que escapa en otro contexto.",
+  "casos": [
+    {
+      "nombre": "la página trae el componente con su texto por omisión",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-componente=\"saludo\"", "Hola, mundo"]
+      }
+    },
+    {
+      "nombre": "el mismo componente con otro texto: eso es una propiedad",
+      "peticion": { "metodo": "GET", "ruta": "/componente?texto=Hola,%20parte%206" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["data-componente=\"saludo\"", "Hola, parte 6"] }
+    },
+    {
+      "nombre": "dos veces el mismo componente, con textos distintos",
+      "peticion": { "metodo": "GET", "ruta": "/dos?a=uno&b=dos" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["uno", "dos"] }
+    },
+    {
+      "nombre": "UN TEXTO PELIGROSO NO SE CONVIERTE EN ETIQUETA",
+      "peticion": { "metodo": "GET", "ruta": "/componente?texto=%3Cscript%3Ealert(1)%3C%2Fscript%3E" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_no_contiene": ["<script>alert(1)</script>"],
+        "cuerpo_contiene": ["&lt;script"]
+      }
+    },
+    {
+      "nombre": "cómo se escribe el componente en esta tecnología, leído de su archivo",
+      "peticion": { "metodo": "GET", "ruta": "/componente.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "leido_del_archivo": true }
+      }
+    }
+  ]
 }

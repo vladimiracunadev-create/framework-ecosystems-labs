@@ -1,0 +1,7 @@
+{
+  "framework": "alpinejs",
+  "requiere": ["node"],
+  "comprobar": ["node", "--version"],
+  "arrancar": ["node", "server.mjs"],
+  "espera_ms": 10000
+}
