@@ -168,14 +168,163 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
 Las cuatro usan **la herramienta de migración real de su ecosistema** —Prisma
-Migrate, Alembic, Flyway y las migraciones de EF Core—, no un guion propio. El
-código está en [`implementaciones/`](implementaciones/).
+Migrate, Alembic, Flyway y las migraciones de EF Core—, no un guion propio. Y las
+cuatro **arrancan borrando la base**, para que las migraciones se ejecuten de
+verdad al iniciar y el historial que se consulta lo hayan escrito ellas.
 
-Y las cuatro **arrancan borrando la base**, para que las migraciones se ejecuten
-de verdad al iniciar y el historial que se consulta lo hayan escrito ellas.
+El experimento es el mismo en las cuatro: **una fila creada antes de que la
+columna existiera**. Sin ella, la clase no probaría nada.
+
+### Prisma Migrate · [`prisma/prisma/migrations/…/migration.sql`](implementaciones/prisma/prisma/migrations/20260101000000_crear_tareas/migration.sql)
+
+```sql
+CREATE TABLE "Tarea" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "titulo" TEXT NOT NULL
+);
+
+-- Una fila creada AQUÍ, antes de que la columna exista. Sin ella no habría nada
+-- que rellenar en la siguiente migración, y la clase no probaría nada.
+INSERT INTO "Tarea" ("titulo") VALUES ('creada antes de la columna');
+```
+
+Y la segunda, en [`20260101000100_anadir_prioridad`](implementaciones/prisma/prisma/migrations/20260101000100_anadir_prioridad/migration.sql):
+
+```sql
+ALTER TABLE "Tarea" ADD COLUMN "prioridad" INTEGER NOT NULL DEFAULT 0;
+```
+
+**Prisma escribe SQL puro.** Es la más transparente de las cuatro: lo que se
+revisa en una pull request es exactamente lo que se va a ejecutar, sin capa
+intermedia que interpretar.
+
+A cambio, no hay `downgrade`: Prisma no genera la vuelta atrás. Su postura es que
+en producción se avanza y se corrige avanzando, que es defendible y conviene
+saber antes de elegirla.
+
+### Alembic · [`sqlalchemy/migraciones/versions/001_crear_tareas.py`](implementaciones/sqlalchemy/migraciones/versions/001_crear_tareas.py)
+
+```python
+revision = "001_crear_tareas"
+down_revision = None
+```
+
+```python
+    tareas = op.create_table(
+        "tareas",
+        sa.Column("id", sa.Integer, primary_key=True, autoincrement=True),
+        sa.Column("titulo", sa.String(120), nullable=False),
+    )
+```
+
+Y en [`002_anadir_prioridad.py`](implementaciones/sqlalchemy/migraciones/versions/002_anadir_prioridad.py):
+
+```python
+    op.add_column(
+        "tareas",
+        sa.Column("prioridad", sa.Integer, nullable=False, server_default="0"),
+    )
+```
+
+```python
+def downgrade() -> None:
+    # Existe, y no devuelve los datos: quitar la columna los borra.
+    op.drop_column("tareas", "prioridad")
+```
+
+**Python, no SQL.** La ventaja es que se puede ejecutar lógica —leer filas,
+transformarlas, escribirlas— dentro de la migración, que es lo que hace falta
+cuando el cambio no es estructural sino de datos.
+
+`down_revision` encadena las revisiones: **el orden no viene del nombre del
+archivo**, viene de ese campo. Es lo que permite que dos ramas de desarrollo
+generen migraciones y se puedan reconciliar.
+
+Y el `downgrade` merece leerse con atención: **existe y no devuelve los datos**.
+Quitar la columna los borra. La vuelta atrás recupera la estructura, no el
+contenido — que es la razón de que en producción casi nunca se use.
+
+### Flyway · [`hibernate/…/V1__crear_tareas.sql`](implementaciones/hibernate/src/main/resources/db/migration/V1__crear_tareas.sql)
+
+```sql
+CREATE TABLE tareas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(120) NOT NULL
+);
+```
+
+Y [`V2__anadir_prioridad.sql`](implementaciones/hibernate/src/main/resources/db/migration/V2__anadir_prioridad.sql):
+
+```sql
+ALTER TABLE tareas ADD COLUMN prioridad INT NOT NULL DEFAULT 0;
+```
+
+SQL puro como Prisma, y **el orden en el nombre del archivo**: `V1__`, `V2__`.
+Flyway calcula además una huella de cada archivo y **falla si uno ya aplicado
+cambia** — una salvaguarda que evita el desastre clásico de editar una migración
+que ya corrió en producción.
+
+Fíjate en que no es una herramienta de Hibernate: **Flyway es independiente del
+ORM**, y ahí está su virtud. Vale igual con JDBC a pelo, y no obliga a que quien
+escribe migraciones conozca JPA.
+
+### Migraciones de EF Core · [`entity-framework-core/Migraciones/20260101000000_CrearTareas.cs`](implementaciones/entity-framework-core/Migraciones/20260101000000_CrearTareas.cs)
+
+```csharp
+        constructor.CreateTable(
+            name: "Tareas",
+            columns: tabla => new
+            {
+                Id = tabla.Column<int>(type: "INTEGER", nullable: false)
+                    .Annotation("Sqlite:Autoincrement", true),
+                Titulo = tabla.Column<string>(type: "TEXT", nullable: false),
+            },
+            constraints: tabla => tabla.PrimaryKey("PK_Tareas", x => x.Id));
+```
+
+```csharp
+        constructor.AddColumn<int>(
+            name: "Prioridad",
+            table: "Tareas",
+            type: "INTEGER",
+            nullable: false,
+            defaultValue: 0);
+```
+
+C# en lugar de SQL, y **una diferencia real frente a las otras tres**: al no ser
+SQL, la misma migración vale para SQLite, PostgreSQL o SQL Server. El proveedor
+traduce.
+
+Y una pieza que EF Core necesita y las demás no:
+
+```csharp
+    protected override void BuildTargetModel(ModelBuilder constructor)
+    {
+        constructor.Entity("Tarea", b =>
+        {
+            b.Property<int>("Id").ValueGeneratedOnAdd().HasColumnType("INTEGER");
+```
+
+**El modelo tal como queda tras esta migración.** EF Core lo necesita para
+generar el SQL: sin él, `Migrate()` trabajaría sobre un modelo vacío. Normalmente
+vive en un archivo `.Designer.cs` que la herramienta escribe sola.
+
+### El detalle que comparten las cuatro segundas migraciones
+
+```sql
+ALTER TABLE "Tarea" ADD COLUMN "prioridad" INTEGER NOT NULL DEFAULT 0;
+```
+
+**`DEFAULT 0` no es cosmético.** Sin él, la fila que ya existía se quedaría con
+`NULL` en una columna declarada `NOT NULL`, y el motor **rechazaría la migración
+entera**.
+
+Es la lección práctica de la clase: **añadir una columna obligatoria a una tabla
+con datos exige decidir qué valor tienen las filas que ya están**. En una tabla
+vacía funciona sin pensarlo; en producción, no.
 
 ## 🧮 El contrato
 

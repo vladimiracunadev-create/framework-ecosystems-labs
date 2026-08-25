@@ -159,15 +159,134 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-[Prisma](implementaciones/prisma/), [SQLAlchemy](implementaciones/sqlalchemy/),
-[Hibernate](implementaciones/hibernate/) y
-[Entity Framework Core](implementaciones/entity-framework-core/).
+En las cuatro, **el catálogo es un archivo JSON**, no código:
 
-En las cuatro, **el catálogo es un archivo JSON**, no código. Se revisa en una
-pull request como cualquier otro dato, y se puede cargar desde una prueba sin
-arrancar nada.
+```json
+[
+  { "id": 1, "titulo": "comprar pan" },
+  { "id": 2, "titulo": "regar" },
+  { "id": 3, "titulo": "llamar" }
+]
+```
+
+Eso tiene dos consecuencias prácticas que valen la decisión: **se revisa en una
+pull request como cualquier otro dato**, y **se puede cargar desde una prueba sin
+arrancar nada**.
+
+Y las cuatro son idempotentes de la misma manera —y no de la que casi todo el
+mundo usa.
+
+### Prisma · [`prisma/server.mjs`](implementaciones/prisma/server.mjs) — `upsert`
+
+```javascript
+const catalogo = JSON.parse(await readFile(new URL("./catalogo.json", import.meta.url), "utf8"));
+```
+
+```javascript
+  for (const fila of catalogo) {
+    const antes = await prisma.tarea.findUnique({ where: { id: fila.id } });
+    await prisma.tarea.upsert({
+      where: { id: fila.id },
+      update: { titulo: fila.titulo },
+      create: fila,
+    });
+```
+
+`upsert` crea si no existe y actualiza si existe: **una sola operación** para las
+dos ramas.
+
+Como los identificadores del catálogo son **fijos**, sembrar dos veces deja el
+mismo estado — y no se lleva por delante lo que hayan añadido otros.
+
+### SQLAlchemy · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py) — `merge`
+
+```python
+CATALOGO = json.loads((Path(__file__).parent / "catalogo.json").read_text(encoding="utf-8"))
+```
+
+```python
+        for fila in CATALOGO:
+            if s.get(Tarea, fila["id"]) is None:
+                creadas += 1
+            s.merge(Tarea(id=fila["id"], titulo=fila["titulo"]))
+        s.commit()
+```
+
+`merge` es el `upsert` de SQLAlchemy: inserta si no existe, actualiza si existe.
+El `get` previo está solo para **contar** cuántas se crearon, que es lo que el
+contrato mide.
+
+### Hibernate · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java) — `save` con identificador
+
+```java
+            for (Fila fila : catalogo) {
+                if (!tareas.existsById(fila.id())) {
+                    creadas++;
+                }
+                Tarea tarea = new Tarea();
+                tarea.id = fila.id();
+                tarea.titulo = fila.titulo();
+                tareas.save(tarea);
+            }
+```
+
+Aquí no hay método `upsert`: **`save` con un identificador que ya existe hace una
+fusión en lugar de un alta**. Es un comportamiento que sorprende la primera vez
+—`save` suena a insertar— y es exactamente lo que hace falta aquí.
+
+```java
+        public int reiniciar() {
+            tareas.deleteAllInBatch();
+            return sembrar();
+        }
+```
+
+Y **reiniciar es otra operación**: borra y vuelve a sembrar. Mezclarla con
+sembrar sería el error de diseño de esta clase — una semilla que borra no se
+puede ejecutar en producción.
+
+### Entity Framework Core · [`entity-framework-core/Program.cs`](implementaciones/entity-framework-core/Program.cs) — buscar y decidir
+
+```csharp
+    foreach (var fila in catalogo)
+    {
+        var existente = await contexto.Tareas.FindAsync(fila.Id);
+        if (existente is null)
+        {
+            contexto.Tareas.Add(new Tarea { Id = fila.Id, Titulo = fila.Titulo });
+            creadas++;
+        }
+        else
+        {
+            existente.Titulo = fila.Titulo;
+        }
+```
+
+**EF Core no tiene una operación de inserción-o-actualización**: se busca y se
+decide. Es más código y es más explícito — se ve exactamente qué pasa en cada
+rama.
+
+Los cuatro llegan al mismo sitio por caminos distintos, y eso vuelve a decir algo
+del dominio: cuando cuatro ORM inventan la misma operación con tres nombres,
+**el problema es del problema**.
+
+### La alternativa que falla, y por qué se ve tanto
+
+```javascript
+ * La alternativa que se ve mucho —«si la tabla está vacía, siembra»— falla en
+```
+
+Sembrar solo si la tabla está vacía es lo primero que se le ocurre a cualquiera,
+y funciona el primer día.
+
+**Falla en cuanto el catálogo crece.** La fila nueva no entra nunca, porque la
+tabla ya no está vacía. Y falla en silencio: nadie ve un error, simplemente el
+dato que se añadió al catálogo no aparece en producción.
+
+La idempotencia **por identificador** —la de las cuatro implementaciones— no
+tiene ese problema: cada fila se compara consigo misma.
 
 ## 🧮 El contrato
 

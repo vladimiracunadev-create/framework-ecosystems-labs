@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 9,
+  "pendientes": 7,
   "clases": [
     {
       "clase": "039",
@@ -16,26 +16,6 @@
         "laravel",
         "rails",
         "spring-boot"
-      ]
-    },
-    {
-      "clase": "058",
-      "slug": "058-migraciones",
-      "faltan": [
-        "entity-framework-core",
-        "hibernate",
-        "prisma",
-        "sqlalchemy"
-      ]
-    },
-    {
-      "clase": "059",
-      "slug": "059-semillas-y-datos-de-prueba",
-      "faltan": [
-        "entity-framework-core",
-        "hibernate",
-        "prisma",
-        "sqlalchemy"
       ]
     },
     {
