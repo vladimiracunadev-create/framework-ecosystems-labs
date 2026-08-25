@@ -45,25 +45,144 @@ verificador), **nombre y valor por separado**: cada framework llama distinto
 a su campo —`csrfmiddlewaretoken`, `_token`, `authenticity_token`,
 `__RequestVerificationToken`— y el contrato no debe casarse con ninguno.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-El elenco es el de los frameworks que hacen esto **de verdad y de serie** —
-por eso están Django, Laravel, Rails y ASP.NET Core y no están Express ni
-FastAPI, que pueden pero componiéndolo todo:
+El elenco es el de los frameworks que hacen esto **de verdad y de serie**. Por
+eso están Django, Laravel, Rails y ASP.NET Core, y no están Express ni FastAPI:
+pueden, pero componiéndolo todo, y el elenco honesto de esta clase es el de los
+frameworks donde el formulario de servidor es el camino pavimentado.
 
-- **Django** — `{% csrf_token %}` en la plantilla, `CsrfViewMiddleware`
-  validando, y `redirect()` tras el alta. Cada pieza se ve.
-- **Laravel** — `@csrf` en Blade, y una decisión de arquitectura visible en
-  `bootstrap/app.php`: el grupo de rutas **`web`** trae sesión y
-  verificación CSRF; el grupo **`api`** no trae nada de eso. La diferencia
-  entre los dos grupos *es* la clase 072.
-- **Rails** — `protect_from_forgery` y el testigo en el formulario. Los
-  ayudantes (`form_with`) lo pondrían solos; aquí va explícito para que se
-  vea qué ponen.
-- **ASP.NET Core** — Razor Pages: el *tag helper* de formulario **inyecta**
-  el testigo y todo POST a una página **lo valida por omisión**. Es el único
-  de los cuatro donde el rechazo del caso 2 ocurre sin que ninguna línea de
-  la aplicación lo pida.
+Léelas por lo mismo que se comparan: **cuánto de esto hay que escribir**.
+
+### Django · [`django/plantillas/tareas.html`](implementaciones/django/plantillas/tareas.html)
+
+```html
+<form method="post" action="/tareas">
+  {% csrf_token %}
+  <input name="titulo" value="">
+  <button type="submit">Crear</button>
+</form>
+```
+
+Cuatro líneas y **cada pieza se ve**. `{% csrf_token %}` pinta el campo oculto
+de la clase 072 y va el primero del formulario a propósito: es lo que un
+formulario real nunca omite.
+
+Y el otro extremo del ciclo, en [`django/app.py`](implementaciones/django/app.py):
+
+```python
+        return redirect("/tareas")
+```
+
+```python
+    MIDDLEWARE=["django.middleware.csrf.CsrfViewMiddleware"],
+```
+
+Las dos mitades declaradas: quién valida el testigo y qué se responde al POST.
+Django es el único del elenco donde las dos están escritas en la aplicación.
+
+### Laravel · [`laravel/resources/views/tareas.blade.php`](implementaciones/laravel/resources/views/tareas.blade.php)
+
+```blade
+<form method="post" action="/tareas">
+  @csrf
+  <input name="titulo" value="">
+  <button type="submit">Crear</button>
+</form>
+```
+
+Lo mismo con otra sintaxis. Pero la decisión de arquitectura de Laravel no está
+aquí — está en [`laravel/bootstrap/app.php`](implementaciones/laravel/bootstrap/app.php):
+
+```php
+    ->withRouting(web: __DIR__ . '/../routes/web.php')
+```
+
+**`web:` y no `api:`.** El grupo `web` trae sesión, cookies cifradas y la
+verificación del testigo; el grupo `api` no trae nada de eso, porque una API con
+token no lo necesita. Esa palabra de cuatro letras **es la clase 072 convertida
+en arquitectura**: no se decide ruta a ruta, se decide al declarar de qué mundo
+forma parte el archivo entero.
+
+### Rails · [`rails/app/views/tareas/index.html.erb`](implementaciones/rails/app/views/tareas/index.html.erb)
+
+```erb
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+```
+
+Aquí el testigo va **explícito a propósito**: `form_with` lo pondría solo, y
+justo por eso se escribe a mano — para ver qué pone. Es la única forma de que
+una clase sobre convenciones no acabe enseñando la convención en lugar del
+mecanismo.
+
+Y en [`rails/config.ru`](implementaciones/rails/config.ru), la parte que sí es
+decisión:
+
+```ruby
+  protect_from_forgery with: :exception
+
+  rescue_from ActionController::InvalidAuthenticityToken do
+    head :forbidden
+  end
+```
+
+```ruby
+    redirect_to "/tareas", status: :see_other
+```
+
+`with: :exception` en lugar del comportamiento por omisión —que reinicia la
+sesión en silencio— porque **el contrato mide el rechazo**: una defensa que no
+se nota no se puede probar. Y `status: :see_other` es el único del elenco que
+emite `303` en vez de `302`; los dos valen para el navegador, y el `303` es el
+que dice literalmente «vuelve con un GET».
+
+### ASP.NET Core · [`aspnet-core/Pages/Tareas.cshtml`](implementaciones/aspnet-core/Pages/Tareas.cshtml)
+
+```html
+<form method="post">
+  <input name="titulo" value="">
+  <button type="submit">Crear</button>
+</form>
+```
+
+**No hay testigo en la plantilla.** Ni una directiva, ni una llamada. El
+*tag helper* de formulario de Razor lo inyecta, y todo POST a una página se
+valida por omisión — es el único de los cuatro donde el rechazo del segundo
+caso ocurre sin que ninguna línea de la aplicación lo pida.
+
+En [`aspnet-core/Pages/Tareas.cshtml.cs`](implementaciones/aspnet-core/Pages/Tareas.cshtml.cs):
+
+```csharp
+        return RedirectToPage();
+```
+
+Y en [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs), la
+aplicación entera:
+
+```csharp
+constructor.Services.AddRazorPages();
+
+var app = constructor.Build();
+app.MapRazorPages();
+```
+
+> ⚠️ **«Por omisión» depende de una activación.** Este código llegó a `main`
+> con todo lo anterior correcto y falló en el barrido nocturno: el POST se
+> rechazaba siempre con `400`. Faltaba un archivo de una línea:
+>
+> ```csharp
+> @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+> ```
+>
+> Sin él, `<form method="post">` es HTML plano —el ayudante no se aplica— y el
+> campo oculto no se renderiza. La página se ve bien, la validación sigue
+> activa, y el formulario no funciona nunca.
+>
+> Las plantillas de proyecto de ASP.NET Core traen ese `_ViewImports.cshtml`
+> puesto, así que nadie lo ve. Aquí, sin generador, salió a la superficie — el
+> mismo fenómeno que Laravel en la clase 011. **Lo que un framework hace «de
+> serie» suele ser lo que su generador escribió por ti**, y solo se distingue
+> lo uno de lo otro cuando algo falta.
 
 ## 📊 Comparación
 

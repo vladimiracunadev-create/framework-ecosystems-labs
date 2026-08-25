@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 61,
+  "pendientes": 59,
   "clases": [
     {
       "clase": "014",
@@ -613,26 +613,6 @@
         "laravel",
         "rails",
         "spring-boot"
-      ]
-    },
-    {
-      "clase": "080",
-      "slug": "080-formularios-que-funcionan-sin-javascript",
-      "faltan": [
-        "aspnet-core",
-        "django",
-        "laravel",
-        "rails"
-      ]
-    },
-    {
-      "clase": "081",
-      "slug": "081-mejora-progresiva",
-      "faltan": [
-        "alpinejs",
-        "htmx",
-        "react",
-        "svelte"
       ]
     }
   ]

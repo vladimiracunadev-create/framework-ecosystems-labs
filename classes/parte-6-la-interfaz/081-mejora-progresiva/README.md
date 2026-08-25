@@ -52,23 +52,115 @@ contrario sería el verde vacío que este repositorio evita.
 Lo que sí queda probado: el servidor sostiene **las dos conversaciones**
 sobre el mismo estado, y el marcado base no depende de ninguna de ellas.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-- **htmx** — mejora progresiva **con nombre de biblioteca**: `hx-post` y
-  `hx-target` van *encima* de `method` y `action`. Si htmx no carga, los
-  atributos son texto inerte y el formulario envía solo. El servidor
-  distingue por la cabecera `HX-Request`, que htmx pone siempre
-  [@gross-hypermedia-systems].
-- **Alpine.js** — `x-data` y `@submit.prevent` sobre el mismo formulario
-  base; la mejora hace `fetch` pidiendo JSON. La misma idea con el estado en
-  el cliente en vez de en el HTML.
-- **React** — el formulario se sirve **renderizado con `method` y `action`
-  puestos**: funciona antes de que cargue una línea de JavaScript. Es la
-  idea que React formalizó con las Server Actions: `<form action>` como caso
-  base, hidratación como mejora [@react-server-components].
-- **Svelte** — igual, y con el nombre propio más claro del ecosistema: las
-  *form actions* de SvelteKit y `use:enhance` interceptan **este mismo
-  formulario** cuando hay JavaScript y lo dejan en paz cuando no.
+Las cuatro sirven **el mismo formulario base** —`method`, `action`, un `input`
+con nombre: el de la clase 080— y le ponen la mejora encima. Lo que cambia es
+**cómo se señala la mejora al servidor** y **qué vuelve**.
+
+### htmx · [`htmx/server.mjs`](implementaciones/htmx/server.mjs)
+
+```javascript
+<form method="post" action="/tareas" hx-post="/tareas" hx-target="#lista" hx-swap="beforeend">
+  <input name="titulo" value="">
+  <button type="submit">Crear</button>
+</form>
+```
+
+Mejora progresiva **con nombre de biblioteca**. Los atributos `hx-*` van
+*encima* de `method` y `action`, no en su lugar: si htmx no carga, son texto
+inerte que el navegador ignora y el formulario envía solo.
+
+```javascript
+      if (peticion.headers["hx-request"] === "true") {
+        respuesta.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+        respuesta.end(elemento(tarea));
+      } else {
+        respuesta.writeHead(303, { location: "/" });
+        respuesta.end();
+      }
+```
+
+La bifurcación entera, en siete líneas. La señal es `HX-Request`, que htmx pone
+**siempre**, y lo que vuelve es **HTML listo para insertar** — el servidor sigue
+siendo dueño del renderizado, como en la clase 079 [@gross-hypermedia-systems].
+
+```javascript
+function elemento(tarea) {
+  return `<li data-id="${escapar(tarea.id)}">${escapar(tarea.titulo)}</li>`;
+}
+```
+
+Una sola función pinta el elemento, y la usan las dos vías: la página completa
+la llama en bucle y el fragmento la llama una vez. **Esa reutilización es lo que
+garantiza que las dos vías no diverjan** — y el escapado, que la mejora no abra
+la puerta que la 079 cerró.
+
+### Alpine.js · [`alpinejs/server.mjs`](implementaciones/alpinejs/server.mjs)
+
+```javascript
+  <form method="post" action="/tareas"
+        @submit.prevent="fetch('/tareas', { method: 'POST', headers: { accept: 'application/json' }, body: new FormData($el) }).then(r => r.json()).then(t => tareas.push(t))">
+```
+
+La misma idea con el estado en el cliente en vez de en el HTML.
+`@submit.prevent` intercepta el envío **de este mismo formulario**, y `new
+FormData($el)` recoge los campos del propio elemento — no hay una segunda
+definición de qué se envía.
+
+```javascript
+      if ((peticion.headers.accept ?? "").includes("application/json")) {
+        respuesta.writeHead(200, { "content-type": "application/json" });
+        respuesta.end(JSON.stringify(tarea));
+```
+
+Aquí la señal no es una cabecera propia sino **negociación de contenido** — la
+de la clase 018. Y lo que vuelve son **datos**, no marcado: el cliente los
+convierte en `<li>`.
+
+### React · [`react/server.mjs`](implementaciones/react/server.mjs)
+
+```javascript
+      h("form", { method: "post", action: "/tareas" },
+        h("input", { name: "titulo", defaultValue: "" }),
+        h("button", { type: "submit" }, "Crear"),
+      ),
+```
+
+```javascript
+    respuesta.end("<!DOCTYPE html>" + renderToStaticMarkup(h(Pagina)));
+```
+
+El formulario se sirve **renderizado, con `method` y `action` puestos**:
+funciona antes de que cargue una sola línea de JavaScript. Es la idea que React
+formalizó con las Server Actions —`<form action>` como caso base, hidratación
+como mejora [@react-server-components]—, aquí sin meta-framework para que se vea
+el mecanismo y no el azúcar.
+
+`renderToStaticMarkup` y no `renderToString` es deliberado: esta clase mide el
+caso *sin* JavaScript, y los marcadores de hidratación no aportan nada a esa
+medición.
+
+### Svelte · [`svelte/Pagina.svelte`](implementaciones/svelte/Pagina.svelte)
+
+```svelte
+<form method="post" action="/tareas">
+  <input name="titulo" value="">
+  <button type="submit">Crear</button>
+</form>
+```
+
+El caso base, en el componente. En SvelteKit esta idea tiene **nombre propio**:
+las *form actions* y `use:enhance` interceptan este mismo formulario cuando hay
+JavaScript y lo dejan en paz cuando no — que es la definición operativa de
+mejora progresiva [@mdn-progressive-enhancement].
+
+Y en [`svelte/server.mjs`](implementaciones/svelte/server.mjs), la misma
+bifurcación que Alpine y React:
+
+```javascript
+      if ((peticion.headers.accept ?? "").includes("application/json")) {
+```
 
 ## 📊 Comparación
 

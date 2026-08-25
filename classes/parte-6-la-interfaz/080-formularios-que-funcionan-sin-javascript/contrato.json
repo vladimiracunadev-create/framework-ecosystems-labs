@@ -9,7 +9,7 @@
       "nombre": "la página trae un formulario HTML de verdad: método POST y campo con nombre",
       "guardar_cookies": true,
       "guardar_cuerpo": {
-        "campo_testigo": { "patron": "name=\"([^\"]+)\"[^>]*value=\"" },
+        "campo_testigo": { "patron": "name=\"([^\"]+)\"[^>]*value=\"[^\"]+\"" },
         "valor_testigo": { "patron": "name=\"[^\"]+\"[^>]*value=\"([^\"]+)\"" }
       },
       "peticion": { "metodo": "GET", "ruta": "/tareas" },

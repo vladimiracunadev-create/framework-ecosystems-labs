@@ -1,0 +1,12 @@
+@namespace Clase080.Pages
+@*
+  Sin esta línea, `<form method="post">` es HTML plano: el ayudante de
+  formulario de Razor NO se aplica y el campo oculto del testigo no se
+  renderiza. La página seguiría viéndose bien y el POST se rechazaría con 400
+  para siempre — el fallo que el barrido nocturno destapó.
+
+  Es el ejemplo más limpio de la parte: lo que un framework hace «por omisión»
+  suele depender de una activación que la plantilla del proyecto trae puesta y
+  que nadie vuelve a mirar.
+*@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
