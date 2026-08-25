@@ -8,8 +8,8 @@ Antes de escribir una línea: qué hace un framework que una biblioteca no hace,
 
 | # | Clase | Nivel | Pista | Elenco | Estado |
 | --- | --- | --- | --- | --- | --- |
-| [001](001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) | [Qué hace un framework que una biblioteca no hace](001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) | 🟢 introductorio | `backend` | 4 | 🚧 Esqueleto |
-| [002](002-inversion-de-control-en-concreto/README.md) | [Inversión de control, en concreto](002-inversion-de-control-en-concreto/README.md) | 🟢 introductorio | `backend` | 4 | 🚧 Esqueleto |
+| [001](001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) | [Qué hace un framework que una biblioteca no hace](001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) | 🟢 introductorio | `backend` | 4 | ✅ Construida |
+| [002](002-inversion-de-control-en-concreto/README.md) | [Inversión de control, en concreto](002-inversion-de-control-en-concreto/README.md) | 🟢 introductorio | `backend` | 4 | ✅ Construida |
 | [003](003-el-contrato-como-unidad-de-comparacion/README.md) | [El contrato como unidad de comparación](003-el-contrato-como-unidad-de-comparacion/README.md) | 🟢 introductorio | `backend` | 5 | 🚧 Esqueleto |
 | [004](004-taxonomia-que-compite-de-verdad-con-que/README.md) | [Taxonomía: qué compite de verdad con qué](004-taxonomia-que-compite-de-verdad-con-que/README.md) | 🟢 introductorio | `backend` | 5 | 🚧 Esqueleto |
 | [005](005-idiomatico-frente-a-traducido/README.md) | [Idiomático frente a traducido](005-idiomatico-frente-a-traducido/README.md) | 🟢 introductorio | `backend` | 4 | 🚧 Esqueleto |

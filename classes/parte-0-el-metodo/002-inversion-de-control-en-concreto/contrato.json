@@ -2,7 +2,37 @@
   "clase": "002",
   "titulo": "Inversión de control, en concreto",
   "descripcion": "Registrar un manejador y no llamarlo nunca: el framework lo llama.",
-  "estado": "esqueleto",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "recién arrancado, el manejador NO se ha ejecutado: registrar no es llamar",
+      "peticion": { "metodo": "GET", "ruta": "/invocaciones" },
+      "esperado": { "estado": 200, "json": { "veces": 0 } }
+    },
+    {
+      "nombre": "el manejador responde cuando llega su petición",
+      "peticion": { "metodo": "GET", "ruta": "/trabajo" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo": "hecho",
+        "cabeceras": { "content-type": "text/plain" }
+      }
+    },
+    {
+      "nombre": "y se ejecutó exactamente una vez",
+      "peticion": { "metodo": "GET", "ruta": "/invocaciones" },
+      "esperado": { "estado": 200, "json": { "veces": 1 } }
+    },
+    {
+      "nombre": "una segunda petición lo vuelve a invocar",
+      "peticion": { "metodo": "GET", "ruta": "/trabajo" },
+      "esperado": { "estado": 200, "cuerpo": "hecho" }
+    },
+    {
+      "nombre": "una invocación por petición, ni más ni menos",
+      "peticion": { "metodo": "GET", "ruta": "/invocaciones" },
+      "esperado": { "estado": 200, "json": { "veces": 2 } }
+    }
+  ]
 }

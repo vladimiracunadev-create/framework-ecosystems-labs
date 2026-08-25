@@ -117,7 +117,7 @@
             "flask",
             "spring-boot"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 2,
@@ -133,7 +133,7 @@
             "spring-boot",
             "aspnet-core"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 3,

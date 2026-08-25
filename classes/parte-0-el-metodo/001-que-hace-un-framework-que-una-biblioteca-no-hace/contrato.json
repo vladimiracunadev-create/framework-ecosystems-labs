@@ -2,7 +2,32 @@
   "clase": "001",
   "titulo": "Qué hace un framework que una biblioteca no hace",
   "descripcion": "El mismo saludo HTTP escrito con una biblioteca y con un framework: quién controla el bucle.",
-  "estado": "esqueleto",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "el saludo sin nombre responde texto plano",
+      "peticion": { "metodo": "GET", "ruta": "/saludo" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo": "hola",
+        "cabeceras": { "content-type": "text/plain" }
+      }
+    },
+    {
+      "nombre": "el parámetro de consulta llega al saludo",
+      "peticion": { "metodo": "GET", "ruta": "/saludo?nombre=ana" },
+      "esperado": { "estado": 200, "cuerpo": "hola ana" }
+    },
+    {
+      "nombre": "el parámetro llega DECODIFICADO: %20 es un espacio, no tres letras",
+      "peticion": { "metodo": "GET", "ruta": "/saludo?nombre=ana%20maria" },
+      "esperado": { "estado": 200, "cuerpo": "hola ana maria" }
+    },
+    {
+      "nombre": "una ruta que nadie registró responde 404",
+      "peticion": { "metodo": "GET", "ruta": "/adios" },
+      "esperado": { "estado": 404 }
+    }
+  ]
 }
