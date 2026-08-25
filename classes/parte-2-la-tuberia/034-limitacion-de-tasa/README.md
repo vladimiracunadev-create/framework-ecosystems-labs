@@ -78,21 +78,147 @@ proceso de aplicación.
 Es la misma conclusión de la clase 109 sobre el estado de conexión: **cuando el
 estado tiene que ser único y hay varias instancias, el estado sale del proceso**.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Express, FastAPI y Spring Boot montan el cubo a mano —para que el algoritmo se
-vea— y ASP.NET Core usa lo que trae la plataforma:
+Tres montan el cubo a mano —para que el algoritmo se vea— y **una usa lo que trae
+la plataforma**. Y las cuatro comparten el mismo problema de fondo, que la clase
+declara en vez de esconder.
 
-```csharp
-opciones.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(contexto =>
-    RateLimitPartition.GetFixedWindowLimiter(
-        contexto.Connection.RemoteIpAddress?.ToString() ?? "anonimo",
-        _ => new FixedWindowRateLimiterOptions { PermitLimit = 3, Window = TimeSpan.FromMinutes(1) }));
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — el algoritmo, a la vista
+
+```javascript
+function consumir(clave) {
+  const ahora = Date.now();
+  const cubo = cubos.get(clave) ?? { restantes: CUPO, reinicio: ahora + VENTANA_MS };
+  if (ahora >= cubo.reinicio) {
+    cubo.restantes = CUPO;
+    cubo.reinicio = ahora + VENTANA_MS;
+  }
+  const permitido = cubo.restantes > 0;
+  if (permitido) cubo.restantes -= 1;
+  cubos.set(clave, cubo);
+  return { permitido, ...cubo };
+}
 ```
 
-**.NET trae limitación de tasa en la biblioteca estándar**, con varios algoritmos
-y particionado por clave. De los cuatro, es el único que no necesita biblioteca
-externa ni código propio — y sigue teniendo el problema del estado por proceso.
+Diez líneas y el algoritmo entero: **ventana fija con reinicio**. Cada clave
+tiene un cupo y un instante de reinicio; al pasar ese instante el cupo vuelve a
+llenarse.
+
+```javascript
+  respuesta.set("ratelimit-limit", String(CUPO));
+  respuesta.set("ratelimit-remaining", String(restantes));
+  respuesta.set("ratelimit-reset", String(segundos));
+```
+
+```javascript
+    return respuesta
+      .status(429)
+      .set("retry-after", String(segundos))
+```
+
+Las tres cabeceras `RateLimit-*` **en todas las respuestas**, no solo en el
+rechazo: es lo que permite a un cliente educado bajar el ritmo *antes* de que le
+corten.
+
+Y `Retry-After` **no es opcional**: sin ella el cliente no sabe cuándo volver y
+reintenta en bucle, que es exactamente lo que se quería evitar. Un limitador que
+provoca más tráfico del que ahorra está mal montado.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — el mismo cubo
+
+```python
+def consumir(clave: str) -> tuple[bool, int, int]:
+    ahora = time.time()
+    cubo = cubos.setdefault(clave, {"restantes": CUPO, "reinicio": ahora + VENTANA})
+    if ahora >= cubo["reinicio"]:
+        cubo["restantes"] = CUPO
+        cubo["reinicio"] = ahora + VENTANA
+    permitido = cubo["restantes"] > 0
+    if permitido:
+        cubo["restantes"] -= 1
+```
+
+Traducción directa. La función es **independiente del framework** —recibe una
+clave y devuelve una decisión—, así que se puede probar sin servidor.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — el mismo cubo, con candado
+
+```java
+        private final ConcurrentHashMap<String, Cubo> cubos = new ConcurrentHashMap<>();
+```
+
+```java
+            synchronized (cubo) {
+                long ahora = Instant.now().toEpochMilli();
+                if (ahora >= cubo.reinicio) {
+                    cubo.restantes = CUPO;
+                    cubo.reinicio = ahora + VENTANA_MS;
+                }
+                permitido = cubo.restantes > 0;
+                if (permitido) {
+                    cubo.restantes--;
+                }
+```
+
+Mismo algoritmo, **y dos piezas de concurrencia que en Node y Python no hacen
+falta**: el mapa concurrente para el registro de cubos y el `synchronized` para
+la lectura-modificación-escritura de cada cubo.
+
+No es estilo: **un `HashMap` normal aquí sería un fallo de concurrencia**, y sin
+el bloque sincronizado dos peticiones simultáneas podrían leer `restantes = 1`
+las dos y pasar las dos. Es la tercera vez en la parte 2 que el modelo de
+ejecución de la JVM obliga a escribir algo que los otros no necesitan.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — viene en la plataforma
+
+```csharp
+constructor.Services.AddRateLimiter(opciones =>
+{
+    opciones.RejectionStatusCode = 429;
+    opciones.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(contexto =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            contexto.Connection.RemoteIpAddress?.ToString() ?? "anonimo",
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 3,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0,
+            }));
+```
+
+```csharp
+    opciones.OnRejected = async (contexto, cancelacion) =>
+    {
+        contexto.HttpContext.Response.Headers.RetryAfter = "60";
+```
+
+**El único de los cuatro que no necesita ni biblioteca externa ni código
+propio.** `System.Threading.RateLimiting` es biblioteca estándar y trae varios
+algoritmos —ventana fija, ventana deslizante, cubo de fichas, concurrencia— con
+particionado por clave.
+
+`QueueLimit = 0` es una decisión declarada: la alternativa sería **encolar** las
+peticiones que exceden en lugar de rechazarlas. Encolar suena más amable y
+convierte un `429` inmediato en una espera indefinida, que suele ser peor.
+
+### El problema que las cuatro comparten
+
+```javascript
+const cubos = new Map();
+```
+
+**El estado vive en el proceso.** Con dos instancias detrás de un balanceador,
+cada una tiene su propio cubo y el cupo real es el doble del declarado; con diez,
+diez veces.
+
+Ninguno de los cuatro frameworks resuelve esto, y no es un descuido: hace falta
+un **almacén compartido** —Redis es lo habitual— y eso ya no es una decisión del
+framework sino de la arquitectura. La versión de .NET tiene exactamente el mismo
+límite que las tres escritas a mano.
+
+Queda declarado aquí porque es la diferencia entre una clase que enseña el
+algoritmo y una que hace creer que el problema está resuelto.
 
 ## 🔬 Comparación
 

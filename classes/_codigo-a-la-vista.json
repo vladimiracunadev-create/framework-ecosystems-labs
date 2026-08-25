@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 38,
+  "pendientes": 33,
   "clases": [
     {
       "clase": "016",
@@ -47,56 +47,6 @@
         "gin",
         "laravel",
         "rails",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "031",
-      "slug": "031-manejo-centralizado-de-errores",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "032",
-      "slug": "032-tiempos-de-espera",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "033",
-      "slug": "033-limite-de-tamano-del-cuerpo",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "034",
-      "slug": "034-limitacion-de-tasa",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "035",
-      "slug": "035-cabeceras-de-seguridad",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
         "spring-boot"
       ]
     },

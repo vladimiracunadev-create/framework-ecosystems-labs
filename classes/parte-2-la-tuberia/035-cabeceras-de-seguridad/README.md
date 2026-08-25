@@ -58,30 +58,94 @@ Esa última no es una defensa: quitar la firma del servidor no impide nada. Es
 qué vulnerabilidades conocidas probar primero. Cuesta una línea y ahorra un paso
 de reconocimiento.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro hacen lo mismo. Un detalle merece atención, en FastAPI:
+Las cuatro ponen las mismas cinco cabeceras en una sola capa. Lo que separa a las
+implementaciones son dos detalles pequeños con consecuencias grandes.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — la lista, comentada
+
+```javascript
+const CABECERAS = {
+  "x-content-type-options": "nosniff",
+  "x-frame-options": "DENY",
+  "strict-transport-security": "max-age=31536000; includeSubDomains",
+  "content-security-policy": "default-src 'none'; frame-ancestors 'none'",
+  "referrer-policy": "no-referrer",
+};
+```
+
+```javascript
+app.use((peticion, respuesta, siguiente) => {
+  for (const [nombre, valor] of Object.entries(CABECERAS)) respuesta.set(nombre, valor);
+  respuesta.removeHeader("x-powered-by");
+  siguiente();
+});
+```
+
+Ninguna de las cinco es una defensa del servidor: **son instrucciones que el
+navegador aplica si se las pides**. Un cliente que no sea un navegador las ignora
+por completo, y por eso no sustituyen a nada de la parte 5.
+
+Y una línea que solo tiene Express: `removeHeader("x-powered-by")`. Express
+anuncia por omisión que es Express. Quitarlo **no es una defensa** —quien ataca
+prueba igual— y es información gratis que no hace falta regalar.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — el detalle que importa
 
 ```python
-respuesta.headers.setdefault(nombre, valor)
+    respuesta = await siguiente(peticion)
+    for nombre, valor in CABECERAS.items():
+        respuesta.headers.setdefault(nombre, valor)
+    return respuesta
 ```
 
-**`setdefault` y no asignación directa.** Si un manejador concreto puso una
-política más estricta para su ruta, la capa general no debe pisarla. Con
-asignación, la capa —que corre después— borraría la decisión más informada.
+**`setdefault` y no asignación directa.**
+
+Si un manejador concreto puso una política más estricta para su ruta —la clase
+077 hace exactamente eso con un nonce por respuesta—, la capa general **no debe
+pisarla**. Con asignación, la capa, que corre después, borraría la decisión más
+informada.
 
 Es un patrón que vale para cualquier capa transversal: **poner un valor por
-omisión, no imponer un valor**.
+omisión, no imponer un valor**. Las otras tres implementaciones asignan, y ese es
+un fallo latente que el contrato de esta clase no llega a destapar porque ninguna
+ruta compite.
 
-Y en Spring Boot, un aviso honesto:
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — y el aviso honesto
 
 ```java
-// Spring Security trae estas cabeceras puestas y bien configuradas.
+            r.setHeader("X-Content-Type-Options", "nosniff");
+            r.setHeader("X-Frame-Options", "DENY");
+            r.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+            r.setHeader("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'");
+            r.setHeader("Referrer-Policy", "no-referrer");
 ```
 
-Aquí se ponen a mano para que se vean. **En un proyecto real, añadir Spring
-Security es la respuesta correcta**: las trae activadas por omisión y añade mucho
-más. Escribir el filtro a mano es un ejercicio, no una recomendación.
+**Spring Security trae estas cinco cabeceras puestas y bien configuradas.** Aquí
+se escriben a mano para que se vean.
+
+En un proyecto real, **añadir Spring Security es la respuesta correcta**: las trae
+activadas por omisión y añade mucho más. Escribir el filtro a mano es un
+ejercicio, no una recomendación — y decirlo es parte de la clase, porque un
+laboratorio que enseña a reimplementar lo que el ecosistema ya resolvió enseña
+mal.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+    cabeceras["X-Content-Type-Options"] = "nosniff";
+    cabeceras["X-Frame-Options"] = "DENY";
+    cabeceras["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains";
+    cabeceras["Content-Security-Policy"] = "default-src 'none'; frame-ancestors 'none'";
+    cabeceras["Referrer-Policy"] = "no-referrer";
+    cabeceras.Remove("Server");
+```
+
+Igual que Express, con `Remove("Server")` en el papel del `x-powered-by`. Y una
+diferencia real de plataforma: **en .NET la cabecera `Server` la emite Kestrel**,
+así que quitarla desde la aplicación funciona pero lo idiomático es apagarla en
+las opciones del servidor —`AddServerHeader = false`—, un nivel más abajo.
 
 ## 🔬 Comparación
 

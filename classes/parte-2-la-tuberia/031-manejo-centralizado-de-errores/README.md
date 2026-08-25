@@ -70,49 +70,140 @@ de verdad usa el cliente: **una cadena estable que se puede comparar**. El
 
 La clase 040 lo lleva más lejos con errores por campo.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
 Las cuatro comparten estructura: una excepción propia para los errores de
-negocio, un punto único de conversión, y dos tratos distintos según de qué error
-se trate. El código completo está en [`implementaciones/`](implementaciones/).
+negocio, **un punto único de conversión**, y dos tratos distintos según de qué
+error se trate. Ningún manejador de ruta sabe que ese punto existe.
 
-### Dónde vive el manejador
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — la firma mágica
 
 ```javascript
-// Express — se reconoce por tener CUATRO argumentos. Firma mágica.
-app.use((error, peticion, respuesta, siguiente) => { ... });
+app.get("/roto", () => {
+  throw new Error("referencia interna: secreto=abc123");
+});
+```
+
+```javascript
+app.use((error, peticion, respuesta, siguiente) => {
+  if (error instanceof ErrorDeNegocio) {
+    return respuesta.status(error.estado).type("application/problem+json").json({
+      type: "about:blank",
+      title: error.message,
+      status: error.estado,
+      code: error.codigo,
+    });
+  }
+```
+
+```javascript
+  console.error("error no controlado:", error.message);
+  respuesta.status(500).type("application/problem+json").json({
+    type: "about:blank",
+    title: "error interno",
+    status: 500,
+    code: "ERROR_INTERNO",
+  });
+```
+
+**Un manejador de errores en Express se reconoce por tener cuatro argumentos.**
+No hay nada más que lo declare: ni un nombre, ni un registro distinto, ni un
+tipo.
+
+Y de ahí sale el fallo más silencioso de esta clase: **quitar el `siguiente` que
+no usas lo convierte en middleware normal** y deja de capturar errores, sin
+ningún aviso. Un linter que sugiera eliminar parámetros sin usar puede romper el
+manejo de errores de una aplicación entera.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — un manejador por tipo
+
+```python
+@app.exception_handler(ErrorDeNegocio)
+async def negocio(peticion: Request, error: ErrorDeNegocio) -> JSONResponse:
 ```
 
 ```python
-# FastAPI — un manejador por tipo de excepción
-@app.exception_handler(ErrorDeNegocio)
-async def negocio(peticion, error): ...
-
 @app.exception_handler(Exception)
-async def no_controlado(peticion, error): ...
+async def no_controlado(peticion: Request, error: Exception) -> JSONResponse:
+```
+
+**El despacho lo hace el tipo**, no un `if`. Es la diferencia de fondo con
+Express: aquí no hay una función que reciba todo y clasifique — hay una función
+por familia de error, y quien elige es el framework.
+
+Añadir un tercer tipo de error es añadir un manejador, sin tocar los otros dos.
+En Express es añadir una rama a un `if` que ya existe.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — un consejo para todos los controladores
+
+```java
+        @ExceptionHandler(ErrorDeNegocio.class)
+        public ResponseEntity<Map<String, Object>> negocio(ErrorDeNegocio error) {
+            return problema(error.getMessage(), error.estado, error.codigo);
+        }
 ```
 
 ```java
-// Spring Boot — @RestControllerAdvice aplica a TODOS los controladores
-@RestControllerAdvice
-public static class Errores {
-    @ExceptionHandler(ErrorDeNegocio.class) ...
-    @ExceptionHandler(Exception.class) ...
-}
+        @ExceptionHandler(Exception.class)
+        public ResponseEntity<Map<String, Object>> noControlado(Exception error) {
+            System.err.println("error no controlado: " + error.getMessage());
+            return problema("error interno", 500, "ERROR_INTERNO");
+        }
 ```
+
+Mismo despacho por tipo que FastAPI, envuelto en `@RestControllerAdvice`: una
+clase aparte que **aplica a todos los controladores de la aplicación** sin que
+ninguno la mencione.
+
+Es la versión más declarativa del elenco, y la que mejor separa: el manejo de
+errores es una pieza con su propio archivo, no un apéndice del arranque.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — una tubería aparte
 
 ```csharp
-// ASP.NET Core — una tubería aparte para el camino de error
-app.UseExceptionHandler(rama => rama.Run(async contexto => { ... }));
+app.UseExceptionHandler(rama => rama.Run(async contexto =>
+{
+    var caracteristica = contexto.Features.Get<IExceptionHandlerFeature>();
+
+    if (caracteristica?.Error is ErrorDeNegocio negocio)
+    {
 ```
 
-**Cuatro mecanismos, la misma idea:** un punto único donde una excepción se
-convierte en respuesta, y ningún manejador de ruta tiene que saberlo.
+El modelo más distinto de los cuatro: **el camino de error es otra tubería**. La
+excepción no se pasa como argumento — se recupera de una *característica* del
+contexto, que es el mecanismo con el que ASP.NET Core comunica datos entre
+middleware.
 
-La firma de cuatro argumentos de Express es la más peculiar: no hay nada en el
-código que diga «esto es un manejador de errores» salvo el número de parámetros.
-Quitar el `siguiente` que no usas **lo convierte en middleware normal** y deja de
-capturar errores, sin ningún aviso.
+Y un tropiezo real que el propio código documenta:
+
+```csharp
+        contexto.Response.StatusCode = negocio.Estado;
+        contexto.Response.ContentType = tipo;
+        await contexto.Response.WriteAsync(JsonSerializer.Serialize(new
+```
+
+`WriteAsJsonAsync` —el atajo natural— **reescribe el `content-type` a
+`application/json`** y pisa el `application/problem+json` que se acaba de poner.
+Para conservarlo hay que serializar y escribir el texto a mano. Es exactamente el
+tipo de detalle que solo aparece cuando un contrato comprueba la cabecera.
+
+### Lo que las cuatro hacen igual, y es lo más importante
+
+```javascript
+  console.error("error no controlado:", error.message);
+```
+
+**El mensaje real se registra dentro; al cliente va uno genérico.** Un error no
+previsto puede llevar rutas del sistema de archivos, fragmentos de consulta SQL o
+un secreto en el mensaje — y devolverlo es una fuga de información, no una
+cortesía.
+
+El error de negocio sí lleva su mensaje, porque es un mensaje **escrito para el
+cliente**. Esa es la distinción que la clase mide, y por eso el contrato
+comprueba que `/roto` **no** contiene la cadena `secreto=abc123`.
+
+Los cuatro responden además `application/problem+json` con la forma de RFC 9457
+[@rfc9457], que la clase 040 desarrolla campo a campo.
 
 ## 🔬 Comparación
 
