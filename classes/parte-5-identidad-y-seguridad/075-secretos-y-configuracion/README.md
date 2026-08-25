@@ -43,26 +43,136 @@ El último caso mide un detalle que cuesta despliegues reales: enumerar
 variable ausente convierte «faltan tres» en tres arranques fallidos
 seguidos.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Aquí el reparto se invierte respecto a las clases de autorización: **el
-framework con más ceremonia trae más ayuda**, y el minimalista te deja la
-regla entera:
+Aquí el reparto **se invierte** respecto a las clases de autorización: el
+framework con más ceremonia trae más ayuda, y el minimalista te deja la regla
+entera. Y las cuatro comparten un gesto que es el contenido de la clase — **el
+mismo validador lo usan el arranque y el endpoint**.
 
-- **FastAPI** — el más equipado: `pydantic-settings` (`BaseSettings`) lee el
-  entorno, convierte tipos y **falla al construirse** si falta una
-  obligatoria. La validación es la declaración de la clase. (La
-  implementación usa un validador explícito para medir el mismo mensaje en
-  los cuatro, pero la vía idiomática es aún más corta.)
-- **Spring Boot** — `application.properties` mapea `APP_ENTORNO` a
-  `app.entorno` y `@Value` lo inyecta; un `@PostConstruct` corre el
-  validador y **aborta el contexto** si falta algo.
-- **ASP.NET Core** — `IConfiguration` unifica entorno, `appsettings.json` y
-  argumentos en una sola fuente ordenada; el validador corre antes de
-  `Build()`.
-- **Express** — nada de esto viene incluido: `process.env` y un validador de
-  seis líneas. Explícito y tuyo, como toda la seguridad de esta pista en
-  Node.
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — la regla, entera y tuya
+
+```javascript
+const REQUERIDAS = ["APP_ENTORNO", "APP_SECRETO"];
+```
+
+```javascript
+function validar(fuente) {
+  const faltan = REQUERIDAS.filter((clave) => !fuente[clave]);
+  return { valida: faltan.length === 0, faltan };
+}
+```
+
+```javascript
+const arranque = validar(process.env);
+if (!arranque.valida) {
+  console.error(`Configuración incompleta, faltan: ${arranque.faltan.join(", ")}`);
+  process.exit(1);
+}
+```
+
+Nada de esto viene incluido: `process.env` y seis líneas. Y las seis contienen
+las dos decisiones que importan.
+
+**Ninguna clave tiene valor por omisión.** Un secreto con valor por defecto es
+un secreto que alguien olvidó poner y que corre en producción con la clave del
+ejemplo.
+
+**El validador devuelve todas las que faltan, no la primera.** Quien despliega
+sin tres variables no quiere descubrirlas de una en una, en tres despliegues
+fallidos seguidos.
+
+Y `process.exit(1)`: **el proceso no llega a escuchar**. Fallar al arrancar es
+la única forma de no fallar en la primera petición del primer usuario.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — el mejor equipado
+
+```python
+_faltan = validar(dict(os.environ))
+if _faltan:
+    raise RuntimeError(f"Configuración incompleta, faltan: {', '.join(_faltan)}")
+```
+
+La implementación usa un validador explícito **para medir el mismo mensaje en
+los cuatro**, pero conviene saber que la vía idiomática de FastAPI es más
+corta: `pydantic-settings` (`BaseSettings`) lee el entorno, convierte tipos y
+**falla al construirse** si falta una obligatoria. La validación *es* la
+declaración de la clase — la misma idea que en la clase 013, aplicada a la
+configuración.
+
+### Spring Boot · [`spring-boot/…/application.properties`](implementaciones/spring-boot/src/main/resources/application.properties)
+
+```properties
+app.entorno=${APP_ENTORNO:}
+app.secreto=${APP_SECRETO:}
+```
+
+Y en [`Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java):
+
+```java
+    @Value("${app.entorno:}")
+    private String entorno;
+```
+
+```java
+    @jakarta.annotation.PostConstruct
+    void comprobarArranque() {
+```
+
+```java
+        if (!faltan.isEmpty()) {
+            throw new IllegalStateException("Configuracion incompleta, faltan: " + String.join(", ", faltan));
+        }
+```
+
+Dos saltos: el entorno entra en `application.properties` como `app.entorno` y
+`@Value` lo inyecta en el campo. El `:` final del marcador declara valor por
+omisión vacío — **deliberadamente vacío**, para que sea el validador quien
+decida, y no un valor por defecto silencioso.
+
+`@PostConstruct` es la pieza del ciclo de vida (clase 037): corre cuando el
+objeto ya está construido e inyectado, y lanzar ahí **aborta el contexto
+entero**. La aplicación no termina de levantar.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — una fuente ordenada
+
+```csharp
+List<string> Validar(Func<string, string?> fuente) =>
+    requeridas.Where(clave => string.IsNullOrEmpty(fuente(clave))).ToList();
+```
+
+```csharp
+var faltanArranque = Validar(clave => constructor.Configuration[clave]);
+if (faltanArranque.Count > 0)
+{
+    throw new InvalidOperationException(
+        $"Configuración incompleta, faltan: {string.Join(", ", faltanArranque)}");
+}
+```
+
+`IConfiguration` unifica variables de entorno, `appsettings.json` y argumentos
+de línea de comandos en **una sola fuente con orden de precedencia declarado**.
+Es la aportación real de este framework a la clase: el código no necesita saber
+de dónde vino cada valor, y cambiar el origen no cambia el código.
+
+Fíjate en que `Validar` recibe **una función** y no un diccionario: es lo que
+permite que el mismo validador consulte `IConfiguration` al arrancar y un
+diccionario del cuerpo en el endpoint.
+
+### Lo que ninguna de las cuatro deja salir
+
+```javascript
+  respuesta.json({
+    entorno: config.entorno,
+    secreto_presente: Boolean(config.secreto),
+    secreto: "****",
+  });
+```
+
+Las cuatro reportan **la presencia del secreto, no su valor**. Un endpoint de
+configuración que devuelve el secreto es exactamente el agujero que esta clase
+viene a cerrar, y aparece más veces de lo que parece: empieza como una ayuda de
+diagnóstico en desarrollo y nadie la quita.
 
 ## 📊 Comparación
 

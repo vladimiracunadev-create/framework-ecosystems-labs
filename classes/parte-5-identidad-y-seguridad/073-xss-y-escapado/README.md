@@ -33,13 +33,99 @@ El segundo caso separa el escapado del filtrado: un framework que *borrara*
 el script también pasaría el primer caso — y estaría destruyendo datos del
 usuario. La respuesta correcta conserva cada carácter y le quita el poder.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Para que el resultado sea medible sin navegador, cada implementación usa el
-**renderizado de servidor real** de su framework — `react-dom/server`,
+Para que el resultado sea **medible sin navegador**, cada implementación usa el
+renderizado de servidor **real** de su framework: `react-dom/server`,
 `@vue/server-renderer`, el compilador de Svelte con `generate: "server"`, el
-preset de Babel de Solid con `generate: "ssr"` y `@lit-labs/ssr`. Las reglas
-de escapado son las mismas que en el DOM: es el mismo código del framework.
+preset de Babel de Solid con `generate: "ssr"` y `@lit-labs/ssr`. No es una
+imitación de las reglas de escapado — **es el mismo código del framework**, y
+lo que produce aquí es lo que produce en el DOM.
+
+Las cinco renderizan exactamente el mismo texto hostil:
+
+```javascript
+const TEXTO = "<script>alerta(1)</script>";
+```
+
+Y cada una lo pinta dos veces: por la vía normal y por la puerta explícita. Lo
+que hay que mirar es **cómo se llama la puerta**.
+
+### React · [`react/server.mjs`](implementaciones/react/server.mjs)
+
+```javascript
+  "/seguro": () => renderToStaticMarkup(h("p", null, TEXTO)),
+  "/inseguro": () =>
+    renderToStaticMarkup(h("div", { dangerouslySetInnerHTML: { __html: TEXTO } })),
+```
+
+La vía segura **no tiene nombre**: es la interpolación normal, y no existe
+opción para olvidarse de escapar. La insegura tiene el nombre más honesto de la
+industria — `dangerouslySetInnerHTML` — y encima obliga a envolver el valor en
+un objeto con la clave `__html`. Es imposible teclearla por accidente y difícil
+de teclear sin enterarse.
+
+### Vue · [`vue/server.mjs`](implementaciones/vue/server.mjs)
+
+```javascript
+  "/seguro": () => createSSRApp({ render: () => h("p", TEXTO) }),
+  "/inseguro": () => createSSRApp({ render: () => h("div", { innerHTML: TEXTO }) }),
+```
+
+Se usan funciones de render porque **es exactamente a lo que compilan las
+plantillas**: `{{ texto }}` compila a un hijo de texto escapado, y `v-html`
+compila a la propiedad `innerHTML`. Ver el destino de la compilación es más
+informativo que ver la plantilla: deja claro que `v-html` no es una directiva
+mágica, es una asignación a `innerHTML` con otro nombre.
+
+### Svelte · [`svelte/Seguro.svelte`](implementaciones/svelte/Seguro.svelte) e [`Inseguro.svelte`](implementaciones/svelte/Inseguro.svelte)
+
+```svelte
+<p>{texto}</p>
+```
+
+```svelte
+<div>{@html texto}</div>
+```
+
+La diferencia son **cuatro caracteres**: `@html`. Es la puerta más barata de
+teclear del elenco, y la documentación de Svelte lo compensa abriendo su
+descripción con la advertencia de XSS. Merece la pena verlo junto a React: el
+mismo poder, dos costes de escritura muy distintos.
+
+### Solid · [`solid/App.jsx`](implementaciones/solid/App.jsx)
+
+```jsx
+export const seguro = (texto) => renderToString(() => <p>{texto}</p>);
+```
+
+```jsx
+export const inseguro = (texto) => renderToString(() => <div innerHTML={texto} />);
+```
+
+JSX igual que React, y la puerta **sin disfraz**: la propiedad `innerHTML` tal
+cual. Solid no le pone un nombre alarmante porque no le pone ningún nombre —
+usa el de la plataforma. Es coherente con su filosofía (compilar a operaciones
+del DOM, no interponer un modelo propio) y a la vez es la puerta menos señalada
+de las cinco.
+
+### Lit · [`lit/server.mjs`](implementaciones/lit/server.mjs)
+
+```javascript
+  "/seguro": () => collectResultSync(render(html`<p>${TEXTO}</p>`)),
+  "/inseguro": () => collectResultSync(render(html`<div>${unsafeHTML(TEXTO)}</div>`)),
+```
+
+Aquí el escapado no lo hace un framework: lo hace **la plantilla etiquetada**.
+La función ``html`` recibe las partes estáticas y las interpolaciones por separado, así
+que sabe con certeza qué escribió el programador y qué vino de fuera — la misma
+distinción estructural que hace segura una consulta parametrizada en la clase
+074.
+
+Y la puerta es una **directiva importada**: `unsafeHTML` hay que traerla de su
+módulo. Una búsqueda de `unsafe-html` en el proyecto encuentra todos los sitios
+donde alguien abrió la puerta, que es más de lo que puede decirse de
+`innerHTML`.
 
 ## 📊 Comparación: las puertas, por nombre
 

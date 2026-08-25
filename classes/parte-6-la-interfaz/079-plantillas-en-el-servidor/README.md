@@ -62,29 +62,139 @@ lleva la `u` de *unescaped*. Ninguno llega al `dangerouslySetInnerHTML` de
 React (clase 073): en el servidor, **la puerta peligrosa tiene mejor prensa
 de la que merece**.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Cinco de los seis traen su motor puesto; **Express no**:
+Cinco de los seis traen su motor puesto; **Express no**. Cada uno pinta la
+misma lista dos veces —por la vía normal y por la puerta cruda— y lo que hay
+que mirar es **dónde vive el escapado**, porque el sitio decide qué se puede
+olvidar.
 
-- **Django** — el autoescapado es del **motor**: viene encendido y hay que
-  pedir que se apague. No hay configuración que olvidar activar.
-- **Rails** — el escapado no es del motor sino del **tipo**: `SafeBuffer`
-  escapa toda cadena normal al interpolarla y solo deja pasar entera la
-  marcada como `html_safe`. La defensa viaja con el dato, no con la
-  plantilla — el diseño más distinto del elenco.
-- **Laravel** — Blade **compila** la plantilla a PHP y cachea el resultado:
-  el escapado no se paga en cada petición porque no hay interpretación en
-  cada petición.
-- **Flask** — Jinja2, pero con un matiz que importa: **Jinja suelto no
-  escapa por omisión**. Lo enciende Flask para los ficheros `.html`. La
-  política es del framework, no de la biblioteca.
-- **Spring Boot** — Thymeleaf, y su rasgo propio: **una plantilla es HTML
-  válido**. Se abre en un navegador y se ve la maqueta, con los `th:`
-  ignorados. Los otros cinco producen ficheros que solo su motor entiende.
-- **Express** — no trae motor: trae el **enchufe** para uno (`view engine`).
-  EJS, Pug o Handlebars cumplen el mismo contrato. Es la misma filosofía que
-  el resto del framework, y la razón de que aquí haya una dependencia donde
-  los demás no la necesitan.
+### Django · [`django/plantillas/tareas.html`](implementaciones/django/plantillas/tareas.html)
+
+```django
+{% for tarea in tareas %}
+  <li data-id="{{ tarea.id }}">{{ tarea.titulo }}</li>
+{% endfor %}
+```
+
+Y la puerta, en [`tareas-crudo.html`](implementaciones/django/plantillas/tareas-crudo.html):
+
+```django
+  <li data-id="{{ tarea.id }}">{{ tarea.titulo|safe }}</li>
+```
+
+En Django el autoescapado es **del motor**: viene encendido y hay que pedir que
+se apague. No hay configuración que alguien pueda olvidar activar.
+
+`|safe` tiene el nombre más engañoso del elenco junto al de Jinja: **dice
+«seguro» y significa «no lo revises»**.
+
+### Flask · [`flask/templates/tareas.html`](implementaciones/flask/templates/tareas.html)
+
+```jinja
+{% for tarea in tareas %}
+  <li data-id="{{ tarea.id }}">{{ tarea.titulo }}</li>
+{% endfor %}
+```
+
+Idéntico a Django en la superficie, y **distinto en lo importante**: Jinja
+suelto **no escapa por omisión**. Lo enciende Flask, y solo para los ficheros
+`.html`.
+
+La política es del *framework*, no de la biblioteca — y la consecuencia
+práctica es grande: usar Jinja a pelo en un script, fuera de
+`render_template`, deja la protección atrás sin que nada avise.
+
+### Laravel · [`laravel/resources/views/tareas.blade.php`](implementaciones/laravel/resources/views/tareas.blade.php)
+
+```blade
+@foreach ($tareas as $tarea)
+  <li data-id="{{ $tarea['id'] }}">{{ $tarea['titulo'] }}</li>
+@endforeach
+```
+
+```blade
+  <li data-id="{{ $tarea['id'] }}">{!! $tarea['titulo'] !!}</li>
+```
+
+Las llaves dobles compilan a `htmlspecialchars`. Y ahí está el rasgo propio de
+Blade: **no interpreta la plantilla en cada petición, la compila a PHP una vez
+y cachea el resultado**. El escapado no se paga en cada respuesta porque no hay
+interpretación en cada respuesta.
+
+El signo de admiración de `{!! !!}` es la advertencia: se lee distinto y se
+teclea distinto.
+
+### Rails · [`rails/app/views/tareas/index.html.erb`](implementaciones/rails/app/views/tareas/index.html.erb)
+
+```erb
+<% @tareas.each do |tarea| %>
+  <li data-id="<%= tarea[:id] %>"><%= tarea[:titulo] %></li>
+<% end %>
+```
+
+```erb
+  <li data-id="<%= tarea[:id] %>"><%= raw tarea[:titulo] %></li>
+```
+
+**El diseño más distinto del elenco.** Aquí el escapado no es del motor: es
+**del tipo**. Rails envuelve la salida en `SafeBuffer`, que escapa toda cadena
+normal al interpolarla y deja pasar entera solo la marcada como `html_safe`.
+
+La defensa **viaja con el dato**, no con la plantilla: atraviesa ayudantes,
+parciales y capas. Es la cobertura más amplia del elenco — y la razón de que
+`html_safe` sea el método más peligroso de Rails, porque desactiva algo que
+iba a seguir protegiendo más allá de esa plantilla. Su nombre además **miente**:
+no vuelve segura la cadena, declara que ya lo era.
+
+### Spring Boot · [`spring-boot/…/tareas.html`](implementaciones/spring-boot/src/main/resources/templates/tareas.html)
+
+```html
+  <li th:each="tarea : ${tareas}" th:attr="data-id=${tarea.id}" th:text="${tarea.titulo}">
+    marcador de posición que el motor sustituye
+  </li>
+```
+
+```html
+  <li th:each="tarea : ${tareas}" th:attr="data-id=${tarea.id}" th:utext="${tarea.titulo}">
+```
+
+El rasgo de Thymeleaf está en la línea de dentro: **una plantilla es HTML
+válido**. Se abre en un navegador y se ve la maqueta, con los atributos `th:`
+ignorados y el marcador de posición a la vista. Los otros cinco producen
+ficheros que solo su motor entiende.
+
+Y la puerta se llama `th:utext` — la `u` es de *unescaped*. **Una letra de
+diferencia**, como el guion de EJS.
+
+### Express · [`express/vistas/tareas.ejs`](implementaciones/express/vistas/tareas.ejs)
+
+```ejs
+<% for (const tarea of tareas) { %>
+  <li data-id="<%= tarea.id %>"><%= tarea.titulo %></li>
+<% } %>
+```
+
+```ejs
+  <li data-id="<%= tarea.id %>"><%- tarea.titulo %></li>
+```
+
+Esta fila **no es un empate**: Express no trae motor, trae el **enchufe** para
+uno. EJS, Pug o Handlebars cumplen el mismo contrato y la elección —con su
+política de escapado— es tuya. Es la misma filosofía que el resto del
+framework, y la razón de que aquí haya una dependencia donde los demás no la
+necesitan.
+
+`<%=` escapa y `<%-` no: **la diferencia es un guion**, el nombre más discreto
+del elenco. Nada en el símbolo avisa de lo que hace.
+
+> Dos tropiezos reales que quedaron documentados en el propio código porque son
+> la misma familia de error en dos motores: ni el comentario de Django ni el de
+> EJS pueden contener los delimitadores de su propio motor. En Django,
+> `{# #}` es de **una sola línea** y un comentario de varias con llaves dentro
+> es un error de sintaxis; en EJS, el analizador toma sus delimitadores por
+> código y falla al compilar. Por eso los dos comentarios están escritos como
+> están.
 
 ## 📊 Comparación
 

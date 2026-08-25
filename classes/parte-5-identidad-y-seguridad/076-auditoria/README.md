@@ -42,25 +42,133 @@ presentes`, nuevo en el verificador): predecir una marca de tiempo sería
 predecir lo impredecible, pero un registro sin instante no responde
 «cuándo», y entonces no responde nada.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro comparten la decisión que define la clase: **un solo lugar por
-donde pasa cada cambio**. Escribir el rastro dentro de cada handler funciona
-hasta el handler número siete, que lo olvida — y ese olvido no rompe ninguna
-prueba, solo deja un hueco silencioso en el registro.
+Las cuatro comparten la decisión que define la clase: **un solo lugar por donde
+pasa cada cambio**. Escribir el rastro dentro de cada manejador funciona hasta
+el manejador número siete, que lo olvida — y ese olvido no rompe ninguna
+prueba: solo deja un hueco silencioso en el registro.
 
-- **Spring Boot** — la auditoría es un `@Component` inyectado; en producción
-  el paso siguiente es `@EntityListeners` o Spring Data Envers, que audita
-  **en la capa de persistencia** y no depende de que el handler se acuerde.
-- **ASP.NET Core** — servicio *singleton* inyectado, mismo patrón; el
-  siguiente paso idiomático es un interceptor de `SaveChanges` en EF Core.
-- **Express** y **FastAPI** — una función `registrar` que las escrituras
-  llaman. Explícito, visible, y con la misma disciplina como única garantía.
+Lo que cambia entre los cuatro es **qué mecanismo del framework sostiene ese
+único lugar**.
 
-El actor llega por cabecera `X-Actor` para que el contrato lo fije sin montar
-el login entero; en una aplicación real sale de la sesión (066) o del token
-(067). Lo que **no** cambia: el instante lo pone el servidor. Si lo pusiera
-el cliente, el actor podría mentir sobre cuándo hizo lo que hizo.
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — una función
+
+```javascript
+function registrar(peticion, accion, recurso, id) {
+  auditoria.push({
+    actor: peticion.get("x-actor") ?? "anonimo",
+    accion,
+    recurso,
+    recurso_id: String(id),
+    instante: new Date().toISOString(),
+  });
+}
+```
+
+```javascript
+  tareas.set(id, tarea);
+  registrar(peticion, "crear", "tarea", id);
+```
+
+```javascript
+  tareas.delete(peticion.params.id);
+  registrar(peticion, "borrar", "tarea", peticion.params.id);
+```
+
+Explícito y visible — y con **la disciplina como única garantía**. Nada impide
+añadir mañana un `PUT /tareas/:id` que no llame a `registrar`.
+
+Fíjate también en la lectura:
+
+```javascript
+  if (!tarea) return respuesta.status(404).json({ error: "no-encontrada" });
+```
+
+**Leer no se audita.** La auditoría registra *cambios*. Los accesos a datos
+sensibles a veces sí se registran, pero en un canal aparte y con otro propósito;
+esta clase mide la auditoría de cambios, que es la universal.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py) — la misma función, y el actor como parámetro
+
+```python
+def registrar(actor: str, accion: str, recurso: str, recurso_id: str) -> None:
+    auditoria.append({
+        "actor": actor or "anonimo",
+        "accion": accion,
+        "recurso": recurso,
+        "recurso_id": recurso_id,
+        # El instante lo pone el SERVIDOR: un actor no fecha sus propios actos.
+        "instante": datetime.now(timezone.utc).isoformat(),
+    })
+```
+
+Idéntica a Express salvo en un detalle que sí importa: **el actor llega como
+argumento**, no se saca de la petición dentro de la función. Eso deja
+`registrar` sin dependencia del framework — se puede probar sin montar un
+servidor, que es la idea de la clase 065.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — un componente inyectado
+
+```java
+    @Component
+    public static class Auditoria {
+        private final List<Map<String, String>> registros = new CopyOnWriteArrayList<>();
+
+        public void registrar(String actor, String accion, String recurso, String id) {
+```
+
+La auditoría deja de ser una función suelta y pasa a ser **una pieza del
+contenedor** (clase 036): quien la necesite la pide y el framework la entrega.
+`CopyOnWriteArrayList` resuelve de paso lo que Express y FastAPI no tienen que
+resolver — varios hilos escribiendo a la vez.
+
+En producción el paso siguiente es `@EntityListeners` o Spring Data Envers, que
+auditan **en la capa de persistencia**: el rastro deja de depender de que el
+manejador se acuerde, porque lo dispara el propio guardado.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — servicio singleton
+
+```csharp
+constructor.Services.AddSingleton<Auditoria>();
+```
+
+```csharp
+app.MapPost("/tareas", (Cuerpo? cuerpo, HttpRequest peticion, Auditoria auditoria) =>
+```
+
+```csharp
+        lock (_candado) { _registros.Add(registro); }
+```
+
+Mismo patrón que Spring, con el ciclo de vida **declarado en la línea de
+registro** en lugar de deducido de una anotación: `AddSingleton` dice
+literalmente que hay una sola instancia para todo el proceso — la distinción de
+la clase 037. Y la inyección ocurre en la firma del manejador, no en el
+constructor de una clase.
+
+El siguiente paso idiomático aquí es un interceptor de `SaveChanges` en Entity
+Framework Core: el equivalente exacto de los *entity listeners* de Spring.
+
+### Las dos reglas que no cambian en ninguna
+
+```javascript
+    instante: new Date().toISOString(),
+```
+
+**El instante lo pone el servidor.** Si lo pusiera el cliente, el actor podría
+mentir sobre cuándo hizo lo que hizo — y un registro que el auditado puede
+fechar no es una auditoría.
+
+Y la segunda, que en el laboratorio es una lista en memoria pero en producción
+decide si el registro sirve de algo: **almacén de solo apéndice y aparte de la
+base de negocio**. Si quien borró la tarea puede borrar también su rastro, el
+rastro no protege de nada.
+
+> El actor llega por la cabecera `X-Actor` para que el contrato pueda fijarlo
+> sin montar el inicio de sesión entero. En una aplicación real sale de la
+> sesión (clase 066) o del token (clase 067) — nunca de algo que el cliente
+> escriba libremente.
 
 ## 📊 Comparación
 

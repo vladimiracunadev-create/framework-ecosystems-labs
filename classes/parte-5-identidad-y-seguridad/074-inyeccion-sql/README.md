@@ -38,27 +38,95 @@ el segundo mide el matiz que separa parametrizar de escapar mal: `' OR
 '1'='1` no devuelve `0` porque se haya *limpiado*, sino porque se busca **ese
 texto** y ninguna tarea se llama así.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro son ORMs o *query builders*, y comparten una propiedad que es el
+Las cuatro son ORM o *query builders*, y comparten una propiedad que es el
 hallazgo de la clase: **su API de consulta no acepta SQL como cadena**. No es
-que parametricen bien — es que no ofrecen la puerta para hacerlo mal:
+que parametricen bien — es que **no ofrecen la puerta para hacerlo mal**.
 
-- **Prisma** — `findMany({ where: { titulo } })`. El `where` es un objeto,
-  no texto; la concatenación no tiene por dónde entrar.
-- **SQLAlchemy Core** — `text("… WHERE titulo = :titulo")` con `:titulo`
-  como marcador. Es el nivel más bajo del elenco —SQL a la vista— y aun así
-  el valor viaja aparte del texto.
-- **Hibernate** (vía Spring Data JPA) — `findByTitulo(String)`: el método
-  deriva un `WHERE titulo = ?` con parámetro vinculado. No se escribe SQL.
-- **Entity Framework Core** — `Where(t => t.Titulo == titulo)`: LINQ traduce
-  a SQL parametrizado. La expresión es C#, no una cadena.
+Léelas seguidas mirando una sola cosa: dónde acaba el texto que escribió el
+programador y dónde empieza el valor que llegó de fuera.
 
-Todos tienen **una puerta trasera** para SQL crudo —`$queryRawUnsafe`,
-`text()` con f-strings, `createNativeQuery`, `FromSqlRaw`— y ahí sí se puede
-concatenar la entrada y reabrir el agujero. El nombre de la de Prisma
-—`Unsafe`— es la misma lección de la clase 073: la vía peligrosa lleva el
-peligro en el nombre.
+### Prisma · [`prisma/server.mjs`](implementaciones/prisma/server.mjs)
+
+```javascript
+      : await prisma.tarea.findMany({ where: { titulo: String(titulo) }, orderBy: { id: "asc" } });
+```
+
+`where` es **un objeto**, no texto. `' OR '1'='1` llega como el valor de una
+clave y se busca como ese texto exacto — que no existe, así que `total: 0`. La
+concatenación no tiene por dónde entrar porque no hay ninguna cadena que
+concatenar.
+
+### SQLAlchemy Core · [`sqlalchemy/main.py`](implementaciones/sqlalchemy/main.py)
+
+```python
+            filas = conexion.execute(
+                text("SELECT id, titulo FROM tareas WHERE titulo = :titulo ORDER BY id"),
+                {"titulo": titulo},
+            ).all()
+```
+
+Es el nivel más bajo del elenco: **el SQL está a la vista**. Y aun así el valor
+viaja en un diccionario aparte, unido al texto solo por el marcador `:titulo`.
+
+Esta implementación es la más didáctica de las cuatro precisamente por eso: se
+ve *la separación*. La consulta que se envía a la base y los datos que la
+acompañan son dos cosas distintas que viajan por caminos distintos — y por eso
+el motor nunca puede confundir un dato con una instrucción. Es la misma
+distinción estructural que hace segura la plantilla etiquetada de Lit en la
+clase 073.
+
+### Hibernate · [`hibernate/…/Aplicacion.java`](implementaciones/hibernate/src/main/java/labs/Aplicacion.java)
+
+```java
+    public interface Tareas extends JpaRepository<Tarea, Long> {
+        List<Tarea> findByTitulo(String titulo);
+    }
+```
+
+```java
+        List<Tarea> filas = titulo == null ? tareas.findAll() : tareas.findByTitulo(titulo);
+```
+
+**No se escribe consulta ninguna.** Spring Data JPA deriva `WHERE titulo = ?`
+del *nombre del método* y vincula el parámetro. Es el extremo del elenco en
+cuanto a distancia respecto al SQL — y la contrapartida está en la clase 060:
+cuando la consulta que necesitas no se puede expresar como nombre de método,
+hay que salir del mecanismo.
+
+### Entity Framework Core · [`entity-framework-core/Program.cs`](implementaciones/entity-framework-core/Program.cs)
+
+```csharp
+        : contexto.Tareas.Where(t => t.Titulo == titulo).OrderBy(t => t.Id);
+```
+
+`Where` recibe **una expresión de C#**, no una cadena. El compilador la
+convierte en un árbol de expresión y el proveedor de LINQ lo traduce a SQL con
+parámetros vinculados. Es la variante más fuerte de la propiedad común: aquí ni
+siquiera existe un texto intermedio que alguien pudiera manipular.
+
+### Las cuatro puertas traseras
+
+Los cuatro tienen una vía para SQL crudo, y ahí sí se puede concatenar y
+reabrir el agujero:
+
+| Framework | La puerta |
+| --- | --- |
+| Prisma | `$queryRawUnsafe` |
+| SQLAlchemy | `text()` con una f-string |
+| Hibernate | `createNativeQuery` |
+| Entity Framework Core | `FromSqlRaw` |
+
+Y hay dos grados de honestidad en esa lista. Prisma **pone el peligro en el
+nombre** —`Unsafe`, la misma lección que `dangerouslySetInnerHTML` en la clase
+073— y además ofrece `$queryRaw` con plantilla etiquetada, que es cruda *y*
+parametrizada. Los otros tres nombran el mecanismo, no el riesgo: `Raw` y
+`Native` describen qué hacen, no qué puede salir mal.
+
+La consecuencia práctica es de auditoría: buscar `Unsafe` en un proyecto
+Prisma encuentra los sitios que hay que revisar. Buscar `FromSqlRaw` también
+encuentra los usos correctos, y hay que mirarlos uno a uno.
 
 ## 📊 Comparación
 

@@ -58,12 +58,126 @@ Con la misma honestidad que la clase 077:
   contrato atado a un feed vivo daría verdes y rojos distintos cada semana
   sin que el código cambiara.
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro implementan el mismo auditor en cuatro lenguajes: leer el árbol,
-cruzarlo con los avisos, comparar versiones numéricamente y decir **quién
-trajo** la afectada. La uniformidad es deliberada — como en la 069, lo que
-se compara no es el código sino lo que cada ecosistema pone alrededor.
+Las cuatro implementan **el mismo auditor en cuatro lenguajes**: leer el árbol,
+cruzarlo con los avisos, comparar versiones numéricamente y decir **quién trajo**
+la afectada. La uniformidad es deliberada — como en la 069, lo que se compara no
+es el código sino lo que cada ecosistema pone alrededor.
+
+Y el corazón del auditor son quince líneas que deciden si la herramienta sirve
+o miente.
+
+### La comparación de versiones · [`express/server.mjs`](implementaciones/express/server.mjs)
+
+```javascript
+function menorQue(a, b) {
+  const pa = String(a).split(".").map(Number);
+  const pb = String(b).split(".").map(Number);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const x = pa[i] ?? 0;
+    const y = pb[i] ?? 0;
+    if (x !== y) return x < y;
+  }
+  return false;
+}
+```
+
+**Comparar versiones como texto es el error que convierte una auditoría en un
+tranquilizante.** `"2.5.9" > "2.5.10"` es cierto alfabéticamente, así que una
+comparación textual declararía sana una versión afectada — sin excepción, sin
+registro, produciendo lo peor que puede producir una herramienta de seguridad:
+un verde falso.
+
+Y el `?? 0` no es defensivo por costumbre: un componente que falta cuenta como
+cero, para que `2.5.10 < 2.5.10.1`.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+```python
+    ta, tb = _tupla(a), _tupla(b)
+    largo = max(len(ta), len(tb))
+    ta = ta + (0,) * (largo - len(ta))
+    tb = tb + (0,) * (largo - len(tb))
+    return ta < tb
+```
+
+Python es el único de los cuatro que **no necesita el bucle**: rellena las dos
+tuplas hasta la misma longitud y deja que la comparación de tuplas haga el
+recorrido componente a componente. Menos código, y sobre todo menos sitio donde
+equivocarse.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+    private static boolean menorQue(String a, String b) {
+        String[] pa = a.split("\\.");
+        String[] pb = b.split("\\.");
+        int largo = Math.max(pa.length, pb.length);
+        for (int i = 0; i < largo; i++) {
+            int x = i < pa.length ? Integer.parseInt(pa[i]) : 0;
+            int y = i < pb.length ? Integer.parseInt(pb[i]) : 0;
+            if (x != y) {
+                return x < y;
+            }
+        }
+        return false;
+    }
+```
+
+Idéntico al de Express con un detalle propio del lenguaje: `split("\\.")` lleva
+el punto escapado porque **`String.split` recibe una expresión regular**, no un
+separador literal. Un `split(".")` a secas devuelve un array vacío y el auditor
+diría que ninguna versión está afectada.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+static bool MenorQue(string a, string b)
+{
+    var pa = a.Split('.');
+    var pb = b.Split('.');
+    for (var i = 0; i < Math.Max(pa.Length, pb.Length); i++)
+    {
+        var x = i < pa.Length ? int.Parse(pa[i]) : 0;
+        var y = i < pb.Length ? int.Parse(pb[i]) : 0;
+        if (x != y) return x < y;
+    }
+    return false;
+}
+```
+
+`Split('.')` con un carácter, no con una cadena: C# distingue los dos y aquí la
+sobrecarga correcta es literal. La misma función, y la trampa de Java no existe.
+
+### Lo que hace accionable un hallazgo
+
+```javascript
+      directa: paquete.directa,
+      traida_por: paquete.traida_por,
+      explotada_activamente: aviso.explotada_activamente === true,
+```
+
+Un hallazgo sin estos tres campos es una alarma; con ellos es una tarea. **Sobre
+una dependencia transitiva no se actualiza**: o subes a quien la trajo, o
+fuerzas la versión — y saber cuál de las dos requiere saber quién la trajo.
+
+```javascript
+    const forzada = peticion.query.version;
+```
+
+Y `?version=` permite preguntar «¿y si actualizo?» **sin tocar el árbol**. Es la
+pregunta que se hace *antes* de planificar la actualización, y es también lo que
+demuestra que el auditor compara en vez de llevar la respuesta escrita: la
+misma petición con distinta versión da distinto veredicto en las dos
+direcciones.
+
+> ⚠️ Los dos ficheros de `datos/` son **datos congelados, no software
+> instalado**: el árbol de una aplicación de 2017 y una instantánea de la base
+> de avisos. Este laboratorio no instala bibliotecas vulnerables — audita datos
+> sobre ellas, que es literalmente lo que hace un auditor. Y congelar la base es
+> lo que hace repetible el contrato: atado a un feed vivo daría verdes distintos
+> cada semana sin que el código cambiara.
 
 ## 📊 Comparación
 

@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 59,
+  "pendientes": 52,
   "clases": [
     {
       "clase": "014",
@@ -540,79 +540,6 @@
         "hibernate",
         "prisma",
         "sqlalchemy"
-      ]
-    },
-    {
-      "clase": "073",
-      "slug": "073-xss-y-escapado",
-      "faltan": [
-        "lit",
-        "react",
-        "solid",
-        "svelte",
-        "vue"
-      ]
-    },
-    {
-      "clase": "074",
-      "slug": "074-inyeccion-sql",
-      "faltan": [
-        "entity-framework-core",
-        "hibernate",
-        "prisma",
-        "sqlalchemy"
-      ]
-    },
-    {
-      "clase": "075",
-      "slug": "075-secretos-y-configuracion",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "076",
-      "slug": "076-auditoria",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "077",
-      "slug": "077-politica-de-seguridad-de-contenido",
-      "faltan": [
-        "react",
-        "solid",
-        "svelte",
-        "vue"
-      ]
-    },
-    {
-      "clase": "078",
-      "slug": "078-dependencias-vulnerables",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "079",
-      "slug": "079-plantillas-en-el-servidor",
-      "faltan": [
-        "django",
-        "express",
-        "flask",
-        "laravel",
-        "rails",
-        "spring-boot"
       ]
     }
   ]

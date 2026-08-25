@@ -62,22 +62,112 @@ Lo que sí puede decirse con la medición hecha: **con esta política, un
 navegador conforme no ejecuta el script inyectado** — porque no lleva el
 nonce y no hay `unsafe-inline` que lo salve [@whatwg-html].
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro emiten la misma política y la misma página; la cabecera la pone la
-capa HTTP, que es donde vive CSP — **no es una característica del framework
-de vistas**, y esa es la primera lección. Lo que sí cambia es cuánto ayuda
-cada uno a poner el nonce en el marcado:
+Las cuatro emiten **la misma política y la misma página**. La cabecera la pone
+la capa HTTP, que es donde vive CSP: **no es una característica del framework de
+vistas**, y esa es la primera lección de la clase.
 
-- **React** — `nonce` es un atributo normal en `<script>`; el SSR lo emite
-  sin ceremonia.
-- **Vue** — igual, vía `h("script", { nonce, innerHTML })`.
-- **Solid** — igual, en JSX.
-- **Svelte** — el caso raro, y por dos motivos de **compilador**: se queda
-  con los `<script>` de la plantilla (son el bloque del componente), así que
-  el script con nonce sale por `{@html}`; y valida el anidamiento HTML **en
-  compilación** — un `<div>` dentro de `<html>` es error de compilación, no
-  advertencia. Los otros tres lo renderizan sin protestar.
+Las cuatro parten del mismo desastre — el de la clase 073, consumado:
+
+```javascript
+const INYECTADO = "<script>robar()</script>";
+```
+
+El escapado falló. Alguien usó la puerta explícita con contenido de un usuario y
+el script está en el marcado. Lo que se mide aquí es **la red que hay debajo**.
+
+### La política, idéntica en las cuatro · [`react/server.mjs`](implementaciones/react/server.mjs)
+
+```javascript
+function politica(nonce) {
+  return [
+    "default-src 'self'",
+    `script-src 'nonce-${nonce}'`,
+    "base-uri 'none'",
+    "object-src 'none'",
+  ].join("; ");
+}
+```
+
+```javascript
+    const nonce = crypto.randomBytes(16).toString("base64url");
+```
+
+**Un nonce por petición, del generador criptográfico.** Un nonce fijo en la
+configuración no es un nonce: el atacante lo lee en el HTML de ayer y lo escribe
+en su script.
+
+Y las dos últimas directivas son las puertas traseras conocidas de una política
+basada en nonce: `<base>` reescribe a dónde apuntan las rutas relativas, y un
+`<object>` ejecuta contenido **sin pasar por `script-src`**. Una política que
+solo declara `script-src` deja las dos abiertas.
+
+### React · [`react/server.mjs`](implementaciones/react/server.mjs)
+
+```javascript
+        h("script", { nonce, dangerouslySetInnerHTML: { __html: "window.saludo=1" } }),
+```
+
+`nonce` es **un atributo normal**: el renderizador de servidor lo emite sin
+ceremonia. Nada especial que aprender, que es justo lo que se quiere de un
+framework aquí.
+
+### Vue · [`vue/server.mjs`](implementaciones/vue/server.mjs)
+
+```javascript
+        h("script", { nonce, innerHTML: "window.saludo=1" }),
+```
+
+Lo mismo con `innerHTML` en vez de la envoltura de React — la diferencia de
+nombres de la clase 073, otra vez.
+
+### Solid · [`solid/App.jsx`](implementaciones/solid/App.jsx)
+
+```jsx
+      <script nonce={nonce} innerHTML="window.saludo=1" />
+```
+
+JSX directo. Tres de los cuatro resuelven esto en una línea sin pensar.
+
+### Svelte · [`svelte/Pagina.svelte`](implementaciones/svelte/Pagina.svelte) — el caso raro, y por qué
+
+```svelte
+  const legitimo = `<scr${"ipt"} nonce="${nonce}">window.saludo=1</scr${"ipt"}>`;
+```
+
+```svelte
+{@html legitimo}
+```
+
+Ese `<scr${"ipt"}>` partido en dos no es un truco gratuito: **es la única forma
+de que el compilador de Svelte no se quede con la etiqueta**. Y hay dos rarezas
+detrás, las dos del compilador:
+
+1. **Svelte se apropia de los `<script>` de la plantilla** — son el bloque de
+   script del componente. Un script destinado al navegador hay que emitirlo por
+   la vía cruda, `{@html}`, que es precisamente la puerta que la clase 073
+   señalaba como peligrosa. Aquí es la única salida.
+2. **Valida el anidamiento HTML en tiempo de compilación.** Un `<div>` dentro de
+   `<html>` es un **error de compilación**, no una advertencia en consola. Los
+   otros tres del elenco lo renderizan sin protestar.
+
+Las dos juntas explican una decisión de arquitectura real: **SvelteKit no deja
+la política en manos del componente y la genera él**. Cuando el compilador se
+interpone entre lo que escribes y el marcado, la capa que emite cabeceras tiene
+que estar por encima del componente, no dentro.
+
+### La página sin red debajo
+
+```javascript
+  if (peticion.url === "/sin-politica") {
+```
+
+Las cuatro sirven la **misma página** en una segunda ruta, sin la cabecera. Es
+lo que convierte la clase en una medición y no en una declaración: el mismo
+marcado, el mismo script inyectado, y la única diferencia es la política. Sin
+ese segundo caso, un contrato que solo comprobara `/` no distinguiría una
+política que funciona de una política que no hace nada.
 
 ## 📊 Comparación
 
