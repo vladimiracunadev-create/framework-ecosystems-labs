@@ -4,7 +4,7 @@
 
 **Antes de escribir una línea: qué hace un framework que una biblioteca no hace, y cómo se compara sin caer en la guerra de religiones.**
 
-**Clases 1 a 10** · 10 en total · 3 construidas · 16 tecnologías en juego.
+**Clases 1 a 10** · 10 en total · 4 construidas · 16 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -43,7 +43,7 @@ Y las cuatro últimas son de método: leer una medición sin creérsela (007), i
 | [001](001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) | [Qué hace un framework que una biblioteca no hace](001-que-hace-un-framework-que-una-biblioteca-no-hace/README.md) | Distinguir biblioteca de framework por quién llama a quién. | 🟢 introductorio | ✅ Construida |
 | [002](002-inversion-de-control-en-concreto/README.md) | [Inversión de control, en concreto](002-inversion-de-control-en-concreto/README.md) | Ver la inversión de control en el código, no en el diagrama. | 🟢 introductorio | ✅ Construida |
 | [003](003-el-contrato-como-unidad-de-comparacion/README.md) | [El contrato como unidad de comparación](003-el-contrato-como-unidad-de-comparacion/README.md) | Entender por qué comparar frameworks exige fijar antes el comportamiento. | 🟢 introductorio | ✅ Construida |
-| [004](004-taxonomia-que-compite-de-verdad-con-que/README.md) | [Taxonomía: qué compite de verdad con qué](004-taxonomia-que-compite-de-verdad-con-que/README.md) | Clasificar antes de comparar, para no comparar cosas de categorías distintas. | 🟢 introductorio | 🚧 Esqueleto |
+| [004](004-taxonomia-que-compite-de-verdad-con-que/README.md) | [Taxonomía: qué compite de verdad con qué](004-taxonomia-que-compite-de-verdad-con-que/README.md) | Clasificar antes de comparar, para no comparar cosas de categorías distintas. | 🟢 introductorio | ✅ Construida |
 | [005](005-idiomatico-frente-a-traducido/README.md) | [Idiomático frente a traducido](005-idiomatico-frente-a-traducido/README.md) | Reconocer cuándo un código es el de otro framework disfrazado. | 🟢 introductorio | 🚧 Esqueleto |
 | [006](006-coste-total-aprender-mantener-contratar-salir/README.md) | [Coste total: aprender, mantener, contratar, salir](006-coste-total-aprender-mantener-contratar-salir/README.md) | Poner número a lo que un framework cuesta más allá del código. | 🟢 introductorio | 🚧 Esqueleto |
 | [007](007-como-se-mide-y-como-se-miente-el-rendimiento/README.md) | [Cómo se mide (y cómo se miente) el rendimiento](007-como-se-mide-y-como-se-miente-el-rendimiento/README.md) | Leer una comparativa de rendimiento sin creérsela. | 🟡 intermedio | 🚧 Esqueleto |
@@ -72,7 +72,7 @@ Entre paréntesis, en cuántas clases de esta parte interviene cada una. **Estar
 
 ## 📖 Las palabras que esta parte define
 
-[**Framework**](../../glosario/README.md#framework) · [**Biblioteca**](../../glosario/README.md#biblioteca) · [**Método plantilla**](../../glosario/README.md#método-plantilla) · [**Runtime**](../../glosario/README.md#runtime) · [**Manifiesto**](../../glosario/README.md#manifiesto) · [**Dependencia**](../../glosario/README.md#dependencia) · [**Inversión de control**](../../glosario/README.md#inversión-de-control) · [**Contrato**](../../glosario/README.md#contrato) · [**Metaframework**](../../glosario/README.md#metaframework) · [**Taxonomía**](../../glosario/README.md#taxonomía) · [**Convención**](../../glosario/README.md#convención) · [**Idiomático**](../../glosario/README.md#idiomático) · [**Coste total**](../../glosario/README.md#coste-total) · [**Percentil**](../../glosario/README.md#percentil) · [**Elenco**](../../glosario/README.md#elenco) · [**Verde honesto**](../../glosario/README.md#verde-honesto)
+[**Framework**](../../glosario/README.md#framework) · [**Biblioteca**](../../glosario/README.md#biblioteca) · [**Método plantilla**](../../glosario/README.md#método-plantilla) · [**Runtime**](../../glosario/README.md#runtime) · [**Manifiesto**](../../glosario/README.md#manifiesto) · [**Dependencia**](../../glosario/README.md#dependencia) · [**Inversión de control**](../../glosario/README.md#inversión-de-control) · [**Contrato**](../../glosario/README.md#contrato) · [**Metaframework**](../../glosario/README.md#metaframework) · [**Taxonomía**](../../glosario/README.md#taxonomía) · [**Categoría de catálogo**](../../glosario/README.md#categoría-de-catálogo) · [**Alternativa real**](../../glosario/README.md#alternativa-real) · [**Convención**](../../glosario/README.md#convención) · [**Idiomático**](../../glosario/README.md#idiomático) · [**Coste total**](../../glosario/README.md#coste-total) · [**Percentil**](../../glosario/README.md#percentil) · [**Elenco**](../../glosario/README.md#elenco) · [**Verde honesto**](../../glosario/README.md#verde-honesto)
 
 Todas, con su definición, en el [glosario](../../glosario/README.md).
 

@@ -2,7 +2,7 @@
 
 > [🏠 Repositorio](../README.md) · [🚀 Empezar](../empezar/README.md) · [🎓 Clases](../classes/README.md) · [🗺️ Atlas](../atlas/README.md)
 
-Todo el vocabulario del programa en un sitio: **136 conceptos** con su definición y **dónde se enseña**, las **138 tecnologías** del catálogo y las **8 cadenas de herramientas**.
+Todo el vocabulario del programa en un sitio: **138 conceptos** con su definición y **dónde se enseña**, las **138 tecnologías** del catálogo y las **8 cadenas de herramientas**.
 
 Este archivo **se genera**. Los conceptos viven en [`glosario/conceptos.json`](conceptos.json), las tecnologías en [`catalog/frameworks.json`](../catalog/frameworks.json) y las cadenas en [`scripts/lib/cadenas.mjs`](../scripts/lib/cadenas.mjs). Cada concepto declara la clase o el módulo donde se enseña, y `node scripts/generate-glosario.mjs --check` **falla si esa referencia no resuelve** — un glosario cuyos enlaces mienten es peor que no tenerlo.
 
@@ -10,13 +10,13 @@ Las clases marcadas con 🚧 están en esqueleto: el contrato y el elenco están
 
 ## 🔤 Índice alfabético
 
-**A** · [Active Record](#active-record) · [Almacén por petición](#almacén-por-petición) · [AOP → Aspecto](#aspecto) · [application/problem+json → RFC 9457](#rfc-9457) · [Archivo de bloqueo](#archivo-de-bloqueo) · [Argon2 → Función de derivación de clave](#función-de-derivación-de-clave) · [Arranque en frío](#arranque-en-frío) · [Aspecto](#aspecto) · [Auditoría](#auditoría) · [Autorización por recurso](#autorización-por-recurso) · [Autorización por rol](#autorización-por-rol)
+**A** · [Active Record](#active-record) · [Almacén por petición](#almacén-por-petición) · [Alternativa real](#alternativa-real) · [AOP → Aspecto](#aspecto) · [application/problem+json → RFC 9457](#rfc-9457) · [Archivo de bloqueo](#archivo-de-bloqueo) · [Argon2 → Función de derivación de clave](#función-de-derivación-de-clave) · [Arranque en frío](#arranque-en-frío) · [Aspecto](#aspecto) · [Auditoría](#auditoría) · [Autorización por recurso](#autorización-por-recurso) · [Autorización por rol](#autorización-por-rol)
 
 **Á** · [Ámbito](#ámbito)
 
 **B** · [bcrypt → Función de derivación de clave](#función-de-derivación-de-clave) · [Biblioteca](#biblioteca) · [Breaking change → Cambio incompatible](#cambio-incompatible) · [Bucle de eventos](#bucle-de-eventos)
 
-**C** · [Cabecera](#cabecera) · [Caché condicional](#caché-condicional) · [Cadena de herramientas](#cadena-de-herramientas) · [Cadena de suministro](#cadena-de-suministro) · [Cambio incompatible](#cambio-incompatible) · [Capa → Middleware](#middleware) · [Carga anticipada](#carga-anticipada) · [Carga de datos junto a la ruta](#carga-de-datos-junto-a-la-ruta) · [Carga perezosa](#carga-perezosa) · [Cascada de peticiones](#cascada-de-peticiones) · [Chunked transfer encoding → Codificación troceada](#codificación-troceada) · [Ciclo de vida → Ámbito](#ámbito) · [Clave de lista](#clave-de-lista) · [Codificación troceada](#codificación-troceada) · [Código de estado](#código-de-estado) · [Cola de trabajo](#cola-de-trabajo) · [Comparación en tiempo constante](#comparación-en-tiempo-constante) · [Componente](#componente) · [Componente de servidor](#componente-de-servidor) · [Comprobación previa](#comprobación-previa) · [Configuración por entorno](#configuración-por-entorno) · [Conflicto](#conflicto) · [Consulta parametrizada](#consulta-parametrizada) · [Contenedor de dependencias](#contenedor-de-dependencias) · [Contenedor de inversión de control → Contenedor de dependencias](#contenedor-de-dependencias) · [Contrato](#contrato) · [Convención](#convención) · [Convención sobre configuración → Convención](#convención) · [Cookie](#cookie) · [CORS](#cors) · [Coste total](#coste-total) · [Cross-Site Scripting → XSS](#xss) · [CSP → Política de seguridad de contenido](#política-de-seguridad-de-contenido) · [CSRF](#csrf)
+**C** · [Cabecera](#cabecera) · [Caché condicional](#caché-condicional) · [Cadena de herramientas](#cadena-de-herramientas) · [Cadena de suministro](#cadena-de-suministro) · [Cambio incompatible](#cambio-incompatible) · [Capa → Middleware](#middleware) · [Carga anticipada](#carga-anticipada) · [Carga de datos junto a la ruta](#carga-de-datos-junto-a-la-ruta) · [Carga perezosa](#carga-perezosa) · [Cascada de peticiones](#cascada-de-peticiones) · [Categoría de catálogo](#categoría-de-catálogo) · [Chunked transfer encoding → Codificación troceada](#codificación-troceada) · [Ciclo de vida → Ámbito](#ámbito) · [Clave de lista](#clave-de-lista) · [Codificación troceada](#codificación-troceada) · [Código de estado](#código-de-estado) · [Cola de trabajo](#cola-de-trabajo) · [Comparación en tiempo constante](#comparación-en-tiempo-constante) · [Componente](#componente) · [Componente de servidor](#componente-de-servidor) · [Comprobación previa](#comprobación-previa) · [Configuración por entorno](#configuración-por-entorno) · [Conflicto](#conflicto) · [Consulta parametrizada](#consulta-parametrizada) · [Contenedor de dependencias](#contenedor-de-dependencias) · [Contenedor de inversión de control → Contenedor de dependencias](#contenedor-de-dependencias) · [Contrato](#contrato) · [Convención](#convención) · [Convención sobre configuración → Convención](#convención) · [Cookie](#cookie) · [CORS](#cors) · [Coste total](#coste-total) · [Cross-Site Scripting → XSS](#xss) · [CSP → Política de seguridad de contenido](#política-de-seguridad-de-contenido) · [CSRF](#csrf)
 
 **D** · [Data Mapper](#data-mapper) · [Decorador](#decorador) · [Dependencia](#dependencia) · [Dependencia transitiva](#dependencia-transitiva) · [Doble de prueba](#doble-de-prueba) · [DOM virtual](#dom-virtual)
 
@@ -32,7 +32,7 @@ Las clases marcadas con 🚧 están en esqueleto: el contrato y el elenco están
 
 **J** · [JWT → Token de acceso](#token-de-acceso)
 
-**K** · [Key → Clave de lista](#clave-de-lista)
+**K** · [Key → Clave de lista](#clave-de-lista) · [kind → Categoría de catálogo](#categoría-de-catálogo)
 
 **L** · [Lazy loading → Carga perezosa](#carga-perezosa) · [Librería → Biblioteca](#biblioteca) · [Limitación de tasa](#limitación-de-tasa) · [Lockfile → Archivo de bloqueo](#archivo-de-bloqueo)
 
@@ -62,6 +62,12 @@ Las clases marcadas con 🚧 están en esqueleto: el contrato y el elenco están
 
 ### El método: qué es un framework y cómo se compara
 
+#### Alternativa real
+
+Lo que puede ocupar el sitio de una tecnología sin cambiar de lenguaje ni de ecosistema. No es lo mismo que un competidor: NestJS compite con Spring Boot y no tiene ninguna alternativa dentro de Node. Es la cifra que importa cuando la pregunta es «¿y si esto no funciona, qué pongo en su lugar?».
+
+> Se enseña en la [clase 004](../classes/parte-0-el-metodo/004-taxonomia-que-compite-de-verdad-con-que/README.md) · se desarrolla en el [módulo 00](../curriculum/00-taxonomia-y-diagnostico.md) · ver también [Taxonomía](#taxonomía), [Coste total](#coste-total), [Categoría de catálogo](#categoría-de-catálogo).
+
 #### Biblioteca
 
 Código de terceros que **tú llamas**. Tú mantienes el control del programa y le pides cosas cuando las necesitas. `node:http` implementa HTTP/1.1 entero y sigue siendo una biblioteca: lo que no hace es llamarte.
@@ -77,6 +83,14 @@ El modelo de concurrencia de Node.js y de Python asíncrono: **un solo hilo** qu
 También: *(Event loop)*
 
 > Se enseña en la [clase 022](../classes/parte-1-responder/022-respuesta-en-flujo/README.md) · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Un hilo por petición](#un-hilo-por-petición), [Runtime](#runtime).
+
+#### Categoría de catálogo
+
+La etiqueta que dice qué hace una tecnología: `web-framework`, `ui-library`, `orm`, `react-metaframework`… El repositorio usa treinta y siete y las define en `catalog/frameworks.json`, junto a los datos que clasifica. Es la columna «Categoría» de todas las clases, y la que decide si dos tecnologías son comparables.
+
+También: *(kind)*
+
+> Se enseña en la [clase 004](../classes/parte-0-el-metodo/004-taxonomia-que-compite-de-verdad-con-que/README.md) · se desarrolla en el [módulo 00](../curriculum/00-taxonomia-y-diagnostico.md) · ver también [Taxonomía](#taxonomía), [Metaframework](#metaframework).
 
 #### Convención
 
@@ -116,7 +130,7 @@ También: *(IoC, Principio de Hollywood)*
 
 Un framework construido sobre otro que añade enrutado, renderizado en servidor, carga de datos y empaquetado. Next.js sobre React, Nuxt sobre Vue, SvelteKit sobre Svelte. Compite con otros metaframeworks, no con la biblioteca que lleva dentro.
 
-> Se enseña en la [clase 004](../classes/parte-0-el-metodo/004-taxonomia-que-compite-de-verdad-con-que/README.md) 🚧 · se desarrolla en el [módulo 00](../curriculum/00-taxonomia-y-diagnostico.md) · ver también [Taxonomía](#taxonomía).
+> Se enseña en la [clase 004](../classes/parte-0-el-metodo/004-taxonomia-que-compite-de-verdad-con-que/README.md) · se desarrolla en el [módulo 00](../curriculum/00-taxonomia-y-diagnostico.md) · ver también [Taxonomía](#taxonomía).
 
 #### Método plantilla
 
@@ -136,7 +150,7 @@ También: *(Entorno de ejecución)*
 
 Clasificar antes de comparar. React y Next.js no compiten: uno es biblioteca de interfaz y el otro un metaframework que la usa. Comparar piezas de categorías distintas produce conclusiones que no significan nada.
 
-> Se enseña en la [clase 004](../classes/parte-0-el-metodo/004-taxonomia-que-compite-de-verdad-con-que/README.md) 🚧 · se desarrolla en el [módulo 00](../curriculum/00-taxonomia-y-diagnostico.md) · ver también [Metaframework](#metaframework), [Elenco](#elenco).
+> Se enseña en la [clase 004](../classes/parte-0-el-metodo/004-taxonomia-que-compite-de-verdad-con-que/README.md) · se desarrolla en el [módulo 00](../curriculum/00-taxonomia-y-diagnostico.md) · ver también [Metaframework](#metaframework), [Elenco](#elenco), [Categoría de catálogo](#categoría-de-catálogo), [Alternativa real](#alternativa-real).
 
 #### Un hilo por petición
 
@@ -1048,20 +1062,20 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | **TypeORM** | ORM | 2016 | activo | [ficha](../atlas/fichas/typeorm.md) |
 | **Vite** | herramienta de construcción | 2020 | activo | [ficha](../atlas/fichas/vite.md) |
 | **VitePress** | documentation-framework | 2022 | activo | [ficha](../atlas/fichas/vitepress.md) |
-| **Vue** | framework web | 2014 | activo | [ficha](../atlas/fichas/vue.md) |
+| **Vue** | framework de interfaz | 2014 | activo | [ficha](../atlas/fichas/vue.md) |
 
 ### JavaScript · 21
 
 | Tecnología | Qué es | Desde | Estado | Ficha |
 | --- | --- | ---: | --- | --- |
 | **Alpine.js** | dom-library | 2019 | activo | [ficha](../atlas/fichas/alpinejs.md) |
-| **AngularJS** | framework web | 2010 | historico | [ficha](../atlas/fichas/angularjs.md) |
+| **AngularJS** | framework de interfaz | 2010 | historico | [ficha](../atlas/fichas/angularjs.md) |
 | **Apache Cordova** | runtime-bridge | 2009 | mantenimiento | [ficha](../atlas/fichas/cordova.md) |
-| **Aurelia** | framework web | 2015 | mantenimiento | [ficha](../atlas/fichas/aurelia.md) |
+| **Aurelia** | framework de interfaz | 2015 | mantenimiento | [ficha](../atlas/fichas/aurelia.md) |
 | **Backbone.js** | mv-library | 2010 | mantenimiento | [ficha](../atlas/fichas/backbone.md) |
 | **Dojo Toolkit** | ui-toolkit | 2004 | mantenimiento | [ficha](../atlas/fichas/dojo.md) |
 | **Eleventy** | static-site-generator | 2018 | activo | [ficha](../atlas/fichas/eleventy.md) |
-| **Ember.js** | framework web | 2011 | activo | [ficha](../atlas/fichas/ember.md) |
+| **Ember.js** | framework de interfaz | 2011 | activo | [ficha](../atlas/fichas/ember.md) |
 | **Ext JS** | ui-toolkit | 2007 | activo | [ficha](../atlas/fichas/extjs.md) |
 | **htmx** | hypermedia-library | 2020 | activo | [ficha](../atlas/fichas/htmx.md) |
 | **jQuery** | dom-library | 2006 | mantenimiento | [ficha](../atlas/fichas/jquery.md) |
@@ -1217,7 +1231,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | Tecnología | Qué es | Desde | Estado | Ficha |
 | --- | --- | ---: | --- | --- |
 | **Analog** | angular-metaframework | 2023 | activo | [ficha](../atlas/fichas/analog.md) |
-| **Angular** | framework web | 2016 | activo | [ficha](../atlas/fichas/angular.md) |
+| **Angular** | framework de interfaz | 2016 | activo | [ficha](../atlas/fichas/angular.md) |
 
 ### Cloud · 1
 
@@ -1265,7 +1279,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 
 | Parte | Tema | Clases | Construidas |
 | ---: | --- | ---: | ---: |
-| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 3 |
+| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 4 |
 | 1 | [Responder: lo primero que hace cualquier framework](../classes/parte-1-responder/README.md) | 15 | 15 |
 | 2 | [La tubería: middleware, filtros e interceptores](../classes/parte-2-la-tuberia/README.md) | 13 | 13 |
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |

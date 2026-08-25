@@ -84,9 +84,9 @@ más que la elegancia de la API**.
 | [**Knockout**](../fichas/knockout.md) | `mvvm-library` | 2010 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://knockoutjs.com/documentation/introduction.html) |
 | [**MooTools**](../fichas/mootools.md) | `dom-library` | 2006 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://mootools.net/) |
 | [**Prototype**](../fichas/prototype-js.md) | `dom-library` | 2005 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://github.com/prototypejs/prototype) |
-| [**AngularJS**](../fichas/angularjs.md) | `web-framework` | 2010 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://docs.angularjs.org/guide) |
-| [**Aurelia**](../fichas/aurelia.md) | `web-framework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://docs.aurelia.io/) |
-| [**Ember.js**](../fichas/ember.md) | `web-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.emberjs.com/release/) |
+| [**AngularJS**](../fichas/angularjs.md) | `ui-framework` | 2010 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://docs.angularjs.org/guide) |
+| [**Aurelia**](../fichas/aurelia.md) | `ui-framework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://docs.aurelia.io/) |
+| [**Ember.js**](../fichas/ember.md) | `ui-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.emberjs.com/release/) |
 | [**Express**](../fichas/express.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://expressjs.com/) |
 | [**Ext JS**](../fichas/extjs.md) | `ui-toolkit` | 2007 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.sencha.com/extjs/) |
 | [**Gatsby**](../fichas/gatsby.md) | `react-metaframework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://www.gatsbyjs.com/docs/) |
@@ -103,7 +103,7 @@ más que la elegancia de la API**.
 | [**webpack**](../fichas/webpack.md) | `build-tool` | 2012 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://webpack.js.org/concepts/) |
 | [**AdonisJS**](../fichas/adonisjs.md) | `full-stack-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.adonisjs.com/guides/preface/introduction) |
 | [**Alpine.js**](../fichas/alpinejs.md) | `dom-library` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://alpinejs.dev/start-here) |
-| [**Angular**](../fichas/angular.md) | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://angular.dev/) |
+| [**Angular**](../fichas/angular.md) | `ui-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://angular.dev/) |
 | [**Astro**](../fichas/astro.md) | `web-metaframework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.astro.build/) |
 | [**Capacitor**](../fichas/capacitor.md) | `runtime-bridge` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://capacitorjs.com/docs) |
 | [**Deno**](../fichas/deno.md) | `runtime` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.deno.com/) |
@@ -132,7 +132,7 @@ más que la elegancia de la API**.
 | [**tRPC**](../fichas/trpc.md) | `rpc-library` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://trpc.io/docs) |
 | [**Vite**](../fichas/vite.md) | `build-tool` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vite.dev/guide/) |
 | [**VitePress**](../fichas/vitepress.md) | `documentation-framework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vitepress.dev/) |
-| [**Vue**](../fichas/vue.md) | `web-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vuejs.org/guide/) |
+| [**Vue**](../fichas/vue.md) | `ui-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vuejs.org/guide/) |
 | [**Analog**](../fichas/analog.md) | `angular-metaframework` | 2023 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://analogjs.org/docs) |
 | [**Bun**](../fichas/bun.md) | `runtime` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://bun.com/docs) |
 | [**Drizzle ORM**](../fichas/drizzle.md) | `orm` | 2022 | 🌊 Emergente | 🟢 activo | `Apache-2.0` | [oficial](https://orm.drizzle.team/docs/overview) |

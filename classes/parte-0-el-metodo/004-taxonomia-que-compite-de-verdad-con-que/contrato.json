@@ -1,8 +1,89 @@
 {
   "clase": "004",
   "titulo": "Taxonomía: qué compite de verdad con qué",
-  "descripcion": "Situar cinco piezas del catálogo en su categoría y justificar contra qué compite cada una.",
-  "estado": "esqueleto",
-  "tipo": "http",
-  "casos": []
+  "descripcion": "Situar cinco piezas del catálogo en su categoría y comprobar contra quién compite cada una y a quién puede sustituir.",
+  "estado": "construida",
+  "tipo": "catalogo",
+  "nota": "Este contrato no levanta servidores: pregunta a catalog/frameworks.json, que es donde el repositorio escribe la clasificación una sola vez y la contrasta con la documentación oficial de cada tecnología. Si alguien reclasifica una entrada, esta clase se pone en rojo.",
+  "casos": [
+    {
+      "nombre": "Express es un framework de servidor",
+      "pregunta": { "tecnologia": "express", "campo": "kind" },
+      "esperado": { "es": "web-framework" }
+    },
+    {
+      "nombre": "NestJS no es lo mismo: es un framework de aplicación",
+      "pregunta": { "tecnologia": "nestjs", "campo": "kind" },
+      "esperado": { "es": "application-framework" }
+    },
+    {
+      "nombre": "React es una biblioteca de interfaz, no un framework",
+      "pregunta": { "tecnologia": "react", "campo": "kind" },
+      "esperado": { "es": "ui-library" }
+    },
+    {
+      "nombre": "Next.js es un metaframework de React",
+      "pregunta": { "tecnologia": "nextjs", "campo": "kind" },
+      "esperado": { "es": "react-metaframework" }
+    },
+    {
+      "nombre": "Prisma es un ORM y no compite con ninguno de los anteriores",
+      "pregunta": { "tecnologia": "prisma", "campo": "kind" },
+      "esperado": { "es": "orm" }
+    },
+    {
+      "nombre": "React compite con Preact y SolidJS — no con Next.js, ni con Express, ni con Prisma",
+      "pregunta": { "compite_con": "react" },
+      "esperado": {
+        "incluye": ["preact", "solid"],
+        "excluye": ["nextjs", "express", "prisma", "nestjs"]
+      }
+    },
+    {
+      "nombre": "Next.js compite con Remix y Gatsby, no con React: se construye sobre ella",
+      "pregunta": { "compite_con": "nextjs" },
+      "esperado": { "incluye": ["remix", "gatsby"], "excluye": ["react", "vue", "express"] }
+    },
+    {
+      "nombre": "Express compite con Django, Flask, FastAPI y Gin — todos poseen el bucle de peticiones",
+      "pregunta": { "compite_con": "express" },
+      "esperado": {
+        "incluye": ["django", "flask", "fastapi", "gin", "fastify"],
+        "excluye": ["react", "vue", "nextjs", "prisma"]
+      }
+    },
+    {
+      "nombre": "Pero en un proyecto Node solo tres pueden ocupar el sitio de Express",
+      "pregunta": { "alternativa_en": "express" },
+      "esperado": { "es": ["fastify", "hapi", "koa"] }
+    },
+    {
+      "nombre": "NestJS compite con Spring Boot, Quarkus y Micronaut: el mismo modelo, otro lenguaje",
+      "pregunta": { "compite_con": "nestjs" },
+      "esperado": {
+        "incluye": ["spring-boot", "quarkus", "micronaut"],
+        "excluye": ["express", "fastify", "react"]
+      }
+    },
+    {
+      "nombre": "Y no tiene ninguna alternativa dentro de su propio ecosistema",
+      "pregunta": { "alternativa_en": "nestjs" },
+      "esperado": { "es": [] }
+    },
+    {
+      "nombre": "A Prisma sí se le puede sustituir sin cambiar de lenguaje",
+      "pregunta": { "alternativa_en": "prisma" },
+      "esperado": { "es": ["drizzle", "typeorm"] }
+    },
+    {
+      "nombre": "Los ORM del catálogo son ocho, repartidos por seis ecosistemas",
+      "pregunta": { "cuantas": { "kind": "orm" } },
+      "esperado": { "al_menos": 8 }
+    },
+    {
+      "nombre": "Y los frameworks de servidor, casi treinta: la categoría más disputada",
+      "pregunta": { "cuantas": { "kind": "web-framework" } },
+      "esperado": { "al_menos": 25 }
+    }
+  ]
 }

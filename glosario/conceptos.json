@@ -96,7 +96,9 @@
       "modulo": "00",
       "relacionado": [
         "Metaframework",
-        "Elenco"
+        "Elenco",
+        "Categoría de catálogo",
+        "Alternativa real"
       ]
     },
     {
@@ -1547,6 +1549,32 @@
       "relacionado": [
         "Cascada de peticiones",
         "Componente de servidor"
+      ]
+    },
+    {
+      "termino": "Categoría de catálogo",
+      "alias": [
+        "kind"
+      ],
+      "categoria": "metodo",
+      "definicion": "La etiqueta que dice qué hace una tecnología: `web-framework`, `ui-library`, `orm`, `react-metaframework`… El repositorio usa treinta y siete y las define en `catalog/frameworks.json`, junto a los datos que clasifica. Es la columna «Categoría» de todas las clases, y la que decide si dos tecnologías son comparables.",
+      "clase": 4,
+      "modulo": "00",
+      "relacionado": [
+        "Taxonomía",
+        "Metaframework"
+      ]
+    },
+    {
+      "termino": "Alternativa real",
+      "categoria": "metodo",
+      "definicion": "Lo que puede ocupar el sitio de una tecnología sin cambiar de lenguaje ni de ecosistema. No es lo mismo que un competidor: NestJS compite con Spring Boot y no tiene ninguna alternativa dentro de Node. Es la cifra que importa cuando la pregunta es «¿y si esto no funciona, qué pongo en su lugar?».",
+      "clase": 4,
+      "modulo": "00",
+      "relacionado": [
+        "Taxonomía",
+        "Coste total",
+        "Categoría de catálogo"
       ]
     }
   ]

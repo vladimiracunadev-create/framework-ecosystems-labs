@@ -125,12 +125,20 @@ function indiceCompleto() {
   lineas.push("Esta tabla es el ejercicio del módulo 00 aplicado a todo el catálogo: **nada de esto");
   lineas.push("son sinónimos**, y las comparaciones entre columnas distintas rara vez significan algo.");
   lineas.push("");
-  lineas.push("| Clasificación | Cuántas | Ejemplos |");
-  lineas.push("| --- | ---: | --- |");
+  lineas.push("La definición de cada etiqueta vive en `catalog/frameworks.json`, junto a los datos");
+  lineas.push("que clasifica, para que no puedan separarse. Es el vocabulario que usa la columna");
+  lineas.push("«Categoría» de todas las clases del programa.");
+  lineas.push("");
+  lineas.push("| Clasificación | Cuántas | Qué significa | Ejemplos |");
+  lineas.push("| --- | ---: | --- | --- |");
   const clases = [...new Set(catalogo.entries.map((entry) => entry.kind))].sort();
   for (const clase of clases) {
     const entradas = catalogo.entries.filter((entry) => entry.kind === clase);
-    lineas.push(`| \`${clase}\` | ${entradas.length} | ${entradas.slice(0, 4).map((e) => e.name).join(", ")} |`);
+    const definicion = catalogo.kinds?.[clase] ?? "—";
+    lineas.push(
+      `| \`${clase}\` | ${entradas.length} | ${definicion} | ` +
+        `${entradas.slice(0, 4).map((e) => e.name).join(", ")} |`,
+    );
   }
   lineas.push("");
 

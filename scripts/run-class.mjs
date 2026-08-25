@@ -25,6 +25,7 @@ import path from "node:path";
 import process from "node:process";
 import { spawn, spawnSync } from "node:child_process";
 import net from "node:net";
+import { verificarCatalogo, versionDelCatalogo } from "./lib/preguntas.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const CLASSES = path.join(root, "classes");
@@ -778,6 +779,36 @@ async function verificarImplementacion(dir, framework, contrato, puerto) {
 
 // ---------------------------------------------------------------- una clase
 
+/**
+ * Contratos de tipo `catalogo`: la clase afirma algo sobre cómo se clasifican
+ * las tecnologías, y se comprueba contra `catalog/frameworks.json`.
+ *
+ * No hay implementaciones que arrancar ni puertos que abrir. Lo que se verifica
+ * es que la afirmación sigue siendo cierta en el catalogo del repositorio — y si
+ * alguien reclasifica una entrada, la clase se pone en rojo.
+ */
+function verificarContraElCatalogo(contrato) {
+  if (!contrato.casos.length) {
+    console.log("  ⊘ sin casos todavía (clase en esqueleto).");
+    return { ok: true, resultados: [] };
+  }
+
+  const respuestas = verificarCatalogo(contrato);
+  for (const r of respuestas) {
+    console.log(`  ${r.paso ? "✔" : "✘"} ${r.nombre}${r.paso ? "" : ` — ${r.motivo}`}`);
+  }
+
+  const rotas = respuestas.filter((r) => !r.paso).length;
+  const estado = rotas === 0 ? "ok" : "fallo";
+  const detalle =
+    rotas === 0
+      ? `${respuestas.length} afirmaciones contra el catálogo de ${versionDelCatalogo}`
+      : `${rotas} de ${respuestas.length} afirmaciones ya no se sostienen`;
+  console.log(`  ${rotas === 0 ? "✔" : "✘"} ${"catálogo".padEnd(20)} ${detalle}`);
+
+  return { ok: rotas === 0, resultados: [{ framework: "catalogo", estado, detalle }] };
+}
+
 function localizar(ref) {
   const n = Number(ref);
   for (const parte of manifest.partes) {
@@ -801,8 +832,11 @@ async function verificarClase(ref, puertoBase = 4100) {
 
   console.log(`\nClase ${String(clase.n).padStart(3, "0")} — ${clase.titulo}`);
 
+  if (contrato.tipo === "catalogo") {
+    return verificarContraElCatalogo(contrato);
+  }
   if (contrato.tipo !== "http") {
-    console.log(`  ⊘ contrato de tipo "${contrato.tipo}": este verificador solo ejecuta contratos http.`);
+    console.log(`  ⊘ contrato de tipo "${contrato.tipo}": este verificador solo ejecuta contratos http y catalogo.`);
     return { ok: true, resultados: [] };
   }
   if (!contrato.casos.length) {

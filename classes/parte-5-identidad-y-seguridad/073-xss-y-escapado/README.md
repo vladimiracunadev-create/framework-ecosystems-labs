@@ -50,7 +50,7 @@ Antes del código: **qué es cada framework, qué versión se está usando y qu�
 | Framework | Qué es | Desde | Licencia | Quién lo mantiene |
 | --- | --- | ---: | --- | --- |
 | **React** | biblioteca de interfaz de JavaScript/TypeScript (JavaScript) | 2013 | MIT | Meta y colaboradores |
-| **Vue** | framework web de JavaScript/TypeScript (JavaScript) | 2014 | MIT | proyecto independiente |
+| **Vue** | framework de interfaz de JavaScript/TypeScript (JavaScript) | 2014 | MIT | proyecto independiente |
 | **Svelte** | framework de interfaz de JavaScript/TypeScript (JavaScript) | 2016 | MIT | proyecto independiente |
 | **SolidJS** | biblioteca de interfaz de JavaScript/TypeScript (JavaScript) | 2018 | MIT | proyecto independiente |
 | **Lit** | web-components-library de JavaScript/TypeScript (TypeScript) | 2021 | BSD-3-Clause | Google |

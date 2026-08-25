@@ -33,45 +33,49 @@ esta tecnología existió o existe, hizo algo reconocible, y aquí está su docu
 Esta tabla es el ejercicio del módulo 00 aplicado a todo el catálogo: **nada de esto
 son sinónimos**, y las comparaciones entre columnas distintas rara vez significan algo.
 
-| Clasificación | Cuántas | Ejemplos |
-| --- | ---: | --- |
-| `angular-metaframework` | 1 | Analog |
-| `application-framework` | 8 | NestJS, Dropwizard, Spring Framework, Micronaut |
-| `asgi-toolkit` | 1 | Starlette |
-| `build-tool` | 4 | esbuild, Rollup, webpack, Vite |
-| `cms` | 2 | Drupal, WordPress |
-| `component-framework` | 3 | ASP.NET Web Forms, Blazor, Jakarta Faces (JSF) |
-| `desktop-runtime` | 2 | Electron, Tauri |
-| `documentation-framework` | 2 | Docusaurus, VitePress |
-| `dom-library` | 5 | jQuery, MooTools, Prototype, Alpine.js |
-| `full-stack-framework` | 12 | Phoenix, Beego, Sails.js, AdonisJS |
-| `http-toolkit` | 1 | aiohttp |
-| `hypermedia-library` | 2 | Turbo (Hotwire), htmx |
-| `micro-orm` | 1 | Dapper |
-| `mv-library` | 1 | Backbone.js |
-| `mvvm-library` | 1 | Knockout |
-| `orm` | 8 | Entity Framework Core, TypeORM, Prisma ORM, Drizzle ORM |
-| `platform` | 1 | Kubernetes |
-| `react-metaframework` | 3 | Gatsby, Next.js, Remix |
-| `reactive-toolkit` | 1 | Eclipse Vert.x |
-| `realtime-library` | 1 | Socket.IO |
-| `realtime-ui-framework` | 1 | Phoenix LiveView |
-| `routing-library` | 2 | chi, React Router |
-| `rpc-library` | 1 | tRPC |
-| `runtime` | 3 | Deno, Node.js, Bun |
-| `runtime-bridge` | 2 | Apache Cordova, Capacitor |
-| `server-toolkit` | 1 | Nitro |
-| `solid-metaframework` | 1 | SolidStart |
-| `static-site-generator` | 3 | Hugo, Eleventy, Jekyll |
-| `svelte-metaframework` | 1 | SvelteKit |
-| `ui-framework` | 14 | WPF, Xamarin, Avalonia, .NET MAUI |
-| `ui-library` | 3 | Preact, React, SolidJS |
-| `ui-sdk` | 1 | Flutter |
-| `ui-toolkit` | 8 | UIKit, SwiftUI, Dojo Toolkit, Ext JS |
-| `vue-metaframework` | 1 | Nuxt |
-| `web-components-library` | 1 | Lit |
-| `web-framework` | 34 | ASP.NET MVC, ASP.NET Core, Echo, Fiber |
-| `web-metaframework` | 1 | Astro |
+La definición de cada etiqueta vive en `catalog/frameworks.json`, junto a los datos
+que clasifica, para que no puedan separarse. Es el vocabulario que usa la columna
+«Categoría» de todas las clases del programa.
+
+| Clasificación | Cuántas | Qué significa | Ejemplos |
+| --- | ---: | --- | --- |
+| `angular-metaframework` | 1 | Metaframework construido sobre Angular: le añade rutas de servidor, renderizado y compilación. | Analog |
+| `application-framework` | 8 | Framework de aplicación de servidor: además del transporte, gobierna módulos, dependencias y ciclo de vida. | NestJS, Dropwizard, Spring Framework, Micronaut |
+| `asgi-toolkit` | 1 | Piezas sueltas sobre la interfaz ASGI de Python. No arranca tu aplicación: la compones tú. | Starlette |
+| `build-tool` | 4 | Herramienta de construcción: resuelve dependencias, transforma y empaqueta. No corre en producción. | esbuild, Rollup, webpack, Vite |
+| `cms` | 2 | Producto configurable para gestionar contenido. Se administra más que se programa. | Drupal, WordPress |
+| `component-framework` | 3 | Modelo de componentes con estado en el servidor que se sincroniza con el navegador. | ASP.NET Web Forms, Blazor, Jakarta Faces (JSF) |
+| `desktop-runtime` | 2 | Envuelve una aplicación web en un ejecutable de escritorio con acceso al sistema. | Electron, Tauri |
+| `documentation-framework` | 2 | Generador de sitios de documentación: navegación, búsqueda y versiones ya resueltas. | Docusaurus, VitePress |
+| `dom-library` | 5 | Biblioteca que manipula el árbol del documento. La llamas tú; no controla el ciclo de vida. | jQuery, MooTools, Prototype, Alpine.js |
+| `full-stack-framework` | 12 | Framework que cubre de la petición a la base y a la vista, con convenciones para todo el camino. | Phoenix, Beego, Sails.js, AdonisJS |
+| `http-toolkit` | 1 | Piezas de cliente y servidor HTTP que se ensamblan a mano. | aiohttp |
+| `hypermedia-library` | 2 | Extiende el HTML para que la propia página describa sus interacciones, sin escribir cliente. | Turbo (Hotwire), htmx |
+| `micro-orm` | 1 | Mapea filas a objetos y nada más: sin seguimiento de cambios ni unidad de trabajo. | Dapper |
+| `mv-library` | 1 | Biblioteca de modelo y vista de la primera generación, anterior a los frameworks reactivos. | Backbone.js |
+| `mvvm-library` | 1 | Biblioteca de enlace bidireccional entre vista y modelo de vista. | Knockout |
+| `orm` | 8 | Mapea entidades a tablas y coordina la persistencia: seguimiento de cambios, relaciones y migraciones. | Entity Framework Core, TypeORM, Prisma ORM, Drizzle ORM |
+| `platform` | 1 | Plataforma de ejecución y despliegue. No es un framework: es dónde corre lo que escribes. | Kubernetes |
+| `react-metaframework` | 3 | Metaframework construido sobre React: rutas, renderizado en servidor y compilación. | Gatsby, Next.js, Remix |
+| `reactive-toolkit` | 1 | Piezas asíncronas y reactivas sobre la JVM, ensamblables sin imponer una arquitectura. | Eclipse Vert.x |
+| `realtime-library` | 1 | Biblioteca de mensajería bidireccional entre navegador y servidor. | Socket.IO |
+| `realtime-ui-framework` | 1 | La interfaz vive en el servidor y solo viajan las diferencias por una conexión persistente. | Phoenix LiveView |
+| `routing-library` | 2 | Resuelve el encaminamiento y nada más. Se combina con lo demás. | chi, React Router |
+| `rpc-library` | 1 | Llamadas a procedimientos remotos con tipos compartidos entre cliente y servidor. | tRPC |
+| `runtime` | 3 | Ejecuta el código y ofrece los servicios base. Un framework corre encima; un runtime no es un framework. | Deno, Node.js, Bun |
+| `runtime-bridge` | 2 | Puente que da a una aplicación web acceso a las capacidades nativas del dispositivo. | Apache Cordova, Capacitor |
+| `server-toolkit` | 1 | Capa de servidor reutilizable sobre la que se apoyan otros metaframeworks. | Nitro |
+| `solid-metaframework` | 1 | Metaframework construido sobre SolidJS. | SolidStart |
+| `static-site-generator` | 3 | Genera HTML en la construcción. En producción no hay proceso que responda. | Hugo, Eleventy, Jekyll |
+| `svelte-metaframework` | 1 | Metaframework construido sobre Svelte. | SvelteKit |
+| `ui-framework` | 19 | Framework de interfaz: posee el ciclo de render y define cómo se estructura la aplicación de cliente. | WPF, Xamarin, Avalonia, .NET MAUI |
+| `ui-library` | 3 | Biblioteca de interfaz: renderiza componentes y nada más. No arranca la aplicación ni define su ciclo. | Preact, React, SolidJS |
+| `ui-sdk` | 1 | Kit completo de interfaz con su propio motor de dibujo, independiente de los controles del sistema. | Flutter |
+| `ui-toolkit` | 8 | Conjunto de componentes y modelo de interfaz para una plataforma concreta. | UIKit, SwiftUI, Dojo Toolkit, Ext JS |
+| `vue-metaframework` | 1 | Metaframework construido sobre Vue. | Nuxt |
+| `web-components-library` | 1 | Biblioteca para escribir componentes web estándar del navegador. | Lit |
+| `web-framework` | 29 | Framework de servidor que posee el bucle de peticiones: encamina, ejecuta tu manejador y responde. | ASP.NET MVC, ASP.NET Core, Echo, Fiber |
+| `web-metaframework` | 1 | Metaframework que integra varias bibliotecas de interfaz en un mismo sitio. | Astro |
 
 ## Todas las tecnologías
 
@@ -88,9 +92,9 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | [**Knockout**](fichas/knockout.md) | `mvvm-library` | 2010 | 🌱 Pionero | 🟡 mantenimiento | `MIT` | [oficial](https://knockoutjs.com/documentation/introduction.html) |
 | [**MooTools**](fichas/mootools.md) | `dom-library` | 2006 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://mootools.net/) |
 | [**Prototype**](fichas/prototype-js.md) | `dom-library` | 2005 | 🌱 Pionero | ⚪ histórico | `MIT` | [oficial](https://github.com/prototypejs/prototype) |
-| [**AngularJS**](fichas/angularjs.md) | `web-framework` | 2010 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://docs.angularjs.org/guide) |
-| [**Aurelia**](fichas/aurelia.md) | `web-framework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://docs.aurelia.io/) |
-| [**Ember.js**](fichas/ember.md) | `web-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.emberjs.com/release/) |
+| [**AngularJS**](fichas/angularjs.md) | `ui-framework` | 2010 | 🏛️ Clásico | ⚪ histórico | `MIT` | [oficial](https://docs.angularjs.org/guide) |
+| [**Aurelia**](fichas/aurelia.md) | `ui-framework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://docs.aurelia.io/) |
+| [**Ember.js**](fichas/ember.md) | `ui-framework` | 2011 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://guides.emberjs.com/release/) |
 | [**Express**](fichas/express.md) | `web-framework` | 2010 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://expressjs.com/) |
 | [**Ext JS**](fichas/extjs.md) | `ui-toolkit` | 2007 | 🏛️ Clásico | 🟢 activo | `NOASSERTION` | [oficial](https://docs.sencha.com/extjs/) |
 | [**Gatsby**](fichas/gatsby.md) | `react-metaframework` | 2015 | 🏛️ Clásico | 🟡 mantenimiento | `MIT` | [oficial](https://www.gatsbyjs.com/docs/) |
@@ -107,7 +111,7 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | [**webpack**](fichas/webpack.md) | `build-tool` | 2012 | 🏛️ Clásico | 🟢 activo | `MIT` | [oficial](https://webpack.js.org/concepts/) |
 | [**AdonisJS**](fichas/adonisjs.md) | `full-stack-framework` | 2015 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.adonisjs.com/guides/preface/introduction) |
 | [**Alpine.js**](fichas/alpinejs.md) | `dom-library` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://alpinejs.dev/start-here) |
-| [**Angular**](fichas/angular.md) | `web-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://angular.dev/) |
+| [**Angular**](fichas/angular.md) | `ui-framework` | 2016 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://angular.dev/) |
 | [**Astro**](fichas/astro.md) | `web-metaframework` | 2021 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.astro.build/) |
 | [**Capacitor**](fichas/capacitor.md) | `runtime-bridge` | 2019 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://capacitorjs.com/docs) |
 | [**Deno**](fichas/deno.md) | `runtime` | 2018 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://docs.deno.com/) |
@@ -136,7 +140,7 @@ Contexto y genealogía: [javascript.md](ecosistemas/javascript.md).
 | [**tRPC**](fichas/trpc.md) | `rpc-library` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://trpc.io/docs) |
 | [**Vite**](fichas/vite.md) | `build-tool` | 2020 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vite.dev/guide/) |
 | [**VitePress**](fichas/vitepress.md) | `documentation-framework` | 2022 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vitepress.dev/) |
-| [**Vue**](fichas/vue.md) | `web-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vuejs.org/guide/) |
+| [**Vue**](fichas/vue.md) | `ui-framework` | 2014 | 🟢 Vigente | 🟢 activo | `MIT` | [oficial](https://vuejs.org/guide/) |
 | [**Analog**](fichas/analog.md) | `angular-metaframework` | 2023 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://analogjs.org/docs) |
 | [**Bun**](fichas/bun.md) | `runtime` | 2022 | 🌊 Emergente | 🟢 activo | `MIT` | [oficial](https://bun.com/docs) |
 | [**Drizzle ORM**](fichas/drizzle.md) | `orm` | 2022 | 🌊 Emergente | 🟢 activo | `Apache-2.0` | [oficial](https://orm.drizzle.team/docs/overview) |

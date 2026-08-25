@@ -437,8 +437,16 @@ for (const parte of manifest.partes) {
 
   for (const clase of parte.clases) {
     const dir = path.join(dirParte, clase.slug);
-    sembrar(path.join(dir, "README.md"), esqueletoClase(parte, clase));
-    sembrar(path.join(dir, "porque-si-porque-no.md"), esqueletoPorque(parte, clase));
+
+    // Una clase en esqueleto no tiene prosa que proteger: su página entera está
+    // generada, así que se REESCRIBE. Si no, cualquier cambio en el catálogo
+    // —una tecnología reclasificada, un nombre corregido— deja setenta y cinco
+    // páginas diciendo lo que ya no es cierto, y nada lo detecta.
+    //
+    // Una clase construida es lo contrario: `sembrar` no la pisa nunca.
+    const fijar = clase.estado === "esqueleto" ? escribir : sembrar;
+    fijar(path.join(dir, "README.md"), esqueletoClase(parte, clase));
+    fijar(path.join(dir, "porque-si-porque-no.md"), esqueletoPorque(parte, clase));
     sembrar(path.join(dir, "contrato.json"), esqueletoContrato(clase));
   }
 }

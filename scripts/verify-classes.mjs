@@ -37,6 +37,26 @@ const SECCIONES_CONSTRUIDA = [
   "Fuentes",
 ];
 
+/**
+ * Una clase de tipo `catalogo` no levanta servidores: afirma cosas sobre cómo se
+ * clasifican las tecnologías y las contrasta con `catalog/frameworks.json`.
+ *
+ * No se le exigen implementaciones —no habría qué ejecutar— pero se le exige lo
+ * equivalente, y por el mismo motivo: que cada afirmación sea comprobable y que
+ * el elenco no sea decorativo.
+ */
+const SECCIONES_CATALOGO = [
+  "Objetivo",
+  "La situación",
+  "El contrato",
+  "Las piezas",
+  "Comparación",
+  "Verificación",
+  "Errores frecuentes",
+  "Reto de transferencia",
+  "Fuentes",
+];
+
 const MIN_IMPLEMENTACIONES = 2;
 
 /** Extensiones que cuentan como código de la implementación, no como andamiaje. */
@@ -62,6 +82,28 @@ const MIN_CASOS = 2;
 
 const problemas = [];
 const fallar = (donde, mensaje) => problemas.push(`${donde}: ${mensaje}`);
+
+/**
+ * Las exigencias que valen para cualquier clase construida, sea del tipo que
+ * sea: las secciones de su guion, que no siga diciendo que es un esqueleto y que
+ * cada cita resuelva contra la bibliografía verificada.
+ */
+function comprobarSecciones(rel, dir, secciones) {
+  const readme = fs.readFileSync(path.join(dir, "README.md"), "utf8");
+  for (const seccion of secciones) {
+    if (!readme.includes(seccion)) fallar(`${rel}/README.md`, `falta la sección "${seccion}"`);
+  }
+  if (readme.includes("Clase en esqueleto")) {
+    fallar(`${rel}/README.md`, "sigue marcada como esqueleto pero el manifiesto la da por construida");
+  }
+
+  // Trazabilidad: toda cita debe resolver contra la bibliografía verificada.
+  const citas = [...readme.matchAll(/\[@([a-z0-9-]+)\]/g)].map((m) => m[1]);
+  if (citas.length === 0) fallar(`${rel}/README.md`, "una clase construida sin ninguna fuente citada");
+  for (const cita of new Set(citas)) {
+    if (!idsFuentes.has(cita)) fallar(`${rel}/README.md`, `cita a una fuente inexistente: [@${cita}]`);
+  }
+}
 
 const numerosVistos = new Set();
 const slugsVistos = new Set();
@@ -133,6 +175,33 @@ for (const parte of manifest.partes) {
       if (!caso.esperado) fallar(`${rel}/contrato.json`, `el caso "${caso.nombre}" no declara qué espera`);
     }
 
+    if (contrato.tipo === "catalogo") {
+      // Cada caso pregunta al catálogo y cada elenco aparece en alguna pregunta:
+      // sin esto, la clase podría listar cinco tecnologías y no afirmar nada de
+      // ninguna, que es justo el «relleno» que el repositorio no admite.
+      const preguntadas = new Set();
+      for (const caso of contrato.casos ?? []) {
+        if (!caso.pregunta) {
+          fallar(`${rel}/contrato.json`, `el caso "${caso.nombre}" no pregunta nada al catálogo`);
+          continue;
+        }
+        for (const id of [caso.pregunta.tecnologia, caso.pregunta.compite_con]) {
+          if (id === undefined) continue;
+          preguntadas.add(id);
+          if (!idsCatalogo.has(id)) {
+            fallar(`${rel}/contrato.json`, `pregunta por "${id}", que no está en el catálogo`);
+          }
+        }
+      }
+      for (const id of clase.elenco) {
+        if (!preguntadas.has(id)) {
+          fallar(`${rel}/contrato.json`, `"${id}" está en el elenco y ningún caso pregunta por él`);
+        }
+      }
+      comprobarSecciones(rel, dir, SECCIONES_CATALOGO);
+      continue;
+    }
+
     const dirImpl = path.join(dir, "implementaciones");
     const presentes = fs.existsSync(dirImpl)
       ? fs.readdirSync(dirImpl, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)
@@ -163,20 +232,7 @@ for (const parte of manifest.partes) {
       implementaciones++;
     }
 
-    const readme = fs.readFileSync(path.join(dir, "README.md"), "utf8");
-    for (const seccion of SECCIONES_CONSTRUIDA) {
-      if (!readme.includes(seccion)) fallar(`${rel}/README.md`, `falta la sección "${seccion}"`);
-    }
-    if (readme.includes("Clase en esqueleto")) {
-      fallar(`${rel}/README.md`, "sigue marcada como esqueleto pero el manifiesto la da por construida");
-    }
-
-    // Trazabilidad: toda cita debe resolver contra la bibliografía verificada.
-    const citas = [...readme.matchAll(/\[@([a-z0-9-]+)\]/g)].map((m) => m[1]);
-    if (citas.length === 0) fallar(`${rel}/README.md`, "una clase construida sin ninguna fuente citada");
-    for (const cita of new Set(citas)) {
-      if (!idsFuentes.has(cita)) fallar(`${rel}/README.md`, `cita a una fuente inexistente: [@${cita}]`);
-    }
+    comprobarSecciones(rel, dir, SECCIONES_CONSTRUIDA);
   }
 }
 

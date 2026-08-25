@@ -24,8 +24,8 @@ su manera, y esa diferencia es el contenido de la clase.
 | Framework | Categoría | Ecosistema | Implementación |
 | --- | --- | --- | --- |
 | [React](../../../atlas/fichas/react.md) | `ui-library` | JavaScript/TypeScript | `implementaciones/react/` |
-| [Vue](../../../atlas/fichas/vue.md) | `web-framework` | JavaScript/TypeScript | `implementaciones/vue/` |
-| [Angular](../../../atlas/fichas/angular.md) | `web-framework` | TypeScript | `implementaciones/angular/` |
+| [Vue](../../../atlas/fichas/vue.md) | `ui-framework` | JavaScript/TypeScript | `implementaciones/vue/` |
+| [Angular](../../../atlas/fichas/angular.md) | `ui-framework` | TypeScript | `implementaciones/angular/` |
 | [Svelte](../../../atlas/fichas/svelte.md) | `ui-framework` | JavaScript/TypeScript | `implementaciones/svelte/` |
 | [SolidJS](../../../atlas/fichas/solid.md) | `ui-library` | JavaScript/TypeScript | `implementaciones/solid/` |
 | [Lit](../../../atlas/fichas/lit.md) | `web-components-library` | JavaScript/TypeScript | `implementaciones/lit/` |

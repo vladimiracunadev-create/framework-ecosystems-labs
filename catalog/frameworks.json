@@ -10,6 +10,45 @@
     "note": "Qué aportó al campo o por qué se recuerda. No es una valoración.",
     "family": "Agrupación por ecosistema de lenguaje, usada por el Atlas: javascript, python, php, jvm, dotnet, go, rust, ruby, beam, dart, apple, nativo, cloud."
   },
+  "kinds": {
+    "angular-metaframework": "Metaframework construido sobre Angular: le añade rutas de servidor, renderizado y compilación.",
+    "application-framework": "Framework de aplicación de servidor: además del transporte, gobierna módulos, dependencias y ciclo de vida.",
+    "asgi-toolkit": "Piezas sueltas sobre la interfaz ASGI de Python. No arranca tu aplicación: la compones tú.",
+    "build-tool": "Herramienta de construcción: resuelve dependencias, transforma y empaqueta. No corre en producción.",
+    "cms": "Producto configurable para gestionar contenido. Se administra más que se programa.",
+    "component-framework": "Modelo de componentes con estado en el servidor que se sincroniza con el navegador.",
+    "desktop-runtime": "Envuelve una aplicación web en un ejecutable de escritorio con acceso al sistema.",
+    "documentation-framework": "Generador de sitios de documentación: navegación, búsqueda y versiones ya resueltas.",
+    "dom-library": "Biblioteca que manipula el árbol del documento. La llamas tú; no controla el ciclo de vida.",
+    "full-stack-framework": "Framework que cubre de la petición a la base y a la vista, con convenciones para todo el camino.",
+    "http-toolkit": "Piezas de cliente y servidor HTTP que se ensamblan a mano.",
+    "hypermedia-library": "Extiende el HTML para que la propia página describa sus interacciones, sin escribir cliente.",
+    "micro-orm": "Mapea filas a objetos y nada más: sin seguimiento de cambios ni unidad de trabajo.",
+    "mv-library": "Biblioteca de modelo y vista de la primera generación, anterior a los frameworks reactivos.",
+    "mvvm-library": "Biblioteca de enlace bidireccional entre vista y modelo de vista.",
+    "orm": "Mapea entidades a tablas y coordina la persistencia: seguimiento de cambios, relaciones y migraciones.",
+    "platform": "Plataforma de ejecución y despliegue. No es un framework: es dónde corre lo que escribes.",
+    "react-metaframework": "Metaframework construido sobre React: rutas, renderizado en servidor y compilación.",
+    "reactive-toolkit": "Piezas asíncronas y reactivas sobre la JVM, ensamblables sin imponer una arquitectura.",
+    "realtime-library": "Biblioteca de mensajería bidireccional entre navegador y servidor.",
+    "realtime-ui-framework": "La interfaz vive en el servidor y solo viajan las diferencias por una conexión persistente.",
+    "routing-library": "Resuelve el encaminamiento y nada más. Se combina con lo demás.",
+    "rpc-library": "Llamadas a procedimientos remotos con tipos compartidos entre cliente y servidor.",
+    "runtime": "Ejecuta el código y ofrece los servicios base. Un framework corre encima; un runtime no es un framework.",
+    "runtime-bridge": "Puente que da a una aplicación web acceso a las capacidades nativas del dispositivo.",
+    "server-toolkit": "Capa de servidor reutilizable sobre la que se apoyan otros metaframeworks.",
+    "solid-metaframework": "Metaframework construido sobre SolidJS.",
+    "static-site-generator": "Genera HTML en la construcción. En producción no hay proceso que responda.",
+    "svelte-metaframework": "Metaframework construido sobre Svelte.",
+    "ui-framework": "Framework de interfaz: posee el ciclo de render y define cómo se estructura la aplicación de cliente.",
+    "ui-library": "Biblioteca de interfaz: renderiza componentes y nada más. No arranca la aplicación ni define su ciclo.",
+    "ui-sdk": "Kit completo de interfaz con su propio motor de dibujo, independiente de los controles del sistema.",
+    "ui-toolkit": "Conjunto de componentes y modelo de interfaz para una plataforma concreta.",
+    "vue-metaframework": "Metaframework construido sobre Vue.",
+    "web-components-library": "Biblioteca para escribir componentes web estándar del navegador.",
+    "web-framework": "Framework de servidor que posee el bucle de peticiones: encamina, ejecuta tu manejador y responde.",
+    "web-metaframework": "Metaframework que integra varias bibliotecas de interfaz en un mismo sitio."
+  },
   "entries": [
     {
       "id": "uikit",
@@ -577,7 +616,7 @@
     {
       "id": "angularjs",
       "name": "AngularJS",
-      "kind": "web-framework",
+      "kind": "ui-framework",
       "ecosystem": "JavaScript",
       "language": "JavaScript",
       "targets": [
@@ -595,7 +634,7 @@
     {
       "id": "aurelia",
       "name": "Aurelia",
-      "kind": "web-framework",
+      "kind": "ui-framework",
       "ecosystem": "JavaScript",
       "language": "TypeScript",
       "targets": [
@@ -613,7 +652,7 @@
     {
       "id": "ember",
       "name": "Ember.js",
-      "kind": "web-framework",
+      "kind": "ui-framework",
       "ecosystem": "JavaScript",
       "language": "JavaScript",
       "targets": [
@@ -928,7 +967,7 @@
     {
       "id": "angular",
       "name": "Angular",
-      "kind": "web-framework",
+      "kind": "ui-framework",
       "ecosystem": "TypeScript",
       "language": "TypeScript",
       "targets": [
@@ -1468,7 +1507,7 @@
     {
       "id": "vue",
       "name": "Vue",
-      "kind": "web-framework",
+      "kind": "ui-framework",
       "ecosystem": "JavaScript/TypeScript",
       "language": "JavaScript",
       "targets": [

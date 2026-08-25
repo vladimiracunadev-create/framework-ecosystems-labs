@@ -83,18 +83,19 @@ const normalizar = (texto) => texto.replaceAll("\r\n", "\n");
 const comando = (partes) => (partes ?? []).join(" ").replaceAll("${PUERTO}", "3000");
 
 /** El bloque de fichas de una clase. */
+/** El bloque completo, entre las marcas que lo delimitan en el README. */
+const envolver = (lineas) => `${INICIO}\n\n${lineas.join("\n")}\n\n${FIN}`;
+
 function fichas(dir, elenco, numero) {
   const dirImpl = path.join(dir, "implementaciones");
-  if (!fs.existsSync(dirImpl)) return null;
-
-  const presentes = fs
-    .readdirSync(dirImpl, { withFileTypes: true })
-    .filter((d) => d.isDirectory())
-    .map((d) => d.name)
-    .filter((nombre) => elenco.includes(nombre))
-    .sort((a, b) => elenco.indexOf(a) - elenco.indexOf(b));
-
-  if (!presentes.length) return null;
+  const presentes = fs.existsSync(dirImpl)
+    ? fs
+        .readdirSync(dirImpl, { withFileTypes: true })
+        .filter((d) => d.isDirectory())
+        .map((d) => d.name)
+        .filter((nombre) => elenco.includes(nombre))
+        .sort((a, b) => elenco.indexOf(a) - elenco.indexOf(b))
+    : [];
 
   const inventarios = presentes.map((framework) => inventarioDe(dirImpl, framework, catalogo));
   const lineas = [];
@@ -116,6 +117,13 @@ function fichas(dir, elenco, numero) {
       );
     }
     lineas.push("");
+  }
+
+  // Una clase sin implementaciones —las de tipo `catalogo`, que preguntan al
+  // catálogo en lugar de levantar servidores— no tiene piezas que inventariar, y
+  // aun así define palabras. El vocabulario de arriba vale igual.
+  if (!inventarios.length) {
+    return lineas.length ? envolver(lineas) : null;
   }
 
   lineas.push("## 🧰 Las piezas de esta clase, una por una");
@@ -178,7 +186,7 @@ function fichas(dir, elenco, numero) {
     "> Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.",
   );
 
-  return `${INICIO}\n\n${lineas.join("\n")}\n\n${FIN}`;
+  return envolver(lineas);
 }
 
 /** Dónde va el bloque si la clase todavía no lo tiene: justo antes del código. */
@@ -212,6 +220,18 @@ for (const parte of manifest.partes) {
     const actual = fs.readFileSync(readme, "utf8");
     const inicio = actual.indexOf(INICIO);
     const fin = actual.indexOf(FIN);
+
+    // Media pareja de marcas es peor que ninguna: con la de apertura puesta y la
+    // de cierre mal escrita, este generador se llevaba por delante todo lo que
+    // hubiera debajo hasta encontrar un cierre más abajo. Pasó una vez, en la
+    // clase 004, y se comió cinco secciones sin decir nada.
+    if ((inicio === -1) !== (fin === -1) || (fin !== -1 && fin < inicio)) {
+      console.error(
+        `FICHAS_FAILED: ${path.relative(root, readme).replace(/\\/g, "/")} tiene las marcas ` +
+          `descolocadas (apertura ${inicio}, cierre ${fin}). Deben ir en pareja y en orden.`,
+      );
+      process.exit(1);
+    }
 
     const nuevo =
       inicio === -1 || fin === -1

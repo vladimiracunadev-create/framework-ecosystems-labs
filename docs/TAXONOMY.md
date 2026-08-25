@@ -17,6 +17,19 @@
 
 Las fronteras pueden solaparse. Debe usarse la autodefinición oficial junto con el comportamiento técnico, no una etiqueta heredada.
 
+## Las etiquetas del catálogo
+
+Las definiciones de arriba son las generales. El catálogo del repositorio usa
+treinta y siete etiquetas concretas —`web-framework`, `ui-library`, `orm`,
+`react-metaframework`…— y **cada una está definida dentro de
+[`catalog/frameworks.json`](../catalog/frameworks.json)**, junto a los datos que
+clasifica, para que no puedan separarse.
+
+La tabla completa, con cuántas tecnologías hay en cada categoría y ejemplos, se
+publica en [el atlas](../atlas/frameworks.md#por-clasificación). La
+[clase 004](../classes/parte-0-el-metodo/004-taxonomia-que-compite-de-verdad-con-que/README.md)
+la verifica: si alguien reclasifica una entrada, se pone en rojo.
+
 ## Inversión de control
 
 En una biblioteca, la aplicación decide cuándo llamar. En un framework, la aplicación registra piezas que el framework crea o invoca durante su ciclo. El grado varía: un framework minimalista puede controlar solo el transporte; uno de aplicación puede controlar módulos, dependencias, persistencia y construcción.
