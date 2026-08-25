@@ -211,7 +211,7 @@ for (const parte of manifest.partes) {
 
 const registro = {
   proposito:
-    "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
+    "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. La lista está vacía desde la clase 039: una clase no se declara construida sin su código a la vista. verify-excerpts.mjs falla si la deuda crece o si no se actualiza al completar una.",
   pendientes: pendientes.length,
   clases: pendientes,
 };
