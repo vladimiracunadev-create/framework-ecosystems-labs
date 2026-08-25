@@ -199,11 +199,124 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro están en [`implementaciones/`](implementaciones/) y son
-deliberadamente sencillas: leer, crear, borrar. Lo interesante no es el código —
-es que **ninguna sabe que las otras existen** y las cuatro cumplen lo mismo.
+Esta clase no enseña una capacidad nueva: **enseña el método del programa**, y
+por eso sus cuatro implementaciones son deliberadamente sencillas — leer, crear,
+borrar.
+
+Lo interesante no es el código. Es que **ninguna sabe que las otras existen**,
+ninguna comparte una línea, y el verificador no sabe qué framework hay al otro
+lado del socket. Léelas buscando el parecido, no la diferencia.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs)
+
+```javascript
+app.get("/tareas/:id", (peticion, respuesta) => {
+  const tarea = tareas.get(peticion.params.id);
+  return tarea ? respuesta.json(tarea) : respuesta.status(404).json({ code: "NO_EXISTE" });
+});
+```
+
+```javascript
+  const titulo = peticion.body?.titulo;
+  if (typeof titulo !== "string" || titulo.trim() === "") {
+    return respuesta.status(422).json({ code: "VALIDACION" });
+  }
+```
+
+```javascript
+  respuesta.status(201).location(`/tareas/${id}`).json(tarea);
+```
+
+Fíjate en `titulo.trim() === ""`. El tercer caso del contrato envía `"   "` —tres
+espacios— precisamente porque **una cadena de espacios no es una cadena vacía** y
+un `if (!titulo)` la dejaría pasar.
+
+Ese caso está en el contrato para que los cuatro tengan que recortar antes de
+comprobar. Es un ejemplo pequeño de lo que hace un buen contrato: **elegir la
+entrada que separa las implementaciones correctas de las que casi lo son**.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+```python
+def crear(cuerpo: Cuerpo) -> Response:
+    if not cuerpo.titulo.strip():
+        return JSONResponse({"code": "VALIDACION"}, status_code=422)
+```
+
+```python
+    return JSONResponse(tarea, status_code=201,
+                        headers={"location": f"/tareas/{identificador}"})
+```
+
+Lo mismo. Y una decisión declarada: el modelo `Cuerpo` **no** valida el título
+con `min_length`, aunque podría. Se valida a mano para que el `422` lo emita el
+código del contrato y no el mecanismo de Pydantic, y así las cuatro respuestas
+sean idénticas — la clase 040 mide exactamente esa diferencia.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+        Object titulo = cuerpo == null ? null : cuerpo.get("titulo");
+        String texto = titulo == null ? "" : titulo.toString().trim();
+        if (texto.isEmpty()) {
+            return ResponseEntity.status(422).body(Map.of("code", "VALIDACION"));
+        }
+```
+
+```java
+        return ResponseEntity.created(URI.create("/tareas/" + id)).body(tarea);
+```
+
+`created(URI)` otra vez: el `201` y su `Location` atados por el tipo, como en la
+clase 003.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+app.MapGet("/tareas/{id}", (string id) =>
+    tareas.TryGetValue(id, out var tarea)
+        ? Results.Json(tarea)
+        : Results.Json(new { code = "NO_EXISTE" }, statusCode: 404));
+```
+
+```csharp
+    return Results.Created($"/tareas/{id}", tarea);
+```
+
+```csharp
+app.MapDelete("/tareas/{id}", (string id) =>
+    tareas.TryRemove(id, out _)
+        ? Results.NoContent()
+        : Results.Json(new { code = "NO_EXISTE" }, statusCode: 404));
+```
+
+Tres rutas en tres expresiones. Es la más compacta de las cuatro, y sigue
+haciendo exactamente lo mismo.
+
+### Por qué esto es una prueba y no una demostración
+
+```json
+    {
+      "nombre": "crear con entrada inválida",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "   " } },
+      "esperado": { "estado": 422, "json_contiene": { "code": "VALIDACION" } }
+    },
+```
+
+El contrato de esta clase es **el mismo archivo** para las cuatro. No hay
+adaptador, no hay una suite por framework, no hay una capa que traduzca. El
+verificador abre un socket, envía la petición y compara.
+
+Y eso tiene una consecuencia que vale la clase entera: **si las pruebas fueran
+distintas para cada implementación, «pasa» significaría cosas distintas** y la
+comparación no compararía nada.
+
+Es la razón de que este repositorio no tenga una carpeta de pruebas por
+framework. Meszaros lo formula desde el otro lado —una prueba mide lo que su
+autor decidió medir [@meszaros-xunit]—, y aquí el autor es uno solo para las
+cuatro.
 
 ## 🔬 Comparación
 
@@ -274,3 +387,4 @@ las dos es el ejercicio.
 - [@freeman-pryce-goos] Freeman, Steve; Pryce, Nat. *Growing Object-Oriented Software, Guided by Tests*. Addison-Wesley, 2009. ISBN 9780321503626 — <https://openlibrary.org/isbn/9780321503626>
 - [@fowler-test-pyramid] Fowler, Martin. *TestPyramid* — <https://martinfowler.com/bliki/TestPyramid.html>
 - [@humble-farley-continuous-delivery] Humble, Jez; Farley, David. *Continuous Delivery*. Addison-Wesley, 2010. ISBN 9780321601919 — <https://openlibrary.org/isbn/9780321601919>
+- [@meszaros-xunit] Meszaros, Gerard. *xUnit Test Patterns: Refactoring Test Code*. Addison-Wesley, 2007. ISBN 9780131495050 — <https://openlibrary.org/isbn/9780131495050>

@@ -1,6 +1,6 @@
 {
   "proposito": "Clases construidas cuyo README todavía no muestra el código de todas sus implementaciones. Se reduce clase a clase; verify-excerpts.mjs falla si crece o si no se actualiza al completar una.",
-  "pendientes": 20,
+  "pendientes": 16,
   "clases": [
     {
       "clase": "039",
@@ -15,46 +15,6 @@
         "gin",
         "laravel",
         "rails",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "047",
-      "slug": "047-idempotencia",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "048",
-      "slug": "048-etags-y-cache-condicional",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "049",
-      "slug": "049-el-contrato-como-prueba",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
-        "spring-boot"
-      ]
-    },
-    {
-      "clase": "050",
-      "slug": "050-que-rompe-a-quien",
-      "faltan": [
-        "aspnet-core",
-        "express",
-        "fastapi",
         "spring-boot"
       ]
     },

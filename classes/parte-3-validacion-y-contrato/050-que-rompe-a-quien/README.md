@@ -222,11 +222,132 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
 Las cuatro sirven **las tres versiones a la vez** para que el cliente antiguo
-pueda demostrarlo con una petición. El código está en
-[`implementaciones/`](implementaciones/), con cada cambio comentado y clasificado.
+pueda demostrarlo con una petición: `/v1` es el contrato original, `/v2` aplica
+los tres cambios compatibles y `/v3` los tres incompatibles.
+
+Que convivan es lo que convierte esto en una medición. Un texto podría decir
+«renombrar un campo rompe»; aquí se envía la misma petición a `/v1` y a `/v3` y
+se ve el resultado.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — la clasificación, en el propio archivo
+
+```javascript
+app.post("/v1/tareas", (peticion, respuesta) => {
+  const titulo = peticion.body?.titulo;
+  if (typeof titulo !== "string" || titulo.length === 0 || titulo.length > 200) {
+    return respuesta.status(422).json({ code: "VALIDACION" });
+  }
+  respuesta.status(201).json({ id: "1", titulo });
+});
+```
+
+El contrato original: un campo obligatorio, máximo 200, y una respuesta con dos
+campos.
+
+**Los tres cambios compatibles:**
+
+```javascript
+  // (1) `prioridad` es nueva y OPCIONAL: quien no la envía sigue igual.
+  const prioridad = peticion.body?.prioridad ?? 2;
+  // (2) y (3): `estado` es un campo nuevo de salida, con un valor que la v1
+  // nunca vio. Un cliente que solo lee `id` y `titulo` no se entera.
+  respuesta.status(201).json({ id: "1", titulo, prioridad, estado: "pendiente" });
+```
+
+Los tres comparten una propiedad: **añaden**. Un campo opcional de entrada, un
+campo de salida, un valor nuevo en un conjunto de salida. Un cliente que no los
+conoce sigue funcionando exactamente igual porque **ignora lo que no espera** —
+que es lo que hacen todos los clientes de JSON por omisión.
+
+**Los tres incompatibles:**
+
+```javascript
+  // (4) `prioridad` pasa a ser OBLIGATORIA.
+  if (peticion.body?.prioridad === undefined) {
+    return respuesta.status(422).json({ code: "VALIDACION", campo: "prioridad" });
+  }
+  // (6) el máximo baja de 200 a 120: un título que antes valía ahora no.
+  if (typeof titulo !== "string" || titulo.length === 0 || titulo.length > 120) {
+    return respuesta.status(422).json({ code: "VALIDACION", campo: "titulo" });
+  }
+  // (5) `titulo` se renombra a `nombre`: el cliente que lee `titulo` recibe
+  // `undefined` y NO se entera de que algo va mal.
+  respuesta.status(201).json({ id: "1", nombre: titulo });
+```
+
+Los tres **quitan o exigen**. Y el quinto es el peor de los seis, por un motivo
+que merece detenerse: renombrar un campo de salida **no produce ningún error**.
+El cliente que lee `titulo` recibe `undefined`, lo pinta como vacío o lo guarda
+como nulo, y sigue funcionando — mal, en silencio, hasta que alguien mira.
+
+Comparado con eso, hacer obligatorio un campo (el 4) es benigno: falla en la
+primera petición, con un `422` y el nombre del campo. **Un cambio que rompe
+ruidosamente es mejor que uno que rompe callado.**
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+```python
+async def v3(peticion: Request) -> JSONResponse:
+```
+
+```python
+    cuerpo = await peticion.json()
+    if "prioridad" not in cuerpo:
+        return JSONResponse({"code": "VALIDACION", "campo": "prioridad"}, status_code=422)
+```
+
+Aquí el cuerpo se lee **crudo**, sin modelo de Pydantic, y es deliberado: la
+clase compara *reglas de compatibilidad*, no mecanismos de validación. Con tres
+modelos distintos —uno por versión— el archivo hablaría de Pydantic en lugar de
+hablar de qué rompe a quién.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java)
+
+```java
+    public ResponseEntity<Map<String, Object>> v3(@RequestBody Map<String, Object> cuerpo) {
+        if (!cuerpo.containsKey("prioridad")) {
+            return ResponseEntity.status(422)
+                    .body(mapa("code", "VALIDACION", "campo", "prioridad"));
+        }
+```
+
+```java
+        return ResponseEntity.status(201).body(mapa("id", "1", "nombre", titulo));
+```
+
+`Map<String, Object>` en lugar de un `record` por la misma razón que FastAPI lee
+crudo. Y `containsKey` y no `get(...) == null`: **un campo ausente y un campo
+presente con valor nulo son cosas distintas**, y confundirlos convierte un cambio
+compatible en uno que rompe.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+static bool Valido(JsonElement cuerpo, int maximo, out string titulo)
+{
+    titulo = "";
+    if (!cuerpo.TryGetProperty("titulo", out var valor)) return false;
+    if (valor.ValueKind != JsonValueKind.String) return false;
+    titulo = valor.GetString() ?? "";
+    return titulo.Length > 0 && titulo.Length <= maximo;
+}
+```
+
+```csharp
+    var prioridad = cuerpo.TryGetProperty("prioridad", out var p) ? p.GetInt32() : 2;
+```
+
+Una función con el máximo **como parámetro**, que es lo que deja el cambio (6) a
+la vista: `Valido(cuerpo, 200, …)` en la v1 y `Valido(cuerpo, 120, …)` en la v3.
+El estrechamiento de una validación se ve como lo que es — un número que baja — y
+no como una condición reescrita.
+
+`JsonElement` y `TryGetProperty` son el equivalente de leer el cuerpo crudo: el
+árbol JSON sin mapear a un tipo, que es lo que permite distinguir «ausente» de
+«nulo» sin inventar convenciones.
 
 ## 🔬 Comparación
 

@@ -201,9 +201,13 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-### De dónde sale la etiqueta
+Una etiqueta, **dos usos que no tienen nada que ver entre sí**: ahorrar ancho de
+banda al leer y evitar la actualización perdida al escribir. Las cuatro
+implementan los dos, y conviene leerlos por separado.
+
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — de dónde sale la etiqueta
 
 ```javascript
 function etiqueta(valor) {
@@ -211,30 +215,136 @@ function etiqueta(valor) {
 }
 ```
 
-Un resumen del contenido: siempre correcto y **caro con datos grandes**, porque
-obliga a leer y resumir el recurso entero.
+Un resumen del contenido: **siempre correcto y caro con datos grandes**, porque
+obliga a leer y resumir el recurso entero para poder decir si cambió.
 
-Las alternativas habituales:
+Las alternativas habituales, y lo que cuesta cada una:
 
-| Origen | Coste | Cuidado |
+| Origen de la etiqueta | Coste | Cuidado |
 | --- | --- | --- |
 | Resumen del contenido | alto | ninguno |
 | Número de versión de la fila | mínimo | hay que mantenerlo |
 | Fecha de modificación | mínimo | **resolución de un segundo** |
 
 La tercera tiene una trampa real: si dos escrituras ocurren en el mismo segundo,
-la fecha no cambia y la protección desaparece justo en el caso de mayor
-concurrencia — que es cuando hace falta.
+la fecha no cambia y **la protección desaparece justo en el caso de mayor
+concurrencia** — que es cuando hacía falta.
 
-### El 304 debe ir vacío
+Las comillas alrededor del valor no son decoración: la sintaxis del estándar las
+exige, y una etiqueta sin ellas la rechazan algunos intermediarios [@rfc9110].
 
-```java
-return ResponseEntity.status(304).eTag(actual).build();
+**Uso 1 — ahorrar ancho de banda:**
+
+```javascript
+  if (peticion.get("if-none-match") === actual) {
+    return respuesta.status(304).end();
+  }
 ```
 
-`build()` en Spring, `Response(status_code=304)` en FastAPI, `end()` en Express.
-El estándar dice que no hay contenido [@rfc9110], y algunos clientes se atragantan
-si llega.
+El servidor **hace el trabajo igual**: consulta, construye el objeto y calcula la
+etiqueta. Lo que se ahorra es el envío. Es un matiz que conviene tener claro
+antes de esperar que los ETag reduzcan la carga del servidor: reducen la del
+cable.
+
+**Uso 2 — evitar la actualización perdida:**
+
+```javascript
+  if (exigida === undefined) {
+    return respuesta.status(428).json({ code: "PRECONDICION_REQUERIDA" });
+  }
+  if (exigida !== actual) {
+    return respuesta.status(412).json({ code: "PRECONDICION_FALLIDA" });
+  }
+```
+
+**Dos códigos distintos para dos situaciones distintas.** `428` es «no me has
+dicho sobre qué versión escribes» y `412` es «me lo has dicho y ya no es esa».
+
+Exigir la precondición —el `428`— es la decisión que casi nadie toma, y es la que
+convierte la protección en garantía: si es opcional, el cliente que la olvida
+sobrescribe igual.
+
+Sin esto, dos clientes que leen y escriben a la vez producen **la actualización
+perdida**: el segundo pisa al primero y ninguno de los dos se entera.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+```python
+def etiqueta(valor: dict[str, str]) -> str:
+    crudo = json.dumps(valor, sort_keys=True, separators=(",", ":")).encode()
+    return '"' + hashlib.sha256(crudo).hexdigest()[:16] + '"'
+```
+
+`sort_keys=True` y `separators` sin espacios: **la serialización tiene que ser
+determinista**. Si el mismo objeto pudiera serializarse de dos formas, la
+etiqueta cambiaría sin que el recurso hubiera cambiado, y el cliente descargaría
+de nuevo algo idéntico.
+
+Es el tipo de detalle que no falla nunca en desarrollo y falla en cuanto cambia
+la versión del intérprete o el orden de inserción de un diccionario.
+
+```python
+        return Response(status_code=304, headers={"etag": actual})
+```
+
+`Response` pelado, no `JSONResponse`: **el `304` va sin cuerpo**.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — el tipo lo garantiza
+
+```java
+            return ResponseEntity.status(304).eTag(actual).build();
+```
+
+`build()` y no `body(...)`: **no hay forma de emitir un `304` con cuerpo usando
+ese método**. Es la misma protección de tipo que la clase 003 encontró en
+`noContent()`, aplicada aquí.
+
+Y `.eTag(actual)` en lugar de `.header("ETag", actual)`: un método con nombre para
+una cabecera estándar, que el compilador conoce.
+
+```java
+        if (exigida == null) {
+            return ResponseEntity.status(428).body(Map.of("code", "PRECONDICION_REQUERIDA"));
+        }
+        if (!exigida.equals(actual)) {
+            return ResponseEntity.status(412).body(Map.of("code", "PRECONDICION_FALLIDA"));
+        }
+```
+
+`!exigida.equals(actual)` y no `exigida != actual`: comparar cadenas con `!=` en
+Java compara **referencias**, no contenido. Funcionaría por accidente con
+literales internados y fallaría con una cabecera que llega por la red — que es
+justo este caso.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs)
+
+```csharp
+string Etiqueta()
+{
+    var crudo = Encoding.UTF8.GetBytes($"{tarea["id"]}|{tarea["titulo"]}");
+    var resumen = SHA256.HashData(crudo);
+    return "\"" + Convert.ToHexString(resumen)[..16].ToLowerInvariant() + "\"";
+}
+```
+
+Aquí la etiqueta se calcula sobre **campos concretos unidos por un separador** en
+lugar de sobre el JSON serializado. Es la forma más deliberada de las cuatro:
+elimina de raíz el problema del orden de claves que FastAPI resuelve con
+`sort_keys`, y a cambio hay que acordarse de añadir el campo nuevo cuando el
+recurso crezca.
+
+```csharp
+    respuesta.Headers.ETag = actual;
+
+    if (peticion.Headers.IfNoneMatch.FirstOrDefault() == actual)
+    {
+        return Results.StatusCode(304);
+    }
+```
+
+`Headers.ETag` y `Headers.IfNoneMatch` como propiedades con nombre: en .NET las
+cabeceras estándar están tipadas y las propias van por índice — la distinción que
+ya apareció en la clase 016.
 
 ## 🔬 Comparación
 

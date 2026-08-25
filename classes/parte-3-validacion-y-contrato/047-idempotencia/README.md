@@ -199,43 +199,120 @@ Qué hay dentro de su directorio:
 
 <!-- fin generado: fichas -->
 
-## 🌐 Las implementaciones
+## 🌐 Las implementaciones — el código a la vista
 
-Las cuatro guardan la respuesta emitida indexada por la clave, y la devuelven tal
-cual en el reintento. La diferencia está en **cómo escriben en ese registro**, y
-no es un detalle de estilo.
+Las cuatro guardan **la respuesta emitida** indexada por la clave y la devuelven
+tal cual en el reintento. La diferencia está en **cómo escriben en ese registro**,
+y no es un detalle de estilo: es la diferencia entre una implementación correcta y
+una que lo parece.
 
-### El detalle que separa una implementación correcta de una que parece correcta
-
-```java
-// Spring — atómico
-Map<String, String> creada = respuestas.computeIfAbsent(clave, k -> crear(texto));
-```
-
-```csharp
-// ASP.NET Core — atómico
-var creada = respuestas.GetOrAdd(clave, _ => Crear(titulo));
-```
-
-Frente a la versión ingenua:
+### Express · [`express/server.mjs`](implementaciones/express/server.mjs) — el mecanismo, a la vista
 
 ```javascript
+const respuestas = new Map();
+```
+
+```javascript
+  const clave = peticion.get("idempotency-key");
+
+  // Sin clave, POST se comporta como POST: cada llamada crea otra.
+  if (!clave) {
+    const creada = crear(peticion.body?.titulo);
+    return respuesta.status(201).json(creada);
+  }
+```
+
+**Sin clave, `POST` se comporta como `POST`.** La idempotencia no se impone: la
+pide el cliente, porque es él quien sabe si va a reintentar.
+
+```javascript
+  const previa = respuestas.get(clave);
+  if (previa) {
+    // Se devuelve LA MISMA respuesta, con el mismo código y el mismo cuerpo.
+    // Y se declara que fue un reenvío: el cliente puede distinguirlo si quiere.
+    return respuesta.status(previa.estado).set("idempotent-replay", "true").json(previa.cuerpo);
+  }
+```
+
+Lo que se guarda es **la respuesta completa** —código y cuerpo—, no solo un
+«ya se hizo». Un reintento tiene que recibir exactamente lo mismo que la primera
+vez, incluido el identificador generado; si recibiera un `200` vacío, el cliente
+que perdió la primera respuesta seguiría sin saber qué se creó.
+
+Y `Idempotent-Replay: true` es cortesía útil: el cliente puede distinguir el
+reenvío si le sirve, y puede ignorarlo si no.
+
+### FastAPI · [`fastapi/main.py`](implementaciones/fastapi/main.py)
+
+```python
+def crear_tarea(
+    cuerpo: Cuerpo,
+    idempotency_key: Annotated[str | None, Header()] = None,
+) -> JSONResponse:
+```
+
+```python
+    tarea = crear(cuerpo.titulo)
+    respuestas[idempotency_key] = {"estado": 201, "cuerpo": tarea}
+```
+
+La misma estructura. Y **la misma carencia deliberada** que Express: entre el
+`respuestas.get` y el `respuestas[...] =` hay un hueco. Es la versión ingenua, y
+está aquí para poder compararla con las dos siguientes.
+
+### Spring Boot · [`spring-boot/…/Aplicacion.java`](implementaciones/spring-boot/src/main/java/labs/Aplicacion.java) — atómico
+
+```java
+        Map<String, String> creada = respuestas.computeIfAbsent(clave, k -> crear(texto));
+```
+
+Una línea, y cierra el hueco. `computeIfAbsent` sobre un `ConcurrentHashMap`
+**comprueba y escribe como una sola operación**: dos peticiones simultáneas con
+la misma clave no pueden crear dos tareas.
+
+### ASP.NET Core · [`aspnet-core/Program.cs`](implementaciones/aspnet-core/Program.cs) — atómico
+
+```csharp
+    var creada = respuestas.GetOrAdd(clave, _ => Crear(titulo));
+```
+
+El equivalente exacto en .NET. Mismo nombre distinto, misma garantía.
+
+### El hueco, y por qué importa aquí más que en ningún otro sitio
+
+La versión ingenua es esta:
+
+```javascript no-extracto
 if (!respuestas.has(clave)) {      // ← dos peticiones pueden estar aquí a la vez
   respuestas.set(clave, crear());  // ← y las dos crean
 }
 ```
 
 **Entre comprobar y escribir hay un hueco.** Dos reintentos simultáneos —que es
-justo lo que pasa cuando un cliente reintenta agresivamente— pueden pasar los dos
-por el `if` antes de que ninguno escriba, y crear dos veces.
+exactamente lo que pasa cuando un cliente reintenta agresivamente, o cuando un
+temporizador de red dispara mientras la primera petición todavía viaja— pueden
+pasar los dos por el `if` antes de que ninguno escriba, y crear dos veces.
 
-Es exactamente el fallo que la idempotencia venía a cerrar, reproducido dentro de
-su implementación. Y solo aparece bajo concurrencia, así que las pruebas
-secuenciales no lo ven.
+Es el fallo que la idempotencia venía a cerrar, **reproducido dentro de su propia
+implementación**. Y solo aparece bajo concurrencia, así que ninguna prueba
+secuencial lo ve — el contrato de esta clase tampoco.
 
-En una base de datos, la forma correcta es una **restricción de unicidad sobre la
-clave**: el segundo intento falla al insertar y se recupera la respuesta
-guardada. La atomicidad la garantiza el motor, no tu código.
+En una base de datos la forma correcta no es ninguna de las cuatro: es una
+**restricción de unicidad sobre la clave**. El segundo intento falla al insertar,
+se captura ese fallo y se recupera la respuesta guardada. **La atomicidad la
+garantiza el motor**, que es el único que puede garantizarla cuando hay varias
+instancias del proceso.
+
+Y esa es también la limitación que las cuatro comparten:
+
+```javascript
+// Clave de idempotencia → respuesta ya emitida. En producción esto vive en un
+```
+
+El registro vive **en memoria del proceso**. Con dos instancias detrás de un
+balanceador, cada una tiene el suyo y la garantía desaparece — el mismo problema
+que la limitación de tasa de la clase 034, y con la misma solución: un almacén
+compartido con caducidad.
 
 ## 🔬 Comparación
 
