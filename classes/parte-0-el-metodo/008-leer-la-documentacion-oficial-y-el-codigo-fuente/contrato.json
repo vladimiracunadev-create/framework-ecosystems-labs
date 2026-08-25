@@ -1,8 +1,58 @@
 {
   "clase": "008",
   "titulo": "Leer la documentación oficial y el código fuente",
-  "descripcion": "Responder tres preguntas sobre un framework citando solo su documentación y su código.",
-  "estado": "esqueleto",
+  "descripcion": "Cuatro preguntas sobre el propio framework, respondidas leyendo el paquete instalado en lugar de un tutorial.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Ninguna de las cuatro respuestas está escrita a mano. Cada implementación abre el framework que tiene instalado —su manifiesto, sus metadatos, sus archivos— y contesta con lo que encuentra. La cuarta pregunta separa los ecosistemas en dos: los que traen el código fuente a tu disco y los que traen solo lo compilado.",
+  "casos": [
+    {
+      "nombre": "las cuatro preguntas, y todas contestadas leyendo el paquete",
+      "peticion": { "metodo": "GET", "ruta": "/preguntas" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "total": 4,
+          "preguntas": ["version", "documentacion", "donde-vive", "codigo-fuente"]
+        }
+      }
+    },
+    {
+      "nombre": "qué versión hay instalada de verdad — que no siempre es la que pone el archivo",
+      "peticion": { "metodo": "GET", "ruta": "/pregunta/version" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "respondida": true, "leida_del_paquete": true }
+      }
+    },
+    {
+      "nombre": "y su documentación oficial — que no todos los ecosistemas publican en el paquete",
+      "peticion": { "metodo": "GET", "ruta": "/pregunta/documentacion" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "respondida": true }
+      }
+    },
+    {
+      "nombre": "dónde está instalado en este disco",
+      "peticion": { "metodo": "GET", "ruta": "/pregunta/donde-vive" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "respondida": true, "existe": true }
+      }
+    },
+    {
+      "nombre": "¿puedes leer su código fuente sin salir de tu máquina?",
+      "peticion": { "metodo": "GET", "ruta": "/pregunta/codigo-fuente" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "respondida": true }
+      }
+    },
+    {
+      "nombre": "una pregunta que no existe se rechaza, no se inventa",
+      "peticion": { "metodo": "GET", "ruta": "/pregunta/cual-es-mas-rapido" },
+      "esperado": { "estado": 404, "json_contiene": { "code": "PREGUNTA_DESCONOCIDA" } }
+    }
+  ]
 }

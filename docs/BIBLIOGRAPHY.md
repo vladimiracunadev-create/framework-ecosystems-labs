@@ -2,7 +2,7 @@
 
 Documento generado por `node scripts/generate-bibliography.mjs`. No editar a mano.
 
-Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **221** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
+Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **222** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
 
 Cada entrada declara un localizador resoluble y es citada al menos una vez en el programa;
 `node scripts/verify-sources.mjs` falla si deja de cumplirse cualquiera de las dos condiciones.
@@ -14,7 +14,7 @@ Cada entrada declara un localizador resoluble y es citada al menos una vez en el
 | Libros | 100 | `https://openlibrary.org/isbn/{isbn13}.json` |
 | Artículos | 7 | `https://api.crossref.org/works/{doi}` |
 | Normas y especificaciones | 33 | `GET a la URL declarada` |
-| Documentación oficial y referencias | 81 | `GET a la URL declarada` |
+| Documentación oficial y referencias | 82 | `GET a la URL declarada` |
 
 ## Libros
 
@@ -1687,6 +1687,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Localizador: <https://preactjs.com/guide/v10/differences-to-react/>
 - Temas: preact, tamaño, compatibilidad
 - Citada en: [`atlas/fichas/preact.md`](../atlas/fichas/preact.md)
+
+### `python-packaging`
+
+*Python Packaging User Guide*, Python Packaging Authority
+
+- Localizador: <https://packaging.python.org/>
+- Temas: python, entorno, herramientas
+- Citada en: 
 
 ### `python-downloads`
 

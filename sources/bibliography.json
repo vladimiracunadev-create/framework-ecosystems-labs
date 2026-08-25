@@ -3242,6 +3242,18 @@
       ]
     },
     {
+      "id": "python-packaging",
+      "type": "reference",
+      "title": "Python Packaging User Guide",
+      "publisher": "Python Packaging Authority",
+      "locator": "https://packaging.python.org/",
+      "topics": [
+        "python",
+        "entorno",
+        "herramientas"
+      ]
+    },
+    {
       "id": "adoptium-temurin",
       "type": "reference",
       "title": "Eclipse Temurin Releases",
