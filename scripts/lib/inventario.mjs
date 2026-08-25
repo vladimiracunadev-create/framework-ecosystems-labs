@@ -198,12 +198,27 @@ function versionDeclarada(dir, framework) {
  * correcta es el índice de git.
  */
 function seguidosPorGit(dir) {
-  const r = spawnSync("git", ["ls-files", "--", "."], { cwd: dir, encoding: "utf8" });
+  // `--cached` son los archivos ya confirmados y `--others --exclude-standard`
+  // los que existen y no están ignorados. Hacen falta los dos.
+  //
+  // Con solo `--cached`, la ficha de una clase recién escrita salía sin su tabla
+  // de archivos —todavía no estaban confirmados— y aparecía con ella en cuanto
+  // se hacía el commit. Resultado: verde en local, rojo en integración continua,
+  // dos veces, sin que el archivo hubiera cambiado entre medias.
+  const r = spawnSync(
+    "git",
+    ["ls-files", "--cached", "--others", "--exclude-standard", "--", "."],
+    { cwd: dir, encoding: "utf8" },
+  );
   if (r.status !== 0) return null;
-  return r.stdout
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean);
+  return [
+    ...new Set(
+      r.stdout
+        .split("\n")
+        .map((l) => l.trim())
+        .filter(Boolean),
+    ),
+  ];
 }
 
 /** Archivos de la implementación, con lo que es cada uno. */

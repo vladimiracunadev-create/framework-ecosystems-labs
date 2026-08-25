@@ -212,6 +212,27 @@ function insertar(contenido, bloque) {
 }
 
 const argumentos = process.argv.slice(2);
+/**
+ * La primera línea en la que dos versiones dejan de coincidir.
+ *
+ * Sin esto, `--check` decía qué archivo estaba desfasado y no por qué — y
+ * cuando lo que falla es la máquina de integración continua y no la tuya, «está
+ * desfasado» no basta para arreglarlo. Diagnosticar a ciegas costó dos vueltas.
+ */
+function primeraDiferencia(antes, despues) {
+  const a = antes.split("\n");
+  const b = despues.split("\n");
+  for (let i = 0; i < Math.max(a.length, b.length); i += 1) {
+    if (a[i] === b[i]) continue;
+    return [
+      `línea ${i + 1}`,
+      `en el archivo: ${JSON.stringify(a[i] ?? "(no hay línea)")}`,
+      `debería ser:   ${JSON.stringify(b[i] ?? "(no hay línea)")}`,
+    ];
+  }
+  return ["difieren solo en el final del archivo"];
+}
+
 const comprobar = argumentos.includes("--check");
 const problemas = [];
 let escritas = 0;
@@ -253,7 +274,10 @@ for (const parte of manifest.partes) {
       continue;
     }
     if (comprobar) {
-      problemas.push(`classes/${parte.slug}/${clase.slug}/README.md`);
+      problemas.push({
+        ruta: `classes/${parte.slug}/${clase.slug}/README.md`,
+        diferencia: primeraDiferencia(normalizar(actual), normalizar(nuevo)),
+      });
       continue;
     }
     fs.writeFileSync(readme, nuevo);
@@ -263,7 +287,10 @@ for (const parte of manifest.partes) {
 
 if (problemas.length) {
   console.error(`FICHAS_FAILED: ${problemas.length} clases con la ficha técnica desactualizada`);
-  for (const p of problemas) console.error(`  - ${p}`);
+  for (const p of problemas) {
+    console.error(`  - ${p.ruta}`);
+    for (const linea of p.diferencia) console.error(`      ${linea}`);
+  }
   console.error("  Ejecuta: node scripts/generate-fichas.mjs");
   process.exit(1);
 }

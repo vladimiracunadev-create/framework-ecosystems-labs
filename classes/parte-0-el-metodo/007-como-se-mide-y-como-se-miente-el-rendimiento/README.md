@@ -107,6 +107,17 @@ Arrancarla suelta, sin el verificador:
 PORT=3000 node server.mjs
 ```
 
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `medicion.mjs` | código JavaScript (módulo ES) |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
 ### 🔧 Fastify
 
 Validación y serialización derivadas de JSON Schema, con un sistema de plugins con encapsulamiento explícito.
@@ -127,6 +138,17 @@ Arrancarla suelta, sin el verificador:
 ```bash
 PORT=3000 node server.mjs
 ```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `medicion.mjs` | código JavaScript (módulo ES) |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
 
 ### 🔧 Gin
 
@@ -149,6 +171,15 @@ Arrancarla suelta, sin el verificador:
 PORT=3000 go run main.go
 ```
 
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `go.mod` | módulo de Go: su nombre, la versión del lenguaje y sus dependencias |
+| `main.go` | código Go |
+| `medicion.go` | código Go |
+
 ### 🔧 axum
 
 Construido sobre las abstracciones de servicio de Tower, lo que hace su middleware reutilizable fuera del framework.
@@ -169,6 +200,15 @@ Arrancarla suelta, sin el verificador:
 ```bash
 PORT=3000 cargo run --release --quiet
 ```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `Cargo.toml` | manifiesto de Rust: el paquete, sus dependencias y los perfiles de compilación |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `src/main.rs` | código Rust |
+| `src/medicion.rs` | código Rust |
 
 > Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
 
