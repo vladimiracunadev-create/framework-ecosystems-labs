@@ -98,7 +98,7 @@ Una regla que el framework da por supuesta sin que la escribas: que la clase `Ra
 
 También: *(Convención sobre configuración)*
 
-> Se enseña en la [clase 005](../classes/parte-0-el-metodo/005-idiomatico-frente-a-traducido/README.md) 🚧 · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Idiomático](#idiomático).
+> Se enseña en la [clase 005](../classes/parte-0-el-metodo/005-idiomatico-frente-a-traducido/README.md) · se desarrolla en el [módulo 02](../curriculum/02-arquitectura-de-frameworks.md) · ver también [Idiomático](#idiomático).
 
 #### Coste total
 
@@ -116,7 +116,7 @@ Código de terceros que **te llama a ti**. Él tiene el bucle de control del pro
 
 Código escrito como lo escribiría quien conoce ese framework, en lugar de traducido literalmente desde otro. Un Express escrito como si fuera Spring funciona y pierde todo lo que hacía valioso a Express.
 
-> Se enseña en la [clase 005](../classes/parte-0-el-metodo/005-idiomatico-frente-a-traducido/README.md) 🚧 · ver también [Convención](#convención).
+> Se enseña en la [clase 005](../classes/parte-0-el-metodo/005-idiomatico-frente-a-traducido/README.md) · ver también [Convención](#convención).
 
 #### Inversión de control
 
@@ -1279,7 +1279,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 
 | Parte | Tema | Clases | Construidas |
 | ---: | --- | ---: | ---: |
-| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 4 |
+| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 5 |
 | 1 | [Responder: lo primero que hace cualquier framework](../classes/parte-1-responder/README.md) | 15 | 15 |
 | 2 | [La tubería: middleware, filtros e interceptores](../classes/parte-2-la-tuberia/README.md) | 13 | 13 |
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |

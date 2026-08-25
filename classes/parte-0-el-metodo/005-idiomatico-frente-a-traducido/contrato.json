@@ -1,8 +1,68 @@
 {
   "clase": "005",
   "titulo": "Idiomático frente a traducido",
-  "descripcion": "La misma ruta escrita de forma idiomática y de forma traducida literalmente; qué se pierde.",
-  "estado": "esqueleto",
+  "descripcion": "La misma ruta escrita de forma idiomática y traducida literalmente desde otro framework; el camino feliz coincide y el resto no.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Cada implementación expone DOS veces la misma ruta. `/idiomatico` está escrita como la escribe su comunidad; `/traducido` es la misma ruta traducida desde otro framework — no la sintaxis, sino la suposición sobre quién valida. El contrato comprueba que en el camino feliz son indistinguibles, y que fuera de él no.",
+  "casos": [
+    {
+      "nombre": "la ruta idiomática crea la tarea",
+      "peticion": { "metodo": "POST", "ruta": "/idiomatico/tareas", "cuerpo": { "titulo": "comprar pan" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 1, "titulo": "comprar pan" } }
+    },
+    {
+      "nombre": "la traducida hace exactamente lo mismo, y por eso nadie sospecha",
+      "peticion": { "metodo": "POST", "ruta": "/traducido/tareas", "cuerpo": { "titulo": "regar las plantas" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 2, "titulo": "regar las plantas" } }
+    },
+    {
+      "nombre": "un título vacío: la idiomática lo rechaza con 422",
+      "peticion": { "metodo": "POST", "ruta": "/idiomatico/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": { "estado": 422, "json_contiene": { "code": "TITULO_INVALIDO" } }
+    },
+    {
+      "nombre": "y la traducida también: hasta aquí las dos son la misma ruta",
+      "peticion": { "metodo": "POST", "ruta": "/traducido/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": { "estado": 422, "json_contiene": { "code": "TITULO_INVALIDO" } }
+    },
+    {
+      "nombre": "cinco espacios: la idiomática sigue diciendo que está vacío",
+      "peticion": { "metodo": "POST", "ruta": "/idiomatico/tareas", "cuerpo": { "titulo": "     " } },
+      "esperado": { "estado": 422, "json_contiene": { "code": "TITULO_INVALIDO" } }
+    },
+    {
+      "nombre": "LA TRADUCIDA LO ACEPTA — cinco espacios no son la cadena vacía",
+      "peticion": { "metodo": "POST", "ruta": "/traducido/tareas", "cuerpo": { "titulo": "     " } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 3 } }
+    },
+    {
+      "nombre": "y ahí queda guardada, con cinco espacios por título",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/3" },
+      "esperado": { "estado": 200, "json_contiene": { "id": 3, "titulo": "     " } }
+    },
+    {
+      "nombre": "la idiomática además normaliza: los espacios sobrantes se recortan",
+      "peticion": { "metodo": "POST", "ruta": "/idiomatico/tareas", "cuerpo": { "titulo": "  con espacios  " } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 4, "titulo": "con espacios" } }
+    },
+    {
+      "nombre": "la traducida no, y guarda el título tal cual llegó",
+      "peticion": { "metodo": "POST", "ruta": "/traducido/tareas", "cuerpo": { "titulo": "  con espacios  " } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 5, "titulo": "  con espacios  " } }
+    },
+    {
+      "nombre": "las dos rutas escriben en la misma lista: es el mismo servicio",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 5 } }
+    },
+    {
+      "nombre": "la comparación: mismo camino feliz, y nadie validando en la traducida",
+      "peticion": { "metodo": "GET", "ruta": "/comparacion" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "mismo_camino_feliz": true, "quien_valida_en_la_traducida": "nadie" }
+      }
+    }
+  ]
 }

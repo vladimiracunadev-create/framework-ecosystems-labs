@@ -4,7 +4,7 @@
 
 **Antes de escribir una línea: qué hace un framework que una biblioteca no hace, y cómo se compara sin caer en la guerra de religiones.**
 
-**Clases 1 a 10** · 10 en total · 4 construidas · 16 tecnologías en juego.
+**Clases 1 a 10** · 10 en total · 5 construidas · 16 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -44,7 +44,7 @@ Y las cuatro últimas son de método: leer una medición sin creérsela (007), i
 | [002](002-inversion-de-control-en-concreto/README.md) | [Inversión de control, en concreto](002-inversion-de-control-en-concreto/README.md) | Ver la inversión de control en el código, no en el diagrama. | 🟢 introductorio | ✅ Construida |
 | [003](003-el-contrato-como-unidad-de-comparacion/README.md) | [El contrato como unidad de comparación](003-el-contrato-como-unidad-de-comparacion/README.md) | Entender por qué comparar frameworks exige fijar antes el comportamiento. | 🟢 introductorio | ✅ Construida |
 | [004](004-taxonomia-que-compite-de-verdad-con-que/README.md) | [Taxonomía: qué compite de verdad con qué](004-taxonomia-que-compite-de-verdad-con-que/README.md) | Clasificar antes de comparar, para no comparar cosas de categorías distintas. | 🟢 introductorio | ✅ Construida |
-| [005](005-idiomatico-frente-a-traducido/README.md) | [Idiomático frente a traducido](005-idiomatico-frente-a-traducido/README.md) | Reconocer cuándo un código es el de otro framework disfrazado. | 🟢 introductorio | 🚧 Esqueleto |
+| [005](005-idiomatico-frente-a-traducido/README.md) | [Idiomático frente a traducido](005-idiomatico-frente-a-traducido/README.md) | Reconocer cuándo un código es el de otro framework disfrazado. | 🟢 introductorio | ✅ Construida |
 | [006](006-coste-total-aprender-mantener-contratar-salir/README.md) | [Coste total: aprender, mantener, contratar, salir](006-coste-total-aprender-mantener-contratar-salir/README.md) | Poner número a lo que un framework cuesta más allá del código. | 🟢 introductorio | 🚧 Esqueleto |
 | [007](007-como-se-mide-y-como-se-miente-el-rendimiento/README.md) | [Cómo se mide (y cómo se miente) el rendimiento](007-como-se-mide-y-como-se-miente-el-rendimiento/README.md) | Leer una comparativa de rendimiento sin creérsela. | 🟡 intermedio | 🚧 Esqueleto |
 | [008](008-leer-la-documentacion-oficial-y-el-codigo-fuente/README.md) | [Leer la documentación oficial y el código fuente](008-leer-la-documentacion-oficial-y-el-codigo-fuente/README.md) | Encontrar la respuesta en la fuente primaria antes que en un tutorial. | 🟢 introductorio | 🚧 Esqueleto |
