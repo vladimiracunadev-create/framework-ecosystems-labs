@@ -2,7 +2,55 @@
   "clase": "003",
   "titulo": "El contrato como unidad de comparación",
   "descripcion": "Un contrato HTTP mínimo que cualquier framework debe cumplir, idéntico para todos.",
-  "estado": "esqueleto",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "casos": [
+    {
+      "nombre": "la lista vacía tiene forma, y es JSON",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "application/json" },
+        "json": { "total": 0, "tareas": [] }
+      }
+    },
+    {
+      "nombre": "el alta responde 201 con Location, no 200",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/tareas",
+        "cuerpo": { "titulo": "comprar pan" }
+      },
+      "esperado": {
+        "estado": 201,
+        "cabecera_presente": ["location"],
+        "location_contiene": ["/tareas/1"],
+        "json": { "id": "1", "titulo": "comprar pan" }
+      }
+    },
+    {
+      "nombre": "y la tarea está donde la Location dijo",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/1" },
+      "esperado": { "estado": 200, "json": { "id": "1", "titulo": "comprar pan" } }
+    },
+    {
+      "nombre": "lo que no existe responde 404 en JSON, no en HTML",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/99" },
+      "esperado": {
+        "estado": 404,
+        "cabeceras": { "content-type": "application/json" },
+        "json": { "error": "no-encontrada" }
+      }
+    },
+    {
+      "nombre": "el borrado responde 204 y sin cuerpo",
+      "peticion": { "metodo": "DELETE", "ruta": "/tareas/1" },
+      "esperado": { "estado": 204, "cuerpo": "" }
+    },
+    {
+      "nombre": "y la lista vuelve a estar vacía",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json": { "total": 0, "tareas": [] } }
+    }
+  ]
 }
