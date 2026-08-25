@@ -162,7 +162,8 @@ Reactividad de grano fino sin árbol virtual: el componente se ejecuta una vez y
 Preparar sus dependencias, dentro de su directorio:
 
 ```bash
-pnpm,install,--silent,--ignore-scripts pnpm,exec,babel,App.jsx,--out-file,App.compilada.mjs
+pnpm install --silent --ignore-scripts
+pnpm exec babel App.jsx --out-file App.compilada.mjs
 ```
 
 Arrancarla suelta, sin el verificador:

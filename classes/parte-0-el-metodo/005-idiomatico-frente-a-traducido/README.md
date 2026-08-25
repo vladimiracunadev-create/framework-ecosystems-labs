@@ -118,6 +118,16 @@ Arrancarla suelta, sin el verificador:
 PORT=3000 node server.mjs
 ```
 
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `server.mjs` | código JavaScript (módulo ES) |
+
 ### 🔧 FastAPI
 
 Deriva validación, serialización y documentación OpenAPI de las anotaciones de tipo. Demostró que el tipado opcional de Python podía ser infraestructura, no adorno.
@@ -132,6 +142,14 @@ Arrancarla suelta, sin el verificador:
 ```bash
 PORT=3000 python -m uvicorn main:app --host 127.0.0.1 --port 3000
 ```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `main.py` | código Python |
+| `requirements.txt` | dependencias de Python, una por línea, con versión fijada |
 
 ### 🔧 Spring Boot
 
@@ -154,6 +172,14 @@ Arrancarla suelta, sin el verificador:
 PORT=3000 java -jar target/clase-005-1.0.0.jar --server.port=3000
 ```
 
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `pom.xml` | manifiesto de Maven: el proyecto, su Java, sus dependencias y cómo se empaqueta |
+| `src/main/java/labs/Aplicacion.java` | código Java |
+
 ### 🔧 Ruby on Rails
 
 Origen de «convención sobre configuración» y de las migraciones de base de datos tal como se entienden hoy. Casi todos los frameworks completos posteriores citan su influencia.
@@ -174,6 +200,15 @@ Arrancarla suelta, sin el verificador:
 ```bash
 PORT=3000 bundle exec puma -b tcp://127.0.0.1:3000 config.ru
 ```
+
+Qué hay dentro de su directorio:
+
+| Archivo | Qué es |
+| --- | --- |
+| `.bundle/config` | archivo del proyecto |
+| `config.ru` | punto de entrada de Rack, el estándar de servidores de Ruby |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `Gemfile` | dependencias de Ruby |
 
 > Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
 

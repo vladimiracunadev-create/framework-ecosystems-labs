@@ -102,7 +102,8 @@ El framework más usado de PHP: ORM Eloquent, migraciones, colas, programación 
 Preparar sus dependencias, dentro de su directorio:
 
 ```bash
-composer,install,--no-interaction,--quiet php,-r,@unlink(__DIR__.'/storage/tareas.json');
+composer install --no-interaction --quiet
+php -r @unlink(__DIR__.'/storage/tareas.json');
 ```
 
 Arrancarla suelta, sin el verificador:

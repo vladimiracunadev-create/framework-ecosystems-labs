@@ -104,7 +104,7 @@ También: *(Convención sobre configuración)*
 
 Lo que cuesta un framework más allá del código: aprenderlo, mantenerlo actualizado, encontrar a quien lo conozca y salir de él. Las cuatro dimensiones se deciden juntas y solo la primera es visible el primer día.
 
-> Se enseña en la [clase 006](../classes/parte-0-el-metodo/006-coste-total-aprender-mantener-contratar-salir/README.md) 🚧 · se desarrolla en el [módulo 11](../curriculum/11-seleccion-y-sostenibilidad.md) · ver también [Fin de vida](#fin-de-vida), [Dependencia](#dependencia).
+> Se enseña en la [clase 006](../classes/parte-0-el-metodo/006-coste-total-aprender-mantener-contratar-salir/README.md) · se desarrolla en el [módulo 11](../curriculum/11-seleccion-y-sostenibilidad.md) · ver también [Fin de vida](#fin-de-vida), [Dependencia](#dependencia).
 
 #### Framework
 
@@ -1279,7 +1279,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 
 | Parte | Tema | Clases | Construidas |
 | ---: | --- | ---: | ---: |
-| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 5 |
+| 0 | [El método: qué es un framework y cómo se compara](../classes/parte-0-el-metodo/README.md) | 10 | 6 |
 | 1 | [Responder: lo primero que hace cualquier framework](../classes/parte-1-responder/README.md) | 15 | 15 |
 | 2 | [La tubería: middleware, filtros e interceptores](../classes/parte-2-la-tuberia/README.md) | 13 | 13 |
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |

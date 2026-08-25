@@ -1,8 +1,58 @@
 {
   "clase": "006",
   "titulo": "Coste total: aprender, mantener, contratar, salir",
-  "descripcion": "Rellenar la matriz de coste total para dos frameworks del mismo nicho.",
-  "estado": "esqueleto",
+  "descripcion": "El mismo servicio en dos frameworks del mismo nicho, y cada uno midiendo sobre sí mismo lo que cuesta.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Las dos implementaciones cumplen un contrato idéntico y trivial: crear una tarea y listarla. Ahí no se distinguen, y por eso el contrato sigue: cada una expone las cuatro dimensiones del coste medidas sobre SUS PROPIOS archivos. Tres se pueden medir desde aquí y una no — y el contrato exige que lo declare en lugar de inventarse un número.",
+  "casos": [
+    {
+      "nombre": "el servicio hace lo mismo en las dos: crear una tarea",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "comprar pan" } },
+      "esperado": { "estado": 201, "json_contiene": { "id": 1, "titulo": "comprar pan" } }
+    },
+    {
+      "nombre": "y listarla",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 1 } }
+    },
+    {
+      "nombre": "las dos rechazan un título vacío con 422",
+      "peticion": { "metodo": "POST", "ruta": "/tareas", "cuerpo": { "titulo": "" } },
+      "esperado": { "estado": 422, "json_contiene": { "code": "TITULO_INVALIDO" } }
+    },
+    {
+      "nombre": "y no lo guardan: el comportamiento es indistinguible",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "total": 1 } }
+    },
+    {
+      "nombre": "las cuatro dimensiones del coste, ninguna de adorno",
+      "peticion": { "metodo": "GET", "ruta": "/coste" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "dimensiones": ["aprender", "mantener", "contratar", "salir"] }
+      }
+    },
+    {
+      "nombre": "aprender se mide: cuánto código y cuántos conceptos hacen falta",
+      "peticion": { "metodo": "GET", "ruta": "/coste/aprender" },
+      "esperado": { "estado": 200, "json_contiene": { "dimension": "aprender", "medido": true } }
+    },
+    {
+      "nombre": "mantener se mide: cuántos paquetes hay debajo",
+      "peticion": { "metodo": "GET", "ruta": "/coste/mantener" },
+      "esperado": { "estado": 200, "json_contiene": { "dimension": "mantener", "medido": true } }
+    },
+    {
+      "nombre": "CONTRATAR NO SE PUEDE MEDIR DESDE AQUÍ — y hay que decirlo",
+      "peticion": { "metodo": "GET", "ruta": "/coste/contratar" },
+      "esperado": { "estado": 200, "json_contiene": { "dimension": "contratar", "medido": false } }
+    },
+    {
+      "nombre": "salir sí: cuántos archivos tuyos mencionan al framework",
+      "peticion": { "metodo": "GET", "ruta": "/coste/salir" },
+      "esperado": { "estado": 200, "json_contiene": { "dimension": "salir", "medido": true } }
+    }
+  ]
 }

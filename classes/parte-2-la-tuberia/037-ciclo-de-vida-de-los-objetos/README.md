@@ -98,7 +98,8 @@ Trae a Node.js el modelo de Angular y Spring: módulos, decoradores e inyección
 Preparar sus dependencias, dentro de su directorio:
 
 ```bash
-pnpm,install,--silent,--ignore-scripts pnpm,exec,tsc,-p,tsconfig.json
+pnpm install --silent --ignore-scripts
+pnpm exec tsc -p tsconfig.json
 ```
 
 Arrancarla suelta, sin el verificador:

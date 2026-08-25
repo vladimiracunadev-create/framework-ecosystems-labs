@@ -83,7 +83,8 @@ Registro activo en PHP con relaciones expresivas. Su comodidad hace que la consu
 Preparar sus dependencias, dentro de su directorio:
 
 ```bash
-composer,install,--no-interaction,--quiet php,-r,@unlink('database/datos.sqlite'); touch('database/datos.sqlite');
+composer install --no-interaction --quiet
+php -r @unlink('database/datos.sqlite'); touch('database/datos.sqlite');
 ```
 
 Arrancarla suelta, sin el verificador:

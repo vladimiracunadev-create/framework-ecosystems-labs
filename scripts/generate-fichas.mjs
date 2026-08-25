@@ -80,7 +80,17 @@ const CATEGORIAS = new Map([
 ]);
 
 const normalizar = (texto) => texto.replaceAll("\r\n", "\n");
-const comando = (partes) => (partes ?? []).join(" ").replaceAll("${PUERTO}", "3000");
+/**
+ * Una receta puede ser un comando o una LISTA de comandos: NestJS instala y
+ * después compila. Aplanarlos con un espacio producía una línea que no se puede
+ * ejecutar —`pnpm,install,... pnpm,exec,tsc,...`— y que llevaba semanas
+ * publicada en la clase 036.
+ */
+const comando = (partes) => {
+  if (!partes?.length) return "";
+  if (Array.isArray(partes[0])) return partes.map(comando).join("\n");
+  return partes.join(" ").replaceAll("${PUERTO}", "3000");
+};
 
 /** El bloque de fichas de una clase. */
 /** El bloque completo, entre las marcas que lo delimitan en el README. */

@@ -83,7 +83,7 @@ es público.
 | Cadena | Qué desbloquea | Frameworks | Instalación oficial |
 | --- | ---: | --- | --- |
 | **Node.js** · 22 o superior | 4 impl. en 3 clases | alpinejs, htmx, nodejs | [nodejs.org](https://nodejs.org/en/download) [@nodejs-downloads] |
-| **Node.js + pnpm** · Node 22 · pnpm 10 | 90 impl. en 73 clases | drizzle, express, fastify, lit, nestjs, prisma, react, solid, svelte, typeorm, vue | [pnpm.io](https://pnpm.io/installation) [@pnpm-installation] |
+| **Node.js + pnpm** · Node 22 · pnpm 10 | 92 impl. en 74 clases | drizzle, express, fastify, lit, nestjs, prisma, react, solid, svelte, typeorm, vue | [pnpm.io](https://pnpm.io/installation) [@pnpm-installation] |
 | **Python** · 3.11 o superior | 90 impl. en 71 clases | django, fastapi, flask, sqlalchemy | [python.org](https://www.python.org/downloads/) [@python-downloads] |
 | **JDK + Apache Maven** · JDK 21 · Maven 3.9 | 69 impl. en 69 clases | hibernate, spring-boot | [adoptium.net](https://adoptium.net/temurin/releases/) [@adoptium-temurin] |
 | **.NET SDK** · 8 o superior | 65 impl. en 65 clases | aspnet-core, dapper, entity-framework-core | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) [@dotnet-sdk-downloads] |
@@ -91,7 +91,7 @@ es público.
 | **Ruby + Bundler** · Ruby 3.3 · Bundler 2 | 14 impl. en 14 clases | activerecord, rails | [ruby-lang.org](https://www.ruby-lang.org/en/documentation/installation/) [@ruby-installation] |
 | **Go** · 1.22 o superior | 10 impl. en 10 clases | gin | [go.dev](https://go.dev/doc/install) [@go-downloads] |
 
-Ocho cadenas, **357 implementaciones**. Ninguna es obligatoria: el ejecutor corre las que encuentre y **declara** las que omitió.
+Ocho cadenas, **359 implementaciones**. Ninguna es obligatoria: el ejecutor corre las que encuentre y **declara** las que omitió.
 
 ### Node.js
 

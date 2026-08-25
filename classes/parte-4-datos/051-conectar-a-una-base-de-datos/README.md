@@ -124,7 +124,8 @@ Esquema propio del que se genera un cliente tipado. Un lenguaje más que aprende
 Preparar sus dependencias, dentro de su directorio:
 
 ```bash
-pnpm,install,--silent,--ignore-scripts pnpm,exec,prisma,generate
+pnpm install --silent --ignore-scripts
+pnpm exec prisma generate
 ```
 
 Arrancarla suelta, sin el verificador:

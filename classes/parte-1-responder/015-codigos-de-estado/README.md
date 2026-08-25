@@ -305,7 +305,8 @@ El framework más usado de PHP: ORM Eloquent, migraciones, colas, programación 
 Preparar sus dependencias, dentro de su directorio:
 
 ```bash
-composer,install,--no-interaction,--quiet php,-r,@unlink(sys_get_temp_dir().'/clase-015-laravel.json');
+composer install --no-interaction --quiet
+php -r @unlink(sys_get_temp_dir().'/clase-015-laravel.json');
 ```
 
 Arrancarla suelta, sin el verificador:
