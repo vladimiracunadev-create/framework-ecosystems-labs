@@ -1,0 +1,15 @@
+---
+import Panel from "../components/Panel.astro";
+import { enCascada } from "../fuente.js";
+
+export const prerender = false;
+
+// Tres `await` seguidos en el frontmatter. En Astro la cascada tiene una forma
+// muy reconocible —tres líneas una debajo de otra— y precisamente por eso se
+// escribe sin querer: leídas de arriba abajo parecen los pasos de una receta.
+const datos = await enCascada();
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Cascada</title></head>
+  <body><Panel como="cascada" datos={datos} /></body>
+</html>

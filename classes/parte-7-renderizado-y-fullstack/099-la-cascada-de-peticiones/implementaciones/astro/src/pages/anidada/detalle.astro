@@ -1,0 +1,19 @@
+---
+import Padre from "../../layouts/Padre.astro";
+import { pedirPedidos } from "../../fuente.js";
+
+export const prerender = false;
+
+// Los sesenta milisegundos de la página y los sesenta del marco se suman, porque
+// el marco es un componente que se renderiza después. `/cascada.json` lo mide y
+// lo publica sin adornos.
+const pedidos = await pedirPedidos();
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Anidada</title></head>
+  <body>
+    <Padre>
+      <p data-capa="hija" data-pedidos={pedidos.length}>{pedidos.length} pedidos</p>
+    </Padre>
+  </body>
+</html>

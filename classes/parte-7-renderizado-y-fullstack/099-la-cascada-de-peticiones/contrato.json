@@ -1,8 +1,85 @@
 {
   "clase": "099",
   "titulo": "La cascada de peticiones",
-  "descripcion": "La misma pantalla con peticiones en cascada y en paralelo, medida.",
-  "estado": "esqueleto",
+  "descripcion": "La misma pantalla con tres peticiones en cadena y con las tres a la vez, cronometrada.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Las tres fuentes son independientes: ninguna necesita a las otras. Que en /cascada se pidan una detrás de otra no es una necesidad del dominio, es un descuido, y el descuido no se ve en el resultado —las dos pantallas traen exactamente lo mismo—. Se ve cronometrando. Cada implementación pide sus propias pantallas por HTTP, con una petición de calentamiento antes, y publica los milisegundos. Los números son de la máquina que los saca; lo que se compara es una pantalla contra sí misma, y esa relación sí es del framework.",
+  "casos": [
+    {
+      "nombre": "la pantalla en cascada trae los tres datos",
+      "peticion": { "metodo": "GET", "ruta": "/cascada" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": [
+          "data-como=\"cascada\"",
+          "Ada",
+          "data-pedidos=\"1\"",
+          "la entrega llega el martes"
+        ]
+      }
+    },
+    {
+      "nombre": "y la de en paralelo trae exactamente los mismos: la diferencia no se ve",
+      "peticion": { "metodo": "GET", "ruta": "/paralelo" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": [
+          "data-como=\"paralelo\"",
+          "Ada",
+          "data-pedidos=\"1\"",
+          "la entrega llega el martes"
+        ]
+      }
+    },
+    {
+      "nombre": "la pantalla anidada trae las dos capas, cada una con su carga",
+      "peticion": { "metodo": "GET", "ruta": "/anidada/detalle" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": [
+          "data-capa=\"padre\"",
+          "data-usuario=\"Ada\"",
+          "data-capa=\"hija\""
+        ]
+      }
+    },
+    {
+      "nombre": "LA CASCADA TARDA AL MENOS EL DOBLE, y son tres peticiones de sesenta",
+      "peticion": { "metodo": "GET", "ruta": "/cascada.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "peticiones": 3,
+          "retardo_de_cada_una_ms": 60,
+          "la_cascada_tarda_mas": true,
+          "al_menos_el_doble": true
+        }
+      }
+    },
+    {
+      "nombre": "y los tres cronómetros marcaron algo: la medición ocurrió",
+      "peticion": { "metodo": "GET", "ruta": "/cascada.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "cascada_ms": 0,
+          "paralelo_ms": 0,
+          "anidada_ms": 0
+        }
+      }
+    },
+    {
+      "nombre": "cada uno dice si sus cargas anidadas van a la vez, y por qué",
+      "peticion": { "metodo": "GET", "ruta": "/cascada.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "anidadas_en_paralelo_por_diseno": null,
+          "por_que": ""
+        }
+      }
+    }
+  ]
 }

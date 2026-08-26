@@ -1,0 +1,22 @@
+---
+import { pedirUsuario } from "../fuente.js";
+
+// LA DISPOSICIÓN DE ASTRO ES UN COMPONENTE, Y AHÍ ESTÁ SU LÍMITE.
+//
+// No hay «rutas anidadas» en Astro: hay componentes que se usan como marco y una
+// ranura donde va el contenido. Este frontmatter se ejecuta cuando la página lo
+// renderiza, y la página ya ha terminado su propia carga para entonces.
+//
+// Es decir: en Astro el anidamiento **sí** encadena, y no porque el framework lo
+// haga mal, sino porque no hay ningún framework de por medio. Son dos
+// componentes, uno dentro de otro, y los frontmatter se ejecutan en el orden en
+// que se pintan.
+//
+// La salida es la misma que en cualquier función: si el marco no necesita el
+// dato del contenido, se piden los dos a la vez desde arriba. Lo que Astro no da
+// es que ocurra solo.
+const usuario = await pedirUsuario();
+---
+<div data-capa="padre" data-usuario={usuario.nombre}>
+  <slot />
+</div>

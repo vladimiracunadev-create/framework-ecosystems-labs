@@ -1,0 +1,13 @@
+---
+import Panel from "../components/Panel.astro";
+import { enParalelo } from "../fuente.js";
+
+export const prerender = false;
+
+// El mismo frontmatter con `Promise.all`. Ni la pantalla ni la fuente cambian.
+const datos = await enParalelo();
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Paralelo</title></head>
+  <body><Panel como="paralelo" datos={datos} /></body>
+</html>
