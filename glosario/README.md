@@ -652,7 +652,7 @@ Estado que necesitan varios componentes que no son padre e hijo. Se resuelve sub
 
 Datos que viven en el servidor y de los que el cliente guarda una copia. No es estado local: es una **caché**, y sus problemas son de caché — frescura, invalidación, reintentos y peticiones duplicadas.
 
-> Se enseña en la [clase 089](../classes/parte-6-la-interfaz/089-estado-del-servidor-en-el-cliente/README.md) 🚧 · ver también [Estado](#estado), [Efecto](#efecto).
+> Se enseña en la [clase 089](../classes/parte-6-la-interfaz/089-estado-del-servidor-en-el-cliente/README.md) · ver también [Estado](#estado), [Efecto](#efecto).
 
 #### Evento
 
@@ -1286,7 +1286,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
-| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 10 |
+| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 11 |
 | 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 0 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |

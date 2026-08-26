@@ -1,8 +1,71 @@
 {
   "clase": "089",
   "titulo": "Estado del servidor en el cliente",
-  "descripcion": "Carga, error, revalidación y caché de un recurso remoto.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "Un dato que no es tuyo: cachearlo, saber cuándo está viejo y volver a pedirlo sin que el usuario espere.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "La caché de estado remoto es lógica pura —clave, marca de tiempo, obsolescencia, invalidación— y por eso se puede verificar entera sin navegador. Cada implementación la escribe en su propio idioma y declara qué biblioteca resuelve esto en su ecosistema. El contador de peticiones a la fuente es la medida: si sube cuando no debía, la caché no sirve.",
+  "casos": [
+    {
+      "nombre": "la primera lectura va a la fuente",
+      "peticion": { "metodo": "GET", "ruta": "/reiniciar" },
+      "esperado": { "estado": 200, "json_contiene": { "peticiones": 0 } }
+    },
+    {
+      "nombre": "y trae el dato, contando una petición",
+      "peticion": { "metodo": "GET", "ruta": "/datos?clave=usuarios" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "origen": "fuente", "peticiones": 1, "dato": "usuarios v1" }
+      }
+    },
+    {
+      "nombre": "LA SEGUNDA NO: sale de la caché y el contador no se mueve",
+      "peticion": { "metodo": "GET", "ruta": "/datos?clave=usuarios" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "origen": "cache", "peticiones": 1 }
+      }
+    },
+    {
+      "nombre": "otra clave es otra entrada: no se pisan",
+      "peticion": { "metodo": "GET", "ruta": "/datos?clave=pedidos" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "origen": "fuente", "peticiones": 2, "dato": "pedidos v1" }
+      }
+    },
+    {
+      "nombre": "cuando la entrada envejece se sirve lo viejo Y se vuelve a pedir",
+      "peticion": { "metodo": "GET", "ruta": "/datos?clave=usuarios&envejecer=si" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "origen": "cache-obsoleta",
+          "se_devolvio_lo_viejo": true,
+          "se_pidio_de_nuevo": true,
+          "peticiones": 3
+        }
+      }
+    },
+    {
+      "nombre": "invalidar una clave la borra sin tocar las demás",
+      "peticion": { "metodo": "GET", "ruta": "/invalidar?clave=usuarios" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "invalidadas": 1, "quedan": ["pedidos"] }
+      }
+    },
+    {
+      "nombre": "qué biblioteca resuelve esto en este ecosistema",
+      "peticion": { "metodo": "GET", "ruta": "/cache.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "leido_del_archivo": true,
+          "el_estado_del_servidor_no_es_estado_de_interfaz": true
+        }
+      }
+    }
+  ]
 }
