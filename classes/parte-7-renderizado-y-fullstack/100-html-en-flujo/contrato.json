@@ -1,8 +1,84 @@
 {
   "clase": "100",
   "titulo": "HTML en flujo",
-  "descripcion": "La cabecera llega antes de que la lista termine de cargarse.",
-  "estado": "esqueleto",
+  "descripcion": "La cabecera llega en el primer trozo y la lista trescientos milisegundos después, en el mismo documento.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Este contrato no puede medir el flujo por sí mismo, y el motivo enseña algo: `await respuesta.text()` espera a que la respuesta TERMINE, así que una respuesta que llegó en dos tandas y una que llegó de golpe son indistinguibles para él. Por eso cada implementación trae un medidor que lee su propio cuerpo a trozos, como haría un navegador, y anota cuándo aparece cada marca. Dos hallazgos de esa medición se quedan en la clase: SvelteKit manda el dato y no el marcado, y Remix apaga el flujo si quien pide no parece un navegador.",
+  "casos": [
+    {
+      "nombre": "la pantalla en flujo trae la cabecera y, al final, el dato de la lista",
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/flujo",
+        "cabeceras": { "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" }
+      },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-parte=\"cabecera\"", "Ada", "comprar pan"]
+      }
+    },
+    {
+      "nombre": "y también el texto de espera que ocupó el hueco mientras tanto",
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/flujo",
+        "cabeceras": { "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" }
+      },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-parte=\"esperando\"", "cargando la lista"]
+      }
+    },
+    {
+      "nombre": "la pantalla sin flujo trae lo mismo y NO trae texto de espera: nunca hubo hueco",
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/sin-flujo",
+        "cabeceras": { "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" }
+      },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-parte=\"cabecera\"", "data-parte=\"lista\"", "comprar pan"],
+        "cuerpo_no_contiene": ["data-parte=\"esperando\""]
+      }
+    },
+    {
+      "nombre": "LA CABECERA LLEGA ANTES: entre las dos partes hay al menos dos tercios del retardo",
+      "peticion": { "metodo": "GET", "ruta": "/flujo.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "retardo_de_la_lista_ms": 300,
+          "la_cabecera_llega_antes": true,
+          "sin_flujo_la_cabecera_llega_antes": false
+        }
+      }
+    },
+    {
+      "nombre": "y los cronómetros marcaron algo en las dos pantallas",
+      "peticion": { "metodo": "GET", "ruta": "/flujo.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "ms_hasta_la_lista": 0,
+          "separacion_ms": 0,
+          "sin_flujo_ms_hasta_la_lista": 0
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara cómo se pide el flujo y quién pinta la parte aplazada",
+      "peticion": { "metodo": "GET", "ruta": "/flujo.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "como_se_declara": "",
+          "quien_espera": "",
+          "la_lista_llega_como_html": null
+        }
+      }
+    }
+  ]
 }

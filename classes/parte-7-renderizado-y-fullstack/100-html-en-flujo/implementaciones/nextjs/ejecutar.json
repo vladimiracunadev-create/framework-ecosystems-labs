@@ -1,0 +1,11 @@
+{
+  "framework": "nextjs",
+  "requiere": ["node", "pnpm"],
+  "comprobar": ["pnpm", "--version"],
+  "preparar": [
+    ["pnpm", "install", "--silent", "--ignore-scripts"],
+    ["pnpm", "exec", "next", "build"]
+  ],
+  "arrancar": ["pnpm", "exec", "next", "start", "-p", "${PUERTO}"],
+  "espera_ms": 120000
+}
