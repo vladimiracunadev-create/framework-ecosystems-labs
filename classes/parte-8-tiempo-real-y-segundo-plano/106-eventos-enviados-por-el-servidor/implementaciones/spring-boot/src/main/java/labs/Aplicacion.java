@@ -97,6 +97,12 @@ public class Aplicacion {
         };
 
         return ResponseEntity.ok()
+                // El `produces` de la anotacion no basta con un cuerpo de flujo:
+                // Spring no negocia el tipo cuando lo que devuelve es un
+                // `StreamingResponseBody`, y la respuesta sale sin `Content-Type`.
+                // Se descubrio en integracion continua, con el contrato quejandose
+                // de una cabecera vacia. Hay que ponerlo a mano.
+                .contentType(MediaType.parseMediaType("text/event-stream;charset=UTF-8"))
                 .header(HttpHeaders.CACHE_CONTROL, "no-cache")
                 .header(HttpHeaders.CONNECTION, "keep-alive")
                 // Sin esta, un nginx delante guarda la respuesta en un buffer y no
