@@ -110,14 +110,14 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `.next/BUILD_ID` | archivo del proyecto |
-| `.next/app-build-manifest.json` | datos en JSON usados por la implementación |
-| `.next/app-path-routes-manifest.json` | datos en JSON usados por la implementación |
-| `.next/build-manifest.json` | datos en JSON usados por la implementación |
-| `.next/diagnostics/build-diagnostics.json` | datos en JSON usados por la implementación |
-| `.next/diagnostics/framework.json` | datos en JSON usados por la implementación |
-| `.next/export-marker.json` | datos en JSON usados por la implementación |
-| `.next/images-manifest.json` | datos en JSON usados por la implementación |
+| `app/cliente/page.js` | código JavaScript |
+| `app/datos.js` | código JavaScript |
+| `app/estatico/page.js` | código JavaScript |
+| `app/estrategias.json/route.js` | código JavaScript |
+| `app/layout.js` | código JavaScript |
+| `app/servidor/page.js` | código JavaScript |
+| `app/tareas.json/route.js` | código JavaScript |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 
 ### 🔧 Nuxt
 
@@ -145,14 +145,14 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `.nuxt/app.config.mjs` | código JavaScript (módulo ES) |
-| `.nuxt/components.d.ts` | código TypeScript |
-| `.nuxt/imports.d.ts` | código TypeScript |
-| `.nuxt/manifest/latest.json` | datos en JSON usados por la implementación |
-| `.nuxt/manifest/meta/fd2a2134-ef9a-4877-a459-e0f3990c9c75.json` | datos en JSON usados por la implementación |
-| `.nuxt/nuxt.d.ts` | código TypeScript |
-| `.nuxt/prerender/chunks/_/error-500.mjs` | código JavaScript (módulo ES) |
-| `.nuxt/prerender/chunks/_/error-500.mjs.map` | archivo del proyecto |
+| `datos.ts` | código TypeScript |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `nuxt.config.ts` | código TypeScript |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pages/cliente.vue` | archivo del proyecto |
+| `pages/estatico.vue` | archivo del proyecto |
+| `pages/servidor.vue` | archivo del proyecto |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
 
 ### 🔧 SvelteKit
 
@@ -180,14 +180,14 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `.svelte-kit/adapter-node/entries/chunks/vendor.js` | código JavaScript |
-| `.svelte-kit/adapter-node/entries/env.js` | código JavaScript |
-| `.svelte-kit/adapter-node/entries/handler.js` | código JavaScript |
-| `.svelte-kit/adapter-node/entries/index.js` | código JavaScript |
-| `.svelte-kit/adapter-node/entries/shims.js` | código JavaScript |
-| `.svelte-kit/adapter-node/entries/utils.js` | código JavaScript |
-| `.svelte-kit/ambient.d.ts` | código TypeScript |
-| `.svelte-kit/env.d.ts` | código TypeScript |
+| `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
+| `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
+| `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `src/app.html` | plantilla o marcado |
+| `src/datos.js` | código JavaScript |
+| `src/routes/cliente/+page.server.js` | código JavaScript |
+| `src/routes/cliente/+page.svelte` | componente de Svelte |
 
 ### 🔧 Remix
 
@@ -250,14 +250,14 @@ Qué hay dentro de su directorio:
 
 | Archivo | Qué es |
 | --- | --- |
-| `.astro/content-assets.mjs` | código JavaScript (módulo ES) |
-| `.astro/content-modules.mjs` | código JavaScript (módulo ES) |
-| `.astro/content.d.ts` | código TypeScript |
-| `.astro/types.d.ts` | código TypeScript |
 | `astro.config.mjs` | código JavaScript (módulo ES) |
 | `ejecutar.json` | la receta que usa el verificador: qué hace falta, cómo se prepara y cómo arranca |
 | `package.json` | manifiesto de Node.js: nombre, tipo de módulo y dependencias con su rango de versión |
 | `pnpm-lock.yaml` | archivo de bloqueo: la versión exacta de cada dependencia y de sus dependencias |
+| `pnpm-workspace.yaml` | raíz de instalación propia, y la prohibición de ejecutar scripts al instalar |
+| `src/datos.mjs` | código JavaScript (módulo ES) |
+| `src/pages/cliente.astro` | archivo del proyecto |
+| `src/pages/estatico.astro` | archivo del proyecto |
 
 > Si alguna cadena de herramientas no está en tu máquina, `node scripts/doctor.mjs` dice cuál falta y con qué comando se instala. No hace falta tenerlas todas: el verificador ejecuta lo que encuentra y **declara** lo que omitió.
 

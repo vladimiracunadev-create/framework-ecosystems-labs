@@ -1,8 +1,0 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/estrategias.json/route": "app/estrategias.json/route.js",
-  "/tareas.json/route": "app/tareas.json/route.js",
-  "/cliente/page": "app/cliente/page.js",
-  "/estatico/page": "app/estatico/page.js",
-  "/servidor/page": "app/servidor/page.js"
-}

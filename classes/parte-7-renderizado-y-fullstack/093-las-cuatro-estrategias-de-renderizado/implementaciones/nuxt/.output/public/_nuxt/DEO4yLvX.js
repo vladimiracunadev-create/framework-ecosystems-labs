@@ -1,1 +1,0 @@
-import{s as o,T as n}from"./BfAJOvvi.js";import{d as l,C as e,I as i,J as c,l as t,B as s,E as d}from"./DJ4QzovM.js";const m=["data-sello"],k=l({__name:"servidor",setup(_){const r=o();return(p,u)=>(s(),e("ul",{"data-estrategia":"servidor","data-sello":t(r)},[(s(!0),e(i,null,c(t(n),a=>(s(),e("li",{key:a},d(a),1))),128))],8,m))}});export{k as default};

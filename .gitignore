@@ -37,3 +37,15 @@ classes/**/.venv/
 # Salidas de compilacion de las clases frontend: el codigo fuente se versiona, lo que el compilador produce, no.
 classes/**/compilados/
 classes/**/*.compilada.mjs
+
+# Salidas de construcción de los metaframeworks (parte 7). Cada una es el
+# resultado de `build`, no código fuente: se reconstruye con `pnpm exec ... build`
+# y por eso no se versiona. El código que se enseña está en `app/`, `src/` o
+# `pages/`.
+classes/**/.next/
+classes/**/.nuxt/
+classes/**/.output/
+classes/**/.svelte-kit/
+classes/**/.astro/
+classes/**/.vercel/
+classes/**/.turbo/
