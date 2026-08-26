@@ -1,8 +1,61 @@
 {
   "clase": "085",
   "titulo": "Listas y claves",
-  "descripcion": "Reordenar la lista conserva el estado de cada elemento.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "Pintar una colección, y qué pasa cuando el framework no sabe cuál es cuál.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "El fallo de las claves ocurre al REORDENAR en el navegador, y eso necesita navegador. Lo que sí se puede verificar aquí es lo que decide si el fallo llega a existir: que la clave esté en el marcado, que sea estable al reordenar, y si el framework AVISA cuando falta o se repite. Ese aviso se captura interceptando la consola durante el render.",
+  "casos": [
+    {
+      "nombre": "la lista se pinta en orden, y cada elemento lleva su clave",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": [
+          "data-clave=\"a1\"",
+          "data-clave=\"b2\"",
+          "data-clave=\"c3\"",
+          "Aguacate",
+          "Berenjena",
+          "Calabaza"
+        ]
+      }
+    },
+    {
+      "nombre": "al invertir el orden, la clave viaja con su elemento",
+      "peticion": { "metodo": "GET", "ruta": "/?orden=invertido" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-clave=\"c3\"", "data-clave=\"a1\"", "Calabaza"]
+      }
+    },
+    {
+      "nombre": "una lista vacía no es un error: es una lista vacía",
+      "peticion": { "metodo": "GET", "ruta": "/?vacia=si" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-lista=\"frutas\"", "data-total=\"0\""],
+        "cuerpo_no_contiene": ["Aguacate"]
+      }
+    },
+    {
+      "nombre": "¿avisa el framework si dos elementos comparten clave?",
+      "peticion": { "metodo": "GET", "ruta": "/claves-repetidas" },
+      "esperado": { "estado": 200, "json_contiene": { "respondida": true, "claves": ["x", "x"] } }
+    },
+    {
+      "nombre": "¿se puede escribir la lista SIN clave en esta tecnología?",
+      "peticion": { "metodo": "GET", "ruta": "/sin-clave" },
+      "esperado": { "estado": 200, "json_contiene": { "respondida": true } }
+    },
+    {
+      "nombre": "cómo se escribe la lista aquí, leído del archivo",
+      "peticion": { "metodo": "GET", "ruta": "/lista.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "leido_del_archivo": true, "la_clave_debe_ser_estable": true }
+      }
+    }
+  ]
 }
