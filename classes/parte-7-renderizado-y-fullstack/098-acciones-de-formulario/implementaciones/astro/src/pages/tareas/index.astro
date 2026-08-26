@@ -1,0 +1,64 @@
+---
+import { crear, listar } from "../../almacen.js";
+
+export const prerender = false;
+
+/**
+ * ASTRO NO TIENE ACCIONES DE FORMULARIO CLÁSICAS: TIENE LA PLATAFORMA.
+ *
+ * Aquí no hay `action` ni `actions`: hay un `if` sobre el método de la petición,
+ * que es como se ha hecho esto en la web desde 1995. El frontmatter de la página
+ * atiende el POST, escribe y redirige.
+ *
+ * Astro 5 sí trae `astro:actions`, con validación por esquema y llamada tipada
+ * desde el cliente. No se usa en esta clase por un motivo concreto y no por
+ * pereza: su formulario apunta a una URL con un parámetro de consulta propio, y
+ * entonces el contrato dejaría de ser el mismo para los cinco. Lo que se ve aquí
+ * es el camino que Astro nunca quita.
+ */
+if (Astro.request.method === "POST") {
+  const formulario = await Astro.request.formData();
+  if (formulario.get("intencion") === "crear") {
+    crear(formulario.get("texto"));
+  }
+  // Enviar, redirigir, mostrar — el patrón de la clase 080. Sin esto, recargar
+  // después de enviar vuelve a enviar.
+  return Astro.redirect("/tareas", 303);
+}
+
+const tareas = listar();
+
+// EL ORIGEN QUE ASTRO CREE TENER, que no es el que se ve desde fuera.
+//
+// Astro 5 rechaza con 403 cualquier POST de formulario cuyo `Origin` no coincida
+// con el suyo: es `security.checkOrigin`, y viene encendido de serie. La
+// protección contra falsificación de peticiones de la clase 080, sin
+// configurarla.
+//
+// Lo que sorprende es contra qué compara: `Astro.url.origin`, que con el
+// adaptador de Node sale `http://localhost` SIN PUERTO. Un navegador mandaría
+// `http://127.0.0.1:4100` y sería rechazado. Es un aviso que vale más que el
+// ejercicio: la dirección que un framework cree tener y la que se ve desde fuera
+// son dos cosas distintas.
+const origen = Astro.url.origin;
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Tareas — Astro</title></head>
+  <body>
+    <h1>Tareas</h1>
+    <ul>
+      {tareas.map((tarea) => <li data-tarea={tarea.id}>{tarea.texto}</li>)}
+    </ul>
+    <form method="post">
+      <!--
+        El campo oculto declara qué se quiere hacer. Con una sola acción por
+        pantalla sobra; con tres botones en la misma —crear, marcar, borrar— es
+        lo que las distingue, y es el patrón que Remix llama «intent».
+      -->
+      <input type="hidden" name="intencion" value="crear" />
+      <input type="text" name="texto" />
+      <button type="submit">Añadir</button>
+    </form>
+    <span data-origen={origen}></span>
+  </body>
+</html>

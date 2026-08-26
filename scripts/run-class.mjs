@@ -293,9 +293,14 @@ async function comprobarCaso(baseUrl, caso, tarro, variables) {
     // El `content-type` de multipart lleva un delimitador generado: lo pone
     // `fetch` a partir del FormData, y ponerlo a mano lo rompería.
     const formulario = new FormData();
-    for (const [campo, valor] of Object.entries(p.multipart)) {
+    for (const [crudo, valor] of Object.entries(p.multipart)) {
+      // Nombre y valor se interpolan, igual que en `formulario`: la clase 098
+      // necesita devolver un campo oculto cuyo NOMBRE lo genera el framework al
+      // construir —el identificador de una accion de servidor de Next— y que se
+      // lee del HTML en un caso anterior.
+      const campo = sustituir(crudo);
       if (typeof valor === "string") {
-        formulario.append(campo, valor);
+        formulario.append(campo, sustituir(valor));
         continue;
       }
       const contenido =

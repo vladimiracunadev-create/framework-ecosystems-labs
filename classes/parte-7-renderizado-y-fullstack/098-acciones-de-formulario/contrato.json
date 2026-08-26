@@ -1,8 +1,74 @@
 {
   "clase": "098",
   "titulo": "Acciones de formulario",
-  "descripcion": "El alta funciona con JavaScript desactivado y mejora con él.",
-  "estado": "esqueleto",
+  "descripcion": "El alta funciona con JavaScript desactivado, y el formulario vacío no cuela.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "El verificador no ejecuta JavaScript, así que lo que comprueba es exactamente lo que vería alguien con el JavaScript apagado: un formulario HTML de verdad, un POST del navegador y una lista que cambia. Dos detalles que costaron encontrarse y se quedan en la clase: el POST va en multipart porque es lo que emite el formulario de una acción de servidor de Next, y lleva la cabecera Origin porque Astro y SvelteKit rechazan sin ella con 403 —protección contra falsificación de peticiones, encendida de serie en los dos—. El campo oculto se lee del HTML y se devuelve, igual que haría un navegador.",
+  "casos": [
+    {
+      "nombre": "la página trae un formulario HTML de verdad, con su campo oculto y las tres tareas",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "guardar_cuerpo": {
+        "campoOculto": { "patron": "type=\"hidden\" name=\"([^\"]+)\"" },
+        "origen": { "patron": "data-origen=\"([^\"]+)\"" }
+      },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": [
+          "<form",
+          "</form>",
+          "name=\"texto\"",
+          "type=\"hidden\"",
+          "comprar pan",
+          "data-tarea=\"3\""
+        ]
+      }
+    },
+    {
+      "nombre": "de partida se ven tres, y cada uno declara con qué mecanismo escribe",
+      "peticion": { "metodo": "GET", "ruta": "/accion.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "cuantas_tareas_se_ven": 3, "funciona_sin_javascript": true }
+      }
+    },
+    {
+      "nombre": "EL ENVÍO SIN JAVASCRIPT FUNCIONA: un POST de formulario y nada más",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/tareas",
+        "cabeceras": { "origin": "${origen}" },
+        "multipart": { "${campoOculto}": "crear", "texto": "sacar la basura" }
+      },
+      "esperado": { "estado_en": [200, 302, 303] }
+    },
+    {
+      "nombre": "y la tarea está en la lista",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["sacar la basura", "data-tarea=\"4\""]
+      }
+    },
+    {
+      "nombre": "el formulario vacío se envía igual, porque un navegador lo permite",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/tareas",
+        "cabeceras": { "origin": "${origen}" },
+        "multipart": { "${campoOculto}": "crear", "texto": "   " }
+      },
+      "esperado": { "estado_en": [200, 302, 303, 400, 422] }
+    },
+    {
+      "nombre": "PERO NO AÑADE NADA: siguen siendo cuatro",
+      "peticion": { "metodo": "GET", "ruta": "/accion.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "cuantas_tareas_se_ven": 4 }
+      }
+    }
+  ]
 }
