@@ -1,8 +1,75 @@
 {
   "clase": "110",
   "titulo": "Colas de trabajo",
-  "descripcion": "La petición responde de inmediato y el trabajo se completa después.",
-  "estado": "esqueleto",
+  "descripcion": "La petición contesta 202 en unos milisegundos y el trabajo de cuatrocientos se hace después.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "El resultado final es el mismo con cola y sin ella, así que lo único que distingue las dos formas es el reloj: cada implementación cronometra lo que tarda su respuesta y lo que tarda el trabajo, y la primera tiene que quedar muy por debajo de la segunda. El código de estado importa tanto como el tiempo: un 200 significa «hecho», y esto no está hecho. Y las cuatro declaran lo mismo sobre su cola —`se_pierde_al_reiniciar: true`— porque las cuatro la tienen en memoria del proceso, que es lo mínimo que funciona y no es una cola de producción.",
+  "casos": [
+    {
+      "nombre": "el alta contesta 202 con la dirección donde mirar",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/tareas",
+        "cuerpo": { "descripcion": "cierre de mes" }
+      },
+      "guardar_cuerpo": { "trabajo": { "patron": "\"id\": *([0-9]+)" } },
+      "esperado": {
+        "estado": 202,
+        "cabecera_presente": ["location"],
+        "location_contiene": ["/tareas/"],
+        "json_contiene": { "estado": "encolada" }
+      }
+    },
+    {
+      "nombre": "y al preguntar enseguida, TODAVÍA NO ESTÁ HECHO",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/${trabajo}" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": { "estado": "terminada" }
+      }
+    },
+    {
+      "nombre": "LA RESPUESTA NO ESPERA AL TRABAJO: se mide y se compara",
+      "peticion": { "metodo": "GET", "ruta": "/cola.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "estado_de_la_respuesta": 202,
+          "tardanza_del_trabajo_ms": 400,
+          "la_respuesta_no_espera": true
+        }
+      }
+    },
+    {
+      "nombre": "y el trabajo sí tarda lo suyo, medido de verdad",
+      "peticion": { "metodo": "GET", "ruta": "/cola.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": { "ms_hasta_terminar": 0 },
+        "json_contiene": { "se_pierde_al_reiniciar": true }
+      }
+    },
+    {
+      "nombre": "para entonces, el primer trabajo ya está terminado",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/${trabajo}" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "estado": "terminada" },
+        "cuerpo_contiene": ["cierre de mes"]
+      }
+    },
+    {
+      "nombre": "cada uno declara cómo encola, dónde vive su cola y qué le falta",
+      "peticion": { "metodo": "GET", "ruta": "/cola.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "como_se_encola": "",
+          "donde_vive_la_cola": "",
+          "que_haria_falta_en_produccion": ""
+        }
+      }
+    }
+  ]
 }
