@@ -1,8 +1,76 @@
 {
   "clase": "104",
   "titulo": "Elegir estrategia por pantalla",
-  "descripcion": "Tres pantallas del mismo producto con tres estrategias justificadas.",
-  "estado": "esqueleto",
+  "descripcion": "Un producto, tres pantallas, tres estrategias, y las tres preguntas que las deciden.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "La clase 093 puso la misma pantalla de cuatro maneras para poder compararlas. Esta pone TRES PANTALLAS DISTINTAS de un mismo producto, cada una con la estrategia que le toca, en una sola aplicación. El contrato comprueba las tres a la vez —el sello del catálogo no cambia, el del panel sí, y el editor llega vacío— y además exige que cada implementación publique el motivo de cada decisión. El motivo importa tanto como la decisión: sin él, esto sería una demostración técnica en lugar de un criterio.",
+  "casos": [
+    {
+      "nombre": "el catálogo trae los productos y su sello",
+      "peticion": { "metodo": "GET", "ruta": "/catalogo" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-estrategia=\"estatico\"", "pan de masa madre", "data-sello="]
+      },
+      "guardar_cuerpo": { "selloCatalogo": { "patron": "data-sello=\"([^\"]+)\"" } }
+    },
+    {
+      "nombre": "SE PIDE OTRA VEZ Y EL SELLO NO CAMBIA: se generó al construir",
+      "peticion": { "metodo": "GET", "ruta": "/catalogo" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-sello=\"${selloCatalogo}\""]
+      }
+    },
+    {
+      "nombre": "el panel trae las cifras de hoy y otro sello",
+      "peticion": { "metodo": "GET", "ruta": "/panel" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-estrategia=\"servidor\"", "12 pedidos", "348 euros"]
+      },
+      "guardar_cuerpo": { "selloPanel": { "patron": "data-sello=\"([^\"]+)\"" } }
+    },
+    {
+      "nombre": "Y AQUÍ EL SELLO SÍ CAMBIA: se genera en cada petición",
+      "peticion": { "metodo": "GET", "ruta": "/panel" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-estrategia=\"servidor\""],
+        "cuerpo_no_contiene": ["data-sello=\"${selloPanel}\""]
+      }
+    },
+    {
+      "nombre": "el editor llega con su armazón y SIN los datos: los pide el navegador",
+      "peticion": { "metodo": "GET", "ruta": "/editor" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-estrategia=\"cliente\"", "data-pendiente=\"si\""],
+        "cuerpo_no_contiene": ["pan de masa madre"]
+      }
+    },
+    {
+      "nombre": "y las tres decisiones vienen con su motivo, en una sola aplicación",
+      "peticion": { "metodo": "GET", "ruta": "/decisiones.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "una_sola_aplicacion": true,
+          "pantallas": ["catalogo", "panel", "editor"],
+          "estrategias": ["estatico", "servidor", "cliente"],
+          "las_tres_preguntas": [
+            "¿es igual para todo el mundo?",
+            "¿cambia mas o menos a menudo que los despliegues?",
+            "¿importa el primer pintado?"
+          ]
+        },
+        "json_distinto": {
+          "donde_se_declara": "",
+          "cuesta_cambiar_de_estrategia": ""
+        }
+      }
+    }
+  ]
 }

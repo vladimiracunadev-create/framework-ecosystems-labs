@@ -1,0 +1,25 @@
+---
+import { PRODUCTOS, sello } from "../datos.mjs";
+
+export const prerender = true;
+
+// LA PRIMERA PANTALLA: el catálogo, generado al construir.
+//
+// La línea de arriba es toda la decisión, y sale de las tres preguntas: es igual
+// para todo el mundo, cambia menos que los despliegues, y el primer pintado
+// importa porque es la puerta de entrada.
+//
+// El sello se calcula UNA vez, mientras se construye, y queda escrito en el
+// archivo. Por eso el contrato pide esta pantalla dos veces y comprueba que no
+// cambia.
+const marca = sello();
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Catálogo</title></head>
+  <body>
+    <h1>Catálogo</h1>
+    <ul data-estrategia="estatico" data-sello={marca}>
+      {PRODUCTOS.map((p) => <li>{p}</li>)}
+    </ul>
+  </body>
+</html>

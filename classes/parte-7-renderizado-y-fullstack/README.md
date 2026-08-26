@@ -4,7 +4,7 @@
 
 **Dónde se genera el HTML, cuándo, y quién carga los datos. La decisión que más afecta a lo que siente el usuario.**
 
-**Clases 93 a 104** · 12 en total · 11 construidas · 7 tecnologías en juego.
+**Clases 93 a 104** · 12 en total · 12 construidas · 7 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -51,7 +51,7 @@ Las cuatro últimas son de criterio: metadatos, presupuesto de JavaScript, la al
 | [101](101-metadatos-y-descubribilidad/README.md) | [Metadatos y descubribilidad](101-metadatos-y-descubribilidad/README.md) | Emitir en el servidor lo que los buscadores y las redes leen. | 🟡 intermedio | ✅ Construida |
 | [102](102-presupuesto-de-javascript/README.md) | [Presupuesto de JavaScript](102-presupuesto-de-javascript/README.md) | Poner un límite y hacerlo fallar cuando se supera. | 🔴 avanzado | ✅ Construida |
 | [103](103-hipermedia-como-alternativa/README.md) | [Hipermedia como alternativa](103-hipermedia-como-alternativa/README.md) | Resolver el mismo caso enviando HTML en lugar de estado. | 🔴 avanzado | ✅ Construida |
-| [104](104-elegir-estrategia-por-pantalla/README.md) | [Elegir estrategia por pantalla](104-elegir-estrategia-por-pantalla/README.md) | Aplicar criterio por vista en lugar de una regla para toda la aplicación. | 🔴 avanzado | 🚧 Esqueleto |
+| [104](104-elegir-estrategia-por-pantalla/README.md) | [Elegir estrategia por pantalla](104-elegir-estrategia-por-pantalla/README.md) | Aplicar criterio por vista en lugar de una regla para toda la aplicación. | 🔴 avanzado | ✅ Construida |
 
 ## 🎬 Las tecnologías que aparecen
 

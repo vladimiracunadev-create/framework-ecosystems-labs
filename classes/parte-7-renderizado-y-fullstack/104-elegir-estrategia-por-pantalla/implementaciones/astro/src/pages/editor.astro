@@ -1,0 +1,36 @@
+---
+export const prerender = true;
+
+// LA TERCERA PANTALLA: el editor, que llega vacío a propósito.
+//
+// Las tres preguntas otra vez: no es igual para todo el mundo, cambia a cada
+// tecla, y **el primer pintado no importa** porque está detrás de un acceso y
+// nadie comparte su enlace.
+//
+// Esa tercera respuesta es la que autoriza a hacer aquí lo que en el catálogo
+// sería un error. No es una técnica peor: es la técnica correcta para una
+// pantalla con estas respuestas.
+//
+// La página en sí es estática —un hueco es un hueco— y los datos se piden
+// aparte. Incrustarlos convertiría esto en una página estática con un adorno.
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Editor</title></head>
+  <body>
+    <h1>Editor</h1>
+    <ul data-estrategia="cliente" data-pendiente="si" id="lista"></ul>
+    <script>
+      const lista = document.getElementById("lista");
+      const respuesta = await fetch("/productos.json");
+      const { productos } = await respuesta.json();
+      lista.dataset.pendiente = "no";
+      lista.replaceChildren(
+        ...productos.map((p) => {
+          const fila = document.createElement("li");
+          fila.textContent = p;
+          return fila;
+        }),
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "framework": "astro",
+  "requiere": ["node", "pnpm"],
+  "comprobar": ["pnpm", "--version"],
+  "preparar": [
+    ["pnpm", "install", "--silent", "--ignore-scripts"],
+    ["pnpm", "exec", "astro", "build"]
+  ],
+  "arrancar": ["node", "./dist/server/entry.mjs"],
+  "espera_ms": 60000
+}

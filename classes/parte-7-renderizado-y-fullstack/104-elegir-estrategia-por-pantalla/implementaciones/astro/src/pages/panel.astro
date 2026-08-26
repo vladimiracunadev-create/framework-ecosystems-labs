@@ -1,0 +1,25 @@
+---
+import { sello, ventasDeHoy } from "../datos.mjs";
+
+export const prerender = false;
+
+// LA SEGUNDA PANTALLA: el panel, generado en cada petición.
+//
+// La misma línea con el valor contrario, en la pantalla de al lado. Eso es lo
+// que esta clase quiere dejar claro: **la decisión es por pantalla y cabe en una
+// línea**, no es una configuración del proyecto.
+//
+// Aquí las tres preguntas dan lo contrario: no es igual para todo el mundo,
+// cambia a cada minuto, y el primer pintado importa porque quien entra quiere
+// ver las cifras.
+const ventas = ventasDeHoy();
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Panel</title></head>
+  <body>
+    <h1>Panel</h1>
+    <p data-estrategia="servidor" data-sello={sello()}>
+      {ventas.pedidos} pedidos, {ventas.importe} euros
+    </p>
+  </body>
+</html>

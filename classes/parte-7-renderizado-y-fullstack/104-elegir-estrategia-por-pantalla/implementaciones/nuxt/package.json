@@ -1,0 +1,9 @@
+{
+  "name": "clase-104-nuxt",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "nuxt": "^3.16.1",
+    "vue": "^3.5.13"
+  }
+}
