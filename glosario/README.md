@@ -628,7 +628,7 @@ Una unidad de interfaz con sus datos de entrada, su marcado y su comportamiento.
 
 Pintar en una estructura en memoria, compararla con la anterior y aplicar solo las diferencias al DOM real. Simplifica el modelo mental a cambio de un coste de comparación en cada actualización.
 
-> Se enseña en la [clase 092](../classes/parte-6-la-interfaz/092-los-tres-modelos-de-reactividad/README.md) 🚧 · ver también [Reactividad](#reactividad), [Señal](#señal).
+> Se enseña en la [clase 092](../classes/parte-6-la-interfaz/092-los-tres-modelos-de-reactividad/README.md) · ver también [Reactividad](#reactividad), [Señal](#señal).
 
 #### Efecto
 
@@ -678,7 +678,7 @@ También: *(Prop)*
 
 Cómo un framework se entera de que algo cambió para volver a pintar. Hay tres modelos: comparar el resultado (DOM virtual), observar el dato (señales) o compilar las dependencias (compilador). Deciden el rendimiento y el estilo del código.
 
-> Se enseña en la [clase 092](../classes/parte-6-la-interfaz/092-los-tres-modelos-de-reactividad/README.md) 🚧 · se desarrolla en el [módulo 03](../curriculum/03-frontend-componentes-y-estado.md) · ver también [DOM virtual](#dom-virtual), [Señal](#señal).
+> Se enseña en la [clase 092](../classes/parte-6-la-interfaz/092-los-tres-modelos-de-reactividad/README.md) · se desarrolla en el [módulo 03](../curriculum/03-frontend-componentes-y-estado.md) · ver también [DOM virtual](#dom-virtual), [Señal](#señal).
 
 #### Señal
 
@@ -686,7 +686,7 @@ Un valor que sabe quién lo está leyendo, así que al cambiar puede avisar exac
 
 También: *(Signal)*
 
-> Se enseña en la [clase 092](../classes/parte-6-la-interfaz/092-los-tres-modelos-de-reactividad/README.md) 🚧 · ver también [Reactividad](#reactividad), [DOM virtual](#dom-virtual).
+> Se enseña en la [clase 092](../classes/parte-6-la-interfaz/092-los-tres-modelos-de-reactividad/README.md) · ver también [Reactividad](#reactividad), [DOM virtual](#dom-virtual).
 
 ### Renderizado y full-stack
 
@@ -1286,7 +1286,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
-| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 13 |
+| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 14 |
 | 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 0 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |

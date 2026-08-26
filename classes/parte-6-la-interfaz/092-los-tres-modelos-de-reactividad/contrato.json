@@ -1,8 +1,37 @@
 {
   "clase": "092",
   "titulo": "Los tres modelos de reactividad",
-  "descripcion": "El mismo cambio de estado, contando cuánto se vuelve a ejecutar en cada modelo.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "Qué hace cada tecnología cuando un dato cambia, y cuánto trabajo cuesta enterarse.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "Las ocho responden a la misma pregunta: dos valores independientes, cambia uno, ¿cuánto se recalcula? Donde las primitivas de verdad se pueden ejecutar en Node, se MIDE. Donde no —porque el motor vive en el navegador— se declara `medido: false` con el motivo, en lugar de simular un número. Es la misma regla que la clase 006 aplicó al coste de contratar.",
+  "casos": [
+    {
+      "nombre": "cada tecnología dice a qué modelo pertenece",
+      "peticion": { "metodo": "GET", "ruta": "/modelo" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "respondida": true, "es_uno_de_los_tres": true }
+      }
+    },
+    {
+      "nombre": "y qué pasa cuando cambia uno de dos valores independientes",
+      "peticion": { "metodo": "GET", "ruta": "/medir?cambia=a" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "respondida": true, "valores": 2, "cambia": "a" }
+      }
+    },
+    {
+      "nombre": "los tres modelos, con lo que gana y lo que paga cada uno",
+      "peticion": { "metodo": "GET", "ruta": "/modelos.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "modelos": ["arbol-virtual", "reactividad-fina", "sin-reactividad-en-el-cliente"],
+          "ninguno_es_el_mejor": true
+        }
+      }
+    }
+  ]
 }

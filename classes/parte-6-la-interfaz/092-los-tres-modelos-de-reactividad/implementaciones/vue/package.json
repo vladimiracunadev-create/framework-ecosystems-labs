@@ -1,0 +1,10 @@
+{
+  "name": "clase-092-vue",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "vue": "^3.5.0",
+    "@vue/server-renderer": "^3.5.0",
+    "@vue/reactivity": "^3.5.0"
+  }
+}

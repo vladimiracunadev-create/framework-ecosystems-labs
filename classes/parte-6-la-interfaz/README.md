@@ -4,7 +4,7 @@
 
 **Cómo se pinta una pantalla y dónde vive el estado. Aquí el elenco cambia por completo.**
 
-**Clases 79 a 92** · 14 en total · 13 construidas · 15 tecnologías en juego.
+**Clases 79 a 92** · 14 en total · 14 construidas · 15 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -54,7 +54,7 @@ Las cuatro últimas son lo que distingue una aplicación de una página: estado 
 | [089](089-estado-del-servidor-en-el-cliente/README.md) | [Estado del servidor en el cliente](089-estado-del-servidor-en-el-cliente/README.md) | Distinguir el estado propio del que es copia de otro sitio. | 🔴 avanzado | ✅ Construida |
 | [090](090-enrutado-en-el-cliente/README.md) | [Enrutado en el cliente](090-enrutado-en-el-cliente/README.md) | Cambiar de vista sin recargar y sin romper el navegador. | 🟡 intermedio | ✅ Construida |
 | [091](091-accesibilidad-del-componente/README.md) | [Accesibilidad del componente](091-accesibilidad-del-componente/README.md) | Construir un control que funcione con teclado y lector de pantalla. | 🟡 intermedio | ✅ Construida |
-| [092](092-los-tres-modelos-de-reactividad/README.md) | [Los tres modelos de reactividad](092-los-tres-modelos-de-reactividad/README.md) | Explicar por qué el mismo cambio actualiza cosas distintas en cada framework. | 🔴 avanzado | 🚧 Esqueleto |
+| [092](092-los-tres-modelos-de-reactividad/README.md) | [Los tres modelos de reactividad](092-los-tres-modelos-de-reactividad/README.md) | Explicar por qué el mismo cambio actualiza cosas distintas en cada framework. | 🔴 avanzado | ✅ Construida |
 
 ## 🎬 Las tecnologías que aparecen
 
