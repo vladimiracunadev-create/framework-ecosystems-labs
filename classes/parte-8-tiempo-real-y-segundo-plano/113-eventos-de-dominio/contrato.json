@@ -1,8 +1,74 @@
 {
   "clase": "113",
   "titulo": "Eventos de dominio",
-  "descripcion": "Un alta emite un evento y dos consumidores independientes reaccionan.",
-  "estado": "esqueleto",
+  "descripcion": "Un alta anuncia lo que pasó, dos consumidores independientes reaccionan, y un tercero roto no rompe nada.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Un bus de eventos no es una pieza de infraestructura: es un cambio de dirección en las llamadas, y son quince líneas en tres de los cuatro. Lo que decide si sirve en producción no es publicar: es qué pasa cuando un consumidor falla. Por eso este contrato mete un tercer consumidor que revienta siempre y exige que los otros dos sigan haciendo lo suyo y que el alta siga devolviendo 201. Y las cuatro implementaciones declaran lo mismo sobre ese fallo: se captura y se PIERDE, porque para reintentarlo el evento tendría que estar guardado en algún sitio.",
+  "casos": [
+    {
+      "nombre": "el alta crea el usuario y contesta 201",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/usuarios",
+        "cuerpo": { "nombre": "Marie" }
+      },
+      "esperado": {
+        "estado": 201,
+        "json_contiene": { "nombre": "Marie" }
+      }
+    },
+    {
+      "nombre": "y los dos consumidores han reaccionado, cada uno lo suyo",
+      "peticion": { "metodo": "GET", "ruta": "/efectos" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "usuarios": 1, "correos_enviados": 1, "altas_contadas": 1 },
+        "cuerpo_contiene": ["bienvenida a Marie"]
+      }
+    },
+    {
+      "nombre": "los dos reaccionan a la misma alta sin conocerse",
+      "peticion": { "metodo": "GET", "ruta": "/eventos.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "consumidores": 2,
+          "los_dos_reaccionaron": true,
+          "el_emisor_no_conoce_a_los_consumidores": true
+        }
+      }
+    },
+    {
+      "nombre": "UN CONSUMIDOR ROTO NO ROMPE A LOS DEMÁS NI A LA PETICIÓN",
+      "peticion": { "metodo": "GET", "ruta": "/eventos.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "un_consumidor_roto_no_rompe_a_los_demas": true,
+          "la_peticion_no_falla": true
+        }
+      }
+    },
+    {
+      "nombre": "y quitar un consumidor no obliga a tocar a quien publica",
+      "peticion": { "metodo": "GET", "ruta": "/eventos.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "quitar_un_consumidor_no_toca_al_emisor": true }
+      }
+    },
+    {
+      "nombre": "cada uno declara cómo publica, cómo se suscribe y qué pasa con un fallo",
+      "peticion": { "metodo": "GET", "ruta": "/eventos.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "como_se_publica": "",
+          "como_se_suscribe": "",
+          "que_pasa_si_un_consumidor_falla": ""
+        }
+      }
+    }
+  ]
 }
