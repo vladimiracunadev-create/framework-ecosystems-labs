@@ -4,7 +4,7 @@
 
 **Cuando la respuesta no cabe en el ciclo petición-respuesta: empujar cambios y hacer trabajo fuera de la petición.**
 
-**Clases 105 a 113** · 9 en total · 1 construidas · 6 tecnologías en juego.
+**Clases 105 a 113** · 9 en total · 2 construidas · 6 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -41,7 +41,7 @@ Las cuatro últimas son el trabajo diferido: colas, tareas programadas, reintent
 | # | Clase | Qué resuelve | Nivel | Estado |
 | --- | --- | --- | --- | --- |
 | [105](105-sondeo/README.md) | [Sondeo](105-sondeo/README.md) | Resolver el caso simple preguntando cada cierto tiempo. | 🟢 introductorio | ✅ Construida |
-| [106](106-eventos-enviados-por-el-servidor/README.md) | [Eventos enviados por el servidor](106-eventos-enviados-por-el-servidor/README.md) | Empujar en una sola dirección con HTTP normal. | 🟡 intermedio | 🚧 Esqueleto |
+| [106](106-eventos-enviados-por-el-servidor/README.md) | [Eventos enviados por el servidor](106-eventos-enviados-por-el-servidor/README.md) | Empujar en una sola dirección con HTTP normal. | 🟡 intermedio | ✅ Construida |
 | [107](107-websocket/README.md) | [WebSocket](107-websocket/README.md) | Abrir un canal bidireccional y usarlo bien. | 🟡 intermedio | 🚧 Esqueleto |
 | [108](108-reconexion-y-mensajes-perdidos/README.md) | [Reconexión y mensajes perdidos](108-reconexion-y-mensajes-perdidos/README.md) | Sobrevivir a un corte sin perder ni duplicar. | 🔴 avanzado | 🚧 Esqueleto |
 | [109](109-estado-de-conexion-con-varias-instancias/README.md) | [Estado de conexión con varias instancias](109-estado-de-conexion-con-varias-instancias/README.md) | Difundir a todos los usuarios cuando el servidor no es uno solo. | 🔴 avanzado | 🚧 Esqueleto |

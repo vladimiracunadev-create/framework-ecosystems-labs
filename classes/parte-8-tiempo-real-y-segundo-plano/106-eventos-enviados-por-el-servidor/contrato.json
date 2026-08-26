@@ -1,8 +1,85 @@
 {
   "clase": "106",
   "titulo": "Eventos enviados por el servidor",
-  "descripcion": "Un flujo de eventos recibido por el cliente, con reconexión automática.",
-  "estado": "esqueleto",
+  "descripcion": "Un flujo de eventos por HTTP normal, con la reanudación que trae el estándar de serie.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Un flujo de eventos es una respuesta HTTP que no termina, con un formato de texto de cuatro reglas. Se puede verificar con las mismas herramientas que cualquier otra respuesta, y por eso esta clase existe antes que la de WebSocket: lo que hace falta para probarla es lo que ya había. Los flujos de las cuatro implementaciones se cierran al acabarse los eventos —un flujo real no lo haría— para que el contrato pueda leerlos enteros; está declarado en el código de las cuatro.",
+  "casos": [
+    {
+      "nombre": "el flujo llega con su tipo de contenido y sus tres eventos",
+      "peticion": { "metodo": "GET", "ruta": "/eventos" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/event-stream" },
+        "cuerpo_contiene": [
+          "retry: 2000",
+          "event: pedido",
+          "id: 1",
+          "id: 3",
+          "\"cliente\":\"Ada\""
+        ]
+      }
+    },
+    {
+      "nombre": "y cada evento acaba en una línea en blanco, que es lo que los separa",
+      "peticion": { "metodo": "GET", "ruta": "/eventos" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data: {\"id\":1,\"cliente\":\"Ada\",\"importe\":32}\n\n"]
+      }
+    },
+    {
+      "nombre": "LA REANUDACIÓN: con Last-Event-ID, el servidor continúa por donde iba",
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/eventos",
+        "cabeceras": { "last-event-id": "2" }
+      },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["id: 3", "\"cliente\":\"Alan\""],
+        "cuerpo_no_contiene": ["id: 1", "\"cliente\":\"Ada\""]
+      }
+    },
+    {
+      "nombre": "y si no hay nada nuevo, no se manda ningún evento",
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/eventos",
+        "cabeceras": { "last-event-id": "3" }
+      },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["retry: 2000"],
+        "cuerpo_no_contiene": ["event: pedido"]
+      }
+    },
+    {
+      "nombre": "el flujo se recibe entero: tres eventos y bytes de verdad",
+      "peticion": { "metodo": "GET", "ruta": "/sse.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "eventos_recibidos": 3,
+          "es_unidireccional": true,
+          "reconecta_solo_el_navegador": true,
+          "cabecera_de_reanudacion": "Last-Event-ID"
+        },
+        "json_distinto": { "bytes_del_flujo": 0 }
+      }
+    },
+    {
+      "nombre": "cada uno declara cómo lo escribe, qué le cuesta y cuál es su fallo clásico",
+      "peticion": { "metodo": "GET", "ruta": "/sse.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "como_se_declara": "",
+          "que_cuesta": "",
+          "el_fallo_clasico": ""
+        }
+      }
+    }
+  ]
 }
