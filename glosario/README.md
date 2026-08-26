@@ -726,7 +726,7 @@ Volver interactivo un HTML que ya llegó pintado, adjuntándole el JavaScript de
 
 La alternativa en que el servidor devuelve **HTML** en lugar de datos y el cliente solo lo inserta. Reduce el JavaScript a una biblioteca pequeña y devuelve el renderizado al servidor.
 
-> Se enseña en la [clase 103](../classes/parte-7-renderizado-y-fullstack/103-hipermedia-como-alternativa/README.md) 🚧 · ver también [Mejora progresiva](#mejora-progresiva).
+> Se enseña en la [clase 103](../classes/parte-7-renderizado-y-fullstack/103-hipermedia-como-alternativa/README.md) · ver también [Mejora progresiva](#mejora-progresiva).
 
 #### Isla
 
@@ -1287,7 +1287,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
 | 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 14 |
-| 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 10 |
+| 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 11 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |
 | 10 | [Calidad, rendimiento y operación](../classes/parte-10-calidad-y-operacion/README.md) | 14 | 0 |

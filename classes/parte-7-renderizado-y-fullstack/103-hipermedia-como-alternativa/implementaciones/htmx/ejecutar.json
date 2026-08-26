@@ -1,0 +1,8 @@
+{
+  "framework": "htmx",
+  "requiere": ["node", "pnpm"],
+  "comprobar": ["pnpm", "--version"],
+  "preparar": [["pnpm", "install", "--silent", "--ignore-scripts"]],
+  "arrancar": ["node", "servidor.mjs"],
+  "espera_ms": 30000
+}

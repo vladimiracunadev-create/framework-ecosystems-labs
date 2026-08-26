@@ -3403,6 +3403,30 @@
         "renderizado",
         "islas"
       ]
+    },
+    {
+      "id": "htmx-docs",
+      "type": "reference",
+      "publisher": "htmx",
+      "title": "htmx — Documentación oficial",
+      "locator": "https://htmx.org/docs/",
+      "topics": [
+        "hipermedia",
+        "htmx",
+        "html"
+      ]
+    },
+    {
+      "id": "hotwire-turbo-handbook",
+      "type": "reference",
+      "publisher": "Hotwired",
+      "title": "Turbo Handbook",
+      "locator": "https://turbo.hotwired.dev/handbook/introduction",
+      "topics": [
+        "hipermedia",
+        "turbo",
+        "html"
+      ]
     }
   ]
 }

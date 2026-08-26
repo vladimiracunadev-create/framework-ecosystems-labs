@@ -2074,10 +2074,9 @@
           "contrato": "La misma interacción con fragmentos de HTML del servidor.",
           "elenco": [
             "htmx",
-            "hotwire-turbo",
-            "phoenix-liveview"
+            "hotwire-turbo"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 104,

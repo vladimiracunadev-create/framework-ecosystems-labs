@@ -1,8 +1,89 @@
 {
   "clase": "103",
   "titulo": "Hipermedia como alternativa",
-  "descripcion": "La misma interacción con fragmentos de HTML del servidor.",
-  "estado": "esqueleto",
+  "descripcion": "La misma escritura resuelta devolviendo HTML en lugar de estado, y la misma ruta contestando de dos formas.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "El contrato manda las dos cabeceras de identificación a la vez —`HX-Request` y el `Accept` de Turbo— porque cada biblioteca anuncia lo suyo de una forma distinta y el contrato tiene que ser el mismo para las dos. Un cliente real manda solo la suya. Lo que se comprueba con eso es el corazón del modelo: la MISMA ruta devuelve un documento entero a un navegador sin JavaScript y un fragmento a quien sabe colocarlo, sin que haya dos implementaciones de la escritura.",
+  "casos": [
+    {
+      "nombre": "la portada es un documento completo, con su formulario de verdad",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": [
+          "<html",
+          "src=\"/biblioteca.js\"",
+          "method=\"post\"",
+          "data-lista=\"tareas\"",
+          "comprar pan"
+        ]
+      }
+    },
+    {
+      "nombre": "EL SERVIDOR DEVUELVE UN FRAGMENTO, no un documento ni un JSON",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/tareas",
+        "cabeceras": {
+          "hx-request": "true",
+          "accept": "text/vnd.turbo-stream.html, text/html"
+        },
+        "formulario": { "texto": "sacar la basura" }
+      },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["<li>sacar la basura</li>"],
+        "cuerpo_no_contiene": ["<html", "<form", "{"]
+      }
+    },
+    {
+      "nombre": "y la tarea queda: el documento completo ya la trae",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["<html", "sacar la basura"]
+      }
+    },
+    {
+      "nombre": "SIN LA BIBLIOTECA, LA MISMA RUTA REDIRIGE: el formulario funciona igual",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/tareas",
+        "formulario": { "texto": "pagar la luz" }
+      },
+      "esperado": {
+        "estado": 303,
+        "cabecera_presente": ["location"],
+        "location_contiene": ["/tareas"]
+      }
+    },
+    {
+      "nombre": "el servidor devuelve HTML y no hay estado duplicado en el cliente",
+      "peticion": { "metodo": "GET", "ruta": "/hipermedia.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "el_servidor_devuelve_html": true,
+          "estado_duplicado_en_el_cliente": false,
+          "funciona_sin_javascript": true,
+          "una_ida_y_vuelta_por_interaccion": true
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara quién decide dónde va el fragmento, y cuánto pesa su biblioteca",
+      "peticion": { "metodo": "GET", "ruta": "/hipermedia.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "quien_decide_donde_va_el_fragmento": "",
+          "cabecera_que_lo_identifica": "",
+          "que_devuelve_el_servidor": "",
+          "bytes_comprimidos": 0
+        }
+      }
+    }
+  ]
 }

@@ -83,7 +83,7 @@ es público.
 | Cadena | Qué desbloquea | Frameworks | Instalación oficial |
 | --- | ---: | --- | --- |
 | **Node.js** · 22 o superior | 12 impl. en 7 clases | alpinejs, htmx, nodejs | [nodejs.org](https://nodejs.org/en/download) [@nodejs-downloads] |
-| **Node.js + pnpm** · Node 22 · pnpm 10 | 191 impl. en 98 clases | angular, astro, drizzle, express, fastify, lit, nestjs, nextjs, nuxt, prisma, react, remix, solid, svelte, sveltekit, typeorm, vue | [pnpm.io](https://pnpm.io/installation) [@pnpm-installation] |
+| **Node.js + pnpm** · Node 22 · pnpm 10 | 193 impl. en 99 clases | angular, astro, drizzle, express, fastify, hotwire-turbo, htmx, lit, nestjs, nextjs, nuxt, prisma, react, remix, solid, svelte, sveltekit, typeorm, vue | [pnpm.io](https://pnpm.io/installation) [@pnpm-installation] |
 | **Python** · 3.11 o superior | 92 impl. en 73 clases | django, fastapi, flask, sqlalchemy | [python.org](https://www.python.org/downloads/) [@python-downloads] |
 | **JDK + Apache Maven** · JDK 21 · Maven 3.9 | 70 impl. en 70 clases | hibernate, spring-boot | [adoptium.net](https://adoptium.net/temurin/releases/) [@adoptium-temurin] |
 | **.NET SDK** · 8 o superior | 65 impl. en 65 clases | aspnet-core, dapper, entity-framework-core | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) [@dotnet-sdk-downloads] |
@@ -92,7 +92,7 @@ es público.
 | **Go** · 1.22 o superior | 11 impl. en 11 clases | gin | [go.dev](https://go.dev/doc/install) [@go-downloads] |
 | **Rust** · 1.80 o superior | 1 impl. en 1 clases | axum | [rust-lang.org](https://www.rust-lang.org/tools/install) [@rust-install] |
 
-Ocho cadenas, **471 implementaciones**. Ninguna es obligatoria: el ejecutor corre las que encuentre y **declara** las que omitió.
+Ocho cadenas, **473 implementaciones**. Ninguna es obligatoria: el ejecutor corre las que encuentre y **declara** las que omitió.
 
 ### Node.js
 

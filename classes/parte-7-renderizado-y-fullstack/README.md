@@ -4,7 +4,7 @@
 
 **Dónde se genera el HTML, cuándo, y quién carga los datos. La decisión que más afecta a lo que siente el usuario.**
 
-**Clases 93 a 104** · 12 en total · 10 construidas · 8 tecnologías en juego.
+**Clases 93 a 104** · 12 en total · 11 construidas · 7 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -50,7 +50,7 @@ Las cuatro últimas son de criterio: metadatos, presupuesto de JavaScript, la al
 | [100](100-html-en-flujo/README.md) | [HTML en flujo](100-html-en-flujo/README.md) | Enviar la parte lista sin esperar a la lenta. | 🔴 avanzado | ✅ Construida |
 | [101](101-metadatos-y-descubribilidad/README.md) | [Metadatos y descubribilidad](101-metadatos-y-descubribilidad/README.md) | Emitir en el servidor lo que los buscadores y las redes leen. | 🟡 intermedio | ✅ Construida |
 | [102](102-presupuesto-de-javascript/README.md) | [Presupuesto de JavaScript](102-presupuesto-de-javascript/README.md) | Poner un límite y hacerlo fallar cuando se supera. | 🔴 avanzado | ✅ Construida |
-| [103](103-hipermedia-como-alternativa/README.md) | [Hipermedia como alternativa](103-hipermedia-como-alternativa/README.md) | Resolver el mismo caso enviando HTML en lugar de estado. | 🔴 avanzado | 🚧 Esqueleto |
+| [103](103-hipermedia-como-alternativa/README.md) | [Hipermedia como alternativa](103-hipermedia-como-alternativa/README.md) | Resolver el mismo caso enviando HTML en lugar de estado. | 🔴 avanzado | ✅ Construida |
 | [104](104-elegir-estrategia-por-pantalla/README.md) | [Elegir estrategia por pantalla](104-elegir-estrategia-por-pantalla/README.md) | Aplicar criterio por vista en lugar de una regla para toda la aplicación. | 🔴 avanzado | 🚧 Esqueleto |
 
 ## 🎬 Las tecnologías que aparecen
@@ -61,7 +61,6 @@ Entre paréntesis, en cuántas clases de esta parte interviene cada una. **Estar
 | --- | --- |
 | **JavaScript/TypeScript** | [Next.js](../../atlas/fichas/nextjs.md) (11), [Remix](../../atlas/fichas/remix.md) (10), [Astro](../../atlas/fichas/astro.md) (9), [Nuxt](../../atlas/fichas/nuxt.md) (9), [SvelteKit](../../atlas/fichas/sveltekit.md) (9) |
 | **JavaScript** | [htmx](../../atlas/fichas/htmx.md) (1), [Turbo (Hotwire)](../../atlas/fichas/hotwire-turbo.md) (1) |
-| **BEAM** | [Phoenix LiveView](../../atlas/fichas/phoenix-liveview.md) (1) |
 
 ## 📖 Las palabras que esta parte define
 

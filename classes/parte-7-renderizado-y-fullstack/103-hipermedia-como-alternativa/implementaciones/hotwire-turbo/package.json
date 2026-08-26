@@ -1,0 +1,8 @@
+{
+  "name": "clase-103-hotwire-turbo",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@hotwired/turbo": "^8.0.12"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "clase-103-htmx",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "htmx.org": "^2.0.4"
+  }
+}

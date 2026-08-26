@@ -2,7 +2,7 @@
 
 Documento generado por `node scripts/generate-bibliography.mjs`. No editar a mano.
 
-Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **226** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
+Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **228** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
 
 Cada entrada declara un localizador resoluble y es citada al menos una vez en el programa;
 `node scripts/verify-sources.mjs` falla si deja de cumplirse cualquiera de las dos condiciones.
@@ -14,7 +14,7 @@ Cada entrada declara un localizador resoluble y es citada al menos una vez en el
 | Libros | 100 | `https://openlibrary.org/isbn/{isbn13}.json` |
 | Artículos | 7 | `https://api.crossref.org/works/{doi}` |
 | Normas y especificaciones | 33 | `GET a la URL declarada` |
-| Documentación oficial y referencias | 86 | `GET a la URL declarada` |
+| Documentación oficial y referencias | 88 | `GET a la URL declarada` |
 
 ## Libros
 
@@ -1463,6 +1463,22 @@ Harris, Rich, *Virtual DOM is pure overhead*, Svelte, 2018
 - Localizador: <https://12factor.net/>
 - Temas: configuración, despliegue, paridad de entornos
 - Citada en: [`atlas/ecosistemas/cloud.md`](../atlas/ecosistemas/cloud.md), [`atlas/fichas/nitro.md`](../atlas/fichas/nitro.md), [`atlas/fichas/play-framework.md`](../atlas/fichas/play-framework.md), [`curriculum/09-movil-escritorio-y-offline.md`](../curriculum/09-movil-escritorio-y-offline.md), [`curriculum/12-producto-final.md`](../curriculum/12-producto-final.md)
+
+### `hotwire-turbo-handbook`
+
+*Turbo Handbook*, Hotwired
+
+- Localizador: <https://turbo.hotwired.dev/handbook/introduction>
+- Temas: hipermedia, turbo, html
+- Citada en: 
+
+### `htmx-docs`
+
+*htmx — Documentación oficial*, htmx
+
+- Localizador: <https://htmx.org/docs/>
+- Temas: hipermedia, htmx, html
+- Citada en: 
 
 ### `web-almanac`
 
