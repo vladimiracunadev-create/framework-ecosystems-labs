@@ -1,8 +1,66 @@
 {
   "clase": "109",
   "titulo": "Estado de conexión con varias instancias",
-  "descripcion": "Un mensaje enviado a una instancia llega a los conectados a la otra.",
-  "estado": "esqueleto",
+  "descripcion": "Dos instancias con dos listas de conexiones, y el mismo mensaje publicado dos veces: sin reparto y con él.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Las clases 107 y 108 guardaron la lista de conexiones en una variable del proceso. Con un servidor funciona; con dos, la mitad de la gente deja de enterarse de la mitad de las cosas, y no da ningún error. Cada implementación levanta dos instancias con listas separadas, conecta a alguien a la segunda y publica en la primera: sin reparto no llega, con reparto sí. Lo único simplificado es que las dos instancias comparten proceso —en producción serían dos máquinas—; lo que las separa, que es su estado en memoria, está separado de verdad, y el reparto entre ellas va por HTTP.",
+  "casos": [
+    {
+      "nombre": "la portada dice qué instancia es y quiénes son las demás",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-instancia=\"A\"", "data-pares="]
+      }
+    },
+    {
+      "nombre": "hay dos instancias y el estado de conexión es local a cada una",
+      "peticion": { "metodo": "GET", "ruta": "/instancias.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "instancias": 2, "el_estado_de_conexion_es_local": true }
+      }
+    },
+    {
+      "nombre": "SIN REPARTO, QUIEN ESTÁ EN LA OTRA INSTANCIA NO SE ENTERA",
+      "peticion": { "metodo": "GET", "ruta": "/instancias.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "sin_bus_recibio_el_otro": false }
+      }
+    },
+    {
+      "nombre": "y con reparto, el mismo mensaje llega al otro lado",
+      "peticion": { "metodo": "GET", "ruta": "/instancias.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "con_bus_recibio_el_otro": true,
+          "mismo_mensaje": "hola a todos",
+          "entregado_por": "B"
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara dónde guarda su lista y cómo difunde",
+      "peticion": { "metodo": "GET", "ruta": "/instancias.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "donde_esta_la_lista": "",
+          "como_se_difunde": ""
+        }
+      }
+    },
+    {
+      "nombre": "y qué haría falta para llevarlo a producción",
+      "peticion": { "metodo": "GET", "ruta": "/instancias.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": { "que_haria_falta_en_produccion": "" }
+      }
+    }
+  ]
 }

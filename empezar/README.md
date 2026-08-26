@@ -83,16 +83,16 @@ es público.
 | Cadena | Qué desbloquea | Frameworks | Instalación oficial |
 | --- | ---: | --- | --- |
 | **Node.js** · 22 o superior | 12 impl. en 7 clases | alpinejs, htmx, nodejs | [nodejs.org](https://nodejs.org/en/download) [@nodejs-downloads] |
-| **Node.js + pnpm** · Node 22 · pnpm 10 | 204 impl. en 104 clases | angular, astro, drizzle, express, fastify, hotwire-turbo, htmx, lit, nestjs, nextjs, nuxt, prisma, react, remix, solid, svelte, sveltekit, typeorm, vue | [pnpm.io](https://pnpm.io/installation) [@pnpm-installation] |
-| **Python** · 3.11 o superior | 96 impl. en 77 clases | django, fastapi, flask, sqlalchemy | [python.org](https://www.python.org/downloads/) [@python-downloads] |
-| **JDK + Apache Maven** · JDK 21 · Maven 3.9 | 74 impl. en 74 clases | hibernate, spring-boot | [adoptium.net](https://adoptium.net/temurin/releases/) [@adoptium-temurin] |
+| **Node.js + pnpm** · Node 22 · pnpm 10 | 206 impl. en 105 clases | angular, astro, drizzle, express, fastify, hotwire-turbo, htmx, lit, nestjs, nextjs, nuxt, prisma, react, remix, solid, svelte, sveltekit, typeorm, vue | [pnpm.io](https://pnpm.io/installation) [@pnpm-installation] |
+| **Python** · 3.11 o superior | 97 impl. en 78 clases | django, fastapi, flask, sqlalchemy | [python.org](https://www.python.org/downloads/) [@python-downloads] |
+| **JDK + Apache Maven** · JDK 21 · Maven 3.9 | 75 impl. en 75 clases | hibernate, spring-boot | [adoptium.net](https://adoptium.net/temurin/releases/) [@adoptium-temurin] |
 | **.NET SDK** · 8 o superior | 67 impl. en 67 clases | aspnet-core, dapper, entity-framework-core | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) [@dotnet-sdk-downloads] |
 | **PHP + Composer** · PHP 8.2 · Composer 2 | 15 impl. en 15 clases | eloquent, laravel | [getcomposer.org](https://getcomposer.org/download/) [@composer-download] |
 | **Ruby + Bundler** · Ruby 3.3 · Bundler 2 | 14 impl. en 14 clases | activerecord, rails | [ruby-lang.org](https://www.ruby-lang.org/en/documentation/installation/) [@ruby-installation] |
 | **Go** · 1.22 o superior | 11 impl. en 11 clases | gin | [go.dev](https://go.dev/doc/install) [@go-downloads] |
 | **Rust** · 1.80 o superior | 1 impl. en 1 clases | axum | [rust-lang.org](https://www.rust-lang.org/tools/install) [@rust-install] |
 
-Ocho cadenas, **494 implementaciones**. Ninguna es obligatoria: el ejecutor corre las que encuentre y **declara** las que omitió.
+Ocho cadenas, **498 implementaciones**. Ninguna es obligatoria: el ejecutor corre las que encuentre y **declara** las que omitió.
 
 ### Node.js
 
