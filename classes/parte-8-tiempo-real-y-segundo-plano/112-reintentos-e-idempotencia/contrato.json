@@ -1,8 +1,83 @@
 {
   "clase": "112",
   "titulo": "Reintentos e idempotencia",
-  "descripcion": "El mismo trabajo procesado tres veces produce un solo efecto.",
-  "estado": "esqueleto",
+  "descripcion": "Tres peticiones idénticas con la misma clave: un solo cobro. Sin clave: tres.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "El caso que hay que tener en la cabeza no es el proveedor caído: es la respuesta que se perdió. El cobro se hizo, la respuesta no llegó, y quien pidió no puede distinguir eso de que no se hiciera. Va a reintentar, y con razón. Este contrato manda dos veces la misma petición con la misma clave y exige el mismo resultado con un solo cobro; y publica, para comparar, lo que pasa sin clave. Que sin clave se cobre tres veces NO es un fallo del servidor: es lo correcto, porque no puede saber que era el mismo intento. La clave la tiene que poner quien pide.",
+  "casos": [
+    {
+      "nombre": "el primer cobro se hace y no viene marcado como repetido",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/cobros",
+        "cabeceras": { "idempotency-key": "k-contrato" },
+        "cuerpo": { "importe": 30 }
+      },
+      "esperado": {
+        "estado": 201,
+        "json_contiene": { "estado": "cobrado", "importe": 30, "repetida": false }
+      }
+    },
+    {
+      "nombre": "LA MISMA PETICIÓN CON LA MISMA CLAVE NO VUELVE A COBRAR",
+      "peticion": {
+        "metodo": "POST",
+        "ruta": "/cobros",
+        "cabeceras": { "idempotency-key": "k-contrato" },
+        "cuerpo": { "importe": 30 }
+      },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "estado": "cobrado", "importe": 30, "repetida": true }
+      }
+    },
+    {
+      "nombre": "y en el libro hay un solo cobro, de treinta",
+      "peticion": { "metodo": "GET", "ruta": "/cobros" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "cobros_totales": 1, "importe_total": 30 }
+      }
+    },
+    {
+      "nombre": "TRES CON CLAVE SON UN COBRO; TRES SIN CLAVE SON TRES",
+      "peticion": { "metodo": "GET", "ruta": "/idempotencia.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "con_clave_peticiones": 3,
+          "con_clave_cobros": 1,
+          "sin_clave_peticiones": 3,
+          "sin_clave_cobros": 3,
+          "la_clave_evita_el_duplicado": true
+        }
+      }
+    },
+    {
+      "nombre": "y lo que falla dos veces sale bien al tercer intento, con espera creciente",
+      "peticion": { "metodo": "GET", "ruta": "/idempotencia.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "reintentos": 3,
+          "exito_tras_reintentos": true,
+          "esperas_ms": [50, 100, 200],
+          "la_espera_crece": true
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara dónde guarda la clave y qué hace falta para que valga",
+      "peticion": { "metodo": "GET", "ruta": "/idempotencia.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "donde_se_guarda_la_clave": "",
+          "que_hace_falta_para_que_valga": "",
+          "que_no_se_debe_reintentar": ""
+        }
+      }
+    }
+  ]
 }
