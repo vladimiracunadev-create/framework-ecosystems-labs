@@ -1,8 +1,72 @@
 {
   "clase": "095",
   "titulo": "Islas",
-  "descripcion": "Una página estática con dos zonas interactivas y el resto sin JavaScript.",
-  "estado": "esqueleto",
+  "descripcion": "Una página casi entera de texto muerto, con dos zonas vivas, y el precio exacto de esas dos zonas.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "El argumento de las islas es una proporción: en una página real casi todo el marcado no necesita JavaScript. Para medirlo hacen falta DOS páginas, no una: la misma página con las dos zonas vivas y sin ellas. La diferencia es el precio de la interactividad, y sale muy distinta en los tres — no porque uno sea mejor, sino porque parten de sitios opuestos. Astro empieza en cero JavaScript y suma; Next y Nuxt empiezan con una aplicación entera y restan.",
+  "casos": [
+    {
+      "nombre": "el artículo entero llega renderizado por el servidor",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-zona=\"estatica\"", "el barco de Teseo", "Katie Sylor-Miller"]
+      }
+    },
+    {
+      "nombre": "y las dos islas también, con su estado inicial a la vista",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": [
+          "data-isla=\"contador\"",
+          "data-cuenta=\"0\"",
+          "data-isla=\"filtro\"",
+          "placeholder=\"filtrar\"",
+          "comprar pan"
+        ]
+      }
+    },
+    {
+      "nombre": "con el guion que las va a revivir",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["<script"] }
+    },
+    {
+      "nombre": "la misma página sin islas: el artículo está, lo vivo no",
+      "peticion": { "metodo": "GET", "ruta": "/sin-islas" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-zona=\"estatica\"", "el barco de Teseo"],
+        "cuerpo_no_contiene": ["data-isla="]
+      }
+    },
+    {
+      "nombre": "las dos islas declaradas, Y LAS ISLAS CUESTAN: la página con ellas pesa más",
+      "peticion": { "metodo": "GET", "ruta": "/islas.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "islas": ["contador", "filtro"],
+          "cuantas_islas": 2,
+          "las_islas_cuestan": true
+        }
+      }
+    },
+    {
+      "nombre": "y la medición es real: dos páginas pedidas de verdad y una diferencia que no es cero",
+      "peticion": { "metodo": "GET", "ruta": "/islas.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "bytes_del_html": 0,
+          "bytes_sin_islas": 0,
+          "lo_que_cuestan_dos_islas": 0,
+          "como_se_declara": ""
+        }
+      }
+    }
+  ]
 }

@@ -1,0 +1,19 @@
+---
+import Articulo from "../components/Articulo.astro";
+
+export const prerender = false;
+
+// El mismo artículo, sin las dos islas. La diferencia de bytes con `/` es el
+// precio exacto de que el botón y el filtro funcionen, y `/islas.json` lo
+// publica.
+//
+// En Astro esta página llega con CERO `<script>`. No es una optimización: es lo
+// que pasa cuando no hay nada que revivir.
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Sin islas — Astro</title></head>
+  <body>
+    <h1>Sin islas</h1>
+    <Articulo />
+  </body>
+</html>

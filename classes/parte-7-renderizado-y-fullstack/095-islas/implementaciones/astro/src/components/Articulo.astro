@@ -1,0 +1,15 @@
+---
+import { ARTICULO } from "../datos.js";
+
+// LA PARTE GRANDE Y MUERTA, en una plantilla `.astro`.
+//
+// Este componente no tiene forma de llegar al navegador: no hay directiva que
+// se le pueda poner. Las plantillas `.astro` se ejecutan en el servidor y
+// producen texto; no existe una versión suya en JavaScript de cliente.
+//
+// Por eso `/sin-islas` de Astro no lleva ni un `<script>`: si todo lo de una
+// página es `.astro`, no hay nada que mandar.
+---
+<article data-zona="estatica">
+  {ARTICULO.map((parrafo) => <p>{parrafo}</p>)}
+</article>

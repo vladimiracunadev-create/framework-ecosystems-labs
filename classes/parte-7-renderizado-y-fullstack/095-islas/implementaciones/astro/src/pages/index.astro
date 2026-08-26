@@ -1,0 +1,26 @@
+---
+import Articulo from "../components/Articulo.astro";
+import Contador from "../components/Contador.jsx";
+import Filtro from "../components/Filtro.jsx";
+import { TAREAS } from "../datos.js";
+
+export const prerender = false;
+
+// DOS DIRECTIVAS, DOS ISLAS. El resto de la página no las lleva y por eso no
+// viaja.
+//
+// `client:load` revive la isla en cuanto carga la página. Hay más: `client:idle`
+// espera a que el navegador esté ocioso, `client:visible` espera a que la isla
+// entre en pantalla, `client:media` la condiciona a una consulta de medios. Esa
+// escala de compromisos no existe en los otros dos frameworks de la clase: allí
+// la aplicación arranca entera y no hay grados.
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Islas — Astro</title></head>
+  <body>
+    <h1>Islas</h1>
+    <Articulo />
+    <Contador client:load />
+    <Filtro client:load tareas={TAREAS} />
+  </body>
+</html>
