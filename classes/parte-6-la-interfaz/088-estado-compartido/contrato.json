@@ -1,8 +1,53 @@
 {
   "clase": "088",
   "titulo": "Estado compartido",
-  "descripcion": "Dos componentes hermanos leen y escriben el mismo valor.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "Cuando el dato lo necesitan dos ramas del árbol y pasarlo hacia abajo deja de tener sentido.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "El contrato compara las DOS formas en el mismo servidor: la misma pantalla con el dato atravesando tres niveles de propiedades, y con el dato en un almacén que los hijos leen directamente. La cuenta de propiedades que cada nivel tiene que aceptar solo para pasarlas al siguiente se lee del propio archivo, y es la medida honesta de cuándo compensa cambiar.",
+  "casos": [
+    {
+      "nombre": "pasando el dato hacia abajo: llega al nieto, tres niveles después",
+      "peticion": { "metodo": "GET", "ruta": "/por-propiedades?usuario=Ana" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-nivel=\"nieto\"", "Ana"]
+      }
+    },
+    {
+      "nombre": "con un almacén compartido: el mismo resultado, sin atravesar nada",
+      "peticion": { "metodo": "GET", "ruta": "/por-almacen?usuario=Ana" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["data-nivel=\"nieto\"", "Ana"] },
+      "nota": "las dos pantallas son indistinguibles: la diferencia está en el código, no en la salida"
+    },
+    {
+      "nombre": "dos ramas distintas leen el mismo almacén y ven lo mismo",
+      "peticion": { "metodo": "GET", "ruta": "/dos-ramas?usuario=Ana" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-rama=\"izquierda\"", "data-rama=\"derecha\"", "Ana"]
+      }
+    },
+    {
+      "nombre": "escribir en el almacén cambia lo que leen las dos ramas",
+      "peticion": { "metodo": "GET", "ruta": "/escribir?usuario=Ana&nuevo=Beto" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "antes": "Ana", "despues": "Beto", "ramas_que_lo_ven": 2 }
+      }
+    },
+    {
+      "nombre": "EL PRECIO DE PASARLO HACIA ABAJO, contado en el archivo",
+      "peticion": { "metodo": "GET", "ruta": "/coste.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "leido_del_archivo": true,
+          "niveles_que_atraviesa": 3,
+          "niveles_que_no_usan_el_dato": 2
+        }
+      }
+    }
+  ]
 }

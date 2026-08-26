@@ -646,7 +646,7 @@ Un dato que el componente posee y puede cambiar. Cuando cambia, la interfaz se v
 
 Estado que necesitan varios componentes que no son padre e hijo. Se resuelve subiéndolo al ancestro común, con un contexto o con un almacén externo — y cada opción cambia qué se vuelve a pintar.
 
-> Se enseña en la [clase 088](../classes/parte-6-la-interfaz/088-estado-compartido/README.md) 🚧 · se desarrolla en el [módulo 03](../curriculum/03-frontend-componentes-y-estado.md) · ver también [Estado](#estado), [Componente](#componente).
+> Se enseña en la [clase 088](../classes/parte-6-la-interfaz/088-estado-compartido/README.md) · se desarrolla en el [módulo 03](../curriculum/03-frontend-componentes-y-estado.md) · ver también [Estado](#estado), [Componente](#componente).
 
 #### Estado del servidor
 
@@ -1286,7 +1286,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
-| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 9 |
+| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 10 |
 | 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 0 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |
