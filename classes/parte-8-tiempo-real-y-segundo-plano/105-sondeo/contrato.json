@@ -1,8 +1,80 @@
 {
   "clase": "105",
   "titulo": "Sondeo",
-  "descripcion": "El cliente pregunta cada intervalo y detecta el cambio; se mide el coste.",
-  "estado": "esqueleto",
+  "descripcion": "Preguntar cada cierto tiempo, y preguntar con condición: cinco de cada seis respuestas llegan sin cuerpo.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "El sondeo es la respuesta más antigua a «avísame cuando cambie» y la que más se sigue usando, porque no hay conexiones abiertas, no hay estado por cliente y cualquier balanceador la reparte sin saber nada. Lo que esta clase mide no es el bucle de preguntar: es la diferencia entre preguntar a secas y preguntar con `If-None-Match`. Con condición, cinco de cada seis respuestas son un 304 sin cuerpo. Lo que el condicional NO arregla —y las cuatro implementaciones lo declaran— es que la ida y vuelta ocurre igual.",
+  "casos": [
+    {
+      "nombre": "el estado llega con su marca de versión",
+      "peticion": { "metodo": "GET", "ruta": "/estado" },
+      "guardar_cabecera": { "etiqueta": { "cabecera": "etag", "patron": "(.+)" } },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "application/json" },
+        "cabecera_presente": ["etag"],
+        "json_contiene": { "version": 1, "valor": "tres pedidos" }
+      }
+    },
+    {
+      "nombre": "SI YA SE TIENE ESA VERSIÓN, LA RESPUESTA ES 304 Y NO TRAE CUERPO",
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/estado",
+        "cabeceras": { "if-none-match": "${etiqueta}" }
+      },
+      "esperado": {
+        "estado": 304,
+        "cuerpo_no_contiene": ["version", "pedidos"]
+      }
+    },
+    {
+      "nombre": "algo cambia y la versión sube",
+      "peticion": { "metodo": "POST", "ruta": "/cambiar" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "version": 2 }
+      }
+    },
+    {
+      "nombre": "y el mismo sondeo condicional ya sí trae el dato nuevo",
+      "peticion": {
+        "metodo": "GET",
+        "ruta": "/estado",
+        "cabeceras": { "if-none-match": "${etiqueta}" }
+      },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "version": 2 }
+      }
+    },
+    {
+      "nombre": "CINCO DE CADA SEIS PREGUNTAS SOBRAN, y no cuestan ni un byte de cuerpo",
+      "peticion": { "metodo": "GET", "ruta": "/sondeo.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "sondeos": 6,
+          "sin_cambios": 5,
+          "con_cambios": 1,
+          "peticiones_desperdiciadas": 5,
+          "bytes_de_cuerpo_sin_cambios": 0
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara cómo pone su marca y qué es lo que el condicional no arregla",
+      "peticion": { "metodo": "GET", "ruta": "/sondeo.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "como_se_declara_el_etag": "",
+          "que_no_arregla_el_condicional": "",
+          "intervalo_ms": 0,
+          "bytes_de_cuerpo_con_cambios": 0
+        }
+      }
+    }
+  ]
 }
