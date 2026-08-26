@@ -1,0 +1,1 @@
+import{s as r,T as n}from"./BfAJOvvi.js";import{d as l,C as e,I as c,J as i,l as s,B as t,E as m}from"./DJ4QzovM.js";const _=["data-sello"],k=l({__name:"estatico",setup(p){const o=r();return(u,d)=>(t(),e("ul",{"data-estrategia":"estatico","data-sello":s(o)},[(t(!0),e(c,null,i(s(n),a=>(t(),e("li",{key:a},m(a),1))),128))],8,_))}});export{k as default};

@@ -1,8 +1,66 @@
 {
   "clase": "093",
   "titulo": "Las cuatro estrategias de renderizado",
-  "descripcion": "La misma pantalla servida con las cuatro estrategias y medida en cada una.",
-  "estado": "esqueleto",
+  "descripcion": "La misma pantalla servida de cuatro maneras, y la diferencia demostrada con un sello de tiempo.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "La diferencia entre generar el HTML al construir y generarlo por petición no se ve mirando una respuesta: las dos traen el mismo contenido. Se ve pidiendo DOS VECES y comparando. Por eso el contrato captura un sello de tiempo de la primera respuesta y exige que en la estática sea el mismo y en la de servidor sea distinto. Es la demostración más directa que existe de qué significa cada estrategia.",
+  "casos": [
+    {
+      "nombre": "la pantalla estática trae el contenido y su sello",
+      "peticion": { "metodo": "GET", "ruta": "/estatico" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-estrategia=\"estatico\"", "data-sello=", "comprar pan"]
+      },
+      "guardar_cuerpo": { "selloEstatico": { "patron": "data-sello=\"([^\"]+)\"" } }
+    },
+    {
+      "nombre": "SE PIDE OTRA VEZ Y EL SELLO ES EL MISMO: se generó una sola vez, al construir",
+      "peticion": { "metodo": "GET", "ruta": "/estatico" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-sello=\"${selloEstatico}\""]
+      }
+    },
+    {
+      "nombre": "la pantalla de servidor trae el mismo contenido y otro sello",
+      "peticion": { "metodo": "GET", "ruta": "/servidor" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-estrategia=\"servidor\"", "comprar pan"]
+      },
+      "guardar_cuerpo": { "selloServidor": { "patron": "data-sello=\"([^\"]+)\"" } }
+    },
+    {
+      "nombre": "Y AQUÍ EL SELLO CAMBIA: se genera en cada petición",
+      "peticion": { "metodo": "GET", "ruta": "/servidor" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-estrategia=\"servidor\""],
+        "cuerpo_no_contiene": ["data-sello=\"${selloServidor}\""]
+      }
+    },
+    {
+      "nombre": "la pantalla de cliente llega SIN el contenido: lo pinta el navegador",
+      "peticion": { "metodo": "GET", "ruta": "/cliente" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-estrategia=\"cliente\"", "data-pendiente=\"si\""],
+        "cuerpo_no_contiene": ["comprar pan"]
+      }
+    },
+    {
+      "nombre": "las cuatro estrategias, con lo que gana y paga cada una",
+      "peticion": { "metodo": "GET", "ruta": "/estrategias.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "estrategias": ["estatico", "servidor", "cliente", "revalidado"],
+          "se_elige_por_pantalla": true
+        }
+      }
+    }
+  ]
 }

@@ -1,0 +1,20 @@
+---
+import { TAREAS, sello } from "../datos.mjs";
+
+// `prerender = true` es el valor por omisión en Astro, y se escribe aquí para
+// que la diferencia con la página de al lado esté a la vista.
+//
+// Esta línea significa: genera el HTML AL CONSTRUIR y sírvelo como un archivo.
+// El servidor no ejecuta nada — solo entrega bytes.
+export const prerender = true;
+
+const marca = sello();
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Estático</title></head>
+  <body>
+    <ul data-estrategia="estatico" data-sello={marca}>
+      {TAREAS.map((t) => <li>{t}</li>)}
+    </ul>
+  </body>
+</html>

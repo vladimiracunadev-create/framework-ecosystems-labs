@@ -1,0 +1,37 @@
+---
+export const prerender = true;
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Cliente</title></head>
+  <body>
+    <!--
+      LA TERCERA ESTRATEGIA: el HTML llega VACÍO.
+
+      No hay contenido que buscar aquí, y eso es exactamente lo que el contrato
+      comprueba con `cuerpo_no_contiene`. El servidor manda un hueco y el
+      navegador lo rellena después de descargar el JavaScript y pedir los datos.
+
+      Los datos NO están incrustados: se piden a `/tareas.json`. Incrustarlos
+      convertiría esto en una página estática con un adorno, y la clase dejaría
+      de enseñar la estrategia.
+
+      Dos consecuencias visibles en esta misma página: quien no ejecute
+      JavaScript no ve nada, y quien lo ejecute ve el hueco primero.
+    -->
+    <ul data-estrategia="cliente" data-pendiente="si" id="lista"></ul>
+    <script>
+      const lista = document.getElementById("lista");
+      const respuesta = await fetch("/tareas.json");
+      const { tareas } = await respuesta.json();
+      lista.dataset.pendiente = "no";
+      lista.dataset.sello = String(Date.now());
+      lista.replaceChildren(
+        ...tareas.map((t) => {
+          const fila = document.createElement("li");
+          fila.textContent = t;
+          return fila;
+        }),
+      );
+    </script>
+  </body>
+</html>

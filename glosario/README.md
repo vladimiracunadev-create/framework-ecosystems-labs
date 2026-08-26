@@ -714,7 +714,7 @@ Generar el HTML una vez, al construir, y servirlo como archivo. Lo más rápido 
 
 También: *(SSG)*
 
-> Se enseña en la [clase 093](../classes/parte-7-renderizado-y-fullstack/093-las-cuatro-estrategias-de-renderizado/README.md) 🚧 · ver también [Renderizado en el servidor](#renderizado-en-el-servidor).
+> Se enseña en la [clase 093](../classes/parte-7-renderizado-y-fullstack/093-las-cuatro-estrategias-de-renderizado/README.md) · ver también [Renderizado en el servidor](#renderizado-en-el-servidor).
 
 #### Hidratación
 
@@ -752,7 +752,7 @@ Generar el HTML en el servidor en cada petición. La página se ve antes y el se
 
 También: *(SSR)*
 
-> Se enseña en la [clase 093](../classes/parte-7-renderizado-y-fullstack/093-las-cuatro-estrategias-de-renderizado/README.md) 🚧 · se desarrolla en el [módulo 04](../curriculum/04-fullstack-y-renderizado.md) · ver también [Hidratación](#hidratación), [Generación estática](#generación-estática).
+> Se enseña en la [clase 093](../classes/parte-7-renderizado-y-fullstack/093-las-cuatro-estrategias-de-renderizado/README.md) · se desarrolla en el [módulo 04](../curriculum/04-fullstack-y-renderizado.md) · ver también [Hidratación](#hidratación), [Generación estática](#generación-estática).
 
 ### Tiempo real y trabajo en segundo plano
 
@@ -1287,7 +1287,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
 | 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 14 |
-| 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 0 |
+| 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 1 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |
 | 10 | [Calidad, rendimiento y operación](../classes/parte-10-calidad-y-operacion/README.md) | 14 | 0 |

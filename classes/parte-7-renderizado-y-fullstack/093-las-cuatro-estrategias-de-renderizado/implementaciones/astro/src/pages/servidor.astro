@@ -1,0 +1,20 @@
+---
+import { TAREAS, sello } from "../datos.mjs";
+
+// `prerender = false` saca esta página del lote estático y la pone en el
+// servidor: su HTML se genera EN CADA PETICIÓN.
+//
+// Una línea, una página. Esa granularidad es la respuesta de Astro a la pregunta
+// de esta parte: la estrategia no se elige por proyecto, se elige por pantalla.
+export const prerender = false;
+
+const marca = sello();
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Servidor</title></head>
+  <body>
+    <ul data-estrategia="servidor" data-sello={marca}>
+      {TAREAS.map((t) => <li>{t}</li>)}
+    </ul>
+  </body>
+</html>

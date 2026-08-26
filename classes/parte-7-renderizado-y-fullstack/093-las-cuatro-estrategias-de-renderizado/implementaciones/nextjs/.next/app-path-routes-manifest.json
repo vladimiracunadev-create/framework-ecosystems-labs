@@ -1,0 +1,8 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/estrategias.json/route": "/estrategias.json",
+  "/tareas.json/route": "/tareas.json",
+  "/cliente/page": "/cliente",
+  "/estatico/page": "/estatico",
+  "/servidor/page": "/servidor"
+}
