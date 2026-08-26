@@ -1,0 +1,9 @@
+{
+  "name": "clase-108-express",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0",
+    "ws": "^8.18.0"
+  }
+}

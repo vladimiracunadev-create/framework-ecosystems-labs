@@ -26,7 +26,6 @@ su manera, y esa diferencia es el contenido de la clase.
 | [Express](../../../atlas/fichas/express.md) | `web-framework` | Node.js | `implementaciones/express/` |
 | [FastAPI](../../../atlas/fichas/fastapi.md) | `web-framework` | Python | `implementaciones/fastapi/` |
 | [Spring Boot](../../../atlas/fichas/spring-boot.md) | `application-framework` | JVM | `implementaciones/spring-boot/` |
-| [Phoenix](../../../atlas/fichas/phoenix.md) | `full-stack-framework` | BEAM | `implementaciones/phoenix/` |
 | [Socket.IO](../../../atlas/fichas/socketio.md) | `realtime-library` | Node.js | `implementaciones/socketio/` |
 
 ## ✅ Verificación

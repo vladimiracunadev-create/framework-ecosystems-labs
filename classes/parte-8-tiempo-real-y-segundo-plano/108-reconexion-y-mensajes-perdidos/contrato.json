@@ -1,8 +1,73 @@
 {
   "clase": "108",
   "titulo": "Reconexión y mensajes perdidos",
-  "descripcion": "Tras un corte, el cliente reconecta con espera creciente y recupera lo perdido.",
-  "estado": "esqueleto",
+  "descripcion": "Tres mensajes, un corte, dos mensajes más, y una reanudación que no pierde ni repite ninguno.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Son dos problemas y se confunden constantemente. Volver a conectar es el fácil, y se resuelve con espera creciente. No perderse nada es el difícil, y reconectar no lo resuelve: mientras no había conexión, el servidor siguió teniendo cosas que decir. Cada implementación monta el corte de verdad —cierra la conexión, emite dos mensajes con nadie escuchando, espera con la política declarada y reconecta diciendo por dónde iba— y publica literalmente lo que recibió en cada tramo. La suma tiene que dar 1,2,3,4,5 exactamente: ni uno menos, ni uno repetido.",
+  "casos": [
+    {
+      "nombre": "la portada dice dónde está su canal y por dónde se reanuda",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-canal=", "desde=0"]
+      }
+    },
+    {
+      "nombre": "con la conexión abierta llegan los tres primeros",
+      "peticion": { "metodo": "GET", "ruta": "/reconexion.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "recibidos_antes_del_corte": ["1", "2", "3"],
+          "emitidos_durante_el_corte": 2
+        }
+      }
+    },
+    {
+      "nombre": "Y AL RECONECTAR DICIENDO POR DÓNDE IBA, llegan justo los dos que faltaban",
+      "peticion": { "metodo": "GET", "ruta": "/reconexion.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "recibidos_al_reconectar": ["4", "5"] }
+      }
+    },
+    {
+      "nombre": "ni perdidos ni duplicados: la suma da exactamente 1,2,3,4,5",
+      "peticion": { "metodo": "GET", "ruta": "/reconexion.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "ni_perdidos_ni_duplicados": true,
+          "ninguno_repetido": true
+        }
+      }
+    },
+    {
+      "nombre": "y la espera entre intentos crece: 100, 200, 400",
+      "peticion": { "metodo": "GET", "ruta": "/reconexion.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "esperas_declaradas_ms": [100, 200, 400],
+          "la_espera_crece": true,
+          "intentos_fallidos": 3
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara quién reconecta, cómo se reanuda y qué le falta para producción",
+      "peticion": { "metodo": "GET", "ruta": "/reconexion.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "quien_reconecta": "",
+          "como_se_reanuda": "",
+          "lo_que_falta_para_produccion": ""
+        }
+      }
+    }
+  ]
 }

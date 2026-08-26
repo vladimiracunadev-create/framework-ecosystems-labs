@@ -1,0 +1,22 @@
+{
+  "framework": "express",
+  "requiere": [
+    "node",
+    "pnpm"
+  ],
+  "comprobar": [
+    "pnpm",
+    "--version"
+  ],
+  "preparar": [
+    "pnpm",
+    "install",
+    "--silent",
+    "--ignore-scripts"
+  ],
+  "arrancar": [
+    "node",
+    "server.mjs"
+  ],
+  "espera_ms": 15000
+}

@@ -10,5 +10,4 @@ con su fuente al construir la clase.
 | [Express](../../../atlas/fichas/express.md) | | | |
 | [FastAPI](../../../atlas/fichas/fastapi.md) | | | |
 | [Spring Boot](../../../atlas/fichas/spring-boot.md) | | | |
-| [Phoenix](../../../atlas/fichas/phoenix.md) | | | |
 | [Socket.IO](../../../atlas/fichas/socketio.md) | | | |

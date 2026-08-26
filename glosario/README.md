@@ -1288,7 +1288,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
 | 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 14 |
 | 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 12 |
-| 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 3 |
+| 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 4 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |
 | 10 | [Calidad, rendimiento y operación](../classes/parte-10-calidad-y-operacion/README.md) | 14 | 0 |
 | 11 | [Legado, migración y decisión](../classes/parte-11-legado-migracion-y-decision/README.md) | 12 | 0 |
