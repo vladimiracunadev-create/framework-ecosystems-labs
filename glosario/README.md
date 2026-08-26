@@ -744,7 +744,7 @@ Construir primero el caso que funciona sin JavaScript y añadir comportamiento e
 
 Un límite declarado de cuántos bytes de JavaScript puede enviar una página, comprobado automáticamente. Sin límite, el peso solo crece — nadie quita una dependencia por su cuenta.
 
-> Se enseña en la [clase 102](../classes/parte-7-renderizado-y-fullstack/102-presupuesto-de-javascript/README.md) 🚧 · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Isla](#isla).
+> Se enseña en la [clase 102](../classes/parte-7-renderizado-y-fullstack/102-presupuesto-de-javascript/README.md) · se desarrolla en el [módulo 08](../curriculum/08-calidad-rendimiento-y-operacion.md) · ver también [Isla](#isla).
 
 #### Renderizado en el servidor
 
@@ -1287,7 +1287,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
 | 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 14 |
-| 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 9 |
+| 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 10 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |
 | 10 | [Calidad, rendimiento y operación](../classes/parte-10-calidad-y-operacion/README.md) | 14 | 0 |

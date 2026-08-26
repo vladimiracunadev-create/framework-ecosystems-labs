@@ -1,0 +1,12 @@
+{
+  "framework": "sveltekit",
+  "requiere": ["node", "pnpm"],
+  "comprobar": ["pnpm", "--version"],
+  "preparar": [
+    ["pnpm", "install", "--silent", "--ignore-scripts"],
+    ["pnpm", "exec", "vite", "build"],
+    ["node", "presupuesto.mjs"]
+  ],
+  "arrancar": ["node", "build/index.js"],
+  "espera_ms": 90000
+}

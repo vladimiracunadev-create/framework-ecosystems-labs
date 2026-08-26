@@ -1,8 +1,74 @@
 {
   "clase": "102",
   "titulo": "Presupuesto de JavaScript",
-  "descripcion": "La compilación falla si el paquete supera el presupuesto declarado.",
-  "estado": "esqueleto",
+  "descripcion": "Un límite declarado, medido sobre lo comprimido, que hace fallar la construcción cuando se pasa.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "La parte importante de esta clase no la comprueba el contrato: la comprueba el hecho de que las cinco implementaciones CONSTRUYAN. Cada una ejecuta `node presupuesto.mjs` como último paso de `preparar`, y ese archivo sale con estado 1 si el JavaScript de cliente se pasa del límite declarado. Si alguien añade una dependencia gorda, la clase entera se pone roja. Lo que el contrato añade es la otra mitad: que el número exista, que se mida sobre lo comprimido —que es lo que viaja— y que la regla muerda de verdad.",
+  "casos": [
+    {
+      "nombre": "la pantalla llega con su botón y con el JavaScript que lo revive",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-pantalla=\"presupuesto\"", "data-cuenta=\"0\"", "<script"]
+      }
+    },
+    {
+      "nombre": "EL PAQUETE ESTÁ DENTRO DEL PRESUPUESTO, y se comprueba al construir",
+      "peticion": { "metodo": "GET", "ruta": "/presupuesto.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "dentro_del_presupuesto": true,
+          "se_comprueba_al_construir": true
+        }
+      }
+    },
+    {
+      "nombre": "Y LA REGLA MUERDE: con un límite de mil bytes, la misma cuenta falla",
+      "peticion": { "metodo": "GET", "ruta": "/presupuesto.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "con_un_presupuesto_de_mil_bytes_falla": true }
+      }
+    },
+    {
+      "nombre": "el límite es sobre lo comprimido, que es lo que viaja por la red",
+      "peticion": { "metodo": "GET", "ruta": "/presupuesto.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "el_presupuesto_es_sobre_lo_comprimido": true,
+          "la_compresion_ahorra": true
+        }
+      }
+    },
+    {
+      "nombre": "y la medición es real: archivos contados y bytes distintos de cero",
+      "peticion": { "metodo": "GET", "ruta": "/presupuesto.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "archivos_contados": 0,
+          "bytes_sin_comprimir": 0,
+          "bytes_comprimidos": 0,
+          "presupuesto_bytes": 0
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara dónde deja su JavaScript y qué entra en la cuenta",
+      "peticion": { "metodo": "GET", "ruta": "/presupuesto.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "donde_deja_el_javascript": "",
+          "que_entra_en_el_presupuesto": "",
+          "como_se_hace_cumplir": ""
+        }
+      }
+    }
+  ]
 }

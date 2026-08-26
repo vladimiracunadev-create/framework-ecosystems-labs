@@ -1,0 +1,12 @@
+---
+import Contador from "../components/Contador.jsx";
+
+export const prerender = false;
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Presupuesto — Astro</title></head>
+  <body>
+    <h1 data-pantalla="presupuesto">Una pantalla con un botón</h1>
+    <Contador client:load />
+  </body>
+</html>
