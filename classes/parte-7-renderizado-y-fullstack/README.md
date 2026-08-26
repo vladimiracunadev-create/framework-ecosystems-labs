@@ -4,7 +4,7 @@
 
 **Dónde se genera el HTML, cuándo, y quién carga los datos. La decisión que más afecta a lo que siente el usuario.**
 
-**Clases 93 a 104** · 12 en total · 1 construidas · 8 tecnologías en juego.
+**Clases 93 a 104** · 12 en total · 2 construidas · 8 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -41,7 +41,7 @@ Las cuatro últimas son de criterio: metadatos, presupuesto de JavaScript, la al
 | # | Clase | Qué resuelve | Nivel | Estado |
 | --- | --- | --- | --- | --- |
 | [093](093-las-cuatro-estrategias-de-renderizado/README.md) | [Las cuatro estrategias de renderizado](093-las-cuatro-estrategias-de-renderizado/README.md) | Situar cliente, servidor, estático y revalidación en un mismo eje. | 🟡 intermedio | ✅ Construida |
-| [094](094-hidratacion/README.md) | [Hidratación](094-hidratacion/README.md) | Entender el coste de revivir en el cliente lo que llegó pintado. | 🔴 avanzado | 🚧 Esqueleto |
+| [094](094-hidratacion/README.md) | [Hidratación](094-hidratacion/README.md) | Entender el coste de revivir en el cliente lo que llegó pintado. | 🔴 avanzado | ✅ Construida |
 | [095](095-islas/README.md) | [Islas](095-islas/README.md) | Enviar JavaScript solo donde hace falta. | 🔴 avanzado | 🚧 Esqueleto |
 | [096](096-componentes-de-servidor/README.md) | [Componentes de servidor](096-componentes-de-servidor/README.md) | Ejecutar componentes donde están los datos y enviar el resultado. | 🔴 avanzado | 🚧 Esqueleto |
 | [097](097-carga-de-datos-junto-a-la-ruta/README.md) | [Carga de datos junto a la ruta](097-carga-de-datos-junto-a-la-ruta/README.md) | Empezar a cargar al navegar, no al montar. | 🟡 intermedio | 🚧 Esqueleto |

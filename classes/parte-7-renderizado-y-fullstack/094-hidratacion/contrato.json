@@ -1,8 +1,81 @@
 {
   "clase": "094",
   "titulo": "Hidratación",
-  "descripcion": "El HTML llega utilizable y el JavaScript posterior lo activa.",
-  "estado": "esqueleto",
+  "descripcion": "El HTML llega utilizable y el JavaScript posterior lo activa. Y el dato viaja dos veces.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "La hidratación no se puede ver sin navegador: el contrato no ejecuta JavaScript. Lo que sí se puede ver —y es la mitad de la historia que casi nunca se cuenta— es la HUELLA que deja en el HTML. Cada framework serializa el estado dentro del documento para que el navegador pueda repetir el render y llegar al mismo sitio, y eso hace que el mismo dato viaje DOS veces: una pintada y otra empaquetada. Cada implementación pide sus propias dos pantallas por HTTP y cuenta las apariciones con el mismo medidor, idéntico byte a byte en las cinco. El número sale 2 en las cinco.",
+  "casos": [
+    {
+      "nombre": "el HTML llega ya pintado: la lista y el botón están antes de que corra nada",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": [
+          "data-hidratacion=\"pendiente\"",
+          "comprar pan",
+          "data-interactivo=\"si\"",
+          "data-cuenta=\"0\""
+        ]
+      }
+    },
+    {
+      "nombre": "y trae consigo el código que lo va a revivir",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["<script"]
+      }
+    },
+    {
+      "nombre": "la pantalla sin hidratar trae el mismo contenido y nada interactivo",
+      "peticion": { "metodo": "GET", "ruta": "/inerte" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-hidratacion=\"no\"", "comprar pan"],
+        "cuerpo_no_contiene": ["data-interactivo=\"si\""]
+      }
+    },
+    {
+      "nombre": "EL DATO VIAJA DOS VECES: una pintada y otra serializada para el navegador",
+      "peticion": { "metodo": "GET", "ruta": "/coste.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "hidrata": true,
+          "el_dato_viaja_veces": 2,
+          "el_dato_viaja_mas_de_una_vez": true,
+          "se_paga_dos_veces": true
+        }
+      }
+    },
+    {
+      "nombre": "los cuatro pasos, en orden y los mismos en los cinco",
+      "peticion": { "metodo": "GET", "ruta": "/coste.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "pasos": [
+            "el servidor ejecuta los componentes y devuelve HTML ya pintado",
+            "el navegador lo muestra: la pantalla se ve, pero no responde",
+            "el navegador descarga el código de esos mismos componentes",
+            "el navegador los vuelve a ejecutar con el estado que venía en el HTML y ata los manejadores"
+          ]
+        }
+      }
+    },
+    {
+      "nombre": "y hay estado serializado de verdad: guiones en línea con bytes dentro",
+      "peticion": { "metodo": "GET", "ruta": "/coste.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "mecanismo": "",
+          "bytes_de_guiones_en_linea": 0,
+          "bytes_del_html": 0
+        }
+      }
+    }
+  ]
 }

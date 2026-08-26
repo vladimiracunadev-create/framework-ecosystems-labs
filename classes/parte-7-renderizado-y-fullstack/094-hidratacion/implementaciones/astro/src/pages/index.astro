@@ -1,0 +1,22 @@
+---
+import ListaViva from "../components/ListaViva.jsx";
+import { TAREAS } from "../datos.js";
+
+export const prerender = false;
+
+// `client:load` es la línea que crea la deuda. Sin ella, el componente se
+// renderiza en el servidor y ahí se acaba: el HTML sería el mismo y el botón no
+// haría nada. Con ella, Astro envuelve el resultado en un `<astro-island>`,
+// mete las propiedades serializadas en un atributo y manda el código del
+// componente al navegador para que lo reviva.
+//
+// El dato viaja entonces dos veces: pintado dentro del `<ul>` y otra vez dentro
+// de ese atributo `props`. Eso es exactamente lo que mide `/coste.json`.
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Hidratación — Astro</title></head>
+  <body>
+    <h1>Hidratación</h1>
+    <ListaViva client:load tareas={TAREAS} />
+  </body>
+</html>

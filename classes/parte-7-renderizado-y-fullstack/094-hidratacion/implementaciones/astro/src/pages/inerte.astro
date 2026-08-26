@@ -1,0 +1,23 @@
+---
+import { TAREAS } from "../datos.js";
+
+export const prerender = false;
+
+// La misma lista, sin isla. Este archivo no manda ni una línea de JavaScript de
+// componentes al navegador: la plantilla `.astro` se ejecuta en el servidor y
+// se queda ahí.
+//
+// Compara el peso de esta página con el de `/` en `/coste.json`. La diferencia
+// es lo que cuesta que un botón funcione.
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Sin hidratar — Astro</title></head>
+  <body>
+    <h1>Sin hidratar</h1>
+    <section data-hidratacion="no">
+      <ul>
+        {TAREAS.map((tarea) => <li>{tarea}</li>)}
+      </ul>
+    </section>
+  </body>
+</html>
