@@ -416,7 +416,7 @@ curl -s http://127.0.0.1:4100/ciclo
 
 - [Por qué sí y por qué no](porque-si-porque-no.md) — qué gana y qué paga cada modelo
 - [Clase 084](../084-estado-local/README.md) — el estado que el efecto cambia
-- [Clase 093](../../parte-7-renderizado-y-full-stack/093-las-cuatro-estrategias-de-renderizado/README.md) — traer los datos antes de renderizar
+- [Clase 093](../../parte-7-renderizado-y-fullstack/093-las-cuatro-estrategias-de-renderizado/README.md) — traer los datos antes de renderizar
 - [Índice de la parte 6](../README.md)
 
 ## Fuentes
