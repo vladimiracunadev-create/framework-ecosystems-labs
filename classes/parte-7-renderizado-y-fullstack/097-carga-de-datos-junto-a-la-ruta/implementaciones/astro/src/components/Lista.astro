@@ -1,0 +1,18 @@
+---
+import { anotar } from "../registro.js";
+
+// EL COMPONENTE. Anota que se ejecuta, y ese apunte es la mitad de la prueba:
+// aparece en la secuencia DESPUÉS de `carga:fin`, siempre.
+//
+// Recibe las tareas ya cargadas. No pide nada, no espera nada, no tiene estado
+// de carga. Es lo que se gana cuando los datos se piden junto a la ruta.
+const { tareas } = Astro.props;
+anotar("render");
+---
+<ul data-lista="tareas">
+  {tareas.map((tarea) => (
+    <li data-tarea={tarea.id}>
+      <a href={`/tareas/${tarea.id}`}>{tarea.texto}</a>
+    </li>
+  ))}
+</ul>

@@ -1,0 +1,8 @@
+---
+import { secuencia } from "../registro.js";
+
+// Se pinta el último a propósito: para cuando le toca, la secuencia ya está
+// completa. Es la forma de sacar el cuaderno de bitácora dentro del propio HTML,
+// sin que haga falta que el endpoint comparta memoria con la página.
+---
+<span data-secuencia={secuencia()}></span>

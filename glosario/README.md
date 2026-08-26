@@ -694,7 +694,7 @@ También: *(Signal)*
 
 Declarar qué datos necesita una pantalla **al lado de su ruta**, no dentro del componente. Permite que el framework los pida en paralelo antes de pintar, en lugar de descubrirlos uno a uno al renderizar.
 
-> Se enseña en la [clase 097](../classes/parte-7-renderizado-y-fullstack/097-carga-de-datos-junto-a-la-ruta/README.md) 🚧 · se desarrolla en el [módulo 04](../curriculum/04-fullstack-y-renderizado.md) · ver también [Cascada de peticiones](#cascada-de-peticiones), [Componente de servidor](#componente-de-servidor).
+> Se enseña en la [clase 097](../classes/parte-7-renderizado-y-fullstack/097-carga-de-datos-junto-a-la-ruta/README.md) · se desarrolla en el [módulo 04](../curriculum/04-fullstack-y-renderizado.md) · ver también [Cascada de peticiones](#cascada-de-peticiones), [Componente de servidor](#componente-de-servidor).
 
 #### Cascada de peticiones
 
@@ -1287,7 +1287,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
 | 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 14 |
-| 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 4 |
+| 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 5 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |
 | 10 | [Calidad, rendimiento y operación](../classes/parte-10-calidad-y-operacion/README.md) | 14 | 0 |

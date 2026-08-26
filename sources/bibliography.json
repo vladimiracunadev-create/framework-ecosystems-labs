@@ -3355,6 +3355,54 @@
         "entorno",
         "http"
       ]
+    },
+    {
+      "id": "remix-docs",
+      "type": "reference",
+      "publisher": "Remix",
+      "title": "Remix — Documentación oficial",
+      "locator": "https://remix.run/docs",
+      "topics": [
+        "remix",
+        "carga de datos",
+        "formularios"
+      ]
+    },
+    {
+      "id": "sveltekit-docs",
+      "type": "reference",
+      "publisher": "Svelte",
+      "title": "SvelteKit — Documentación oficial",
+      "locator": "https://svelte.dev/docs/kit",
+      "topics": [
+        "sveltekit",
+        "carga de datos",
+        "enrutado"
+      ]
+    },
+    {
+      "id": "nuxt-docs",
+      "type": "reference",
+      "publisher": "Nuxt",
+      "title": "Nuxt — Documentación oficial",
+      "locator": "https://nuxt.com/docs",
+      "topics": [
+        "nuxt",
+        "carga de datos",
+        "renderizado"
+      ]
+    },
+    {
+      "id": "astro-docs",
+      "type": "reference",
+      "publisher": "Astro",
+      "title": "Astro — Documentación oficial",
+      "locator": "https://docs.astro.build/",
+      "topics": [
+        "astro",
+        "renderizado",
+        "islas"
+      ]
     }
   ]
 }

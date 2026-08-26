@@ -1,0 +1,28 @@
+---
+import Lista from "../../components/Lista.astro";
+import Traza from "../../components/Traza.astro";
+import { pedirLasTareas } from "../../datos.js";
+
+export const prerender = false;
+
+// ASTRO NO TIENE FUNCIÓN DE CARGA, Y NO LA NECESITA.
+//
+// El frontmatter de una página `.astro` se ejecuta entero en el servidor antes
+// de que se pinte una sola etiqueta. Esto de aquí ES la carga: un `await` normal,
+// arriba, sin nombre especial.
+//
+// A cambio, no hay nada que el framework pueda hacer con ella. En SvelteKit o
+// Remix la función de carga tiene nombre y firma conocidos, y por eso el
+// framework puede llamarla antes de navegar, en paralelo con la de la ruta
+// padre, o volver a llamarla al invalidar. Aquí no: es código dentro de la
+// página.
+const tareas = await pedirLasTareas();
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>Tareas — Astro</title></head>
+  <body>
+    <h1>Tareas</h1>
+    <Lista tareas={tareas} />
+    <Traza />
+  </body>
+</html>

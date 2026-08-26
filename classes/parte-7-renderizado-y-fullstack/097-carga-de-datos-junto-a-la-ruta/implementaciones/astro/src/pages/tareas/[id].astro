@@ -1,0 +1,25 @@
+---
+import Traza from "../../components/Traza.astro";
+import { anotar } from "../../registro.js";
+import { pedirUnaTarea } from "../../datos.js";
+
+export const prerender = false;
+
+// El parámetro de la ruta llega en `Astro.params`, y la página decide qué hacer
+// si no existe. Devolver una `Response` desde el frontmatter corta el
+// renderizado y manda ese estado: es la forma que tiene Astro de dar un 404 de
+// verdad en lugar de un 200 con cara de error.
+const tarea = await pedirUnaTarea(Astro.params.id);
+if (!tarea) {
+  return new Response("esa tarea no existe", { status: 404 });
+}
+anotar("render");
+---
+<html lang="es">
+  <head><meta charset="utf-8" /><title>{tarea.texto}</title></head>
+  <body>
+    <h1 data-tarea={tarea.id}>{tarea.texto}</h1>
+    <a href="/tareas">volver</a>
+    <Traza />
+  </body>
+</html>

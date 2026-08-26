@@ -1,8 +1,71 @@
 {
   "clase": "097",
   "titulo": "Carga de datos junto a la ruta",
-  "descripcion": "Los datos empiezan a cargarse antes de que el componente exista.",
-  "estado": "esqueleto",
+  "descripcion": "Los datos empiezan a cargarse antes de que el componente exista, y aquí está el cuaderno que lo prueba.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "La afirmación de esta clase es sobre el ORDEN de dos cosas, y el orden no se ve en el resultado: la lista sale igual de pintada se cargue cuando se cargue. Así que las cinco implementaciones anotan. La función de carga apunta cuándo empieza y cuándo termina; el componente apunta cuándo se ejecuta; y un componente que se pinta el último saca la secuencia en un atributo del HTML. Sale la misma en las cinco: carga:inicio, carga:fin, render. Esa es la diferencia con pedir los datos desde el componente —clase 087—, donde el orden es el contrario y por eso hace falta un estado de carga.",
+  "casos": [
+    {
+      "nombre": "la lista llega cargada: las tres tareas están en el HTML",
+      "peticion": { "metodo": "GET", "ruta": "/tareas" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": [
+          "data-lista=\"tareas\"",
+          "comprar pan",
+          "regar las plantas",
+          "llamar al fontanero"
+        ]
+      }
+    },
+    {
+      "nombre": "el parámetro de la ruta llega a la carga: el detalle de la 2 es el de la 2",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/2" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-tarea=\"2\"", "regar las plantas"],
+        "cuerpo_no_contiene": ["comprar pan"]
+      }
+    },
+    {
+      "nombre": "Y LO QUE NO EXISTE DA 404 DE VERDAD, no un 200 con cara de error",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/999" },
+      "esperado": { "estado": 404 }
+    },
+    {
+      "nombre": "EL ORDEN: la carga empieza y termina antes de que el componente se ejecute",
+      "peticion": { "metodo": "GET", "ruta": "/orden.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "secuencia": ["carga:inicio", "carga:fin", "render"],
+          "la_carga_empieza_antes_del_render": true
+        }
+      }
+    },
+    {
+      "nombre": "y ocurre en el servidor, sin ningún efecto en el cliente de por medio",
+      "peticion": { "metodo": "GET", "ruta": "/orden.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "se_ejecuta_en": "el servidor",
+          "hace_falta_un_efecto_en_el_cliente": false
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara dónde vive su carga y cómo da un 404",
+      "peticion": { "metodo": "GET", "ruta": "/orden.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "donde_vive_la_carga": "",
+          "como_se_da_un_404": ""
+        }
+      }
+    }
+  ]
 }

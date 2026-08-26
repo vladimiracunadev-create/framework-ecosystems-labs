@@ -2,7 +2,7 @@
 
 Documento generado por `node scripts/generate-bibliography.mjs`. No editar a mano.
 
-Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **222** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
+Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **226** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
 
 Cada entrada declara un localizador resoluble y es citada al menos una vez en el programa;
 `node scripts/verify-sources.mjs` falla si deja de cumplirse cualquiera de las dos condiciones.
@@ -14,7 +14,7 @@ Cada entrada declara un localizador resoluble y es citada al menos una vez en el
 | Libros | 100 | `https://openlibrary.org/isbn/{isbn13}.json` |
 | Artículos | 7 | `https://api.crossref.org/works/{doi}` |
 | Normas y especificaciones | 33 | `GET a la URL declarada` |
-| Documentación oficial y referencias | 82 | `GET a la URL declarada` |
+| Documentación oficial y referencias | 86 | `GET a la URL declarada` |
 
 ## Libros
 
@@ -1184,6 +1184,14 @@ Documentación de quien mantiene la tecnología, o texto del autor citado.
 - Temas: islas, renderizado, hidratación
 - Citada en: [`atlas/fichas/astro.md`](../atlas/fichas/astro.md)
 
+### `astro-docs`
+
+*Astro — Documentación oficial*, Astro
+
+- Localizador: <https://docs.astro.build/>
+- Temas: astro, renderizado, islas
+- Citada en: 
+
 ### `backbone-why`
 
 *Why Backbone?*, Backbone.js
@@ -1592,6 +1600,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Temas: vulnerabilidad, struts, cadena de suministro
 - Citada en: [`atlas/fichas/struts.md`](../atlas/fichas/struts.md)
 
+### `nuxt-docs`
+
+*Nuxt — Documentación oficial*, Nuxt
+
+- Localizador: <https://nuxt.com/docs>
+- Temas: nuxt, carga de datos, renderizado
+- Citada en: 
+
 ### `osi-licenses`
 
 *OSI Approved Licenses*, Open Source Initiative
@@ -1712,6 +1728,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Temas: qwik, hidratación, reanudación
 - Citada en: [`atlas/fichas/qwik.md`](../atlas/fichas/qwik.md)
 
+### `remix-docs`
+
+*Remix — Documentación oficial*, Remix
+
+- Localizador: <https://remix.run/docs>
+- Temas: remix, carga de datos, formularios
+- Citada en: 
+
 ### `ruby-installation`
 
 *Installing Ruby*, Ruby
@@ -1743,6 +1767,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Localizador: <https://svelte.dev/blog/runes>
 - Temas: svelte, señales, reactividad
 - Citada en: [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md), [`atlas/fichas/svelte.md`](../atlas/fichas/svelte.md)
+
+### `sveltekit-docs`
+
+*SvelteKit — Documentación oficial*, Svelte
+
+- Localizador: <https://svelte.dev/docs/kit>
+- Temas: sveltekit, carga de datos, enrutado
+- Citada en: 
 
 ### `symfony-components`
 
