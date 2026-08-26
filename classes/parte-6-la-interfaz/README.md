@@ -4,7 +4,7 @@
 
 **Cómo se pinta una pantalla y dónde vive el estado. Aquí el elenco cambia por completo.**
 
-**Clases 79 a 92** · 14 en total · 8 construidas · 15 tecnologías en juego.
+**Clases 79 a 92** · 14 en total · 9 construidas · 15 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -49,7 +49,7 @@ Las cuatro últimas son lo que distingue una aplicación de una página: estado 
 | [084](084-estado-local/README.md) | [Estado local](084-estado-local/README.md) | Guardar y actualizar un valor que pertenece a un componente. | 🟢 introductorio | ✅ Construida |
 | [085](085-listas-y-claves/README.md) | [Listas y claves](085-listas-y-claves/README.md) | Renderizar una colección y entender por qué la identidad importa. | 🟡 intermedio | ✅ Construida |
 | [086](086-formularios-controlados/README.md) | [Formularios controlados](086-formularios-controlados/README.md) | Decidir si la fuente de verdad es el DOM o el estado. | 🟡 intermedio | ✅ Construida |
-| [087](087-efectos-y-ciclo-de-vida/README.md) | [Efectos y ciclo de vida](087-efectos-y-ciclo-de-vida/README.md) | Ejecutar trabajo fuera del renderizado y limpiarlo después. | 🟡 intermedio | 🚧 Esqueleto |
+| [087](087-efectos-y-ciclo-de-vida/README.md) | [Efectos y ciclo de vida](087-efectos-y-ciclo-de-vida/README.md) | Ejecutar trabajo fuera del renderizado y limpiarlo después. | 🟡 intermedio | ✅ Construida |
 | [088](088-estado-compartido/README.md) | [Estado compartido](088-estado-compartido/README.md) | Sacar el estado del componente sin recurrir a variables globales. | 🟡 intermedio | 🚧 Esqueleto |
 | [089](089-estado-del-servidor-en-el-cliente/README.md) | [Estado del servidor en el cliente](089-estado-del-servidor-en-el-cliente/README.md) | Distinguir el estado propio del que es copia de otro sitio. | 🔴 avanzado | 🚧 Esqueleto |
 | [090](090-enrutado-en-el-cliente/README.md) | [Enrutado en el cliente](090-enrutado-en-el-cliente/README.md) | Cambiar de vista sin recargar y sin romper el navegador. | 🟡 intermedio | 🚧 Esqueleto |

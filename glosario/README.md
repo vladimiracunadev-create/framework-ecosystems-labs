@@ -634,7 +634,7 @@ Pintar en una estructura en memoria, compararla con la anterior y aplicar solo l
 
 Trabajo que ocurre fuera del renderizado: pedir datos, suscribirse, tocar el DOM. Su parte difícil no es lanzarlo: es **limpiarlo** cuando el componente desaparece o sus dependencias cambian.
 
-> Se enseña en la [clase 087](../classes/parte-6-la-interfaz/087-efectos-y-ciclo-de-vida/README.md) 🚧 · se desarrolla en el [módulo 03](../curriculum/03-frontend-componentes-y-estado.md) · ver también [Estado del servidor](#estado-del-servidor).
+> Se enseña en la [clase 087](../classes/parte-6-la-interfaz/087-efectos-y-ciclo-de-vida/README.md) · se desarrolla en el [módulo 03](../curriculum/03-frontend-componentes-y-estado.md) · ver también [Estado del servidor](#estado-del-servidor).
 
 #### Estado
 
@@ -1286,7 +1286,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
-| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 8 |
+| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 9 |
 | 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 0 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |

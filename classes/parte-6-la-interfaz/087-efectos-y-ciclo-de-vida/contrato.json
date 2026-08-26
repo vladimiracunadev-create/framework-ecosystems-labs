@@ -1,8 +1,50 @@
 {
   "clase": "087",
   "titulo": "Efectos y ciclo de vida",
-  "descripcion": "Una suscripción que se establece al montar y se cancela al desmontar.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "Lo que ocurre alrededor del render: qué se ejecuta en el servidor, qué no, y cuándo se repite.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "Esta clase aprovecha el servidor en lugar de sufrirlo. El hecho más importante sobre un efecto es que NO se ejecuta al renderizar en el servidor, y aquí eso se puede comprobar contando: un contador global que el efecto incrementa y que después del render sigue en cero. Lo que sí se ejecuta —el cuerpo del render, el `setup`— también se cuenta, y la diferencia es la clase entera.",
+  "casos": [
+    {
+      "nombre": "la página se renderiza y el componente aparece",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-componente=\"reloj\"", "sin cargar"]
+      }
+    },
+    {
+      "nombre": "EL EFECTO NO SE EJECUTÓ: renderizar en el servidor no lo dispara",
+      "peticion": { "metodo": "GET", "ruta": "/ciclo" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "efectos_ejecutados": 0, "el_efecto_corre_en_el_servidor": false }
+      }
+    },
+    {
+      "nombre": "y la limpieza tampoco, porque no hay nada que limpiar",
+      "peticion": { "metodo": "GET", "ruta": "/ciclo" },
+      "esperado": { "estado": 200, "json_contiene": { "limpiezas_ejecutadas": 0 } }
+    },
+    {
+      "nombre": "el efecto SE REPITE si alguna dependencia cambió",
+      "peticion": { "metodo": "GET", "ruta": "/debe-repetirse?antes=1,dos&despues=1,tres" },
+      "esperado": { "estado": 200, "json_contiene": { "se_repite": true } }
+    },
+    {
+      "nombre": "y NO se repite si son las mismas: la comparación es superficial",
+      "peticion": { "metodo": "GET", "ruta": "/debe-repetirse?antes=1,dos&despues=1,dos" },
+      "esperado": { "estado": 200, "json_contiene": { "se_repite": false, "comparacion": "superficial" } }
+    },
+    {
+      "nombre": "cómo se declara el efecto aquí, leído del archivo",
+      "peticion": { "metodo": "GET", "ruta": "/efecto.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "leido_del_archivo": true, "tiene_limpieza": true }
+      }
+    }
+  ]
 }
