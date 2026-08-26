@@ -1,0 +1,18 @@
+---
+import Cabeza from "../components/Cabeza.astro";
+import { PORTADA } from "../datos.js";
+
+export const prerender = false;
+
+const origen = `http://${Astro.request.headers.get("host")}`;
+---
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <Cabeza meta={PORTADA} origen={origen} />
+  </head>
+  <body>
+    <h1>{PORTADA.titulo}</h1>
+    <a href="/articulo/hola-mundo">un artículo</a>
+  </body>
+</html>

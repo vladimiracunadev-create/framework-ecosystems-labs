@@ -1,0 +1,26 @@
+---
+import Cabeza from "../../components/Cabeza.astro";
+import { ARTICULO, grafoDelArticulo } from "../../datos.js";
+
+export const prerender = false;
+
+const origen = `http://${Astro.request.headers.get("host")}`;
+const grafo = grafoDelArticulo(origen);
+---
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <Cabeza meta={ARTICULO} origen={origen} />
+    <!--
+      `set:html` escribe el contenido sin escapar, que es lo que hace falta aquí:
+      un JSON escapado dentro de un `<script>` no lo lee nadie. Es la misma
+      capacidad que en React se llama `dangerouslySetInnerHTML` y en Svelte
+      `{@html}`, con tres nombres y un solo peligro — la clase 077.
+    -->
+    <script type="application/ld+json" set:html={JSON.stringify(grafo)}></script>
+  </head>
+  <body>
+    <h1>{ARTICULO.titulo}</h1>
+    <p>{ARTICULO.descripcion}</p>
+  </body>
+</html>

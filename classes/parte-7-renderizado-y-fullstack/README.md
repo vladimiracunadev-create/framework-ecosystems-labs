@@ -4,7 +4,7 @@
 
 **Dónde se genera el HTML, cuándo, y quién carga los datos. La decisión que más afecta a lo que siente el usuario.**
 
-**Clases 93 a 104** · 12 en total · 8 construidas · 8 tecnologías en juego.
+**Clases 93 a 104** · 12 en total · 9 construidas · 8 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -48,7 +48,7 @@ Las cuatro últimas son de criterio: metadatos, presupuesto de JavaScript, la al
 | [098](098-acciones-de-formulario/README.md) | [Acciones de formulario](098-acciones-de-formulario/README.md) | Escribir en el servidor desde un formulario que funciona sin JavaScript. | 🟡 intermedio | ✅ Construida |
 | [099](099-la-cascada-de-peticiones/README.md) | [La cascada de peticiones](099-la-cascada-de-peticiones/README.md) | Detectar y romper la cadena de esperas encadenadas. | 🔴 avanzado | ✅ Construida |
 | [100](100-html-en-flujo/README.md) | [HTML en flujo](100-html-en-flujo/README.md) | Enviar la parte lista sin esperar a la lenta. | 🔴 avanzado | ✅ Construida |
-| [101](101-metadatos-y-descubribilidad/README.md) | [Metadatos y descubribilidad](101-metadatos-y-descubribilidad/README.md) | Emitir en el servidor lo que los buscadores y las redes leen. | 🟡 intermedio | 🚧 Esqueleto |
+| [101](101-metadatos-y-descubribilidad/README.md) | [Metadatos y descubribilidad](101-metadatos-y-descubribilidad/README.md) | Emitir en el servidor lo que los buscadores y las redes leen. | 🟡 intermedio | ✅ Construida |
 | [102](102-presupuesto-de-javascript/README.md) | [Presupuesto de JavaScript](102-presupuesto-de-javascript/README.md) | Poner un límite y hacerlo fallar cuando se supera. | 🔴 avanzado | 🚧 Esqueleto |
 | [103](103-hipermedia-como-alternativa/README.md) | [Hipermedia como alternativa](103-hipermedia-como-alternativa/README.md) | Resolver el mismo caso enviando HTML en lugar de estado. | 🔴 avanzado | 🚧 Esqueleto |
 | [104](104-elegir-estrategia-por-pantalla/README.md) | [Elegir estrategia por pantalla](104-elegir-estrategia-por-pantalla/README.md) | Aplicar criterio por vista en lugar de una regla para toda la aplicación. | 🔴 avanzado | 🚧 Esqueleto |

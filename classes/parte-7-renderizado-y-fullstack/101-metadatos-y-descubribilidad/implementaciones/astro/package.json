@@ -1,0 +1,9 @@
+{
+  "name": "clase-101-astro",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "astro": "^5.6.1",
+    "@astrojs/node": "^9.1.3"
+  }
+}

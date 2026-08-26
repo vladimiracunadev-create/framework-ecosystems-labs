@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <!--
+      SIN `<title>` AQUÍ, Y ES DELIBERADO.
+
+      La plantilla del documento es el sitio donde más veces se ha escrito un
+      título por omisión, y donde más caro sale: `%sveltekit.head%` inserta el
+      que declare la ruta DESPUÉS, así que el documento acaba con dos `<title>`.
+      El navegador enseña el primero y los buscadores también.
+
+      Es el fallo de descubribilidad más silencioso que existe: la pantalla se ve
+      perfecta, la ruta declara su título, y lo que se indexa es «Mi aplicación».
+    -->
+    %sveltekit.head%
+  </head>
+  <body>
+    <div>%sveltekit.body%</div>
+  </body>
+</html>

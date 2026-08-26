@@ -5,7 +5,7 @@
 Aprende el problema una vez. Reconoce cómo lo resuelve cada framework, y por qué sí o por qué no.
 
 **149 clases** en **12 partes**, de lo más simple a lo más
-avanzado. 100 construidas, 49 en esqueleto.
+avanzado. 101 construidas, 48 en esqueleto.
 
 Antes de la primera: [**empezar/**](../empezar/README.md) instala las cadenas de
 herramientas y explica los conocimientos previos que estas clases dan por

@@ -1,0 +1,11 @@
+{
+  "framework": "nuxt",
+  "requiere": ["node", "pnpm"],
+  "comprobar": ["pnpm", "--version"],
+  "preparar": [
+    ["pnpm", "install", "--silent", "--ignore-scripts"],
+    ["pnpm", "exec", "nuxt", "build"]
+  ],
+  "arrancar": ["node", ".output/server/index.mjs"],
+  "espera_ms": 120000
+}

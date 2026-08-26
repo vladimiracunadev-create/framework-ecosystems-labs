@@ -1,8 +1,83 @@
 {
   "clase": "101",
   "titulo": "Metadatos y descubribilidad",
-  "descripcion": "Cada ruta emite su título y sus metadatos en el HTML inicial.",
-  "estado": "esqueleto",
+  "descripcion": "Cada ruta emite su título, su enlace canónico, sus etiquetas sociales y su grafo en el primer HTML.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Un rastreador de una red social no ejecuta JavaScript: lee el primer HTML y se va. Por eso este contrato comprueba exactamente eso —lo que hay en la respuesta, sin ejecutar nada— y por eso el caso más importante es el `cuerpo_no_contiene` del tercero: si el título de la portada aparece en la pantalla del artículo, el título no es de la ruta, es de la plantilla, y las dos páginas se indexan con el mismo nombre.",
+  "casos": [
+    {
+      "nombre": "la portada trae su título, su descripción y sus etiquetas sociales",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": [
+          "<title>Tareas de Ada</title>",
+          "name=\"description\"",
+          "property=\"og:title\"",
+          "property=\"og:type\"",
+          "rel=\"canonical\""
+        ]
+      }
+    },
+    {
+      "nombre": "el artículo trae los suyos, que son otros",
+      "peticion": { "metodo": "GET", "ruta": "/articulo/hola-mundo" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": [
+          "<title>Hola mundo, otra vez</title>",
+          "property=\"og:url\"",
+          "rel=\"canonical\""
+        ]
+      }
+    },
+    {
+      "nombre": "Y NO ARRASTRA EL DE LA PORTADA: el título es de la ruta, no de la plantilla",
+      "peticion": { "metodo": "GET", "ruta": "/articulo/hola-mundo" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_no_contiene": ["<title>Tareas de Ada</title>"]
+      }
+    },
+    {
+      "nombre": "y trae su grafo de schema.org, sin escapar, listo para leer",
+      "peticion": { "metodo": "GET", "ruta": "/articulo/hola-mundo" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": [
+          "application/ld+json",
+          "\"@type\":\"Article\"",
+          "\"headline\":\"Hola mundo, otra vez\""
+        ]
+      }
+    },
+    {
+      "nombre": "los dos títulos salen del servidor y son distintos",
+      "peticion": { "metodo": "GET", "ruta": "/metadatos.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "se_emiten_en_el_servidor": true,
+          "titulos_distintos_por_ruta": true,
+          "titulo_de_la_portada": "Tareas de Ada",
+          "titulo_del_articulo": "Hola mundo, otra vez"
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara cómo se escriben y si su forma evita duplicados",
+      "peticion": { "metodo": "GET", "ruta": "/metadatos.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "como_se_declara": "",
+          "donde_vive": "",
+          "hay_api_dedicada": null,
+          "evita_duplicados": null
+        }
+      }
+    }
+  ]
 }

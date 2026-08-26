@@ -1,0 +1,18 @@
+---
+// UN COMPONENTE QUE ESCRIBE ETIQUETAS EN LA CABECERA, Y NADA MÁS.
+//
+// Astro no tiene API de metadatos: tiene componentes, y las etiquetas de la
+// cabecera son etiquetas como cualquier otra. Esto es a la vez su virtud y su
+// límite. La virtud: no hay nada que aprender, se escribe HTML. El límite: nada
+// impide que dos componentes escriban el mismo `<title>` dos veces, porque no
+// hay quien lo mire.
+const { meta, origen } = Astro.props;
+const canonica = `${origen}${meta.ruta}`;
+---
+<title>{meta.titulo}</title>
+<meta name="description" content={meta.descripcion} />
+<link rel="canonical" href={canonica} />
+<meta property="og:title" content={meta.titulo} />
+<meta property="og:description" content={meta.descripcion} />
+<meta property="og:type" content={meta.tipo} />
+<meta property="og:url" content={canonica} />
