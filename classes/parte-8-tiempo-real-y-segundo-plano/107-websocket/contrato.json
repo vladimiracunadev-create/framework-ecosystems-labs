@@ -1,8 +1,71 @@
 {
   "clase": "107",
   "titulo": "WebSocket",
-  "descripcion": "Mensajes en ambos sentidos sobre la misma conexión.",
-  "estado": "esqueleto",
+  "descripcion": "El apretón de manos comprobado contra el RFC, y dos clientes de verdad hablando por la misma conexión.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "A partir del 101 lo que viaja ya no es HTTP, así que el verificador de esta obra no puede leerlo — y esa incapacidad ES la clase. Lo que sí se puede comprobar desde fuera es el apretón: cada implementación lo hace a mano contra su propio servidor con la clave de ejemplo del RFC 6455, y la respuesta correcta es siempre la misma cadena. Lo demás lo comprueba cada implementación abriendo dos clientes de verdad y publicando literalmente lo que recibió cada uno.",
+  "casos": [
+    {
+      "nombre": "la portada dice dónde está su canal",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-canal=\"ws://", "<script"]
+      }
+    },
+    {
+      "nombre": "EL APRETÓN DEVUELVE 101 Y EL ACCEPT DEL RFC, calculado bien",
+      "peticion": { "metodo": "GET", "ruta": "/ws.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "apreton_de_manos": "101",
+          "accept_recibido": "s3pPLMBiTxaQ9kYGzzhZRbK+xOo=",
+          "accept_es_correcto": true
+        }
+      }
+    },
+    {
+      "nombre": "y por esa conexión va un mensaje y vuelve otro",
+      "peticion": { "metodo": "GET", "ruta": "/ws.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "enviado": "hola", "recibido": "eco: hola" }
+      }
+    },
+    {
+      "nombre": "UN SEGUNDO CLIENTE RECIBE LO QUE DIJO EL PRIMERO: eso un flujo de eventos no lo hace",
+      "peticion": { "metodo": "GET", "ruta": "/ws.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "segundo_cliente_recibio": "difusion: hola" }
+      }
+    },
+    {
+      "nombre": "los dos sentidos, sobre la misma conexión",
+      "peticion": { "metodo": "GET", "ruta": "/ws.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "mensajes_en_ambos_sentidos": true,
+          "sobre_la_misma_conexion": true
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara dónde monta su canal, quién guarda las conexiones y qué se pierde al dejar HTTP",
+      "peticion": { "metodo": "GET", "ruta": "/ws.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "ruta_del_canal": "",
+          "quien_guarda_las_conexiones": "",
+          "como_se_monta": "",
+          "lo_que_se_pierde_al_dejar_http": ""
+        }
+      }
+    }
+  ]
 }

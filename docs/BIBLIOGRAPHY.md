@@ -2,7 +2,7 @@
 
 Documento generado por `node scripts/generate-bibliography.mjs`. No editar a mano.
 
-Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **228** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
+Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **230** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
 
 Cada entrada declara un localizador resoluble y es citada al menos una vez en el programa;
 `node scripts/verify-sources.mjs` falla si deja de cumplirse cualquiera de las dos condiciones.
@@ -13,8 +13,8 @@ Cada entrada declara un localizador resoluble y es citada al menos una vez en el
 | --- | ---: | --- |
 | Libros | 100 | `https://openlibrary.org/isbn/{isbn13}.json` |
 | Artículos | 7 | `https://api.crossref.org/works/{doi}` |
-| Normas y especificaciones | 33 | `GET a la URL declarada` |
-| Documentación oficial y referencias | 88 | `GET a la URL declarada` |
+| Normas y especificaciones | 34 | `GET a la URL declarada` |
+| Documentación oficial y referencias | 89 | `GET a la URL declarada` |
 
 ## Libros
 
@@ -1012,6 +1012,14 @@ Documentos normativos de organismos públicos o consorcios abiertos.
 - Temas: seguridad, transporte
 - Citada en: [`curriculum/07-identidad-y-seguridad.md`](../curriculum/07-identidad-y-seguridad.md)
 
+### `rfc6455`
+
+*RFC 6455 — The WebSocket Protocol*, IETF, 2011
+
+- Localizador: <https://www.rfc-editor.org/rfc/rfc6455>
+- Temas: websocket, tiempo real, protocolo
+- Citada en: 
+
 ### `json-schema`
 
 *JSON Schema Specification*, JSON Schema
@@ -1766,6 +1774,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 
 - Localizador: <https://www.rust-lang.org/tools/install>
 - Temas: entorno, rust, herramientas
+- Citada en: 
+
+### `socketio-docs`
+
+*Socket.IO — Documentación oficial*, Socket.IO
+
+- Localizador: <https://socket.io/docs/v4/>
+- Temas: websocket, tiempo real, difusion
 - Citada en: 
 
 ### `solid-reactivity`

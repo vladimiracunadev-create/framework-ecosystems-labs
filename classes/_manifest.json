@@ -2175,10 +2175,9 @@
             "express",
             "fastapi",
             "spring-boot",
-            "phoenix",
             "socketio"
           ],
-          "estado": "esqueleto"
+          "estado": "construida"
         },
         {
           "n": 108,

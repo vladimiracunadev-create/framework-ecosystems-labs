@@ -3427,6 +3427,31 @@
         "turbo",
         "html"
       ]
+    },
+    {
+      "id": "rfc6455",
+      "type": "standard",
+      "publisher": "IETF",
+      "title": "RFC 6455 — The WebSocket Protocol",
+      "published": "2011",
+      "locator": "https://www.rfc-editor.org/rfc/rfc6455",
+      "topics": [
+        "websocket",
+        "tiempo real",
+        "protocolo"
+      ]
+    },
+    {
+      "id": "socketio-docs",
+      "type": "reference",
+      "publisher": "Socket.IO",
+      "title": "Socket.IO — Documentación oficial",
+      "locator": "https://socket.io/docs/v4/",
+      "topics": [
+        "websocket",
+        "tiempo real",
+        "difusion"
+      ]
     }
   ]
 }
