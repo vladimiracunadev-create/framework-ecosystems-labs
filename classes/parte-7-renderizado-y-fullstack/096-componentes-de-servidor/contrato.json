@@ -1,8 +1,68 @@
 {
   "clase": "096",
   "titulo": "Componentes de servidor",
-  "descripcion": "Un componente que consulta la base y nunca llega al navegador.",
-  "estado": "esqueleto",
+  "descripcion": "Un componente que lee el disco, y la comprobación de que su código no llegó al navegador.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "La promesa de un componente de servidor —que su código no viaja— no se comprueba leyendo documentación. El contrato la comprueba a la fuerza bruta: cada implementación descarga uno por uno TODO el JavaScript que su propia página menciona y busca dentro una llave que solo existe en el módulo del servidor. Si apareciera en alguno, sería una filtración de verdad. En las dos sale cero, y por caminos distintos: Next porque el componente nunca se empaqueta, Remix porque borra los `loader` del paquete de cliente. Lo que las separa no es la seguridad: es quién puede pedir el dato.",
+  "casos": [
+    {
+      "nombre": "el resultado del componente llega en el HTML, con lo que leyó del disco",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-desde=\"el-disco\"", "data-cuantos=\"3\"", "El almacén tiene"]
+      }
+    },
+    {
+      "nombre": "y va dentro de un componente interactivo, que sí viaja",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-dentro-de=\"marco\"", "data-interactivo=\"si\""]
+      }
+    },
+    {
+      "nombre": "LA LLAVE NO ESTÁ EN NINGÚN ARCHIVO QUE EL NAVEGADOR DESCARGUE",
+      "peticion": { "metodo": "GET", "ruta": "/componentes.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "la_llave_no_viaja": true,
+          "guiones_con_la_llave": 0,
+          "guiones_con_node_fs": 0,
+          "el_resultado_si_llega": true
+        }
+      }
+    },
+    {
+      "nombre": "y la comprobación es real: se descargaron archivos y pesaban algo",
+      "peticion": { "metodo": "GET", "ruta": "/componentes.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "guiones_descargados": 0,
+          "bytes_descargados": 0,
+          "como_se_declara": ""
+        }
+      }
+    },
+    {
+      "nombre": "cada uno declara si de verdad los tiene, y qué cuesta lo suyo",
+      "peticion": { "metodo": "GET", "ruta": "/componentes.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": { "lo_que_cuesta": "" }
+      }
+    },
+    {
+      "nombre": "la página no expone la llave por otra vía",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_no_contiene": ["llave-de-servidor-7c1f9e", "node:fs"]
+      }
+    }
+  ]
 }

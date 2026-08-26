@@ -1,0 +1,11 @@
+{
+  "framework": "remix",
+  "requiere": ["node", "pnpm"],
+  "comprobar": ["pnpm", "--version"],
+  "preparar": [
+    ["pnpm", "install", "--silent", "--ignore-scripts"],
+    ["pnpm", "exec", "remix", "vite:build"]
+  ],
+  "arrancar": ["pnpm", "exec", "remix-serve", "./build/server/index.js"],
+  "espera_ms": 120000
+}

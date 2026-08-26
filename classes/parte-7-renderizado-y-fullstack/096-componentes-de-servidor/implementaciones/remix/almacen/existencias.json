@@ -1,0 +1,7 @@
+{
+  "articulos": [
+    { "nombre": "harina", "cantidad": 12 },
+    { "nombre": "levadura", "cantidad": 3 },
+    { "nombre": "sal", "cantidad": 40 }
+  ]
+}
