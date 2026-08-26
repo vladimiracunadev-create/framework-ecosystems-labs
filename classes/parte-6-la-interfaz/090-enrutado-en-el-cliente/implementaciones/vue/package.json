@@ -1,0 +1,9 @@
+{
+  "name": "clase-090-vue",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "vue": "^3.5.0",
+    "@vue/server-renderer": "^3.5.0"
+  }
+}

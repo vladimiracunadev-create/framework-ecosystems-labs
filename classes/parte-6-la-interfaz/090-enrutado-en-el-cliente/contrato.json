@@ -1,8 +1,65 @@
 {
   "clase": "090",
   "titulo": "Enrutado en el cliente",
-  "descripcion": "Navegación, atrás y enlace directo funcionan igual.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "La dirección como estado: emparejar una ruta con un componente, sacar sus parámetros y responder a lo que no existe.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "Un enrutador es una tabla y una función de emparejamiento, y las dos cosas son lógica pura: se pueden ejecutar en el servidor. Por eso el contrato puede pedir `/tareas/42` y comprobar que sale el componente de detalle con su parámetro, sin navegador. Lo que no se verifica aquí es la navegación sin recarga, que es lo único que hace falta un navegador para ver.",
+  "casos": [
+    {
+      "nombre": "la raíz lleva al componente de inicio",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-pantalla=\"inicio\""]
+      }
+    },
+    {
+      "nombre": "una ruta con parámetro trae el componente y el valor",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/42" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-pantalla=\"detalle\"", "data-id=\"42\""]
+      }
+    },
+    {
+      "nombre": "una ruta literal gana a la que tiene parámetro",
+      "peticion": { "metodo": "GET", "ruta": "/tareas/nueva" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-pantalla=\"nueva\""],
+        "cuerpo_no_contiene": ["data-pantalla=\"detalle\""]
+      }
+    },
+    {
+      "nombre": "LO QUE NO EXISTE RESPONDE 404, no una página en blanco",
+      "peticion": { "metodo": "GET", "ruta": "/no-existe" },
+      "esperado": {
+        "estado": 404,
+        "cuerpo_contiene": ["data-pantalla=\"no-encontrada\""]
+      }
+    },
+    {
+      "nombre": "el emparejador saca los parámetros de la dirección",
+      "peticion": { "metodo": "GET", "ruta": "/emparejar?patron=/tareas/:id&ruta=/tareas/42" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "coincide": true, "parametros": { "id": "42" } }
+      }
+    },
+    {
+      "nombre": "y no empareja de más: un segmento que falta no coincide",
+      "peticion": { "metodo": "GET", "ruta": "/emparejar?patron=/tareas/:id&ruta=/tareas" },
+      "esperado": { "estado": 200, "json_contiene": { "coincide": false } }
+    },
+    {
+      "nombre": "la tabla de rutas, leída del archivo",
+      "peticion": { "metodo": "GET", "ruta": "/rutas.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "leido_del_archivo": true, "la_direccion_es_estado": true }
+      }
+    }
+  ]
 }
