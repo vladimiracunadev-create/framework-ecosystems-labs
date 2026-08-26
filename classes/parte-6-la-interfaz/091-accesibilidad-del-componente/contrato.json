@@ -1,8 +1,60 @@
 {
   "clase": "091",
   "titulo": "Accesibilidad del componente",
-  "descripcion": "Un desplegable navegable con teclado y con los roles correctos.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "Dos versiones del mismo control que se ven igual: una la puede usar todo el mundo y la otra no.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "La accesibilidad de un componente está sobre todo EN EL MARCADO, y el marcado es justo lo que el servidor produce. Por eso aquí se puede auditar de verdad: cinco reglas comprobables sobre el HTML —elemento nativo, nombre accesible, etiqueta asociada, estado expuesto y foco alcanzable—. Lo que necesita navegador —el orden del foco al abrir, lo que anuncia un lector— se declara aparte y no se finge.",
+  "casos": [
+    {
+      "nombre": "la versión accesible usa elementos nativos y asocia su etiqueta",
+      "peticion": { "metodo": "GET", "ruta": "/accesible" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["<button", "aria-expanded=\"false\"", "<label for=\"titulo\"", "id=\"titulo\""]
+      }
+    },
+    {
+      "nombre": "la versión inaccesible se ve igual y no trae nada de eso",
+      "peticion": { "metodo": "GET", "ruta": "/inaccesible" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["<div", "class=\"boton\""],
+        "cuerpo_no_contiene": ["<button", "aria-expanded", "<label for="]
+      }
+    },
+    {
+      "nombre": "LA AUDITORÍA DE LA ACCESIBLE: las cinco reglas pasan",
+      "peticion": { "metodo": "GET", "ruta": "/auditar?version=accesible" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "reglas": 5, "incumplidas": 0, "accesible": true }
+      }
+    },
+    {
+      "nombre": "y la de la otra las incumple todas",
+      "peticion": { "metodo": "GET", "ruta": "/auditar?version=inaccesible" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "reglas": 5, "incumplidas": 5, "accesible": false }
+      }
+    },
+    {
+      "nombre": "el estado abierto se expone en el marcado, no solo en el color",
+      "peticion": { "metodo": "GET", "ruta": "/accesible?abierto=si" },
+      "esperado": { "estado": 200, "cuerpo_contiene": ["aria-expanded=\"true\""] }
+    },
+    {
+      "nombre": "qué pone el framework y qué sigue siendo tuyo",
+      "peticion": { "metodo": "GET", "ruta": "/accesibilidad.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "leido_del_archivo": true,
+          "el_framework_no_te_hace_accesible": true
+        }
+      }
+    }
+  ]
 }
