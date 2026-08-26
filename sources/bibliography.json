@@ -3452,6 +3452,18 @@
         "tiempo real",
         "difusion"
       ]
+    },
+    {
+      "id": "spring-boot-docs",
+      "type": "reference",
+      "publisher": "Spring",
+      "title": "Spring Boot — Documentación oficial",
+      "locator": "https://spring.io/projects/spring-boot",
+      "topics": [
+        "spring",
+        "java",
+        "programacion de tareas"
+      ]
     }
   ]
 }

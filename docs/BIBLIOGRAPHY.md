@@ -2,7 +2,7 @@
 
 Documento generado por `node scripts/generate-bibliography.mjs`. No editar a mano.
 
-Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **230** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
+Registro: [`sources/bibliography.json`](../sources/bibliography.json) · **231** fuentes · verificadas el **2026-08-19** · política en [`sources/README.md`](../sources/README.md).
 
 Cada entrada declara un localizador resoluble y es citada al menos una vez en el programa;
 `node scripts/verify-sources.mjs` falla si deja de cumplirse cualquiera de las dos condiciones.
@@ -14,7 +14,7 @@ Cada entrada declara un localizador resoluble y es citada al menos una vez en el
 | Libros | 100 | `https://openlibrary.org/isbn/{isbn13}.json` |
 | Artículos | 7 | `https://api.crossref.org/works/{doi}` |
 | Normas y especificaciones | 34 | `GET a la URL declarada` |
-| Documentación oficial y referencias | 89 | `GET a la URL declarada` |
+| Documentación oficial y referencias | 90 | `GET a la URL declarada` |
 
 ## Libros
 
@@ -1791,6 +1791,14 @@ Miller, Jason, *Islands Architecture*, jasonformat.com, 2020
 - Localizador: <https://docs.solidjs.com/concepts/intro-to-reactivity>
 - Temas: solid, señales, reactividad
 - Citada en: [`atlas/fichas/knockout.md`](../atlas/fichas/knockout.md), [`atlas/fichas/solid.md`](../atlas/fichas/solid.md), [`atlas/fichas/solidstart.md`](../atlas/fichas/solidstart.md)
+
+### `spring-boot-docs`
+
+*Spring Boot — Documentación oficial*, Spring
+
+- Localizador: <https://spring.io/projects/spring-boot>
+- Temas: spring, java, programacion de tareas
+- Citada en: 
 
 ### `svelte-runes`
 

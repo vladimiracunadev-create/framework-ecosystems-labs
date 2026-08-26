@@ -1,8 +1,70 @@
 {
   "clase": "111",
   "titulo": "Tareas programadas",
-  "descripcion": "La tarea se ejecuta una sola vez aunque haya varias instancias.",
-  "estado": "esqueleto",
+  "descripcion": "Dos instancias con el mismo temporizador: sin cerrojo, todo se hace dos veces; con cerrojo, una.",
+  "estado": "construida",
   "tipo": "http",
-  "casos": []
+  "nota": "Programar algo cada hora es fácil en los cuatro. Lo que no enseña casi nadie es lo que pasa con dos instancias, que es lo normal: las dos tienen el mismo temporizador y a las tres de la mañana las dos mandan el mismo informe. Cada implementación dispara cinco veces con dos programadores independientes, primero sin cerrojo y luego con él, y publica las dos cuentas: diez ejecuciones contra cinco. El cerrojo lleva caducidad, y las cuatro lo declaran, porque un cerrojo que no caduca convierte la muerte de una instancia en una tarea que no se vuelve a ejecutar jamás.",
+  "casos": [
+    {
+      "nombre": "la portada dice cada cuánto dispara y cuántas instancias hay",
+      "peticion": { "metodo": "GET", "ruta": "/" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-cada=\"100\"", "data-instancias=\"2\""]
+      }
+    },
+    {
+      "nombre": "SIN CERROJO, CINCO DISPAROS SON DIEZ EJECUCIONES",
+      "peticion": { "metodo": "GET", "ruta": "/programadas.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "instancias": 2,
+          "tics": 5,
+          "sin_cerrojo_ejecuciones": 10,
+          "se_duplica_sin_cerrojo": true
+        }
+      }
+    },
+    {
+      "nombre": "y con cerrojo, cinco disparos son cinco ejecuciones",
+      "peticion": { "metodo": "GET", "ruta": "/programadas.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": {
+          "con_cerrojo_ejecuciones": 5,
+          "no_se_duplica_con_cerrojo": true
+        }
+      }
+    },
+    {
+      "nombre": "el cerrojo caduca: una instancia muerta no bloquea la tarea para siempre",
+      "peticion": { "metodo": "GET", "ruta": "/programadas.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "el_cerrojo_caduca": true }
+      }
+    },
+    {
+      "nombre": "cada uno declara con qué programa y dónde tendría que vivir su cerrojo",
+      "peticion": { "metodo": "GET", "ruta": "/programadas.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": {
+          "como_se_programa": "",
+          "donde_esta_el_cerrojo": ""
+        }
+      }
+    },
+    {
+      "nombre": "y qué haría falta para llevarlo a producción",
+      "peticion": { "metodo": "GET", "ruta": "/programadas.json" },
+      "esperado": {
+        "estado": 200,
+        "json_distinto": { "que_haria_falta_en_produccion": "" }
+      }
+    }
+  ]
 }

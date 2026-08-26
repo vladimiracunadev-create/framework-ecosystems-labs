@@ -4,7 +4,7 @@
 
 **Cuando la respuesta no cabe en el ciclo petición-respuesta: empujar cambios y hacer trabajo fuera de la petición.**
 
-**Clases 105 a 113** · 9 en total · 6 construidas · 5 tecnologías en juego.
+**Clases 105 a 113** · 9 en total · 7 construidas · 5 tecnologías en juego.
 
 ## 🧭 De qué va esta parte
 
@@ -46,7 +46,7 @@ Las cuatro últimas son el trabajo diferido: colas, tareas programadas, reintent
 | [108](108-reconexion-y-mensajes-perdidos/README.md) | [Reconexión y mensajes perdidos](108-reconexion-y-mensajes-perdidos/README.md) | Sobrevivir a un corte sin perder ni duplicar. | 🔴 avanzado | ✅ Construida |
 | [109](109-estado-de-conexion-con-varias-instancias/README.md) | [Estado de conexión con varias instancias](109-estado-de-conexion-con-varias-instancias/README.md) | Difundir a todos los usuarios cuando el servidor no es uno solo. | 🔴 avanzado | ✅ Construida |
 | [110](110-colas-de-trabajo/README.md) | [Colas de trabajo](110-colas-de-trabajo/README.md) | Sacar de la petición lo que no tiene que ocurrir ahora. | 🟡 intermedio | ✅ Construida |
-| [111](111-tareas-programadas/README.md) | [Tareas programadas](111-tareas-programadas/README.md) | Ejecutar trabajo por tiempo, sin que se duplique entre instancias. | 🟡 intermedio | 🚧 Esqueleto |
+| [111](111-tareas-programadas/README.md) | [Tareas programadas](111-tareas-programadas/README.md) | Ejecutar trabajo por tiempo, sin que se duplique entre instancias. | 🟡 intermedio | ✅ Construida |
 | [112](112-reintentos-e-idempotencia/README.md) | [Reintentos e idempotencia](112-reintentos-e-idempotencia/README.md) | Reintentar sin causar daño. | 🔴 avanzado | 🚧 Esqueleto |
 | [113](113-eventos-de-dominio/README.md) | [Eventos de dominio](113-eventos-de-dominio/README.md) | Desacoplar lo que ocurrió de quién reacciona. | 🔴 avanzado | 🚧 Esqueleto |
 

@@ -1,0 +1,8 @@
+{
+  "name": "clase-111-express",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
