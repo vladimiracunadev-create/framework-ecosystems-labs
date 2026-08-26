@@ -664,7 +664,7 @@ El aviso que un componente emite hacia arriba para que quien lo usa decida qué 
 
 Un campo cuyo valor lo dicta el estado del componente en lugar del DOM. Da control total sobre lo que se puede escribir, y obliga a que cada pulsación pase por el estado.
 
-> Se enseña en la [clase 086](../classes/parte-6-la-interfaz/086-formularios-controlados/README.md) 🚧 · ver también [Estado](#estado).
+> Se enseña en la [clase 086](../classes/parte-6-la-interfaz/086-formularios-controlados/README.md) · ver también [Estado](#estado).
 
 #### Propiedad
 
@@ -1286,7 +1286,7 @@ Las 138 tecnologías que el programa sitúa, con su categoría y su ecosistema. 
 | 3 | [Validación y contrato](../classes/parte-3-validacion-y-contrato/README.md) | 12 | 12 |
 | 4 | [Datos: del SQL a mano al dominio limpio](../classes/parte-4-datos/README.md) | 15 | 15 |
 | 5 | [Identidad y seguridad](../classes/parte-5-identidad-y-seguridad/README.md) | 13 | 13 |
-| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 7 |
+| 6 | [La interfaz: del HTML del servidor al componente](../classes/parte-6-la-interfaz/README.md) | 14 | 8 |
 | 7 | [Renderizado y full-stack](../classes/parte-7-renderizado-y-fullstack/README.md) | 12 | 0 |
 | 8 | [Tiempo real y trabajo en segundo plano](../classes/parte-8-tiempo-real-y-segundo-plano/README.md) | 9 | 0 |
 | 9 | [Móvil, escritorio y sin conexión](../classes/parte-9-movil-escritorio-y-sin-conexion/README.md) | 10 | 0 |

@@ -1,8 +1,57 @@
 {
   "clase": "086",
   "titulo": "Formularios controlados",
-  "descripcion": "El mismo formulario controlado y no controlado, con validación en vivo.",
-  "estado": "esqueleto",
-  "tipo": "interfaz",
-  "casos": []
+  "descripcion": "Quién es el dueño del valor de un campo: el estado del componente o el propio elemento del navegador.",
+  "estado": "construida",
+  "tipo": "http",
+  "nota": "El caso del estado vacío comprueba que NO quede texto, en lugar de exigir `value=\"\"`: React escribe el atributo vacío y Vue lo deja desnudo —`value`—, y las dos formas son HTML válido con el mismo significado. Escribir en un campo necesita navegador, y eso es la clase 128. Lo que se verifica aquí es lo que decide el diseño: que el campo controlado lleve el valor del estado en el marcado, que el no controlado NO lo lleve atado, y que la función que calcula el valor siguiente —con su normalización y su límite— produzca lo que dice.",
+  "casos": [
+    {
+      "nombre": "el campo controlado lleva el valor del estado en el marcado",
+      "peticion": { "metodo": "GET", "ruta": "/?texto=hola" },
+      "esperado": {
+        "estado": 200,
+        "cabeceras": { "content-type": "text/html" },
+        "cuerpo_contiene": ["data-campo=\"controlado\"", "value=\"hola\""]
+      }
+    },
+    {
+      "nombre": "y con el estado vacío, el campo sale vacío: el estado manda siempre",
+      "peticion": { "metodo": "GET", "ruta": "/?texto=" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-campo=\"controlado\""],
+        "cuerpo_no_contiene": ["value=\"hola\"", ">hola<"]
+      }
+    },
+    {
+      "nombre": "el campo NO controlado solo recibe un valor inicial, no un vínculo",
+      "peticion": { "metodo": "GET", "ruta": "/no-controlado?texto=hola" },
+      "esperado": {
+        "estado": 200,
+        "cuerpo_contiene": ["data-campo=\"no-controlado\"", "hola"]
+      }
+    },
+    {
+      "nombre": "cada tecla pasa por el estado, y de paso se normaliza",
+      "peticion": { "metodo": "GET", "ruta": "/cambio?desde=hol&tecla=A" },
+      "esperado": { "estado": 200, "json_contiene": { "antes": "hol", "despues": "hola" } }
+    },
+    {
+      "nombre": "EL LÍMITE SE APLICA ANTES DE ESCRIBIR, no después",
+      "peticion": { "metodo": "GET", "ruta": "/cambio?desde=1234567890&tecla=x" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "antes": "1234567890", "despues": "1234567890", "regla": "diez caracteres como mucho" }
+      }
+    },
+    {
+      "nombre": "cómo se ata el campo al estado aquí, leído del archivo",
+      "peticion": { "metodo": "GET", "ruta": "/formulario.json" },
+      "esperado": {
+        "estado": 200,
+        "json_contiene": { "leido_del_archivo": true, "el_estado_manda_sobre_el_campo": true }
+      }
+    }
+  ]
 }
